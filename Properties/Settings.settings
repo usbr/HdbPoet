@@ -1,0 +1,37 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HdbPoet.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SelectedHdbHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="OracleUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectedObjectTypes" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;reservoir&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="SelectedIntervals" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;day&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="HdbServers" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;host:ecohdb.bor.doi.net service:ecohdb.bor.doi.net timezone:MST&lt;/string&gt;
+  &lt;string&gt;host:uchdb2.uc.usbr.gov service:uchdb2.uc.usbr.gov timezone:MST&lt;/string&gt;
+  &lt;string&gt;host:albhdb.uc.usbr.gov service:albhdb   timezone: MDT&lt;/string&gt;
+  &lt;string&gt;host:ibr3river.bor.doi.net  service:lchdb2.usbr.gov  timezone:MST&lt;/string&gt;
+  &lt;string&gt;host:ibr3rwatr.lc.usbr.gov service:lctest  timezone:MST&lt;/string&gt;
+  &lt;string&gt;host:140.216.50.9 service:yaohdb  timezone:MST&lt;/string&gt;
+  &lt;string&gt;host:www.troa.net service:troahdb timezone:PDT&lt;/string&gt;
+  &lt;string&gt;host:uchdbdev.uc.usbr.gov service:uchdbdev.uc.usbr.gov  timezone:MST&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

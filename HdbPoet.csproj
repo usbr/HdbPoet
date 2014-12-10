@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B60964F8-8699-4638-9460-68262E4D37A3}</ProjectGuid>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>GraphTool.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>HDB-POET</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>HdbPoet</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>HdbPoet.FormMain</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Pisces\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>1591</NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Forecasting|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Forecasting\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WatchDog|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\WatchDog\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'poet|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\poet\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'pisces|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\pisces\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aga.Controls, Version=1.7.0.1, Culture=neutral, PublicKeyToken=fcc90fbf924463a3, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThirdParty\Aga.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data">
+      <HintPath>PaidThirdParty\Devart.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data.Oracle">
+      <HintPath>PaidThirdParty\Devart.Data.Oracle.dll</HintPath>
+    </Reference>
+    <Reference Include="DgvFilterPopup">
+      <HintPath>ThirdParty\DgvFilterPopup.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="TeeChart, Version=4.0.2009.21355, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThirdParty\TeeChart.dll</HintPath>
+    </Reference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <Reference Include="ZedGraph, Version=5.1.6.417, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pisces\packages\ZedGraph.5.1.6\lib\net35-Client\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acl\AclManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acl\AclManagement.Designer.cs">
+      <DependentUpon>AclManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Acl\AclNode.cs" />
+    <Compile Include="Acl\AddSitesToGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acl\AddSitesToGroup.Designer.cs">
+      <DependentUpon>AddSitesToGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Acl\AddUserAndGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acl\AddUserAndGroup.Designer.cs">
+      <DependentUpon>AddUserAndGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ColumnFormat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColumnFormat.Designer.cs">
+      <DependentUpon>ColumnFormat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelReportTemplate.cs" />
+    <Compile Include="FormAddSeries.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddSeries.Designer.cs">
+      <DependentUpon>FormAddSeries.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNewGraphName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewGraphName.Designer.cs">
+      <DependentUpon>FormNewGraphName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphData.cs" />
+    <Compile Include="GraphForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraphForm.Designer.cs">
+      <DependentUpon>GraphForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphListEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IExcelReportTool.cs" />
+    <Compile Include="MetaData\FormMetaData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MetaData\FormMetaData.Designer.cs">
+      <DependentUpon>FormMetaData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetaData\RatingTableData.cs" />
+    <Compile Include="MetaData\RatingTableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetaData\RatingTableEditor.Designer.cs">
+      <DependentUpon>RatingTableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetaData\RatingTableGraphZ.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetaData\RatingTableGraphZ.Designer.cs">
+      <DependentUpon>RatingTableGraphZ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetaData\RatingTableMain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetaData\RatingTableMain.Designer.cs">
+      <DependentUpon>RatingTableMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetaData\SqlViewEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetaData\SqlViewEditor.Designer.cs">
+      <DependentUpon>SqlViewEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectedSeriesListBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SelectedSeriesListBox.Designer.cs">
+      <DependentUpon>SelectedSeriesListBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SeriesSelection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomPrintPreviewDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomPrintPreviewDialog.designer.cs">
+      <DependentUpon>CustomPrintPreviewDialog.cs</DependentUpon>
+    </Compile>
+    <None Include="ExcelReportTool.cs" />
+    <Compile Include="FormTeeChartLicense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTeeChartLicense.Designer.cs">
+      <DependentUpon>FormTeeChartLicense.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Hdb.Model.cs" />
+    <Compile Include="HdbNode.cs" />
+    <Compile Include="SelectHdbModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectHdbModel.Designer.cs">
+      <DependentUpon>SelectHdbModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.cs" />
+    <Compile Include="TimeZoneComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeZoneComboBox.Designer.cs">
+      <DependentUpon>TimeZoneComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeZoneOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeZoneOptions.Designer.cs">
+      <DependentUpon>TimeZoneOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PointChangeEventArgs.cs" />
+    <Compile Include="EditStringCollection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditStringCollection.Designer.cs">
+      <DependentUpon>EditStringCollection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphControl.Designer.cs">
+      <DependentUpon>GraphControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OracleConnectionInfo.cs" />
+    <Compile Include="Hdb.Procedures.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Test.cs" />
+    <Compile Include="TimeSeriesCommitChanges.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeSeriesCommitChanges.Designer.cs">
+      <DependentUpon>TimeSeriesCommitChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hdb.cs" />
+    <Compile Include="HdbBrowser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HdbInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DateSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graphs.cs" />
+    <Compile Include="Legend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Legend.Designer.cs">
+      <DependentUpon>Legend.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MultipleSeriesDataTable.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TimeSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeSeriesConstants.cs" />
+    <Compile Include="TimeSeriesDataSet.cs">
+      <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TimeSeriesChangeEventArgs.cs" />
+    <Compile Include="TimeSeriesDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="TimeSeriesSpreadsheet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeSeriesTableView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeSeriesTableView.Designer.cs">
+      <DependentUpon>TimeSeriesTableView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OracleServer.cs" />
+    <Compile Include="OracleLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SqlView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StringInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeZoneWarning.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeZoneWarning.Designer.cs">
+      <DependentUpon>TimeZoneWarning.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acl\AclManagement.resx">
+      <DependentUpon>AclManagement.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acl\AddSitesToGroup.resx">
+      <DependentUpon>AddSitesToGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acl\AddUserAndGroup.resx">
+      <DependentUpon>AddUserAndGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColumnFormat.resx">
+      <DependentUpon>ColumnFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAddSeries.resx">
+      <DependentUpon>FormAddSeries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewGraphName.resx">
+      <DependentUpon>FormNewGraphName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphForm.resx">
+      <DependentUpon>GraphForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphListEditor.resx">
+      <DependentUpon>GraphListEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetaData\FormMetaData.resx">
+      <DependentUpon>FormMetaData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetaData\RatingTableEditor.resx">
+      <DependentUpon>RatingTableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetaData\RatingTableGraphZ.resx">
+      <DependentUpon>RatingTableGraphZ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetaData\RatingTableMain.resx">
+      <DependentUpon>RatingTableMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetaData\SqlViewEditor.resx">
+      <DependentUpon>SqlViewEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectedSeriesListBox.resx">
+      <DependentUpon>SelectedSeriesListBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeriesSelection.resx">
+      <DependentUpon>SeriesSelection.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomPrintPreviewDialog.resx">
+      <DependentUpon>CustomPrintPreviewDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTeeChartLicense.resx">
+      <DependentUpon>FormTeeChartLicense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectHdbModel.resx">
+      <DependentUpon>SelectHdbModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeZoneComboBox.resx">
+      <DependentUpon>TimeZoneComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeZoneOptions.resx">
+      <DependentUpon>TimeZoneOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditStringCollection.resx">
+      <DependentUpon>EditStringCollection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphControl.resx">
+      <DependentUpon>GraphControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSeriesCommitChanges.resx">
+      <DependentUpon>TimeSeriesCommitChanges.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HdbBrowser.resx">
+      <DependentUpon>HdbBrowser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HdbInfo.resx">
+      <DependentUpon>HdbInfo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateSelector.resx">
+      <DependentUpon>DateSelector.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Legend.resx">
+      <DependentUpon>Legend.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSelector.resx">
+      <DependentUpon>TimeSelector.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSelectorForm.resx">
+      <DependentUpon>TimeSelectorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSeriesSpreadsheet.resx">
+      <DependentUpon>TimeSeriesSpreadsheet.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OracleLogin.resx">
+      <DependentUpon>OracleLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="SqlView.resx">
+      <DependentUpon>SqlView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StringInputForm.resx">
+      <DependentUpon>StringInputForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSeriesTableView.resx">
+      <DependentUpon>TimeSeriesTableView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeZoneWarning.resx">
+      <DependentUpon>TimeZoneWarning.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="TimeSeriesDataSet.xsc">
+      <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="TimeSeriesDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>TimeSeriesDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="TimeSeriesDataSet.xss">
+      <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="TimeSeriesDataSet.xsx">
+      <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GraphTool.ico" />
+    <Content Include="License-LGPL.txt" />
+    <Content Include="license.txt" />
+    <None Include="Images\warning.ico" />
+    <None Include="report.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pisces\Core\Reclamation.Core.csproj">
+      <Project>{80C73D4C-43CF-42DE-ADDC-7B0F06ECF086}</Project>
+      <Name>Reclamation.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>

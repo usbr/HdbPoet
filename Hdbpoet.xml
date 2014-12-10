@@ -1,0 +1,876 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HDB-POET</name>
+    </assembly>
+    <members>
+        <member name="T:HdbPoet.TimeSeriesSpreadsheet">
+            <summary>
+            Summary description for TimeSeriesSpreadsheet.
+            </summary>
+        </member>
+        <member name="F:HdbPoet.TimeSeriesSpreadsheet.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesSpreadsheet.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesSpreadsheet.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:HdbPoet.TimeSeriesSpreadsheet.ShowChanges">
+            <summary>
+            Only show values that are changed when ShowChanges is set to true
+            </summary>
+        </member>
+        <member name="P:HdbPoet.TimeSeriesSpreadsheet.TableIndex">
+            <summary>
+            Index to time series table in TimeSeriesDataSet
+            </summary>
+        </member>
+        <member name="T:HdbPoet.Graphs">
+            <summary>
+            Graphs Class contains static methods
+            that return ready to use Graph components, using TimeSeriesDataSet as input.
+            
+            </summary>
+        </member>
+        <member name="M:HdbPoet.Graphs.StandardTChart(HdbPoet.TimeSeriesDataSet)">
+            <summary>
+            This overloaded StandardTChart is used with WindowsForms.
+            </summary>
+            <param name="ds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.Graphs.StandardTChart(HdbPoet.TimeSeriesDataSet,Steema.TeeChart.TChart)">
+            <summary>
+            This overloaded StandardTChart is used with WindowsForms.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.Graphs.TChartSeries(Steema.TeeChart.TChart,System.Data.DataTable,System.String,System.Double)">
+            <summary>
+            Used with Windows Forms
+            </summary>
+            <param name="tChart1"></param>
+            <param name="table"></param>
+            <param name="columnName"></param>
+            <param name="avg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.Graphs.TChartSeries(Steema.TeeChart.Chart,System.Data.DataTable,System.String,System.Double)">
+            <summary>
+            Used with WebChart
+            </summary>
+            <param name="tChart1"></param>
+            <param name="table"></param>
+            <param name="columnName"></param>
+            <param name="avg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.Graphs.StandardTChart(HdbPoet.TimeSeriesDataSet,Steema.TeeChart.Chart)">
+            <summary>
+            This overloaded StandardTChart is used with WebChart.
+            </summary>
+            <param name="ds"></param>
+            <param name="tChart1"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HdbPoet.HDBBrowser">
+            <summary>
+            Summary description for 
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDBBrowser.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDBBrowser.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDBBrowser.Graph">
+            <summary>
+            Redraw graph with in-memory data
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDBBrowser.Graph(System.Boolean)">
+            <summary>
+            Redraw graph. 
+            </summary>
+            <param name="reloadFromOracle">set to true to get fresh data from database</param>
+        </member>
+        <member name="M:HdbPoet.HDBBrowser.NewGraph">
+            <summary>
+            Creates a new graph.
+            </summary>
+            <returns>returns true if a new graph was created</returns>
+        </member>
+        <member name="M:HdbPoet.HDBBrowser.EditProperties">
+            <summary>
+            When user clicks graph-->Properties menu
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDBBrowser.NewFilename">
+            <summary>
+            finds a new unique filename
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HdbPoet.UserPreference">
+            <summary>
+            Summary description for UserPreference.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.About">
+            <summary>
+            Dialog window that shows version of HDB-Poet.
+            </summary>
+        </member>
+        <member name="F:HdbPoet.About.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.About.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.About.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.StringInputForm">
+            <summary>
+            Summary description for StringInputForm.
+            </summary>
+        </member>
+        <member name="F:HdbPoet.StringInputForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.StringInputForm.CleanTextForFilename">
+            <summary>
+            removes invalid filename characters.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.StringInputForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.StringInputForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.SqlView">
+            <summary>
+            Summary description for SqlView.
+            </summary>
+        </member>
+        <member name="F:HdbPoet.SqlView.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.SqlView.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.SqlView.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.OracleLogin">
+            <summary>
+            Summary description for OracleLogin.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.OracleLogin.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.OracleLogin.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.HDB">
+            <summary>
+            HDB class is SQL related specific to HDB
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDB.OverwriteInfo(System.Decimal,System.String)">
+            <summary>
+            OverwriteInfo is called by the interface 
+            to inform the user about editing that is not allowed.
+            possible return values.
+            ------------------
+            'O'  - this is overwrite use 'O' for Overwrite_flag
+            'NULL'   - this is not overwrite, use null for overwrite_flag, is source interval
+            'ERROR'  - no derivations are defined for this sdi, inform user and do not insert.
+            //	'NO_DERIV'	     - no derivation specification for this sdi exists, data will not move out of r_base unless 'O' is used
+            Other flags may be defined as procedure evolves.
+             
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDB.LookupApplication">
+            <summary>
+            LookupApplication calls a stored procedure to 
+            determine what id the hdb-poet application is using for the 
+            specific HDB you are logged into.
+            
+            Some other id's are also returned from the stored procedure:
+            
+            the values returned are:
+            
+            static_AGEN_ID 
+            static_COLLECTION_SYSTEM_ID
+            static_LOADING_APPLICATION_ID
+            static_METHOD_ID 
+            static_COMPUTATION_ID 
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDB.modify_r_base(System.Decimal,System.String,System.DateTime,System.DateTime,System.Double,System.String,System.String,System.String)">
+            <summary>
+            Wrapper function to call the stored procedure named modify_r_base.
+            This function is called for each time series value that is modified or 
+            inserted.
+            </summary>
+            <param name="SITE_DATATYPE_ID"></param>
+            <param name="INTERVAL"></param>
+            <param name="START_DATE_TIME"></param>
+            <param name="END_DATE_TIME"></param>
+            <param name="VALUE"></param>
+            <param name="OVERWRITE_FLAG"></param>
+            <param name="VALIDATION"></param>
+            <param name="DO_UPDATE_Y_OR_N"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.HDB.modify_r_base_raw(System.Decimal,System.String,System.DateTime,System.DateTime,System.Double,System.Decimal,System.String,System.String,System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.String)">
+            <summary>
+            Wrapper for stored procedure MODIFY_R_BASE_RAW
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDB.FilteredSiteList(System.String,System.String[],System.Int32[],System.DateTime,System.DateTime)">
+            <summary>
+            Gets list of sites for the graph series editor (graph properties)
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDB.SiteInfo(System.Int32,System.String[])">
+             <summary>
+             SiteInfo returns a list of data types and the period of record for
+             each data type.  For example the following table is returned for site 919
+             Connected.
+            
+               INTERVA DATATYPE_ID DATATYPE_COMMON_NAME                                             COUNT(A.VALUE) rtable  site_datatype_id    site_id MIN(START MAX(START
+               ------- ----------- ---------------------------------------------------------------- -------------- ------- ---------------- ---------- --------- ---------
+                daily            17 reservoir storage, end of period reading used as value for per.            5046 r_day               1730        932 01-OCT-70 08-JUL-03
+                daily            29 average inflow                                                             4553 r_day               1801        932 02-OCT-90 08-JUL-03
+                daily            42 average sum of all reservoir releases (pwr and oth)                        4552 r_day               1881        932 02-OCT-90 08-JUL-03
+                daily            49 reservoir WS elevation, end of per reading used as value for per           5044 r_day               1937        932 01-OCT-70 08-JUL-03
+                monthly          17 reservoir storage, end of period reading used as value for per.             389 r_month             1730        932 01-OCT-70 01-FEB-03
+                monthly          49 reservoir WS elevation, end of per reading used as value for per            120 r_month             1937        932 01-OCT-70 01-JUL-86
+             </summary>
+        </member>
+        <member name="P:HdbPoet.HDB.Categories">
+            <summary>
+            Returns table of hdb data categoritgs.
+            i.e.  Stream, Reservoir, Climate, etc...
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesTools">
+            <summary>
+            TimeSeriesTools contains static methods
+            for working with the TimeSeriesDataSet 
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.UseCommonWaterYear(HdbPoet.TimeSeriesDataSet)">
+            <summary>
+            changes the time stamps for each time series to begin in 
+            the same water year.
+            </summary>
+            <param name="dataSet"></param>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.WriteXMLDataSet(HdbPoet.TimeSeriesDataSet,System.String)">
+            <summary>
+            Saves all time series data in data set to xml file
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.Save(System.String,HdbPoet.TimeSeriesDataSet,System.Boolean)">
+            <summary>
+            Saves Time Series Data Set to xml file.
+            Set SaveEveryting to true to save everything
+            inculding the time series data loaded from the database.
+            Otherwise the time series data tables are not saved.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.SetDefaults(HdbPoet.TimeSeriesDataSet)">
+            <summary>
+            Sets some default values for the Data Set.
+            </summary>
+            <param name="dataSet"></param>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.BeginingTime(HdbPoet.TimeSeriesDataSet)">
+            <summary>
+            Lookup the beginning time for the data set.
+            this will be used to define a database query 
+            </summary>
+            <param name="dataSet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.EndingTime(HdbPoet.TimeSeriesDataSet)">
+            <summary>
+            Lookup the ending time for the data set.
+            this will be used to define a database query 
+            </summary>
+            <param name="dataSet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.CreateTableStyles(System.Windows.Forms.DataGrid,System.Int32)">
+             <summary>
+            Create Table Styles 
+             </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.FormatDataColumn(System.Windows.Forms.DataGrid,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Formats a DataGrid column
+            DataGrid must have a DataTable as its DataSource;
+            </summary>
+            <param name="dataGrid"></param>
+            <param name="columnName">Name of column in DataTable associated with DataGrid</param>
+            <param name="newColumnName">New name for column</param>
+            <param name="format"></param>
+            <param name="width"></param>
+            <param name="tableIndex"></param>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.FormatDataColumn(System.Windows.Forms.DataGrid,System.String,System.String,System.String,System.Int32,System.Drawing.Color[],System.Drawing.Color[])">
+            <summary>
+            
+            </summary>
+            <param name="dataGrid"></param>
+            <param name="columnName"></param>
+            <param name="newColumnName"></param>
+            <param name="format"></param>
+            <param name="width"></param>
+            <param name="bg"></param>
+            <param name="fg"></param>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.BitIsSet(System.Int32,System.Int32)">
+            <summary>
+            Determines if specified bit is set.
+            valid bits are 1,2,3,4  .... 63,64
+            </summary>
+            <param name="status"></param>
+            <param name="bit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.Integers(System.Data.DataTable,System.String,System.String)">
+            <summary>
+            Returns a list of integers from a table
+            using a select command and column name to return as integer array.
+            </summary>
+            <param name="tbl"></param>
+            <param name="sqlSelect"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.Booleans(System.Data.DataTable,System.String,System.String)">
+            <summary>
+            Returns a list of Booleans from a table
+            using a select command and column name to return as integer array.
+            </summary>
+            <param name="tbl"></param>
+            <param name="sqlSelect"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.Doubles(System.Data.DataTable,System.String,System.String)">
+            <summary>
+            Returns a list of integers from a table
+            using a select command and column name to return as integer array.
+            </summary>
+            <param name="tbl"></param>
+            <param name="sqlSelect"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.Strings(System.Data.DataTable,System.String,System.String,System.String)">
+            <summary>
+            Returns a list of strings from a table
+            using a select command and column name.
+            </summary>
+            <param name="tbl"></param>
+            <param name="sqlSelect"></param>
+            <param name="columnName"></param>
+            <param name="sort"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.TimeSeriesTools.PrintTable(System.Data.DataTable)">
+            <summary>
+            prints DataTable to Console.
+            </summary>
+            <param name="tbl"></param>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesConstants">
+            <summary>
+            Summary description for Constants.
+            </summary>
+        </member>
+        <member name="F:HdbPoet.FormTeeChartLicense.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.FormTeeChartLicense.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:HdbPoet.FormTeeChartLicense.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet">
+             <summary>
+            Represents a strongly typed in-memory cache of data.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet.SeriesDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet.GraphDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet.ScenariosDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet.SeriesRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet.GraphRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet.ScenariosRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet.SeriesRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet.GraphRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSeriesDataSet.ScenariosRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="M:HdbPoet.GraphProperties.SetupListBoxes">
+            <summary>
+            Fill in list boxes that show different ways to filter the selection tree.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.GraphProperties.LoadTree">
+            <summary>
+            using the filtered site list build a tree that
+            has datatype (such as 'flow')as the sub-branches.
+            The Tag property of each tree node continas the important HDB site_datatype_id
+            </summary>
+        </member>
+        <member name="M:HdbPoet.GraphProperties.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.GraphProperties.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.GraphProperties.UpdateSelectedSeries">
+            <summary>
+            Creates a list of series that will be used for a graph.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.OracleDB">
+            <summary>
+            Oracle Database specific
+            </summary>
+        </member>
+        <member name="M:HdbPoet.OracleDB.#ctor(System.String,System.String)">
+            <summary>
+            Creates instance of Oracle class with inputs.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.OracleDB.ConnectionWorking">
+            <summary>
+            returns true if connection is working.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HdbPoet.OracleDB.RunSqlCommand(System.String,System.String)">
+            <summary>
+            runs sql command.
+            returns number of rows affected.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HdbPoet.FormMain">
+            <summary>
+            THis is the main form for the HDB-POET application
+            </summary>
+        </member>
+        <member name="M:HdbPoet.FormMain.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.FormMain.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.FormMain.Main(System.String[])">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.ReviewChanges.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.ReviewChanges.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.HDBInfo">
+            <summary>
+            Summary description for HDBInfo.
+            </summary>
+        </member>
+        <member name="F:HdbPoet.HDBInfo.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDBInfo.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.HDBInfo.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSelectorForm">
+            <summary>
+            Dialog window showing a time selector and a OK Button
+            </summary>
+        </member>
+        <member name="F:HdbPoet.TimeSelectorForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSelectorForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSelectorForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.TimeSelector">
+            <summary>
+            Summary description for TimeSelector.
+            </summary>
+        </member>
+        <member name="F:HdbPoet.TimeSelector.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSelector.SetInclusiveDates">
+            <summary>
+            rounds dates set in time pickers 
+            so the beginning date starts at midnight
+            and the ending date ends at 1 second before midnight.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSelector.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.TimeSelector.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HdbPoet.DateSelector">
+            <summary>
+            Summary description for DateSelector.
+            </summary>
+        </member>
+        <member name="F:HdbPoet.DateSelector.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.DateSelector.EnableSelectedTimeWindow">
+            <summary>
+            Enable controls associateed with selected 
+            type of time selection.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.DateSelector.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HdbPoet.DateSelector.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:HdbPoet.DateSelector.TimeWindow">
+            <summary>
+            Returns or sets 1 of 3 possible strings:
+            previousXDays, FromXToY, FromXToToday
+            </summary>
+        </member>
+        <member name="T:Reclamation.Core.CsvFile">
+            <summary>
+            Class for reading flat text files. (comma seperated)
+            </summary>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.#ctor(System.String,System.String[])">
+            <summary>
+            Construct a TextDB : DataTable
+            </summary>
+            <param name="filename">comma seperated filename</param>
+            <param name="dataTypes">array of System data types</param>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.#ctor(System.String,System.String[],System.String[],System.String)">
+            <summary>
+            Constructs a TextDB.  First row in the input text file
+            contains data. (use the other constructors if the first line has the column names)
+            </summary>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.#ctor(System.String)">
+            <summary>
+            Construct a TextDB : DataTable
+            Second line of input file may contain the data types,
+            and optionally widths.
+            </summary>
+            <param name="filename">comma seperated filename</param>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.ReadFile(System.String)">
+            <summary>
+            reads contents of a text file into an 
+            array of strings, one for each line.
+            </summary>
+            <param name="filename"></param>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.Write(Reclamation.Core.CsvFile,System.String,System.Boolean)">
+            <summary>
+            Saves contents of TextDB to comma seperated file.
+            TO DO:  check for internal commas, in string types.
+            </summary>
+            <param name="filename"></param>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.WriteToCSV(System.Data.DataTable,System.String,System.Boolean)">
+            <summary>
+            Saves contents of TextDB to comma seperated file.
+            </summary>
+            <param name="filename"></param>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.EstimateDBFAttributes">
+            <summary>
+            Guesss on widths and decimals attributes
+            for preserving some *.dbf info
+            </summary>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.EncodeCSVCell(System.String)">
+            <summary>
+            encode csv data for a single
+            Excel cell. 
+            </summary>
+        </member>
+        <member name="F:Reclamation.Core.CsvFile.csvPattern">
+            <summary>
+            From Mastering Regular Expressions by Jeffrey E.F. Friedl 2nd Edition
+            </summary>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.DecodeCSV(System.String)">
+            <summary>
+            DEcodes CSV string
+            </summary>
+        </member>
+        <member name="M:Reclamation.Core.CsvFile.ParseCSVBrianWinters(System.String)">
+            <summary>
+            Parse comma seperated string
+            Original (cpp) code From Brian Winters  of solin corp
+            </summary>
+        </member>
+        <member name="T:Reclamation.Core.DataTableUtility">
+            <summary>
+            DataTableUtility performs basic operations on a DataTable
+            </summary>
+        </member>
+        <member name="M:Reclamation.Core.DataTableUtility.SelectDistinct(System.Data.DataTable,System.String[])">
+            <summary>
+            Return DataTable like a Select DISTINCT SQL command 
+            </summary>
+            <param name="SourceTable"></param>
+            <param name="FieldNames">combination of columns</param>
+            <returns></returns>
+        </member>
+        <member name="M:Reclamation.Core.DataTableUtility.Integers(System.Data.DataTable,System.String,System.String)">
+            <summary>
+            Returns a list of integers from a table
+            using a select command and column name to return as integer array.
+            </summary>
+            <param name="tbl"></param>
+            <param name="sqlSelect"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reclamation.Core.DataTableUtility.Booleans(System.Data.DataTable,System.String,System.String,System.Boolean)">
+            <summary>
+            Returns a list of Booleans from a table
+            using a select command and column name to return as integer array.
+            </summary>
+            <param name="tbl"></param>
+            <param name="sqlSelect"></param>
+            <param name="columnName"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reclamation.Core.DataTableUtility.Doubles(System.Data.DataTable,System.String,System.String)">
+            <summary>
+            Returns a list of integers from a table
+            using a select command and column name to return as integer array.
+            </summary>
+            <param name="tbl"></param>
+            <param name="sqlSelect"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reclamation.Core.DataTableUtility.Strings(System.Data.DataTable,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Returns a list of strings from a table
+            using a select command and column name.
+            </summary>
+            <param name="tbl"></param>
+            <param name="sqlSelect"></param>
+            <param name="columnName"></param>
+            <param name="sort"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Reclamation.Core.DataRowIO">
+            <summary>
+            Used to read and write data from a DataRow .
+            </summary>
+        </member>
+        <member name="M:Reclamation.Core.DataRowIO.SaveDecimal(System.Data.DataRow,System.String,System.String)">
+            <summary>
+            Save string to decimal..
+            money format is ok.
+            </summary>
+        </member>
+        <member name="F:Reclamation.Core.Logger.LogHistory">
+            <summary>
+            in memory list of commands send to log trace
+            </summary>
+        </member>
+        <member name="M:Reclamation.Core.Logger.WriteLine(System.String,System.Exception)">
+            <summary>
+            Write Exception and message to screen and to logging 
+            </summary>
+            <param name="message"></param>
+            <param name="exception"></param>
+        </member>
+        <member name="M:Reclamation.Core.Logger.WriteLine(System.String)">
+            <summary>
+            Writes message to logging trace
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Reclamation.Core.Logger.InitTracing">
+            <summary>
+            Begin Tracing to log file based on application name.
+            </summary>
+        </member>
+        <member name="T:Reclamation.Core.ProgressEventArgs">
+            <summary>
+            Notification of progress of long running task.
+            used in sybase on Row Updated events.
+            </summary>
+        </member>
+        <member name="T:Reclamation.Core.BytesReadEventArgs">
+            <summary>
+            Notification of progress of long running task.
+            used in sybase on Row Updated events.
+            </summary>
+        </member>
+        <member name="P:Reclamation.Core.BytesReadEventArgs.Message">
+            <summary>
+            Message text
+            </summary>
+        </member>
+    </members>
+</doc>

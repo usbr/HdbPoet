@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="TimeSeriesDataSet" targetNamespace="http://tempuri.org/TimeSeriesDataSet.xsd" xmlns:mstns="http://tempuri.org/TimeSeriesDataSet.xsd" xmlns="http://tempuri.org/TimeSeriesDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="TimeSeriesDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="TimeSeriesDataSet" msprop:Generator_UserDSName="TimeSeriesDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Series" msprop:Generator_UserTableName="Series" msprop:Generator_RowEvArgName="SeriesRowChangeEvent" msprop:Generator_TableVarName="tableSeries" msprop:Generator_TablePropName="Series" msprop:Generator_RowDeletingName="SeriesRowDeleting" msprop:Generator_RowChangingName="SeriesRowChanging" msprop:Generator_RowDeletedName="SeriesRowDeleted" msprop:Generator_RowEvHandlerName="SeriesRowChangeEventHandler" msprop:Generator_TableClassName="SeriesDataTable" msprop:Generator_RowChangedName="SeriesRowChanged" msprop:Generator_RowClassName="SeriesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SeriesNumber" msprop:Generator_ColumnVarNameInTable="columnSeriesNumber" msprop:Generator_ColumnPropNameInRow="SeriesNumber" msprop:Generator_ColumnPropNameInTable="SeriesNumberColumn" msprop:Generator_UserColumnName="SeriesNumber" type="xs:int" default="-1" />
+              <xs:element name="GraphNumber" msprop:Generator_ColumnVarNameInTable="columnGraphNumber" msprop:Generator_ColumnPropNameInRow="GraphNumber" msprop:Generator_ColumnPropNameInTable="GraphNumberColumn" msprop:Generator_UserColumnName="GraphNumber" type="xs:int" default="-1" />
+              <xs:element name="SiteName" msprop:Generator_ColumnVarNameInTable="columnSiteName" msprop:Generator_ColumnPropNameInRow="SiteName" msprop:Generator_ColumnPropNameInTable="SiteNameColumn" msprop:Generator_UserColumnName="SiteName" type="xs:string" minOccurs="0" />
+              <xs:element name="ParameterType" msprop:Generator_ColumnVarNameInTable="columnParameterType" msprop:Generator_ColumnPropNameInRow="ParameterType" msprop:Generator_ColumnPropNameInTable="ParameterTypeColumn" msprop:Generator_UserColumnName="ParameterType" type="xs:string" minOccurs="0" />
+              <xs:element name="Source" msprop:Generator_ColumnVarNameInTable="columnSource" msprop:Generator_ColumnPropNameInRow="Source" msprop:Generator_ColumnPropNameInTable="SourceColumn" msprop:Generator_UserColumnName="Source" type="xs:string" minOccurs="0" />
+              <xs:element name="TableName" msprop:Generator_ColumnVarNameInTable="columnTableName" msprop:Generator_ColumnPropNameInRow="TableName" msprop:Generator_ColumnPropNameInTable="TableNameColumn" msprop:Generator_UserColumnName="TableName" type="xs:string" minOccurs="0" />
+              <xs:element name="TagInfo" msprop:Generator_ColumnVarNameInTable="columnTagInfo" msprop:Generator_ColumnPropNameInRow="TagInfo" msprop:Generator_ColumnPropNameInTable="TagInfoColumn" msprop:Generator_UserColumnName="TagInfo" type="xs:string" minOccurs="0" />
+              <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title" type="xs:string" default="untitled" minOccurs="0" />
+              <xs:element name="Units" msprop:Generator_ColumnVarNameInTable="columnUnits" msprop:Generator_ColumnPropNameInRow="Units" msprop:Generator_ColumnPropNameInTable="UnitsColumn" msprop:Generator_UserColumnName="Units" type="xs:string" default="units" minOccurs="0" />
+              <xs:element name="Interval" msprop:Generator_ColumnVarNameInTable="columnInterval" msprop:Generator_ColumnPropNameInRow="Interval" msprop:Generator_ColumnPropNameInTable="IntervalColumn" msprop:Generator_UserColumnName="Interval" type="xs:string" default="day" minOccurs="0" />
+              <xs:element name="CanEdit" msprop:Generator_ColumnVarNameInTable="columnCanEdit" msprop:Generator_ColumnPropNameInRow="CanEdit" msprop:Generator_ColumnPropNameInTable="CanEditColumn" msprop:Generator_UserColumnName="CanEdit" type="xs:boolean" default="false" minOccurs="0" />
+              <xs:element name="hdb_site_datatype_id" msprop:Generator_ColumnVarNameInTable="columnhdb_site_datatype_id" msprop:Generator_ColumnPropNameInRow="hdb_site_datatype_id" msprop:Generator_ColumnPropNameInTable="hdb_site_datatype_idColumn" msprop:Generator_UserColumnName="hdb_site_datatype_id" type="xs:decimal" minOccurs="0" />
+              <xs:element name="IsBaselineScenario" msprop:Generator_ColumnVarNameInTable="columnIsBaselineScenario" msprop:Generator_ColumnPropNameInRow="IsBaselineScenario" msprop:Generator_ColumnPropNameInTable="IsBaselineScenarioColumn" msprop:Generator_UserColumnName="IsBaselineScenario" type="xs:boolean" minOccurs="0" />
+              <xs:element name="hdb_r_table" msprop:Generator_ColumnVarNameInTable="columnhdb_r_table" msprop:Generator_ColumnPropNameInRow="hdb_r_table" msprop:Generator_ColumnPropNameInTable="hdb_r_tableColumn" msprop:Generator_UserColumnName="hdb_r_table" type="xs:string" minOccurs="0" />
+              <xs:element name="Scenario" msprop:Generator_ColumnVarNameInTable="columnScenario" msprop:Generator_ColumnPropNameInRow="Scenario" msprop:Generator_ColumnPropNameInTable="ScenarioColumn" msprop:Generator_UserColumnName="Scenario" type="xs:string" minOccurs="0" />
+              <xs:element name="ReadOnly" msprop:Generator_ColumnVarNameInTable="columnReadOnly" msprop:Generator_ColumnPropNameInRow="ReadOnly" msprop:Generator_ColumnPropNameInTable="ReadOnlyColumn" msprop:Generator_UserColumnName="ReadOnly" type="xs:boolean" minOccurs="0" />
+              <xs:element name="IsComputed" msprop:Generator_ColumnVarNameInTable="columnIsComputed" msprop:Generator_ColumnPropNameInRow="IsComputed" msprop:Generator_ColumnPropNameInTable="IsComputedColumn" msprop:Generator_UserColumnName="IsComputed" type="xs:boolean" minOccurs="0" />
+              <xs:element name="DisplayFormat" msprop:Generator_ColumnVarNameInTable="columnDisplayFormat" msprop:Generator_ColumnPropNameInRow="DisplayFormat" msprop:Generator_ColumnPropNameInTable="DisplayFormatColumn" msprop:Generator_UserColumnName="DisplayFormat" type="xs:string" default="" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Graph" msprop:Generator_UserTableName="Graph" msprop:Generator_RowEvArgName="GraphRowChangeEvent" msprop:Generator_TableVarName="tableGraph" msprop:Generator_TablePropName="Graph" msprop:Generator_RowDeletingName="GraphRowDeleting" msprop:Generator_RowChangingName="GraphRowChanging" msprop:Generator_RowDeletedName="GraphRowDeleted" msprop:Generator_RowEvHandlerName="GraphRowChangeEventHandler" msprop:Generator_TableClassName="GraphDataTable" msprop:Generator_RowChangedName="GraphRowChanged" msprop:Generator_RowClassName="GraphRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="GraphNumber" msprop:Generator_ColumnVarNameInTable="columnGraphNumber" msprop:Generator_ColumnPropNameInRow="GraphNumber" msprop:Generator_ColumnPropNameInTable="GraphNumberColumn" msprop:Generator_UserColumnName="GraphNumber" type="xs:int" default="-1" />
+              <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title" type="xs:string" default="" minOccurs="0" />
+              <xs:element name="GraphType" msprop:Generator_ColumnVarNameInTable="columnGraphType" msprop:Generator_ColumnPropNameInRow="GraphType" msprop:Generator_ColumnPropNameInTable="GraphTypeColumn" msprop:Generator_UserColumnName="GraphType" type="xs:string" default="TimeSeries" minOccurs="0" />
+              <xs:element name="BeginningDate" msprop:Generator_ColumnPropNameInRow="BeginningDate" msprop:Generator_ColumnVarNameInTable="columnBeginningDate" msprop:default="1980-01-01T00:00:00" msprop:Generator_ColumnPropNameInTable="BeginningDateColumn" msprop:Generator_UserColumnName="BeginningDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="EndingDate" msprop:Generator_ColumnPropNameInRow="EndingDate" msprop:Generator_ColumnVarNameInTable="columnEndingDate" msprop:default="1980-01-01T00:00:00" msprop:Generator_ColumnPropNameInTable="EndingDateColumn" msprop:Generator_UserColumnName="EndingDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="BeginningDate2" msprop:Generator_ColumnPropNameInRow="BeginningDate2" msprop:Generator_ColumnVarNameInTable="columnBeginningDate2" msprop:default="1980-01-01T00:00:00" msprop:Generator_ColumnPropNameInTable="BeginningDate2Column" msprop:Generator_UserColumnName="BeginningDate2" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PreviousDays" msprop:Generator_ColumnVarNameInTable="columnPreviousDays" msprop:Generator_ColumnPropNameInRow="PreviousDays" msprop:Generator_ColumnPropNameInTable="PreviousDaysColumn" msprop:Generator_UserColumnName="PreviousDays" type="xs:int" default="30" minOccurs="0" />
+              <xs:element name="ShowTime" msprop:Generator_ColumnVarNameInTable="columnShowTime" msprop:Generator_ColumnPropNameInRow="ShowTime" msprop:Generator_ColumnPropNameInTable="ShowTimeColumn" msprop:Generator_UserColumnName="ShowTime" type="xs:boolean" default="false" minOccurs="0" />
+              <xs:element name="TimeWindowType" msprop:Generator_ColumnVarNameInTable="columnTimeWindowType" msprop:Generator_ColumnPropNameInRow="TimeWindowType" msprop:Generator_ColumnPropNameInTable="TimeWindowTypeColumn" msprop:Generator_UserColumnName="TimeWindowType" type="xs:string" default="FromXToY" minOccurs="0" />
+              <xs:element name="InstantInterval" msprop:Generator_ColumnVarNameInTable="columnInstantInterval" msprop:Generator_ColumnPropNameInRow="InstantInterval" msprop:Generator_ColumnPropNameInTable="InstantIntervalColumn" msprop:Generator_UserColumnName="InstantInterval" type="xs:int" default="15" />
+              <xs:element name="TimeZone" msprop:Generator_ColumnVarNameInTable="columnTimeZone" msprop:Generator_ColumnPropNameInRow="TimeZone" msprop:Generator_ColumnPropNameInTable="TimeZoneColumn" msprop:Generator_UserColumnName="TimeZone" type="xs:string" default="" />
+              <xs:element name="ChartSettings" msprop:Generator_ColumnVarNameInTable="columnChartSettings" msprop:Generator_ColumnPropNameInRow="ChartSettings" msprop:Generator_ColumnPropNameInTable="ChartSettingsColumn" msprop:Generator_UserColumnName="ChartSettings" type="xs:base64Binary" minOccurs="0" />
+              <xs:element name="Name" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" default="" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Series" />
+      <xs:field xpath="mstns:SeriesNumber" />
+    </xs:unique>
+    <xs:unique name="Graph_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Graph" />
+      <xs:field xpath="mstns:GraphNumber" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
