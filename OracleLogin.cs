@@ -22,9 +22,11 @@ namespace HdbPoet
         private ComboBox comboBoxHostList;
         private Label label3;
         private Button buttonEdit;
+        private Label label4;
+        private TextBox txtPort;
         private System.ComponentModel.IContainer components;
 
-        public OracleLogin(string defaultHostname="")
+        public OracleLogin(string defaultHostname = "")
         {
             InitializeComponent();
             ConnectionInfo = new OracleConnectionInfo();
@@ -32,17 +34,17 @@ namespace HdbPoet
         }
 
 
-        void LoadUserPrefs(string defaultHostname="")
+        void LoadUserPrefs(string defaultHostname = "")
         {
             //this.comboBoxHostList.Items.Clear();
-          
+
             this.comboBoxHostList.DisplayMember = "ServicePrefix";
             this.comboBoxHostList.ValueMember = "Host";
             this.comboBoxHostList.DataSource = Settings.GetConnectionInfoList();
             //this.comboBoxHostList.Items.AddRange(Settings.GetServiceNames());
 
 
-         
+
             if (comboBoxHostList.Items.Count > 0)
             {
                 if (defaultHostname != "")
@@ -50,14 +52,14 @@ namespace HdbPoet
                     this.comboBoxHostList.SelectedValue = defaultHostname;
                 }
                 else
-                if (Settings.Default.SelectedHdbHost.Trim() == "")
-                {
-                    comboBoxHostList.SelectedIndex = 0;// select first as default
-                }
-                else
-                {
-                    this.comboBoxHostList.SelectedValue = Settings.Default.SelectedHdbHost;
-                }
+                    if (Settings.Default.SelectedHdbHost.Trim() == "")
+                    {
+                        comboBoxHostList.SelectedIndex = 0;// select first as default
+                    }
+                    else
+                    {
+                        this.comboBoxHostList.SelectedValue = Settings.Default.SelectedHdbHost;
+                    }
             }
         }
         /// <summary>
@@ -93,6 +95,8 @@ namespace HdbPoet
             this.comboBoxHostList = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonEdit = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtPort = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonCancel
@@ -177,12 +181,31 @@ namespace HdbPoet
             this.buttonEdit.UseVisualStyleBackColor = true;
             this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(19, 106);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(28, 13);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "port:";
+            // 
+            // txtPort
+            // 
+            this.txtPort.Location = new System.Drawing.Point(101, 106);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(100, 20);
+            this.txtPort.TabIndex = 13;
+            this.txtPort.Text = "1521";
+            // 
             // OracleLogin
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(373, 117);
+            this.ClientSize = new System.Drawing.Size(373, 146);
+            this.Controls.Add(this.txtPort);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.buttonEdit);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBoxHostList);
@@ -212,24 +235,25 @@ namespace HdbPoet
         private void buttonOk_Click(object sender, System.EventArgs e)
         {
 
-           
+
 
             string servicePrefix = "";
             if (this.comboBoxHostList.SelectedValue != null)
             {
-            servicePrefix = this.comboBoxHostList.SelectedValue.ToString();
+                servicePrefix = this.comboBoxHostList.SelectedValue.ToString();
             }
 
             ConnectionInfo = Settings.GetConnectionInfo(servicePrefix);
             ConnectionInfo.Username = this.textBoxUser.Text;
             ConnectionInfo.Password = this.textBoxPass.Text;
 
-           Settings.Default.SelectedHdbHost = servicePrefix;
-            
+            Settings.Default.SelectedHdbHost = servicePrefix;
+            ConnectionInfo.Port = this.txtPort.Text;
+
             Close();
         }
 
-      
+
 
         private void buttonEdit_Click(object sender, EventArgs e)
         {
@@ -237,7 +261,7 @@ namespace HdbPoet
             EditStringCollection es = new EditStringCollection();
             StringCollection sc = Settings.Default.HdbServers;
             string[] items = new string[sc.Count];
-            Settings.Default.HdbServers.CopyTo(items,0);
+            Settings.Default.HdbServers.CopyTo(items, 0);
 
             es.Items = items;
             if (es.ShowDialog() == DialogResult.OK)
