@@ -225,7 +225,7 @@ namespace HdbPoet
 		  catch(Exception ex)
 		  {
 			  string msg = "Error: "+ex.Message;
-			  MessageBox.Show (msg, "SoiApp", 
+			  MessageBox.Show (msg, "HDB Poet", 
 				  MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 		  }

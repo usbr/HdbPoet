@@ -32,6 +32,13 @@ namespace HdbPoet
             set { m_host = value; }
         }
 
+        string m_port = "";
+        public string Port
+        {
+            get { return m_port; }
+            set { m_port = value; }
+        }
+
         bool loginCanceled = false;
         string m_timeZone = "";
 
@@ -51,6 +58,7 @@ namespace HdbPoet
             this.username = ci.Username;
             this.service = ci.Service;
             this.m_host = ci.Host;
+            this.m_port = ci.Port;
             this.m_timeZone = ci.Timezone;
             sqlCommands.Clear();
             MakeConnectionString(username, ci.Password);
@@ -58,11 +66,12 @@ namespace HdbPoet
         /// <summary>
         /// Creates instance of Oracle class with inputs.
         /// </summary>
-        public OracleServer(string username, string password, string host, string service, string timeZone)
+        public OracleServer(string username, string password, string host, string service, string timeZone, string port)
         {
             this.username = username;
             this.service = service;
             this.m_host = host;
+            this.m_port = port;
             this.m_timeZone = timeZone;
             sqlCommands.Clear();
             MakeConnectionString(username, password);
@@ -121,6 +130,18 @@ namespace HdbPoet
             sb.Direct = true;
             sb.Server = m_host;
             sb.Port = 1521;
+            if(!string.IsNullOrEmpty(m_port))
+                {
+                    try
+                    {
+                        sb.Port = Convert.ToInt32(m_port); 
+                    }
+                    catch (FormatException ex)
+                    {
+                        MessageBox.Show("You must enter a numeric value for the Port Number:  " + ex.Message, "HDB Poet");
+                    }
+                    
+                }
             //sb.Sid = ;
             sb.ServiceName = service;
             sb.UserId = username;
