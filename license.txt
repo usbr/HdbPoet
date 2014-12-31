@@ -12,7 +12,6 @@ You may not use the Software components within a development environment without
 
    Devart
    Steema
-   Spreadsheetgear    
 
 Thanks,
 Karl

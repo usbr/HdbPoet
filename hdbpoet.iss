@@ -36,7 +36,6 @@ Source: "bin\Debug\HDB-POET.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\Aga.Controls.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\SpreadsheetGear.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\report.xls"; DestDir: "{app}"; Flags: ignoreversion
 

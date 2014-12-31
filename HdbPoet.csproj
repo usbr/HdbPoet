@@ -144,9 +144,11 @@
     </Reference>
     <Reference Include="Devart.Data">
       <HintPath>PaidThirdParty\Devart.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Devart.Data.Oracle">
       <HintPath>PaidThirdParty\Devart.Data.Oracle.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DgvFilterPopup">
       <HintPath>ThirdParty\DgvFilterPopup.dll</HintPath>
