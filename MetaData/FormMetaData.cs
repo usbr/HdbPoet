@@ -131,7 +131,7 @@ namespace HdbPoet.MetaData
         static void Main(string[] args)
         {
             // Test Code.
-            var svr = new OracleServer("ktarbet", File.ReadAllLines(@"C:\temp\karl.txt")[0], "uchdb2.uc.usbr.gov", "uchdb2.uc.usbr.gov", "MST");
+            var svr = new OracleServer("ktarbet", File.ReadAllLines(@"C:\temp\karl.txt")[0], "uchdb2.uc.usbr.gov", "uchdb2.uc.usbr.gov", "MST", "1521");
             Hdb.Instance = new Hdb(svr);
 
             SqlViewEditor.Server = Hdb.Instance.Server;

@@ -248,7 +248,15 @@ namespace HdbPoet
             ConnectionInfo.Password = this.textBoxPass.Text;
 
             Settings.Default.SelectedHdbHost = servicePrefix;
-            ConnectionInfo.Port = this.txtPort.Text;
+            if(string.IsNullOrEmpty(this.txtPort.Text))
+                {
+                    MessageBox.Show("You must enter a port number - Default is 1521", "HDB Poet");
+                }
+            else
+                {
+                    ConnectionInfo.Port = this.txtPort.Text;
+                }
+            
 
             Close();
         }

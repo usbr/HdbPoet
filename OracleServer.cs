@@ -131,8 +131,16 @@ namespace HdbPoet
             sb.Server = m_host;
             sb.Port = 1521;
             if(!string.IsNullOrEmpty(m_port))
-                { 
-                    sb.Port = m_port; 
+                {
+                    try
+                    {
+                        sb.Port = Convert.ToInt32(m_port); 
+                    }
+                    catch (FormatException ex)
+                    {
+                        MessageBox.Show("You must enter a numeric value for the Port Number:  " + ex.Message, "HDB Poet");
+                    }
+                    
                 }
             //sb.Sid = ;
             sb.ServiceName = service;

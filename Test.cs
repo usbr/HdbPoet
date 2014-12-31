@@ -10,7 +10,7 @@ namespace HdbPoet
 
         public static void Main()
         {
-           OracleServer oracle = new OracleServer("", "","uchdbdev.uc.usbr.gov","","MST");
+           OracleServer oracle = new OracleServer("", "","uchdbdev.uc.usbr.gov","","MST", "1521");
            Hdb.Instance.Server = oracle;
 
           ModifyValue();
