@@ -29,6 +29,7 @@
   &lt;string&gt;host:ibr3river.bor.doi.net  service:lchdb2.usbr.gov  timezone:MST&lt;/string&gt;
   &lt;string&gt;host:ibr3rwatr.lc.usbr.gov service:lctest  timezone:MST&lt;/string&gt;
   &lt;string&gt;host:www.troa.net service:troahdb timezone:PDT&lt;/string&gt;
+  &lt;string&gt;host:ibr3yaohdb.bor.doi.net service:yaohdb  timezone:MST&lt;/string&gt;
   &lt;string&gt;host:uchdbdev.uc.usbr.gov service:uchdbdev.uc.usbr.gov  timezone:MST&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
