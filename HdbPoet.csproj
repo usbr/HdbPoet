@@ -300,7 +300,6 @@
     <Compile Include="CustomPrintPreviewDialog.designer.cs">
       <DependentUpon>CustomPrintPreviewDialog.cs</DependentUpon>
     </Compile>
-    <None Include="ExcelReportTool.cs" />
     <Compile Include="FormTeeChartLicense.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -11,10 +11,10 @@ namespace HdbPoet
 {
     class ExcelReportTemplate: IExcelReportTool
     {
-        private DataTable msDataTable;
+        private MultipleSeriesDataTable msDataTable;
         string xlsFilename;
 
-        public ExcelReportTemplate(DataTable msDataTable)
+        public ExcelReportTemplate(MultipleSeriesDataTable msDataTable)
         {
             this.msDataTable = msDataTable;
             xlsFilename = CreateTemporaryExcelFile();
@@ -27,7 +27,15 @@ namespace HdbPoet
             xls.SetCellText(0, "D7", Hdb.Instance.Server.ServiceName);
             xls.SetCellText(0, "D8", DateTime.Now.ToString());
 
+            xls.InsertDataTable(0, "A9", msDataTable);
+            // format excel according to POET format.
 
+            for (int c = 1; c < msDataTable.DisplayFormat.Length; c++)
+            {
+                string fmt = ExcelFormat(msDataTable.DisplayFormat[c]);
+                xls.FormatRange(0,10,c,msDataTable.Rows.Count+10,c, fmt);
+            }
+         
             xls.Save(xlsFilename);
             System.Diagnostics.Process.Start(xlsFilename);
         }
@@ -37,8 +45,8 @@ namespace HdbPoet
         {
 
             string[] fmts = { "F0", "F1", "F2", "F3", "F4", "N0", "N1", "N2", "N3", "N2", "N3", "N4" };
-            string[] xls = { "#", "#.0", "#.00", "#.000", "#.0000",
-                             "#,###", "#,###.0", "#,###.00", "#,###.000", "#,###.0000", };
+            string[] xls = { "0", "0.00", "0.00", "0.00", "0.00",
+                             "#,###", "#,###0.00", "#,###.00", "#,###.00", "#,###.00", };
             int idx = Array.IndexOf(fmts, f);
             if (idx >= 0)
                 return xls[idx];
