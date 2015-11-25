@@ -64,7 +64,16 @@ namespace HdbPoet
         }
         
         static string[] r_tables = { "r_instant", "r_hour", "r_day", "r_month", "r_year", "r_wy","r_base" };
+        static string[] m_tables = { "m_undefined", "m_hour", "m_day", "m_month", "m_year", "m_wy","m_undefined" };
         public static string[] r_names = { "instant", "hour", "day", "month", "year", "wy" ,"base"};
+
+        public string HdbTableName(int index, bool model=false)
+        {
+            if (model)
+                return m_tables[index];
+            else
+                return r_tables[index];
+        }
 
         static bool? m_isAclAdmin;
         public bool IsAclAdministrator
