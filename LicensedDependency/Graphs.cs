@@ -9,7 +9,6 @@ namespace HdbPoet
 	/// <summary>
 	/// Graphs Class contains static methods
 	/// that return ready to use Graph components, using TimeSeriesDataSet as input.
-	/// 
 	/// </summary>
 	public class Graphs
 	{
@@ -18,7 +17,7 @@ namespace HdbPoet
     /// This overloaded StandardTChart is used with WindowsForms.
     /// </summary>
     /// <returns></returns>
-		public static TChart StandardTChart(GraphData ds, TChart tChart1, bool preserveFormat)
+		public static void StandardTChart(GraphData ds, TChart tChart1, bool preserveFormat)
 		{
 			if( tChart1 == null)
 			{
@@ -28,7 +27,7 @@ namespace HdbPoet
 			{
 				tChart1.Series.Clear();
 				tChart1.Text = "";
-				return tChart1;
+				//return tChart1;
 			}
 
 			try
@@ -114,7 +113,6 @@ namespace HdbPoet
 			{
 				System.Windows.Forms.MessageBox.Show(exc.Message+"\n "+exc.StackTrace);
 			}
-			return tChart1;
 		}
 
     /// <summary>
@@ -211,7 +209,7 @@ namespace HdbPoet
     /// <param name="ds"></param>
     /// <param name="tChart1"></param>
     /// <returns></returns>
-    public static Chart StandardTChart(TimeSeriesDataSet ds, Chart tChart1)
+     static Chart StandardTChart(TimeSeriesDataSet ds, Chart tChart1)
     {
       if( tChart1 == null)
       {
@@ -272,7 +270,7 @@ namespace HdbPoet
       }
       return tChart1;
     }
-    public static double AverageOfColumn(DataTable table, string columnName)
+     static double AverageOfColumn(DataTable table, string columnName)
     {
         int sz = table.Rows.Count;
         int counter = 0;

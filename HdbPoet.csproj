@@ -153,6 +153,10 @@
     <Reference Include="DgvFilterPopup">
       <HintPath>ThirdParty\DgvFilterPopup.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\Pisces\packages\Oracle.ManagedDataAccess.12.1.2400\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -230,6 +234,20 @@
     <Compile Include="ColumnFormat.Designer.cs">
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </Compile>
+    <None Include="LicensedDependency\GraphControl.cs">
+      <SubType>UserControl</SubType>
+    </None>
+    <None Include="LicensedDependency\GraphControl.Designer.cs">
+      <DependentUpon>GraphControl.cs</DependentUpon>
+    </None>
+    <None Include="LicensedDependency\Hdb.Procedures.cs" />
+    <Compile Include="OpenSourceDependency\GraphsZedGraph.cs" />
+    <Compile Include="OpenSourceDependency\GraphControlZedGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OpenSourceDependency\GraphControlZedGraph.Designer.cs">
+      <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExcelReportTemplate.cs" />
     <Compile Include="FormAddSeries.cs">
       <SubType>Form</SubType>
@@ -285,6 +303,8 @@
     <Compile Include="MetaData\SqlViewEditor.Designer.cs">
       <DependentUpon>SqlViewEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="OpenSourceDependency\Hdb.Procedures.cs" />
+    <Compile Include="OpenSourceDependency\OracleServer.cs" />
     <Compile Include="SelectedSeriesListBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -300,10 +320,10 @@
     <Compile Include="CustomPrintPreviewDialog.designer.cs">
       <DependentUpon>CustomPrintPreviewDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTeeChartLicense.cs">
+    <Compile Include="LicensedDependency\FormTeeChartLicense.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTeeChartLicense.Designer.cs">
+    <Compile Include="LicensedDependency\FormTeeChartLicense.Designer.cs">
       <DependentUpon>FormTeeChartLicense.cs</DependentUpon>
     </Compile>
     <Compile Include="Hdb.Model.cs" />
@@ -334,14 +354,14 @@
     <Compile Include="EditStringCollection.Designer.cs">
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphControl.cs">
+    <Compile Include="OpenSourceDependency\ZedGraphDataLoader.cs" />
+    <None Include="GraphControl.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GraphControl.Designer.cs">
+    </None>
+    <None Include="GraphControl.Designer.cs">
       <DependentUpon>GraphControl.cs</DependentUpon>
-    </Compile>
+    </None>
     <Compile Include="OracleConnectionInfo.cs" />
-    <Compile Include="Hdb.Procedures.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -367,7 +387,7 @@
     <Compile Include="DateSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Graphs.cs" />
+    <None Include="LicensedDependency\Graphs.cs" />
     <Compile Include="Legend.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -408,7 +428,7 @@
     <Compile Include="TimeSeriesTableView.Designer.cs">
       <DependentUpon>TimeSeriesTableView.cs</DependentUpon>
     </Compile>
-    <Compile Include="OracleServer.cs" />
+    <None Include="LicensedDependency\OracleServer.cs" />
     <Compile Include="OracleLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -440,6 +460,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ColumnFormat.resx">
       <DependentUpon>ColumnFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="LicensedDependency\GraphControl.resx">
+      <DependentUpon>GraphControl.cs</DependentUpon>
+    </None>
+    <EmbeddedResource Include="OpenSourceDependency\GraphControlZedGraph.resx">
+      <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAddSeries.resx">
       <DependentUpon>FormAddSeries.cs</DependentUpon>
@@ -479,7 +505,7 @@
     <EmbeddedResource Include="CustomPrintPreviewDialog.resx">
       <DependentUpon>CustomPrintPreviewDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTeeChartLicense.resx">
+    <EmbeddedResource Include="LicensedDependency\FormTeeChartLicense.resx">
       <DependentUpon>FormTeeChartLicense.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectHdbModel.resx">
@@ -494,9 +520,9 @@
     <EmbeddedResource Include="EditStringCollection.resx">
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GraphControl.resx">
+    <None Include="GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
-    </EmbeddedResource>
+    </None>
     <EmbeddedResource Include="TimeSeriesCommitChanges.resx">
       <DependentUpon>TimeSeriesCommitChanges.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -585,6 +611,8 @@
     <Content Include="GraphTool.ico" />
     <Content Include="License-LGPL.txt" />
     <Content Include="license.txt" />
+    <Content Include="LicensedDependency\Readme.txt" />
+    <Content Include="OpenSourceDependency\Readme.txt" />
     <None Include="Images\warning.ico" />
     <None Include="report.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
