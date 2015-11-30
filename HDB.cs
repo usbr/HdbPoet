@@ -224,6 +224,34 @@ namespace HdbPoet
             return Hdb.Instance.AclReadonly(sdi);
         }
 
+
+        private DataTable modelData(decimal site_datatype_id, string tableName, DateTime t1, DateTime t2, int model_run_id = 99999)
+        {
+            string sql = "Select start_date_time,value " +
+               "from " + tableName + " where model_run_id = " + model_run_id
+               + " and site_datatype_id = " + site_datatype_id
+               + " and start_date_time >= " + Hdb.ToHdbDate(t1)
+               + " and start_date_time <= " + Hdb.ToHdbDate(t2)
+               + " order by start_date_time desc";
+
+            DataTable rval = m_server.Table(tableName, sql);
+            if (rval == null)
+            {
+                rval = new DataTable();
+                rval.Columns.Add(new DataColumn("date_time", typeof(DateTime)));
+                rval.Columns.Add(new DataColumn("value", typeof(double)));
+            }
+
+            rval.Columns["date_time"].Unique = true;
+            rval.PrimaryKey = new DataColumn[] { rval.Columns["date_time"] };
+            rval.DefaultView.Sort = rval.Columns[0].ColumnName;
+            rval.DefaultView.ApplyDefaultSort = true;
+            rval.Columns[0].DefaultValue = DBNull.Value;
+
+            return rval;
+        }
+
+
         /// <summary>
         /// Reads time series data from HDB
         /// </summary>
@@ -234,43 +262,39 @@ namespace HdbPoet
         /// <param name="t1">Beginning DateTime</param>
         /// <param name="t2">Ending DateTime</param>
         /// <returns></returns>
-        public DataTable Table(decimal site_datatype_id, string r_table,
+        public DataTable Table(decimal site_datatype_id, string tableName,
             string interval, int instantInterval,
-          DateTime t1, DateTime t2,string timeZone)
+          DateTime t1, DateTime t2, string timeZone, int model_run_id = 99999)
         {
+            DataTable rval;
+            bool isModel = tableName.IndexOf("m") == 0;
+            if (isModel)
+            { return modelData(site_datatype_id, tableName, t1, t2, model_run_id); }
 
             if (timeZone == "")
                 timeZone = "MST";
 
             t1 = AdjustDateToMatchInterval(interval, t1);
 
-            string dateSubquery = " table(dates_between( " + ToHdbTimeZone(t1, interval, timeZone) + ", "
-                                      + ToHdbTimeZone(t2, interval, timeZone) + ",'" +interval + "')) A ";
-            if (interval == "instant")
-            {
-
-                dateSubquery = " table(instants_between( " + ToHdbTimeZone(t1, interval, timeZone) + ", "
-                                             + ToHdbTimeZone(t2, interval, timeZone) + "," + instantInterval + ")) A ";
-            }
+            string dateSubquery = datesQuery(interval, instantInterval, t1, t2, timeZone);
 
             string wherePreamble = " where ";
-            if (r_table == "r_base")
+            if (tableName == "r_base")
                 wherePreamble += " interval(+) = '" + interval + "' and ";
 
-
-            string sql = 
+            string sql =
              "select " + ToLocalTimeZone("A.date_time", interval, timeZone) + ", B.value, "
            + "colorize_with_rbase(" + site_datatype_id.ToString() + ", '" + interval + "', B.start_date_time,B.value ) as SourceColor, "
            + "colorize_with_validation(" + site_datatype_id.ToString() + ", '" + interval + "', A.date_time, B.value ) as ValidationColor "
-           + " from " + r_table + " B , "
-           + dateSubquery 
-           + wherePreamble 
-           + " B.start_date_time(+) = A.date_time and site_datatype_id(+) = " + site_datatype_id 
+           + " from " + tableName + " B , "
+           + dateSubquery
+           + wherePreamble
+           + " B.start_date_time(+) = A.date_time and site_datatype_id(+) = " + site_datatype_id
            + " and B.start_date_time(+) >= " + ToHdbTimeZone(t1, interval, timeZone) + "\n "
            + " and B.start_date_time(+) <= " + ToHdbTimeZone(t2, interval, timeZone) + "\n "
            + " order by A.date_time";
-            
-            DataTable rval = m_server.Table(r_table, sql);
+
+            rval = m_server.Table(tableName, sql);
             if (rval == null)
             {
                 rval = new DataTable();
@@ -286,10 +310,24 @@ namespace HdbPoet
             rval.Columns["SourceColor"].DefaultValue = "LightGray";
             rval.Columns["ValidationColor"].DefaultValue = "LightGray";
 
+
+
             Logger.WriteLine("read " + rval.Rows.Count + " rows ");
             return rval;
         }
 
+        private string datesQuery(string interval, int instantInterval, DateTime t1, DateTime t2, string timeZone)
+        {
+            string dateSubquery = " table(dates_between( " + ToHdbTimeZone(t1, interval, timeZone) + ", "
+                                      + ToHdbTimeZone(t2, interval, timeZone) + ",'" + interval + "')) A ";
+            if (interval == "instant")
+            {
+
+                dateSubquery = " table(instants_between( " + ToHdbTimeZone(t1, interval, timeZone) + ", "
+                                             + ToHdbTimeZone(t2, interval, timeZone) + "," + instantInterval + ")) A ";
+            }
+            return dateSubquery;
+        }
         public static DateTime AdjustDateToMatchInterval(string interval, DateTime t1)
         {
             switch (interval)

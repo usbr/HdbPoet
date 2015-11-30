@@ -411,7 +411,6 @@
     <Compile Include="TimeSeriesConstants.cs" />
     <Compile Include="TimeSeriesDataSet.cs">
       <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="TimeSeriesChangeEventArgs.cs" />
     <Compile Include="TimeSeriesDataSet.Designer.cs">
