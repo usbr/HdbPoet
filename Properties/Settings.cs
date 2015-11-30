@@ -2,6 +2,8 @@
 using System.Text.RegularExpressions;
 using System.Linq.Expressions;
 using System.Linq;
+using System.Collections.Specialized;
+using System.Drawing;
 
 namespace HdbPoet.Properties {
     
@@ -70,6 +72,37 @@ namespace HdbPoet.Properties {
         internal static string[] GetServiceNames()
         {
            return(  from c in GetConnectionInfoList() select c.Service ).ToArray();
+        }
+
+        public void SetColor(int index, System.Drawing.Color color)
+        {
+            StringCollection sc = Default.SeriesColors;
+            while (index >= sc.Count)
+            {
+                sc.Add("Black");
+            }
+            sc[index] = color.ToArgb().ToString();
+        }
+
+        internal System.Drawing.Color GetSeriesColor(int index)
+        {
+            StringCollection sc = Default.SeriesColors;
+            Color c = System.Drawing.Color.Black;
+            if (index >= sc.Count)
+            {
+                return c;
+            }
+            int argb = 0;
+            if (int.TryParse(sc[index], out argb))
+            {
+
+                c = Color.FromArgb(argb);
+            }
+            else
+            {
+                c = Color.FromName(sc[index]);
+            }
+            return c;
         }
     }
 }
