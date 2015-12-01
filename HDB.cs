@@ -491,7 +491,9 @@ namespace HdbPoet
         public DataTable FilteredSiteList(string siteSearchString,
                                                string[] r_names,
                                                int[] objecttype_id,
-                                               string basin_id)
+                                               string basin_id,
+                                                bool getModeledData = false,
+                                                int modelRunID = 0)
         {
 
             siteSearchString = SafeSqlLikeClauseLiteral(siteSearchString);
@@ -532,8 +534,17 @@ namespace HdbPoet
             {
                 int idx = Array.IndexOf(Hdb.r_names, r_names[i]);
                 Debug.Assert(idx >= 0);
-                string tableName = Hdb.r_tables[idx];
+                string tableName;
+                if (getModeledData)
+                {
+                    tableName = Hdb.m_tables[idx];
+                }
+                else
+                { 
+                    tableName = Hdb.r_tables[idx]; 
+                }
                 sql += sql_template;
+                
                 sql = sql.Replace("#TABLE_NAME#", tableName);
 
                 if (i < r_names.Length - 1)
@@ -651,7 +662,7 @@ group by d.datatype_id, d.datatype_common_name
         ///    monthly          17 reservoir storage, end of period reading used as value for per.             389 r_month             1730        932 01-OCT-70 01-FEB-03
         ///    monthly          49 reservoir WS elevation, end of per reading used as value for per            120 r_month             1937        932 01-OCT-70 01-JUL-86
         /// </summary>
-        public DataTable SiteInfo(int site_id, string[] r_names, bool showBase)
+        public DataTable SiteInfo(int site_id, string[] r_names, bool showBase, bool getModeledData = false, int mrid = 0)
         {
 
             string sql_template =
@@ -672,8 +683,19 @@ group by d.datatype_id, d.datatype_common_name
             {
                 int idx = Array.IndexOf(Hdb.r_names, r_names[i]);
                 Debug.Assert(idx >= 0);
-                string tableName = Hdb.r_tables[idx];
+
+                string tableName;
                 string query = sql_template;
+                if (getModeledData)
+                {
+                    tableName = Hdb.m_tables[idx];
+                    query = query.Replace("where", "where model_run_id = " + mrid + " and");
+                }
+                else
+                { 
+                    tableName = Hdb.r_tables[idx];
+                }
+                
                 query = query.Replace("#TABLE_NAME#", tableName);
                 query = query.Replace("#RNAMES1#", Hdb.r_names[idx]);
                 query = query.Replace("#RNAMES2#","'"+ Hdb.r_names[idx] +"'");
