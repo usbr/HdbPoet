@@ -23,6 +23,7 @@ namespace HdbPoet
         OracleServer oracle = null;
         TimeSeriesDataSet ds;
         GraphData graphData;
+        
         bool graphListReady = false;
         SeriesSelection m_seriesSelection;
         private System.Windows.Forms.StatusBar statusBar1;
@@ -75,6 +76,8 @@ namespace HdbPoet
         private ToolStripButton next;
         private ToolStripButton reorder;
         GraphControl graphControl1;
+
+        
 
         public HdbBrowser()
         {
@@ -823,10 +826,12 @@ namespace HdbPoet
                     return;
                 }
 
-                
-
                 Cursor = Cursors.WaitCursor;
 
+               
+                var isModeledData = m_seriesSelection.GetModeledDataVars();
+
+                
 
                 if (reloadFromOracle) // reload will lose any edits
                 {
@@ -834,7 +839,7 @@ namespace HdbPoet
                    // ds.RemoveTimeSeriesTables();
 
                     graphData = new GraphData(ds, GraphNumber);
-                    Hdb.Instance.Fill(graphData);
+                    Hdb.Instance.Fill(graphData, isModeledData.Item1, isModeledData.Item2);
                     IntervalList = graphData.IntervalList();
                     this.timeSeriesTableView1.SetDataSource(graphData, SelectedInterval, GetColorColumnName());
                     timeSeriesTableView1.ValidState = true;

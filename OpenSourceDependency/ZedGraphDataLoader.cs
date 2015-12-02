@@ -143,12 +143,12 @@ namespace HdbPoet
 
             for (int i = 0; i < sz; i++)
             {
-                DateTime date = (DateTime)table.Rows[i][0];
+                //DateTime date = (DateTime)table.Rows[i][0];
 
                 if (table.Rows[i][columnName] != System.DBNull.Value)
                 {
-                    double val = (double)table.Rows[i][columnName];
-                    tSeries.AddPoint(date.ToOADate(),val);
+                    //double val = (double)table.Rows[i][columnName];
+                    //tSeries.AddPoint(date.ToOADate(),val);
                 }
                 else
                 {

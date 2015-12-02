@@ -225,14 +225,14 @@ namespace HdbPoet
         }
 
 
-        private DataTable modelData(decimal site_datatype_id, string tableName, DateTime t1, DateTime t2, int model_run_id = 99999)
+        private DataTable modelData(decimal site_datatype_id, string tableName, DateTime t1, DateTime t2, int mrid)
         {
-            string sql = "Select start_date_time,value " +
-               "from " + tableName + " where model_run_id = " + model_run_id
+            string sql = "Select start_date_time as date_time,value " +
+               "from " + tableName + " where model_run_id = " + mrid
                + " and site_datatype_id = " + site_datatype_id
-               + " and start_date_time >= " + Hdb.ToHdbDate(t1)
-               + " and start_date_time <= " + Hdb.ToHdbDate(t2)
-               + " order by start_date_time desc";
+               + " and start_date_time >= " + Hdb.ToHdbDate(t1.Date)
+               + " and start_date_time <= " + Hdb.ToHdbDate(t2.Date)
+               + " order by start_date_time asc";
 
             DataTable rval = m_server.Table(tableName, sql);
             if (rval == null)
@@ -264,12 +264,12 @@ namespace HdbPoet
         /// <returns></returns>
         public DataTable Table(decimal site_datatype_id, string tableName,
             string interval, int instantInterval,
-          DateTime t1, DateTime t2, string timeZone, int model_run_id = 99999)
+          DateTime t1, DateTime t2, string timeZone, bool isModeledData, int mrid)
         {
             DataTable rval;
             bool isModel = tableName.IndexOf("m") == 0;
-            if (isModel)
-            { return modelData(site_datatype_id, tableName, t1, t2, model_run_id); }
+            if (isModeledData)
+            { return modelData(site_datatype_id, tableName, t1, t2, mrid); }
 
             if (timeZone == "")
                 timeZone = "MST";
@@ -364,7 +364,7 @@ namespace HdbPoet
         /// as specified in the TimeSeriesDataSet
         /// </summary>
         /// <param name="ds"></param>
-        public void Fill(GraphData gd)
+        public void Fill(GraphData gd, bool isModeledData, int mrid)
         {
             
             if (gd.SeriesRows.Count() == 0)
@@ -381,13 +381,22 @@ namespace HdbPoet
                 DataTable tbl = Table(s.hdb_site_datatype_id,
                   s.hdb_r_table, s.Interval,gd.GraphRow.InstantInterval,
                   gd.BeginingTime(),
-                  gd.EndingTime(), gd.GraphRow.TimeZone);
+                  gd.EndingTime(), gd.GraphRow.TimeZone, isModeledData, mrid);
 
                 s.ReadOnly = ReadOnly((int)s.hdb_site_datatype_id);
                 
                 tbl.TableName = "table" + idx;
                 s.TableName = tbl.TableName;
                 tbl.DataSet.Tables.Remove(tbl);
+
+                if (isModeledData)
+                {
+                    DataColumn sourceColorColumn = new DataColumn();
+                    sourceColorColumn.ColumnName = "SourceColor";
+                    sourceColorColumn.DataType = typeof(string);
+                    sourceColorColumn.DefaultValue = "white";
+                    tbl.Columns.Add(sourceColorColumn);
+                }
 
                 gd.Tables.Add(tbl);
                 idx++;
