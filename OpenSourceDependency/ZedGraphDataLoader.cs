@@ -33,10 +33,13 @@ namespace HdbPoet
             CreateSeries(list, title, subTitle, undoZoom, multiLeftAxis);
 
             int i = 0;
-            foreach (var s in list.SeriesRows)
+            foreach (DataTable s in list.Tables)
             {
-               
-                FillTimeSeries(s, chart1.GraphPane.CurveList[i]);
+                if (s.TableName.Length > 5 && s.TableName.Remove(5) == "table")
+                {
+                    FillTimeSeries(s, chart1.GraphPane.CurveList[i]);                
+                }
+                               
                 i++;
             }
             
@@ -127,9 +130,9 @@ namespace HdbPoet
         /// </summary>
         /// <param name="s"></param>
         /// <param name="tSeries"></param>
-         void FillTimeSeries(TimeSeriesDataSet.SeriesRow s,CurveItem tSeries)
+         void FillTimeSeries(DataTable table,CurveItem tSeries)
         {
-            var table = s.Table;
+            
             int sz = table.Rows.Count;
             if (sz == 0)
             {
@@ -143,12 +146,12 @@ namespace HdbPoet
 
             for (int i = 0; i < sz; i++)
             {
-                //DateTime date = (DateTime)table.Rows[i][0];
+                DateTime date = (DateTime)table.Rows[i][0];
 
                 if (table.Rows[i][columnName] != System.DBNull.Value)
                 {
-                    //double val = (double)table.Rows[i][columnName];
-                    //tSeries.AddPoint(date.ToOADate(),val);
+                    double val = Convert.ToDouble(table.Rows[i][columnName]);
+                    tSeries.AddPoint(date.ToOADate(),val);
                 }
                 else
                 {
