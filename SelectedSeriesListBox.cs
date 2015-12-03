@@ -56,6 +56,14 @@ namespace HdbPoet
             FillListBox();
         }
 
+        public void ClearListBox()
+        {
+            for (int i = 0; i < listBox.Items.Count; i++)
+            {
+                this.listBox.SetSelected(i, true);
+            }
+            this.RemoveSelected();            
+        }
 
         /// <summary>
         /// We are relying on order in DataTable.

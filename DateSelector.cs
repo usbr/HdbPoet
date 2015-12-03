@@ -292,6 +292,7 @@ namespace HdbPoet
             this.numericUpDownDays.Name = "numericUpDownDays";
             this.numericUpDownDays.Size = new System.Drawing.Size(48, 20);
             this.numericUpDownDays.TabIndex = 22;
+            this.numericUpDownDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownDays.Value = new decimal(new int[] {
             2,
             0,

@@ -125,7 +125,7 @@ namespace HdbPoet
             this.buttonOk.Location = new System.Drawing.Point(295, 11);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 24);
-            this.buttonOk.TabIndex = 2;
+            this.buttonOk.TabIndex = 5;
             this.buttonOk.Text = "Ok";
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
@@ -161,7 +161,7 @@ namespace HdbPoet
             this.comboBoxHostList.Location = new System.Drawing.Point(101, 79);
             this.comboBoxHostList.Name = "comboBoxHostList";
             this.comboBoxHostList.Size = new System.Drawing.Size(157, 21);
-            this.comboBoxHostList.TabIndex = 9;
+            this.comboBoxHostList.TabIndex = 2;
             // 
             // label3
             // 
@@ -176,7 +176,7 @@ namespace HdbPoet
             this.buttonEdit.Location = new System.Drawing.Point(258, 78);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(30, 22);
-            this.buttonEdit.TabIndex = 11;
+            this.buttonEdit.TabIndex = 3;
             this.buttonEdit.Text = "...";
             this.buttonEdit.UseVisualStyleBackColor = true;
             this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
@@ -195,7 +195,7 @@ namespace HdbPoet
             this.txtPort.Location = new System.Drawing.Point(101, 106);
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(100, 20);
-            this.txtPort.TabIndex = 13;
+            this.txtPort.TabIndex = 4;
             this.txtPort.Text = "1521";
             // 
             // OracleLogin

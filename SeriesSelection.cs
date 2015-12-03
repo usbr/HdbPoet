@@ -317,22 +317,30 @@ namespace HdbPoet
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(160, 16);
             this.label2.TabIndex = 11;
-            this.label2.Text = "site name search string";
+            this.label2.Text = "Site Name Search String";
             // 
             // textBoxKeyWords
             // 
             this.textBoxKeyWords.Location = new System.Drawing.Point(8, 32);
             this.textBoxKeyWords.Name = "textBoxKeyWords";
-            this.textBoxKeyWords.Size = new System.Drawing.Size(216, 20);
-            this.textBoxKeyWords.TabIndex = 10;
+            this.textBoxKeyWords.Size = new System.Drawing.Size(242, 20);
+            this.textBoxKeyWords.TabIndex = 1;
             // 
             // buttonRefresh
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(248, 188);
+            this.buttonRefresh.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.buttonRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonRefresh.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.buttonRefresh.FlatAppearance.BorderSize = 2;
+            this.buttonRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRefresh.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.buttonRefresh.Location = new System.Drawing.Point(694, 139);
             this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(112, 23);
-            this.buttonRefresh.TabIndex = 9;
-            this.buttonRefresh.Text = "create list of sites";
+            this.buttonRefresh.Size = new System.Drawing.Size(112, 50);
+            this.buttonRefresh.TabIndex = 11;
+            this.buttonRefresh.Text = "Create Site List";
+            this.buttonRefresh.UseVisualStyleBackColor = false;
             this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // label3
@@ -341,15 +349,15 @@ namespace HdbPoet
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(104, 16);
             this.label3.TabIndex = 7;
-            this.label3.Text = "object type";
+            this.label3.Text = "Object Type";
             // 
             // listBoxCategory
             // 
             this.listBoxCategory.Location = new System.Drawing.Point(8, 74);
             this.listBoxCategory.Name = "listBoxCategory";
             this.listBoxCategory.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxCategory.Size = new System.Drawing.Size(216, 134);
-            this.listBoxCategory.TabIndex = 17;
+            this.listBoxCategory.Size = new System.Drawing.Size(242, 147);
+            this.listBoxCategory.TabIndex = 2;
             // 
             // groupBox1
             // 
@@ -372,102 +380,103 @@ namespace HdbPoet
             this.groupBox1.Controls.Add(this.buttonRefresh);
             this.groupBox1.Location = new System.Drawing.Point(8, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(792, 220);
+            this.groupBox1.Size = new System.Drawing.Size(814, 233);
             this.groupBox1.TabIndex = 30;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Site List Criteria";
             // 
             // selectedMRID
             // 
-            this.selectedMRID.Location = new System.Drawing.Point(673, 141);
+            this.selectedMRID.Location = new System.Drawing.Point(473, 201);
             this.selectedMRID.Name = "selectedMRID";
-            this.selectedMRID.Size = new System.Drawing.Size(77, 20);
-            this.selectedMRID.TabIndex = 31;
+            this.selectedMRID.Size = new System.Drawing.Size(76, 20);
+            this.selectedMRID.TabIndex = 7;
             this.selectedMRID.Text = "4";
-            this.selectedMRID.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.selectedMRID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.selectedMRID.TextChanged += new System.EventHandler(this.selectedMRID_TextChanged);
             // 
             // checkBoxGetMRID
             // 
             this.checkBoxGetMRID.AutoSize = true;
-            this.checkBoxGetMRID.Location = new System.Drawing.Point(531, 143);
+            this.checkBoxGetMRID.Location = new System.Drawing.Point(267, 204);
             this.checkBoxGetMRID.Name = "checkBoxGetMRID";
-            this.checkBoxGetMRID.Size = new System.Drawing.Size(149, 17);
-            this.checkBoxGetMRID.TabIndex = 30;
-            this.checkBoxGetMRID.Text = "Query M-Tables with ID = ";
+            this.checkBoxGetMRID.Size = new System.Drawing.Size(204, 17);
+            this.checkBoxGetMRID.TabIndex = 6;
+            this.checkBoxGetMRID.Text = "Query M-Tables with Model Run ID = ";
             this.checkBoxGetMRID.UseVisualStyleBackColor = true;
             this.checkBoxGetMRID.CheckedChanged += new System.EventHandler(this.checkBoxGetMRID_CheckedChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(251, 121);
+            this.label6.Location = new System.Drawing.Point(470, 173);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(32, 13);
+            this.label6.Size = new System.Drawing.Size(33, 13);
             this.label6.TabIndex = 29;
-            this.label6.Text = "basin";
+            this.label6.Text = "Basin";
             // 
             // comboBoxBasin
             // 
             this.comboBoxBasin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxBasin.FormattingEnabled = true;
-            this.comboBoxBasin.Location = new System.Drawing.Point(250, 139);
+            this.comboBoxBasin.Location = new System.Drawing.Point(512, 168);
             this.comboBoxBasin.Name = "comboBoxBasin";
-            this.comboBoxBasin.Size = new System.Drawing.Size(255, 21);
-            this.comboBoxBasin.TabIndex = 28;
+            this.comboBoxBasin.Size = new System.Drawing.Size(169, 21);
+            this.comboBoxBasin.TabIndex = 4;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(538, 169);
+            this.label5.Location = new System.Drawing.Point(264, 142);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 13);
+            this.label5.Size = new System.Drawing.Size(58, 13);
             this.label5.TabIndex = 26;
-            this.label5.Text = "time zone";
+            this.label5.Text = "Time Zone";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(386, 169);
+            this.label4.Location = new System.Drawing.Point(264, 173);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 13);
+            this.label4.Size = new System.Drawing.Size(99, 13);
             this.label4.TabIndex = 25;
-            this.label4.Text = "increment (minutes)";
+            this.label4.Text = "Increment (minutes)";
             // 
             // comboBoxInstantIncrement
             // 
             this.comboBoxInstantIncrement.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxInstantIncrement.FormattingEnabled = true;
-            this.comboBoxInstantIncrement.Location = new System.Drawing.Point(380, 188);
+            this.comboBoxInstantIncrement.Location = new System.Drawing.Point(368, 168);
             this.comboBoxInstantIncrement.Name = "comboBoxInstantIncrement";
-            this.comboBoxInstantIncrement.Size = new System.Drawing.Size(125, 21);
-            this.comboBoxInstantIncrement.TabIndex = 24;
+            this.comboBoxInstantIncrement.Size = new System.Drawing.Size(87, 21);
+            this.comboBoxInstantIncrement.TabIndex = 9;
             // 
             // checkBoxShowBase
             // 
             this.checkBoxShowBase.AutoSize = true;
-            this.checkBoxShowBase.Location = new System.Drawing.Point(250, 165);
+            this.checkBoxShowBase.Location = new System.Drawing.Point(568, 202);
             this.checkBoxShowBase.Name = "checkBoxShowBase";
-            this.checkBoxShowBase.Size = new System.Drawing.Size(101, 17);
-            this.checkBoxShowBase.TabIndex = 23;
-            this.checkBoxShowBase.Text = "show base data";
+            this.checkBoxShowBase.Size = new System.Drawing.Size(106, 17);
+            this.checkBoxShowBase.TabIndex = 8;
+            this.checkBoxShowBase.Text = "Show Base Data";
             this.checkBoxShowBase.UseVisualStyleBackColor = true;
             // 
             // listBoxInterval
             // 
-            this.listBoxInterval.Location = new System.Drawing.Point(248, 24);
+            this.listBoxInterval.Location = new System.Drawing.Point(267, 25);
             this.listBoxInterval.Name = "listBoxInterval";
             this.listBoxInterval.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxInterval.Size = new System.Drawing.Size(168, 95);
-            this.listBoxInterval.TabIndex = 21;
+            this.listBoxInterval.Size = new System.Drawing.Size(143, 108);
+            this.listBoxInterval.TabIndex = 3;
             this.listBoxInterval.SelectedIndexChanged += new System.EventHandler(this.listBoxInterval_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(248, 8);
+            this.label1.Location = new System.Drawing.Point(265, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 16);
+            this.label1.Size = new System.Drawing.Size(145, 14);
             this.label1.TabIndex = 20;
-            this.label1.Text = "time series interval";
+            this.label1.Text = "Time Series Interval";
             // 
             // treeView1
             // 
@@ -482,7 +491,7 @@ namespace HdbPoet
             this.treeView1.RowHeight = 20;
             this.treeView1.SelectedNode = null;
             this.treeView1.Size = new System.Drawing.Size(378, 328);
-            this.treeView1.TabIndex = 35;
+            this.treeView1.TabIndex = 12;
             this.treeView1.Text = "treeView1";
             // 
             // imageList1
@@ -506,7 +515,7 @@ namespace HdbPoet
             this.buttonAddSelected.Location = new System.Drawing.Point(5, 111);
             this.buttonAddSelected.Name = "buttonAddSelected";
             this.buttonAddSelected.Size = new System.Drawing.Size(43, 39);
-            this.buttonAddSelected.TabIndex = 40;
+            this.buttonAddSelected.TabIndex = 13;
             this.buttonAddSelected.Text = "->";
             this.buttonAddSelected.Click += new System.EventHandler(this.buttonAddSelected_Click);
             // 
@@ -517,7 +526,7 @@ namespace HdbPoet
             this.buttonRemove.Location = new System.Drawing.Point(5, 156);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(43, 39);
-            this.buttonRemove.TabIndex = 42;
+            this.buttonRemove.TabIndex = 14;
             this.buttonRemove.Text = "<-";
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
@@ -560,23 +569,23 @@ namespace HdbPoet
             this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
             this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
             this.selectedSeriesListBox1.Size = new System.Drawing.Size(370, 328);
-            this.selectedSeriesListBox1.TabIndex = 41;
+            this.selectedSeriesListBox1.TabIndex = 15;
             // 
             // timeZoneComboBox1
             // 
-            this.timeZoneComboBox1.Location = new System.Drawing.Point(531, 188);
+            this.timeZoneComboBox1.Location = new System.Drawing.Point(328, 139);
             this.timeZoneComboBox1.Name = "timeZoneComboBox1";
-            this.timeZoneComboBox1.Size = new System.Drawing.Size(251, 21);
-            this.timeZoneComboBox1.TabIndex = 27;
+            this.timeZoneComboBox1.Size = new System.Drawing.Size(266, 21);
+            this.timeZoneComboBox1.TabIndex = 10;
             this.timeZoneComboBox1.TimeZone = "";
             // 
             // dateSelector1
             // 
-            this.dateSelector1.Location = new System.Drawing.Point(424, 8);
+            this.dateSelector1.Location = new System.Drawing.Point(419, 8);
             this.dateSelector1.Name = "dateSelector1";
             this.dateSelector1.ShowTime = false;
-            this.dateSelector1.Size = new System.Drawing.Size(360, 126);
-            this.dateSelector1.TabIndex = 22;
+            this.dateSelector1.Size = new System.Drawing.Size(387, 126);
+            this.dateSelector1.TabIndex = 5;
             this.dateSelector1.Validating += new System.ComponentModel.CancelEventHandler(this.dateSelector1_Validating);
             // 
             // SeriesSelection
@@ -942,14 +951,20 @@ namespace HdbPoet
             SaveInstantInterval();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void checkBoxGetMRID_CheckedChanged(object sender, EventArgs e)
         {
+            // Clear ListBoxes on change
+            this.selectedSeriesListBox1.ClearListBox();
+            model = new TreeModel();
+            this.treeView1.Model = model;
+        }
 
+        private void selectedMRID_TextChanged(object sender, EventArgs e)
+        {
+            // Clear ListBoxes on change
+            this.selectedSeriesListBox1.ClearListBox();
+            model = new TreeModel();
+            this.treeView1.Model = model;
         }
 
 

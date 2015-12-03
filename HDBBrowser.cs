@@ -828,10 +828,7 @@ namespace HdbPoet
 
                 Cursor = Cursors.WaitCursor;
 
-               
                 var isModeledData = m_seriesSelection.GetModeledDataVars();
-
-                
 
                 if (reloadFromOracle) // reload will lose any edits
                 {
@@ -844,8 +841,9 @@ namespace HdbPoet
                     this.timeSeriesTableView1.SetDataSource(graphData, SelectedInterval, GetColorColumnName());
                     timeSeriesTableView1.ValidState = true;
                 }
-                this.toolStripButtonSave.Enabled = !graphData.ReadOnly;
-                this.toolStripButtonUndo.Enabled = !graphData.ReadOnly;
+                // [JR] commented out to test writing capability
+                //this.toolStripButtonSave.Enabled = !graphData.ReadOnly;
+                //this.toolStripButtonUndo.Enabled = !graphData.ReadOnly;
 
 
 

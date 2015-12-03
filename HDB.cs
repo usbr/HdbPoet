@@ -235,12 +235,26 @@ namespace HdbPoet
                + " order by start_date_time asc";
 
             DataTable rval = m_server.Table(tableName, sql);
+
             if (rval == null)
             {
                 rval = new DataTable();
                 rval.Columns.Add(new DataColumn("date_time", typeof(DateTime)));
                 rval.Columns.Add(new DataColumn("value", typeof(double)));
+                rval.Columns.Add(new DataColumn("SourceColor", typeof(string)));
             }
+
+            DataColumn sourceColorColumn = new DataColumn();
+            sourceColorColumn.ColumnName = "SourceColor";
+            sourceColorColumn.DataType = typeof(string);
+            sourceColorColumn.DefaultValue = "white";
+            rval.Columns.Add(sourceColorColumn);
+
+            DataColumn validationColumn = new DataColumn();
+            validationColumn.ColumnName = "ValidationColor";
+            validationColumn.DataType = typeof(string);
+            validationColumn.DefaultValue = "white";
+            rval.Columns.Add(validationColumn);
 
             rval.Columns["date_time"].Unique = true;
             rval.PrimaryKey = new DataColumn[] { rval.Columns["date_time"] };
@@ -328,6 +342,7 @@ namespace HdbPoet
             }
             return dateSubquery;
         }
+
         public static DateTime AdjustDateToMatchInterval(string interval, DateTime t1)
         {
             switch (interval)
@@ -378,25 +393,17 @@ namespace HdbPoet
             {
                 s.IsComputed = IsComputed((int)s.hdb_site_datatype_id);
 
-                DataTable tbl = Table(s.hdb_site_datatype_id,
-                  s.hdb_r_table, s.Interval,gd.GraphRow.InstantInterval,
-                  gd.BeginingTime(),
-                  gd.EndingTime(), gd.GraphRow.TimeZone, isModeledData, mrid);
+                DataTable tbl = Table(s.hdb_site_datatype_id, s.hdb_r_table, s.Interval,gd.GraphRow.InstantInterval, 
+                    gd.BeginingTime(), gd.EndingTime(), gd.GraphRow.TimeZone, isModeledData, mrid);
 
-                s.ReadOnly = ReadOnly((int)s.hdb_site_datatype_id);
+                if (!isModeledData)
+                { 
+                    s.ReadOnly = ReadOnly((int)s.hdb_site_datatype_id); 
+                }
                 
                 tbl.TableName = "table" + idx;
                 s.TableName = tbl.TableName;
                 tbl.DataSet.Tables.Remove(tbl);
-
-                if (isModeledData)
-                {
-                    DataColumn sourceColorColumn = new DataColumn();
-                    sourceColorColumn.ColumnName = "SourceColor";
-                    sourceColorColumn.DataType = typeof(string);
-                    sourceColorColumn.DefaultValue = "white";
-                    tbl.Columns.Add(sourceColorColumn);
-                }
 
                 gd.Tables.Add(tbl);
                 idx++;
@@ -404,8 +411,7 @@ namespace HdbPoet
 
             gd.BuildIntervalTables();
         }
-
-        
+                
         
          public DataTable ObjectTypesTable
         {
@@ -424,8 +430,7 @@ namespace HdbPoet
                 return _object_types;
             }
         }
-
-        //public static
+              
 
         public DataSet BuildSiteList()
         {
@@ -497,22 +502,24 @@ namespace HdbPoet
         /// <summary>
         /// Gets list of sites for the graph series editor (graph properties)
         /// </summary>
-        public DataTable FilteredSiteList(string siteSearchString,
-                                               string[] r_names,
-                                               int[] objecttype_id,
-                                               string basin_id,
-                                                bool getModeledData = false,
-                                                int modelRunID = 0)
+        public DataTable FilteredSiteList(string siteSearchString, string[] r_names, int[] objecttype_id, string basin_id,
+                                            bool getModeledData = false, int modelRunID = 0)
         {
 
             siteSearchString = SafeSqlLikeClauseLiteral(siteSearchString);
             string sql_template = "select c.site_id, c.site_common_name, c.objecttype_id from #TABLE_NAME# a, "
-              + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
-              + "where a.site_datatype_id = b.site_datatype_id  and "
-              + "b.site_id = c.site_id and d.objecttype_id = c.objecttype_id";
+                                    + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
+                                    + "where a.site_datatype_id = b.site_datatype_id  and "
+                                    + "b.site_id = c.site_id and d.objecttype_id = c.objecttype_id";
+
+            if (getModeledData)
+            {
+                sql_template += " and a.model_run_id = " + modelRunID;
+            }
+
             if (basin_id!= "-1")
             {
-                sql_template += " and c.basin_id = "+basin_id;
+                sql_template += " and c.basin_id = " + basin_id;
             }
 
             if (siteSearchString.Trim() != "")
@@ -563,10 +570,6 @@ namespace HdbPoet
             }
             sql += " order by site_common_name";
             DataTable rval = m_server.Table("SiteList", sql);
-
-            //       DataTable t =  HDB.HDB_objecttype;
-
-
 
             return rval;
         }
@@ -674,19 +677,18 @@ group by d.datatype_id, d.datatype_common_name
         public DataTable SiteInfo(int site_id, string[] r_names, bool showBase, bool getModeledData = false, int mrid = 0)
         {
 
-            string sql_template =
-                         "  select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
-                      + " count(a.value),'#TABLE_NAME#' \"rtable\", max(a.site_datatype_id) "
-                      + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
-                      + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_common_name) \"site_common_name\"  "
-                      + " from "
-                      + " #TABLE_NAME# a, hdb_site_datatype b, hdb_site c, hdb_datatype d, hdb_unit e "
-                      + " where "
-                      + " a.site_datatype_id = b.site_datatype_id and "
-                      + " b.datatype_id = d.datatype_id and c.site_id =" + site_id.ToString()
-                      + "  and e.unit_id = d.unit_id and "
-                      + " b.site_id = " + site_id.ToString()
-                      + " group by d.datatype_id, d.datatype_common_name ";
+            string sql_template = "  select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
+                                     + " count(a.value),'#TABLE_NAME#' \"rtable\", max(a.site_datatype_id) "
+                                     + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
+                                     + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_common_name) \"site_common_name\"  "
+                                     + " from "
+                                     + " #TABLE_NAME# a, hdb_site_datatype b, hdb_site c, hdb_datatype d, hdb_unit e "
+                                     + " where "
+                                     + " a.site_datatype_id = b.site_datatype_id and "
+                                     + " b.datatype_id = d.datatype_id and c.site_id =" + site_id.ToString()
+                                     + "  and e.unit_id = d.unit_id and "
+                                     + " b.site_id = " + site_id.ToString()
+                                     + " group by d.datatype_id, d.datatype_common_name ";
             string sql = "";
             for (int i = 0; i < r_names.Length; i++)
             {
@@ -753,7 +755,7 @@ group by d.datatype_id, d.datatype_common_name
                 if (String.Compare(s.Interval, interval, true) == 0)
                 {
                     DataTable tbl = ds.GetTable(tableName);
-                    string sql = "SourceCOLOR ='Yellow'";
+                    string sql = "SourceColor ='Yellow'";
                     DataRow[] rows = tbl.Select(sql, "", DataViewRowState.ModifiedCurrent);
                     return rows.Length > 0;
                 }
@@ -777,12 +779,12 @@ group by d.datatype_id, d.datatype_common_name
         internal DataTable BasinNames()
         {
          //   string sql = "select site_name,site_id from hdb_site where objecttype_id = 1 order by site_name ";
-            string sql = "  select hs.site_name,site_id "
-                        + " from hdb_site hs, ref_db_list rdl "
-                    + "  where hs.objecttype_id = 1                    "
-                    + "  and hs.db_site_code = rdl.db_site_code        "
-                    + "  and rdl.session_no = 1                        "
-                    + "    order by site_name                          ";
+            string sql = " select hs.site_name,site_id "
+                             + " from hdb_site hs, ref_db_list rdl "
+                             + " where hs.objecttype_id = 1 "
+                             + " and hs.db_site_code = rdl.db_site_code "
+                             + " and rdl.session_no = 1 "
+                             + " order by site_name ";
 
             var rval = Server.Table("a", sql);
 
@@ -798,6 +800,7 @@ group by d.datatype_id, d.datatype_common_name
             //return basins;
 
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -808,17 +811,17 @@ group by d.datatype_id, d.datatype_common_name
         internal DataTable BaseInfo(DateTime t, decimal site_datatype_id, string interval)
         {
             string sql = "select site_datatype_id, interval, start_date_time,end_date_time, value, agen_name, overwrite_flag, "
-+"  r_base.date_time_loaded, validation, collection_system_name, "
-+" loading_application_name, method_name, computation_name, data_flags from "
-+" r_base, hdb_agen, hdb_collection_system, hdb_loading_application, hdb_method, cp_computation where "
-+" site_datatype_id = "+ site_datatype_id+ "and "
-+" start_date_time = "+ToHdbDate(t)+" and "
-+" interval = '"+interval+"' and "
-+" hdb_agen.agen_id = r_base.agen_id and "
-+" hdb_collection_system.collection_system_id = r_base.collection_system_id and "
-+" hdb_loading_application.loading_application_id = r_base.loading_application_id and "
-+" hdb_method.method_id = r_base.method_id and "
-+" cp_computation.computation_id = r_base.computation_id ";
+                        + "  r_base.date_time_loaded, validation, collection_system_name, "
+                        + " loading_application_name, method_name, computation_name, data_flags from "
+                        + " r_base, hdb_agen, hdb_collection_system, hdb_loading_application, hdb_method, cp_computation where "
+                        + " site_datatype_id = " + site_datatype_id + "and "
+                        + " start_date_time = " + ToHdbDate(t) + " and "
+                        + " interval = '" + interval + "' and "
+                        + " hdb_agen.agen_id = r_base.agen_id and "
+                        + " hdb_collection_system.collection_system_id = r_base.collection_system_id and "
+                        + " hdb_loading_application.loading_application_id = r_base.loading_application_id and "
+                        + " hdb_method.method_id = r_base.method_id and "
+                        + " cp_computation.computation_id = r_base.computation_id ";
 
             return Server.Table("info", sql);
          }
