@@ -14,7 +14,50 @@ namespace HdbPoet
         static decimal s_COMPUTATION_ID = HDB_INVALID_ID;
 
 
-        internal void delete_from_hdb(decimal sdi, DateTime t, string interval,string timeZone)
+        public int delete_from_mtable(int mrid, int sdi, DateTime t1, DateTime t2, string interval)
+        {
+            OracleCommand cmd = new OracleCommand("DELETE_M_TABLE");
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("MODEL_RUN_ID", mrid);
+            cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
+            cmd.Parameters.Add("START_DATE_TIME", t1);
+            cmd.Parameters.Add("END_DATE_TIME", t2);
+            cmd.Parameters.Add("INTERVAL", interval);
+
+            int rval = 0;
+            rval = m_server.RunStoredProc(cmd);
+            return rval;
+        }
+
+
+        public int modify_m_table(int mrid, int sdi, DateTime t1, DateTime t2, double value, string interval, bool isNewEntry)
+        {
+            OracleCommand cmd = new OracleCommand("MODIFY_M_TABLE");
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            string doUpdateYorN;
+            if (isNewEntry)
+            { doUpdateYorN = "Y"; }
+            else
+            { doUpdateYorN = "N"; }
+
+            cmd.Parameters.Add("MODEL_RUN_ID", mrid);
+            cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
+            cmd.Parameters.Add("START_DATE_TIME", t1);
+            cmd.Parameters.Add("END_DATE_TIME", t2);
+            cmd.Parameters.Add("VALUE", value);
+            cmd.Parameters.Add("INTERVAL", interval);
+            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", doUpdateYorN);
+
+            int rval = 0;
+            rval = m_server.RunStoredProc(cmd);
+            return rval;
+        }
+
+
+
+        internal void delete_from_hdb(decimal sdi, DateTime t, string interval, string timeZone)
         {
             OracleCommand cmd = new OracleCommand("DELETE_FROM_HDB");
             cmd.CommandType = CommandType.StoredProcedure;

@@ -14,15 +14,15 @@ namespace HdbPoet
         static decimal s_COMPUTATION_ID = HDB_INVALID_ID;
 
 
-        internal int delete_from_mtable(int mrid, int sdi, DateTime t1, DateTime t2, double value, string interval)
+        public int delete_from_mtable(int mrid, int sdi, DateTime t1, DateTime t2, string interval)
         {
             OracleCommand cmd = new OracleCommand("DELETE_M_TABLE");
             cmd.CommandType = CommandType.StoredProcedure;
             
             cmd.Parameters.Add("MODEL_RUN_ID", mrid);
             cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
-            cmd.Parameters.Add("START_DATE_TIME", t1.ToString("dd-mmm-yyyy HH:MM"));
-            cmd.Parameters.Add("END_DATE_TIME", t2.ToString("dd-mmm-yyyy HH:MM"));
+            cmd.Parameters.Add("START_DATE_TIME", t1);
+            cmd.Parameters.Add("END_DATE_TIME", t2);
             cmd.Parameters.Add("INTERVAL", interval);
             
             int rval = 0;
@@ -31,7 +31,7 @@ namespace HdbPoet
         }
 
 
-        internal int modify_mtable(int mrid, int sdi, DateTime t1, DateTime t2, double value, string interval, bool isNewEntry)
+        public int modify_m_table(int mrid, int sdi, DateTime t1, DateTime t2, double value, string interval, bool isNewEntry)
         {
             OracleCommand cmd = new OracleCommand("MODIFY_M_TABLE");
             cmd.CommandType = CommandType.StoredProcedure;
@@ -44,8 +44,8 @@ namespace HdbPoet
 
             cmd.Parameters.Add("MODEL_RUN_ID", mrid); 
             cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
-            cmd.Parameters.Add("START_DATE_TIME", t1.ToString("dd-mmm-yyyy HH:MM"));
-            cmd.Parameters.Add("END_DATE_TIME", t2.ToString("dd-mmm-yyyy HH:MM"));
+            cmd.Parameters.Add("START_DATE_TIME", t1);
+            cmd.Parameters.Add("END_DATE_TIME", t2);
             cmd.Parameters.Add("VALUE", value);
             cmd.Parameters.Add("INTERVAL", interval);
             cmd.Parameters.Add("DO_UPDATE_Y_OR_N", doUpdateYorN);
