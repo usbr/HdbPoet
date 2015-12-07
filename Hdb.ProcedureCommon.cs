@@ -156,7 +156,7 @@ static OracleDbType GetNumberType()
 
         private static decimal ToDecimal(object o)
         {
-            return Convert.ToDecimal(o);
+            return Convert.ToDecimal(o.ToString());
         }
         /*
          SET_VALIDATION(SITE_DATATYPE_ID NUMBER, INTERVAL VARCHAR2, START_DATE_TIME DATE, END_DATE_TIME DATE DEFAULT NULL, VALIDATION_FLAG VARCHAR2, STATUS OUT VARCHAR2);
