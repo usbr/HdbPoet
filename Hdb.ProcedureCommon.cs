@@ -1,6 +1,14 @@
 ﻿using System;
-using Oracle.ManagedDataAccess.Client;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Data;
+
+#if HDB_OPEN
+using Oracle.ManagedDataAccess.Client;
+#else
+using Devart.Data.Oracle;
+#endif
 
 namespace HdbPoet
 {
@@ -13,18 +21,34 @@ namespace HdbPoet
         static decimal s_METHOD_ID = HDB_INVALID_ID;
         static decimal s_COMPUTATION_ID = HDB_INVALID_ID;
 
+        static OracleDbType GetVarCharType()
+        {
+#if HDB_OPEN
+            return OracleDbType.Varchar2;
+#else
+            return Devart.Data.Oracle.OracleDbType.VarChar;
+#endif
+        }
+static OracleDbType GetNumberType()
+        {
+#if HDB_OPEN
+            return OracleDbType.Decimal;
+#else
+            return Devart.Data.Oracle.OracleDbType.Number;
+#endif
+        }
 
         public int delete_from_mtable(int mrid, int sdi, DateTime t1, DateTime t2, string interval)
         {
             OracleCommand cmd = new OracleCommand("DELETE_M_TABLE");
             cmd.CommandType = CommandType.StoredProcedure;
-            
+
             cmd.Parameters.Add("MODEL_RUN_ID", mrid);
             cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
             cmd.Parameters.Add("START_DATE_TIME", t1);
             cmd.Parameters.Add("END_DATE_TIME", t2);
             cmd.Parameters.Add("INTERVAL", interval);
-            
+
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
             return rval;
@@ -42,22 +66,20 @@ namespace HdbPoet
             else
             { doUpdateYorN = "N"; }
 
-            cmd.Parameters.Add("MODEL_RUN_ID", mrid); 
+            cmd.Parameters.Add("MODEL_RUN_ID", mrid);
             cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
             cmd.Parameters.Add("START_DATE_TIME", t1);
             cmd.Parameters.Add("END_DATE_TIME", t2);
             cmd.Parameters.Add("VALUE", value);
             cmd.Parameters.Add("INTERVAL", interval);
             cmd.Parameters.Add("DO_UPDATE_Y_OR_N", doUpdateYorN);
-            
+
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
             return rval;
         }
 
-
-
-        internal void delete_from_hdb(decimal sdi, DateTime t, string interval,string timeZone)
+        internal void delete_from_hdb(decimal sdi, DateTime t, string interval, string timeZone)
         {
             OracleCommand cmd = new OracleCommand("DELETE_FROM_HDB");
             cmd.CommandType = CommandType.StoredProcedure;
@@ -71,7 +93,7 @@ namespace HdbPoet
             cmd.Parameters.Add("MODELRUN_ID", modelrun_id);
             cmd.Parameters.Add("AGENCY_ID", s_AGEN_ID);
 
-            cmd.Parameters.Add("time_zone", OracleDbType.Varchar2, 3, timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
             m_server.RunStoredProc(cmd);
 
         }
@@ -107,34 +129,34 @@ namespace HdbPoet
             cmd.CommandType = CommandType.StoredProcedure;
 
             string agen_id_name = System.Configuration.ConfigurationManager.AppSettings["AGEN_ID_NAME"];
-                //inputs
-                cmd.Parameters.Add("AGEN_ID_NAME", agen_id_name);
-                cmd.Parameters.Add("COLLECTION_SYSTEM_NAME", "(see agency)");
-                cmd.Parameters.Add("LOADING_APPLICATION_NAME", "HDB-POET");
-                cmd.Parameters.Add("METHOD_NAME", "unknown");
-                cmd.Parameters.Add("COMPUTATION_NAME", "unknown");
+            //inputs
+            cmd.Parameters.Add("AGEN_ID_NAME", agen_id_name);
+            cmd.Parameters.Add("COLLECTION_SYSTEM_NAME", "(see agency)");
+            cmd.Parameters.Add("LOADING_APPLICATION_NAME", "HDB-POET");
+            cmd.Parameters.Add("METHOD_NAME", "unknown");
+            cmd.Parameters.Add("COMPUTATION_NAME", "unknown");
 
-                //output parameters.
+            //output parameters.
+            var n = GetNumberType();
+            cmd.Parameters.Add("AGEN_ID",n , ParameterDirection.Output);
+            cmd.Parameters.Add("COLLECTION_SYSTEM_ID", n, ParameterDirection.Output);
+            cmd.Parameters.Add("LOADING_APPLICATION_ID", n, ParameterDirection.Output);
+            cmd.Parameters.Add("METHOD_ID", n, ParameterDirection.Output);
+            cmd.Parameters.Add("COMPUTATION_ID", n, ParameterDirection.Output);
 
-                cmd.Parameters.Add("AGEN_ID", OracleDbType.Decimal, ParameterDirection.Output);
-                cmd.Parameters.Add("COLLECTION_SYSTEM_ID", OracleDbType.Decimal, ParameterDirection.Output);
-                cmd.Parameters.Add("LOADING_APPLICATION_ID", OracleDbType.Decimal, ParameterDirection.Output);
-                cmd.Parameters.Add("METHOD_ID", OracleDbType.Decimal, ParameterDirection.Output);
-                cmd.Parameters.Add("COMPUTATION_ID", OracleDbType.Decimal, ParameterDirection.Output);
+            m_server.RunStoredProc(cmd);
 
-                m_server.RunStoredProc(cmd);
-
-                s_AGEN_ID = ToDecimal(cmd.Parameters["AGEN_ID"].Value);
-                s_COLLECTION_SYSTEM_ID = ToDecimal(cmd.Parameters["COLLECTION_SYSTEM_ID"].Value);
-                s_LOADING_APPLICATION_ID = ToDecimal(cmd.Parameters["LOADING_APPLICATION_ID"].Value);
-                s_METHOD_ID = ToDecimal(cmd.Parameters["METHOD_ID"].Value);
-                s_COMPUTATION_ID = ToDecimal(cmd.Parameters["COMPUTATION_ID"].Value);
+            s_AGEN_ID = ToDecimal(cmd.Parameters["AGEN_ID"].Value);
+            s_COLLECTION_SYSTEM_ID = ToDecimal(cmd.Parameters["COLLECTION_SYSTEM_ID"].Value);
+            s_LOADING_APPLICATION_ID = ToDecimal(cmd.Parameters["LOADING_APPLICATION_ID"].Value);
+            s_METHOD_ID = ToDecimal(cmd.Parameters["METHOD_ID"].Value);
+            s_COMPUTATION_ID = ToDecimal(cmd.Parameters["COMPUTATION_ID"].Value);
 
         }
 
         private static decimal ToDecimal(object o)
         {
-            return Convert.ToDecimal(o.ToString());
+            return Convert.ToDecimal(o);
         }
         /*
          SET_VALIDATION(SITE_DATATYPE_ID NUMBER, INTERVAL VARCHAR2, START_DATE_TIME DATE, END_DATE_TIME DATE DEFAULT NULL, VALIDATION_FLAG VARCHAR2, STATUS OUT VARCHAR2);
@@ -153,13 +175,13 @@ namespace HdbPoet
             cmd.Parameters.Add("INTERVAL", interval);
             cmd.Parameters.Add("START_DATE_TIME", t);
             cmd.Parameters.Add("END_DATE_TIME", DBNull.Value);
-            cmd.Parameters.Add("VALIDATION_FLAG", OracleDbType.Varchar2, 1);
-            if( validationFlag.Trim() == "")
+            cmd.Parameters.Add("VALIDATION_FLAG", GetVarCharType(), 1);
+            if (validationFlag.Trim() == "")
                 cmd.Parameters["VALIDATION_FLAG"].Value = DBNull.Value;
             else
-              cmd.Parameters["VALIDATION_FLAG"].Value = validationFlag;
+                cmd.Parameters["VALIDATION_FLAG"].Value = validationFlag;
 
-            cmd.Parameters.Add("time_zone", OracleDbType.Varchar2, 3, timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
 
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
@@ -175,13 +197,13 @@ namespace HdbPoet
          */
 
 
-        internal void SetOverwriteFlag( decimal sdi,
+        internal void SetOverwriteFlag(decimal sdi,
           string interval, // 'instant', 'other', 'hour', 'day', 'month', 'year', 'wy', 'table interval'
           DateTime t,
           bool overwrite, string timeZone)
-           //out string status) //   'O'  'null' 
+        //out string status) //   'O'  'null' 
         {
-//            status = "";
+            //            status = "";
             OracleCommand cmd = new OracleCommand("hdb_utilities.set_overwrite_flag");
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -189,7 +211,7 @@ namespace HdbPoet
             cmd.Parameters.Add("INTERVAL", interval);
             cmd.Parameters.Add("START_DATE_TIME", t);
             cmd.Parameters.Add("END_DATE_TIME", DBNull.Value);
-            cmd.Parameters.Add("OVERWRITE_FLAG", OracleDbType.Varchar2, 1);
+            cmd.Parameters.Add("OVERWRITE_FLAG", GetVarCharType(), 1);
             //cmd.Parameters.Add("Status", OracleDbType.Varchar2,1024, ParameterDirection.Output);
             if (overwrite)
             {
@@ -200,12 +222,12 @@ namespace HdbPoet
                 cmd.Parameters["OVERWRITE_FLAG"].Value = DBNull.Value;
             }
 
-            cmd.Parameters.Add("time_zone", OracleDbType.Varchar2, 3, timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
 
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
 
-           // status = cmd.Parameters["Status"].Value.ToString();
+            // status = cmd.Parameters["Status"].Value.ToString();
         }
 
 
@@ -234,7 +256,7 @@ namespace HdbPoet
             cmd.Parameters.Add("END_DATE_TIME", OracleDbType.Date, DBNull.Value, ParameterDirection.Input);
             cmd.Parameters.Add("VALUE", value);
             cmd.Parameters.Add("AGEN_ID", s_AGEN_ID);
-            cmd.Parameters.Add("OVERWRITE_FLAG", OracleDbType.Varchar2, 1);
+            cmd.Parameters.Add("OVERWRITE_FLAG", GetVarCharType(), 1);
 
             if (overwrite)
             {
@@ -251,9 +273,9 @@ namespace HdbPoet
             cmd.Parameters.Add("METHOD_ID", s_METHOD_ID);
             cmd.Parameters.Add("COMPUTATION_ID", s_COMPUTATION_ID);
 
-            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", OracleDbType.Varchar2, 1, "Y", ParameterDirection.Input);
-            cmd.Parameters.Add("DATA_FLAGS", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Input);
-            cmd.Parameters.Add("time_zone",OracleDbType.Varchar2,3 ,timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", GetVarCharType(), 1, "Y", ParameterDirection.Input);
+            cmd.Parameters.Add("DATA_FLAGS", GetVarCharType(), DBNull.Value, ParameterDirection.Input);
+            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
 
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
@@ -261,7 +283,7 @@ namespace HdbPoet
         }
 
 
-        internal int Calculate_Series(decimal sdi, string interval, DateTime t,string timeZone)
+        internal int Calculate_Series(decimal sdi, string interval, DateTime t, string timeZone)
         {
             OracleCommand cmd = new OracleCommand("HDB_POET.CALCULATE_SERIES");
             cmd.CommandType = CommandType.StoredProcedure;
@@ -269,7 +291,7 @@ namespace HdbPoet
             cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
             cmd.Parameters.Add("INTERVAL", interval);
             cmd.Parameters.Add("START_TIME", t);
-            cmd.Parameters.Add("time_zone", OracleDbType.Varchar2, 3, timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
 
             int rval = m_server.RunStoredProc(cmd);
 
@@ -280,15 +302,15 @@ namespace HdbPoet
         {
             Modify_Acl(user, group, true, false);
         }
-        internal void AclDeleteGroup( string group)
+        internal void AclDeleteGroup(string group)
         {
             var tbl = m_server.Table("a", "select user_name from ref_user_groups where group_name ='" + group + "'");
 
             foreach (DataRow row in tbl.Rows)
             {
-                Modify_Acl(row["user_name"].ToString(),group, true, true);
+                Modify_Acl(row["user_name"].ToString(), group, true, true);
             }
-          //  Modify_Acl(user, group,true, true);
+            //  Modify_Acl(user, group,true, true);
         }
 
         internal void AclDeleteUser(string user)
@@ -297,13 +319,13 @@ namespace HdbPoet
 
             foreach (DataRow row in tbl.Rows)
             {
-                Modify_Acl(user, row["group_name"].ToString(), true, true);    
+                Modify_Acl(user, row["group_name"].ToString(), true, true);
             }
         }
 
 
 
-        private int Modify_Acl(string user, string group,bool active, bool delete)
+        private int Modify_Acl(string user, string group, bool active, bool delete)
         {
             OracleCommand cmd = new OracleCommand("hdb_utilities.modify_acl");
             cmd.CommandType = CommandType.StoredProcedure;
@@ -313,7 +335,7 @@ namespace HdbPoet
 
             cmd.Parameters.Add("p_user_name", user.ToUpper());
             cmd.Parameters.Add("p_group_name", group.ToUpper());
-            cmd.Parameters.Add("p_active_flag",p_active_flag );
+            cmd.Parameters.Add("p_active_flag", p_active_flag);
             cmd.Parameters.Add("p_delete_flag", p_delete_flag);
 
             int rval = m_server.RunStoredProc(cmd);
@@ -331,7 +353,7 @@ namespace HdbPoet
             Modify_Site_Group_Name(site_id, group, true);
         }
 
-        private int Modify_Site_Group_Name(decimal site_id, string group, 
+        private int Modify_Site_Group_Name(decimal site_id, string group,
              bool delete)
         {
             OracleCommand cmd = new OracleCommand("hdb_utilities.modify_site_group_name");
@@ -353,7 +375,7 @@ namespace HdbPoet
         {
             OracleCommand cmd = new OracleCommand("hdb_utilities.is_sdi_in_acl");
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("RS", OracleDbType.Varchar2, 10, null, ParameterDirection.ReturnValue);
+            cmd.Parameters.Add("RS", GetVarCharType(), 10, null, ParameterDirection.ReturnValue);
             cmd.Parameters.Add("P_SITE_DATATYPE_ID", (decimal)sdi);
 
             int rval = m_server.RunStoredProc(cmd);
@@ -365,5 +387,6 @@ namespace HdbPoet
 
             return true;
         }
+        
     }
 }

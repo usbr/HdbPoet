@@ -63,7 +63,6 @@ namespace HdbPoet
         private TabPage tabPageHome;
         private TabPage tabPageTable;
         Form graphForm1;
-        private GraphControl graphControlRight;
         private Splitter splitter1;
         private Button buttonHideGraph;
         private Button buttonShowGraph;
@@ -75,14 +74,19 @@ namespace HdbPoet
         private ToolStripButton previous;
         private ToolStripButton next;
         private ToolStripButton reorder;
-        GraphControl graphControl1;
-
+        private Panel panelGraph;
+        IGraphControl graphControlPopup;
+        IGraphControl graphControlRight;
         
 
         public HdbBrowser()
         {
+            
             InitializeComponent();
-            //UserPreference up = new UserPreference();
+
+            graphControlRight = GetGraph();
+            graphControlRight.Parent = panelGraph;
+            graphControlRight.Dock = DockStyle.Fill;
 
             oracle = Hdb.Instance.Server;
             if (oracle == null)
@@ -92,16 +96,16 @@ namespace HdbPoet
             CreateNewDataSet();
             LoadMultiGraphComboBox();
 
-            graphControl1 = new GraphControl();
+            graphControlPopup = GetGraph();
             graphForm1 = new GraphForm();
-            graphControl1.Parent = graphForm1;
-            graphControl1.Dock = DockStyle.Fill;
+            graphControlPopup.Parent = graphForm1;
+            graphControlPopup.Dock = DockStyle.Fill;
 
             
-            graphControl1.PointChanged += new EventHandler<PointChangeEventArgs>(graphForm1_PointChanged);
+            graphControlPopup.PointChanged += new EventHandler<PointChangeEventArgs>(graphForm1_PointChanged);
             graphControlRight.PointChanged += new EventHandler<PointChangeEventArgs>(graphForm1_PointChanged);
 
-            graphControl1.DatesClick += new EventHandler<EventArgs>(graphForm1_DatesClick);
+            graphControlPopup.DatesClick += new EventHandler<EventArgs>(graphForm1_DatesClick);
             graphControlRight.DatesClick += new EventHandler<EventArgs>(graphForm1_DatesClick);
             toolStripComboBoxInterval.SelectedIndexChanged += new EventHandler(toolStripComboBoxInterval_SelectedIndexChanged);
 
@@ -109,6 +113,14 @@ namespace HdbPoet
             Logger.OnLogEvent += new StatusEventHandler(Logger_OnLogEvent);
         }
 
+        static IGraphControl GetGraph()
+        {
+#if HDB_OPEN
+          return  new GraphControlZedGraph();
+#else
+
+#endif
+        }
         private void CreateNewDataSet()
         {
             ds = new TimeSeriesDataSet();
@@ -217,7 +229,6 @@ namespace HdbPoet
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageHome = new System.Windows.Forms.TabPage();
             this.tabPageTable = new System.Windows.Forms.TabPage();
-            this.graphControlRight = new HdbPoet.GraphControl();
             this.buttonShowGraph = new System.Windows.Forms.Button();
             this.buttonHideGraph = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -228,6 +239,7 @@ namespace HdbPoet
             this.menuItemDates = new System.Windows.Forms.MenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.panelGraph = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -582,7 +594,7 @@ namespace HdbPoet
             // 
             // tabPageTable
             // 
-            this.tabPageTable.Controls.Add(this.graphControlRight);
+            this.tabPageTable.Controls.Add(this.panelGraph);
             this.tabPageTable.Controls.Add(this.buttonShowGraph);
             this.tabPageTable.Controls.Add(this.buttonHideGraph);
             this.tabPageTable.Controls.Add(this.splitter1);
@@ -594,15 +606,6 @@ namespace HdbPoet
             this.tabPageTable.TabIndex = 1;
             this.tabPageTable.Text = "Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
-            // 
-            // graphControlRight
-            // 
-            this.graphControlRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphControlRight.DragPoints = false;
-            this.graphControlRight.Location = new System.Drawing.Point(460, 3);
-            this.graphControlRight.Name = "graphControlRight";
-            this.graphControlRight.Size = new System.Drawing.Size(422, 398);
-            this.graphControlRight.TabIndex = 2;
             // 
             // buttonShowGraph
             // 
@@ -681,6 +684,14 @@ namespace HdbPoet
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "HDB Files |*.hdb|AllFiles|*.*";
+            // 
+            // panelGraph
+            // 
+            this.panelGraph.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelGraph.Location = new System.Drawing.Point(460, 3);
+            this.panelGraph.Name = "panelGraph";
+            this.panelGraph.Size = new System.Drawing.Size(422, 398);
+            this.panelGraph.TabIndex = 5;
             // 
             // HdbBrowser
             // 
@@ -765,7 +776,7 @@ namespace HdbPoet
         /// </summary>
         void graphDef_ValueChanged(object sender, TimeSeriesChangeEventArgs e)
         {
-            graphControl1.ChangeSeriesValue(e);
+            graphControlPopup.ChangeSeriesValue(e);
             graphControlRight.ChangeSeriesValue(e);
         }
 
@@ -872,7 +883,7 @@ namespace HdbPoet
 
         private void DrawGraphs()
         {
-            graphControl1.DrawGraph(graphData);
+            graphControlPopup.DrawGraph(graphData);
             graphControlRight.DrawGraph(graphData);
 
         }

@@ -2,7 +2,12 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Diagnostics;
+#if HDB_OPEN
+using Oracle.ManagedDataAccess.Client;
+#else
 using Devart.Data.Oracle;
+#endif
+
 using System.Collections;
 using System.Windows.Forms;
 using Reclamation.Core;
@@ -118,6 +123,18 @@ namespace HdbPoet
             return true;
         }
 
+#if HDB_OPEN
+        void MakeConnectionString(string username, string password)
+        {
+            //strAccessConn = "Provider="+provider+";User ID="+username+";"
+            //    +"Password="+password+"; Data Source="+service+";";
+            ConnectionString = "Data Source=(DESCRIPTION="
+             + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + m_host + ")(PORT=1521)))"
+             + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + service + ")));"
+             + "User Id=" + username + ";Password=" + password + ";";
+        }
+
+#else
 
         void MakeConnectionString(string username, string password)
         {
@@ -149,6 +166,8 @@ namespace HdbPoet
 
             ConnectionString = sb.ConnectionString;
         }
+#endif
+
 
         public override DataTable Table(string tableName)
         {

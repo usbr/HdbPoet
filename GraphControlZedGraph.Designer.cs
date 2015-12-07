@@ -1,6 +1,6 @@
 ﻿namespace HdbPoet
 {
-    partial class GraphControl
+    partial class GraphControlZedGraph
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphControl));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphControlZedGraph));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemDates = new System.Windows.Forms.ToolStripMenuItem();
             this.undoZoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

@@ -11,13 +11,13 @@ using System.IO;
 
 namespace HdbPoet
 {
-    public partial class GraphControl : UserControl
+    public partial class GraphControlZedGraph : UserControl, IGraphControl
     {
         GraphData graphDef;
         ZedGraphControl chart;
         private GraphPane pane; 
 
-        public GraphControl()
+        public GraphControlZedGraph()
         {
             InitializeComponent();
             InitChart();
@@ -36,17 +36,31 @@ namespace HdbPoet
         {
         }
 
-        internal void ChangeSeriesValue(TimeSeriesChangeEventArgs e)
+        public void ChangeSeriesValue(TimeSeriesChangeEventArgs e)
         {
         }
 
         
-        internal void DrawGraph(GraphData graphDef)
+        public void DrawGraph(GraphData graphDef)
         {
             this.graphDef = graphDef;
             this.toolStripButtonDragPoints.Enabled = !graphDef.ReadOnly;
 
-            HdbPoet.Graphs.StandardTChart(graphDef, chart);
+            StandardTChart(graphDef, chart);
+        }
+        /// <summary>
+        /// This overloaded StandardTChart is used with WindowsForms.
+        /// </summary>
+        /// <returns></returns>
+         static void StandardTChart(GraphData ds, ZedGraphControl tChart1)
+        {
+            if (tChart1 == null)
+            {
+                return;
+            }
+
+            ZedGraphDataLoader loader = new ZedGraphDataLoader(tChart1);
+            loader.DrawTimeSeries(ds, ds.GraphRow.Title, "", true, false);
         }
 
         private bool m_dragPoints = false;
@@ -150,7 +164,7 @@ namespace HdbPoet
 
 
 
-        internal void Cleanup()
+        public void Cleanup()
         {
 
             if (chart != null)
