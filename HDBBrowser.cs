@@ -1068,8 +1068,12 @@ namespace HdbPoet
 
         private void toolStripButtonSave_Click(object sender, EventArgs e)
         {
-            if( timeSeriesTableView1.ValidState)
-               timeSeriesTableView1.SaveToHdb();
+            var isModeledDataVars = m_seriesSelection.GetModeledDataVars();
+            bool isModeledData = isModeledDataVars.Item1;
+            int mrid = isModeledDataVars.Item2;
+
+            if (timeSeriesTableView1.ValidState)
+            { timeSeriesTableView1.SaveToHdb(isModeledData, mrid); }
         }
 
         private void toolStripButtonExcel_Click(object sender, EventArgs e)

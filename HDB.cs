@@ -17,7 +17,6 @@ namespace HdbPoet
         OracleServer m_server;
         DataTable _object_types;
 
-
         public Hdb(OracleServer server)
         {
             m_server = server;
@@ -153,7 +152,7 @@ namespace HdbPoet
         /// <param name="overWrite"></param>
         /// <param name="validationFlag"></param>
         public void SaveChanges(string interval, 
-            GraphData ds,bool overWrite, char validationFlag )
+            GraphData ds,bool overWrite, char validationFlag, bool isModeledData=false, int mrid=0)
         {
             //for (int i = 0; i < ds.Series.Count; i++)
             foreach (var s in ds.SeriesRows)
@@ -163,23 +162,56 @@ namespace HdbPoet
                     DataTable tbl = ds.GetTable(s.TableName);
                     DataTableUtility.PrintRowState(tbl);
                     DataRow[] rows = tbl.Select("", "", DataViewRowState.ModifiedCurrent);
+                                        
 
                     foreach (DataRow  row in rows)
                     {
                         DateTime t = Convert.ToDateTime(row[0]);
-                        if ( row[1, DataRowVersion.Current] == DBNull.Value
-                            && row[1, DataRowVersion.Original] != DBNull.Value )
-                        {// Delete
-                           delete_from_hdb(s.hdb_site_datatype_id, t,
-                                interval,ds.GraphRow.TimeZone);
+                        // Code for R-table data
+                        if (!isModeledData)
+                        {
+
+                            if (row[1, DataRowVersion.Current] == DBNull.Value && row[1, DataRowVersion.Original] != DBNull.Value)
+                            {// Delete
+                                delete_from_hdb(s.hdb_site_datatype_id, t,
+                                     interval, ds.GraphRow.TimeZone);
+                            }
+                            else
+                            {// update
+                                double val = Convert.ToDouble(row[1]);
+                                ModifyRase(s.hdb_site_datatype_id, interval, t, val, overWrite,
+                                    validationFlag, ds.GraphRow.TimeZone);
+                            }
                         }
+                        // Code for M-table data
                         else
-                        {// update
-                            double val =Convert.ToDouble(row[1]);
-                            ModifyRase(s.hdb_site_datatype_id, interval, t, val, overWrite,
-                                validationFlag,ds.GraphRow.TimeZone);
+                        {
+                            DateTime tEnd = new DateTime();
+                            if (interval.ToLower() == "hour")
+                            { tEnd = t.AddHours(1); }
+                            else if (interval.ToLower() == "day")
+                            { tEnd = t.AddDays(1); }
+                            else if (interval.ToLower() == "month")
+                            { tEnd.AddMonths(1); }
+                            else if (interval.ToLower() == "year")
+                            { tEnd = t.AddYears(1); }
+                            else
+                            { throw new Exception("Editing of modeled " + interval + " data is not supported."); }
+
+                            if (row[1, DataRowVersion.Current] == DBNull.Value && row[1, DataRowVersion.Original] != DBNull.Value)
+                            {// Delete
+                                delete_from_mtable(mrid, Convert.ToInt32(s.hdb_site_datatype_id), t, tEnd, interval);
+                            }
+                            else
+                            {// update
+                                double val = Convert.ToDouble(row[1]);
+                                modify_m_table(mrid, Convert.ToInt32(s.hdb_site_datatype_id), t, tEnd, val, interval, true);
+                            }
+
                         }
                     }
+
+                    
                     tbl.AcceptChanges();
                 }
             }
@@ -397,8 +429,12 @@ namespace HdbPoet
                     gd.BeginingTime(), gd.EndingTime(), gd.GraphRow.TimeZone, isModeledData, mrid);
 
                 if (!isModeledData)
-                { 
-                    s.ReadOnly = ReadOnly((int)s.hdb_site_datatype_id); 
+                {
+                    s.ReadOnly = ReadOnly((int)s.hdb_site_datatype_id);
+                }
+                else
+                {
+                    s.ReadOnly = false;
                 }
                 
                 tbl.TableName = "table" + idx;

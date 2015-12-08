@@ -85,7 +85,7 @@ namespace HdbPoet
             }
         }
 
-        public void SaveToHdb()
+        public void SaveToHdb(bool isModeledData, int mrid)
         {
             TimeSeriesCommitChanges f = new TimeSeriesCommitChanges(GetIntervalDataTable(), Hdb.Instance.ValidationList(), m_colorColumnName);
             if (f.ShowDialog() == DialogResult.OK)
@@ -97,14 +97,12 @@ namespace HdbPoet
                 {
                     if (MessageBox.Show(RickClayton, "Overwrite computed value?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        Hdb.Instance.SaveChanges(m_interval,
-                            dataSet, f.OverwriteChecked, f.ValidationFlag);
+                        Hdb.Instance.SaveChanges(m_interval, dataSet, f.OverwriteChecked, f.ValidationFlag, isModeledData, mrid);
                     }
                 }
                 else
                 {
-                    Hdb.Instance.SaveChanges(m_interval,
-                        dataSet, f.OverwriteChecked, f.ValidationFlag);
+                    Hdb.Instance.SaveChanges(m_interval, dataSet, f.OverwriteChecked, f.ValidationFlag, isModeledData, mrid);
                 }
              
             }
