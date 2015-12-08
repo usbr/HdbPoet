@@ -11,7 +11,7 @@ using System.IO;
 
 namespace HdbPoet
 {
-    public partial class GraphControl : UserControl
+    public partial class GraphControl : UserControl, IGraphControl
     {
         GraphData graphDef;
         public GraphControl()
@@ -25,7 +25,7 @@ namespace HdbPoet
         /// <summary>
         ///  clear out all Series
         /// </summary>
-        internal void Cleanup()
+        public void Cleanup()
         {
             chart.Series.Clear();
         }
@@ -34,7 +34,7 @@ namespace HdbPoet
             this.chart.Printer.Preview();
         }
 
-        internal void ChangeSeriesValue(TimeSeriesChangeEventArgs e)
+        public void ChangeSeriesValue(TimeSeriesChangeEventArgs e)
         {
             Series s = chart.Series[e.SeriesIndex];
             if (e.Value.HasValue)
@@ -50,7 +50,7 @@ namespace HdbPoet
 
         
 
-        internal void DrawGraph(GraphData graphDef)
+        public void DrawGraph(GraphData graphDef)
         {
             this.graphDef = graphDef;
             this.toolStripButtonDragPoints.Enabled = !graphDef.ReadOnly;

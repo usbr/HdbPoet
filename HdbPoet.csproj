@@ -46,7 +46,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;HDB_OPEN</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HDB_OPEN1</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -234,12 +234,12 @@
     <Compile Include="ColumnFormat.Designer.cs">
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </Compile>
-    <None Include="LicensedDependency\GraphControl.cs">
+    <Compile Include="LicensedDependency\GraphControl.cs">
       <SubType>UserControl</SubType>
-    </None>
-    <None Include="LicensedDependency\GraphControl.Designer.cs">
+    </Compile>
+    <Compile Include="LicensedDependency\GraphControl.Designer.cs">
       <DependentUpon>GraphControl.cs</DependentUpon>
-    </None>
+    </Compile>
     <Compile Include="Hdb.ProcedureCommon.cs" />
     <Compile Include="GraphControlZedGraph.cs">
       <SubType>UserControl</SubType>
@@ -318,12 +318,12 @@
     <Compile Include="CustomPrintPreviewDialog.designer.cs">
       <DependentUpon>CustomPrintPreviewDialog.cs</DependentUpon>
     </Compile>
-    <None Include="LicensedDependency\FormTeeChartLicense.cs">
+    <Compile Include="LicensedDependency\FormTeeChartLicense.cs">
       <SubType>Form</SubType>
-    </None>
-    <None Include="LicensedDependency\FormTeeChartLicense.Designer.cs">
+    </Compile>
+    <Compile Include="LicensedDependency\FormTeeChartLicense.Designer.cs">
       <DependentUpon>FormTeeChartLicense.cs</DependentUpon>
-    </None>
+    </Compile>
     <Compile Include="Hdb.Model.cs" />
     <Compile Include="HdbNode.cs" />
     <Compile Include="SelectHdbModel.cs">
@@ -385,7 +385,7 @@
     <Compile Include="DateSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <None Include="LicensedDependency\Graphs.cs" />
+    <Compile Include="LicensedDependency\Graphs.cs" />
     <Compile Include="Legend.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -459,9 +459,9 @@
     <EmbeddedResource Include="ColumnFormat.resx">
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="LicensedDependency\GraphControl.resx">
+    <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
-    </None>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraphControlZedGraph.resx">
       <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
     </EmbeddedResource>
@@ -503,9 +503,9 @@
     <EmbeddedResource Include="CustomPrintPreviewDialog.resx">
       <DependentUpon>CustomPrintPreviewDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="LicensedDependency\FormTeeChartLicense.resx">
+    <EmbeddedResource Include="LicensedDependency\FormTeeChartLicense.resx">
       <DependentUpon>FormTeeChartLicense.cs</DependentUpon>
-    </None>
+    </EmbeddedResource>
     <EmbeddedResource Include="SelectHdbModel.resx">
       <DependentUpon>SelectHdbModel.cs</DependentUpon>
     </EmbeddedResource>
