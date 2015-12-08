@@ -610,7 +610,6 @@
     <Content Include="License-LGPL.txt" />
     <Content Include="license.txt" />
     <Content Include="LicensedDependency\Readme.txt" />
-    <Content Include="Readme.txt" />
     <None Include="Images\warning.ico" />
     <None Include="report.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
