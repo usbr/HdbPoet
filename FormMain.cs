@@ -42,6 +42,7 @@ namespace HdbPoet
         private MenuItem menuItemUserAdmin;
         private MenuItem menuItemGettingStarted;
         private MenuItem menuItemMetadata;
+        private MenuItem menuItemLog;
         private System.Windows.Forms.ToolTip toolTip1;
 
 
@@ -95,6 +96,7 @@ namespace HdbPoet
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.menuItemLog = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -187,6 +189,7 @@ namespace HdbPoet
             this.menuItemHelpMain.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemGettingStarted,
             this.menuItemLegend,
+            this.menuItemLog,
             this.menuItem2,
             this.menuItemAbout});
             this.menuItemHelpMain.Text = "&Help";
@@ -205,12 +208,12 @@ namespace HdbPoet
             // 
             // menuItem2
             // 
-            this.menuItem2.Index = 2;
+            this.menuItem2.Index = 3;
             this.menuItem2.Text = "-";
             // 
             // menuItemAbout
             // 
-            this.menuItemAbout.Index = 3;
+            this.menuItemAbout.Index = 4;
             this.menuItemAbout.Text = "&About";
             this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
             // 
@@ -231,6 +234,12 @@ namespace HdbPoet
             this.imageList1.Images.SetKeyName(2, "database_pipes_24bit.bmp");
             this.imageList1.Images.SetKeyName(3, "excelsmall.bmp");
             this.imageList1.Images.SetKeyName(4, "EXCEL_257.ico");
+            // 
+            // menuItemLog
+            // 
+            this.menuItemLog.Index = 2;
+            this.menuItemLog.Text = "&View Log";
+            this.menuItemLog.Click += new System.EventHandler(this.menuItemLog_Click);
             // 
             // FormMain
             // 
@@ -257,6 +266,7 @@ namespace HdbPoet
 
             try
             {
+                Logger.EnableLogger();
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
                 //Application.
@@ -431,6 +441,11 @@ namespace HdbPoet
 
             var f = new FormMetaData();
             f.Show();
+        }
+
+        private void menuItemLog_Click(object sender, EventArgs e)
+        {
+            Logger.ViewLog();
         }
 
 

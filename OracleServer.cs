@@ -165,6 +165,7 @@ namespace HdbPoet
             sb.Password = password;
 
             ConnectionString = sb.ConnectionString;
+            Logger.WriteLine(ConnectionString.Replace(sb.Password,"***"));
         }
 #endif
 
@@ -327,6 +328,7 @@ namespace HdbPoet
 
         public static OracleServer ConnectToOracle(string hostname="")
         {
+            Logger.WriteLine("Connect to '" + hostname+"'");
             DialogResult dr;
             bool loginSucess = false;
             OracleLogin login = new OracleLogin(hostname);

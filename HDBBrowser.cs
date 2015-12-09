@@ -118,7 +118,7 @@ namespace HdbPoet
             #if HDB_OPEN
                 return  new GraphControlZedGraph();
             #else
-                return new GraphControlZedGraph();
+                return new GraphControl();
             #endif
         }
         private void CreateNewDataSet()
