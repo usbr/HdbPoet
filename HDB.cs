@@ -629,7 +629,34 @@ namespace HdbPoet
             //s = s.Replace("%", "[%]");
             //s = s.Replace("_", "_");
             return s;
-        }  
+        }
+
+
+        /// <summary>
+        /// Gets list of model run ids given a search string
+        /// </summary>
+        public DataTable getMrids(string mridSearchString)
+        {
+            DataTable dTabOut = new DataTable();
+            mridSearchString = SafeSqlLikeClauseLiteral(mridSearchString);
+            string sql = "SELECT  REF_MODEL_RUN.MODEL_RUN_ID as mrid, " +
+                                    "REF_MODEL_RUN.MODEL_RUN_NAME as mridName, " +
+                                    "REF_MODEL_RUN.CMMNT as mridComment, " +
+                                    "HDB_MODEL.MODEL_NAME as modelName, " +
+                                    "HDB_MODEL.CMMNT as modelComment, " +
+                                    "REF_MODEL_RUN.START_DATE as startDate, " +
+                                    "REF_MODEL_RUN.END_DATE as endDate, " +
+                                    "REF_MODEL_RUN.USER_NAME as creatorName " +
+                                    "FROM REF_MODEL_RUN " +
+                                    "INNER JOIN HDB_MODEL " +
+                                    "ON HDB_MODEL.MODEL_ID=REF_MODEL_RUN.MODEL_ID " +
+                                    "WHERE LOWER(MODEL_RUN_NAME) LIKE '%" + mridSearchString + "%' " +
+                                    "ORDER BY mrid";
+
+            DataTable rval = m_server.Table("MridList", sql);
+
+            return dTabOut;
+        }
 
 
         #region // sql to get info for a specific site, including period of record.
