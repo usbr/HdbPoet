@@ -133,7 +133,7 @@ namespace HdbPoet
              + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + service + ")));"
              + "User Id=" + username + ";Password=" + password + ";";
 
-           Logger.WriteLine(ConnectionString.Replace(password,"***"));
+           Logger.WriteLine(ConnectionString.Replace(";Password=" + password,";Password=***"));
         }
 
 #else
@@ -167,7 +167,9 @@ namespace HdbPoet
             sb.Password = password;
 
             ConnectionString = sb.ConnectionString;
-            Logger.WriteLine(ConnectionString.Replace(sb.Password,"***"));
+
+            sb.Password = "***";
+            Logger.WriteLine(sb.ConnectionString);
         }
 #endif
 
