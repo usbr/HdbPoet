@@ -41,8 +41,8 @@ Source: "bin\Debug\report.xls"; DestDir: "{app}"; Flags: ignoreversion
 
 Source: "bin\Debug\Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "*.*"; Excludes: "*.zip,*.sln,*.pdf,*.hdb"; DestDir: "{app}\src";
-Source: "Acl\*.*"; Excludes: "*.zip,*.sln"; DestDir: "{app}\src";
+;Source: "*.*"; Excludes: "*.zip,*.sln,*.pdf,*.hdb"; DestDir: "{app}\src";
+;Source: "Acl\*.*"; Excludes: "*.zip,*.sln"; DestDir: "{app}\src";
 
 ;Source: "ThirdParty\dotnetfx35setup.exe"; DestDir: "{app}\tmp"; Check: not HaveDotNet35(); Flags: ignoreversion
 ;Source: "GettingStartedwithHDB-POET.pdf"; DestDir: "{app}"; Flags: ignoreversion
