@@ -46,7 +46,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;HDB_OPEN1</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HDB_OPEN</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -303,6 +303,10 @@
       <DependentUpon>SqlViewEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="IGraphControl.cs" />
+    <Compile Include="Pisces\HdbModelSeries.cs" />
+    <Compile Include="Pisces\HdbModelTreeBuilder.cs" />
+    <Compile Include="Pisces\HdbOracleSeries.cs" />
+    <Compile Include="Pisces\ImportFromHdb.cs" />
     <Compile Include="SelectedSeriesListBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -619,6 +623,10 @@
     <ProjectReference Include="..\Pisces\Core\Reclamation.Core.csproj">
       <Project>{80C73D4C-43CF-42DE-ADDC-7B0F06ECF086}</Project>
       <Name>Reclamation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pisces\TimeSeries\Reclamation.TimeSeries.csproj">
+      <Project>{5dd20a8a-4037-4885-ab91-2f5a3d1f48b4}</Project>
+      <Name>Reclamation.TimeSeries</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
