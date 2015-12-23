@@ -310,7 +310,7 @@ namespace HdbPoet
         /// <returns></returns>
         public DataTable Table(decimal site_datatype_id, string tableName,
             string interval, int instantInterval,
-          DateTime t1, DateTime t2, string timeZone, bool isModeledData, int mrid)
+          DateTime t1, DateTime t2, string timeZone, bool isModeledData=false, int mrid=0)
         {
             DataTable rval;
             bool isModel = tableName.IndexOf("m") == 0;
