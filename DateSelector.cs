@@ -17,14 +17,14 @@ namespace HdbPoet
 
         private System.Windows.Forms.GroupBox groupBox1;
         public System.Windows.Forms.DateTimePicker dateTimePickerTo;
-        private System.Windows.Forms.RadioButton radioButtonXToToday;
+        public System.Windows.Forms.RadioButton radioButtonXToToday;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         public System.Windows.Forms.DateTimePicker dateTimePickerFrom;
-        private System.Windows.Forms.RadioButton radioButtonFromXToY;
+        public System.Windows.Forms.RadioButton radioButtonFromXToY;
         public System.Windows.Forms.NumericUpDown numericUpDownDays;
         public System.Windows.Forms.DateTimePicker dateTimePickerFrom2;
-        private System.Windows.Forms.RadioButton radioButtonPreviousXDays;
+        public System.Windows.Forms.RadioButton radioButtonPreviousXDays;
         private System.Windows.Forms.Label label13;
         /// <summary> 
         /// Required designer variable.

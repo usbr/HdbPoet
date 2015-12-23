@@ -1147,6 +1147,12 @@ namespace HdbPoet
             this.comboBoxModelId.Enabled = true;
             this.comboBoxMrid.Enabled = true;
             this.selectedMRID.Enabled = true;
+            this.dateSelector1.radioButtonPreviousXDays.Enabled = false;
+            this.dateSelector1.radioButtonXToToday.Enabled = false;
+            this.dateSelector1.numericUpDownDays.Enabled = false;
+            this.dateSelector1.dateTimePickerFrom2.Enabled = false;
+            this.dateSelector1.dateTimePickerFrom.Value = DateTime.Now;
+            this.dateSelector1.dateTimePickerTo.Value = DateTime.Now.AddYears(2);
         }
 
         private void radioGetRData_CheckedChanged(object sender, EventArgs e)
@@ -1158,6 +1164,12 @@ namespace HdbPoet
             this.comboBoxModelId.Enabled = false;
             this.comboBoxMrid.Enabled = false;
             this.selectedMRID.Enabled = false;
+            this.dateSelector1.radioButtonPreviousXDays.Enabled = true;
+            this.dateSelector1.radioButtonXToToday.Enabled = true;
+            this.dateSelector1.numericUpDownDays.Enabled = true;
+            this.dateSelector1.dateTimePickerFrom2.Enabled = true;
+            this.dateSelector1.dateTimePickerFrom.Value = DateTime.Now.AddMonths(-1);
+            this.dateSelector1.dateTimePickerTo.Value = DateTime.Now;
         }              
 
         private void comboBoxModelId_SelectedIndexChanged(object sender, EventArgs e)
