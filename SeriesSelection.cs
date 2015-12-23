@@ -223,19 +223,9 @@ namespace HdbPoet
             this.comboBoxModelId.Items.Clear();
             this.comboBoxModelId.DataSource = Hdb.Instance.getModelIds();
             this.comboBoxModelId.ValueMember = "ModelId";
-            this.comboBoxModelId.DisplayMember = "ModelName";
-            
-        }
+            this.comboBoxModelId.DisplayMember = "comboBoxCaption";
 
-        private void SetupModelRunIdList(object sender, EventArgs e)
-        {
-            this.comboBoxMrid.DataSource = null;
-            this.comboBoxMrid.Items.Clear();
-            this.comboBoxMrid.DataSource = Hdb.Instance.getModelRunIds(Convert.ToInt32(this.comboBoxModelId.SelectedValue));
-            this.comboBoxMrid.ValueMember = "Mrid";
-            this.comboBoxMrid.DisplayMember = "ModelName";
-
-            ComboBox senderComboBox = (ComboBox)sender;
+            ComboBox senderComboBox = this.comboBoxModelId;
             int width = senderComboBox.DropDownWidth;
             Graphics g = senderComboBox.CreateGraphics();
             Font font = senderComboBox.Font;
@@ -247,13 +237,42 @@ namespace HdbPoet
             var dTab = Hdb.Instance.getModelIds();
             for (int i = 0; i < dTab.Rows.Count; i++)
             {
-                string s = dTab.Rows[i][1].GetType().GetMembers()[1].ToString();
+                string s = dTab.Rows[i][dTab.Columns.Count - 1].ToString();
                 newWidth = (int)g.MeasureString(s, font).Width
                     + vertScrollBarWidth;
                 if (width < newWidth)
                 { width = newWidth; }
             }
             senderComboBox.DropDownWidth = width;
+        }
+
+        private void SetupModelRunIdList()
+        {
+            this.comboBoxMrid.DataSource = null;
+            this.comboBoxMrid.Items.Clear();
+            this.comboBoxMrid.DataSource = Hdb.Instance.getModelRunIds(Convert.ToInt32(this.comboBoxModelId.SelectedValue));
+            this.comboBoxMrid.ValueMember = "Mrid";
+            this.comboBoxMrid.DisplayMember = "comboBoxCaption";
+
+            ComboBox senderComboBox = this.comboBoxMrid;
+            int width = senderComboBox.DropDownWidth;
+            Graphics g = senderComboBox.CreateGraphics();
+            Font font = senderComboBox.Font;
+            int vertScrollBarWidth =
+                (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
+                ? SystemInformation.VerticalScrollBarWidth : 0;
+
+            int newWidth, maxWidth = 156;
+            var dTab = Hdb.Instance.getModelRunIds(Convert.ToInt32(this.comboBoxModelId.SelectedValue));
+            for (int i = 0; i < dTab.Rows.Count; i++)
+            {
+                string s = dTab.Rows[i][dTab.Columns.Count - 1].ToString();
+                newWidth = (int)g.MeasureString(s, font).Width
+                    + vertScrollBarWidth;
+                if (maxWidth < newWidth)
+                { maxWidth = newWidth; }
+            }
+            senderComboBox.DropDownWidth = maxWidth;
         }
 
         private void SetupIntervalListBox()
@@ -468,8 +487,10 @@ namespace HdbPoet
             this.comboBoxMrid.Enabled = false;
             this.comboBoxMrid.FormattingEnabled = true;
             this.comboBoxMrid.Location = new System.Drawing.Point(824, 172);
+            this.comboBoxMrid.MaxDropDownItems = 10;
             this.comboBoxMrid.Name = "comboBoxMrid";
-            this.comboBoxMrid.Size = new System.Drawing.Size(157, 21);
+            this.comboBoxMrid.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.comboBoxMrid.Size = new System.Drawing.Size(156, 21);
             this.comboBoxMrid.TabIndex = 37;
             this.comboBoxMrid.DropDown += new System.EventHandler(this.comboBoxMrid_OnDropDown);
             this.comboBoxMrid.SelectedIndexChanged += new System.EventHandler(this.comboBoxMrid_SelectedIndexChanged);
@@ -480,10 +501,10 @@ namespace HdbPoet
             this.comboBoxModelId.Enabled = false;
             this.comboBoxModelId.FormattingEnabled = true;
             this.comboBoxModelId.Location = new System.Drawing.Point(823, 126);
+            this.comboBoxModelId.MaxDropDownItems = 10;
             this.comboBoxModelId.Name = "comboBoxModelId";
             this.comboBoxModelId.Size = new System.Drawing.Size(157, 21);
             this.comboBoxModelId.TabIndex = 36;
-            this.comboBoxModelId.DropDown += new System.EventHandler(this.comboBoxModelId_OnDropDown);
             this.comboBoxModelId.SelectedIndexChanged += new System.EventHandler(this.comboBoxModelId_SelectedIndexChanged);
             // 
             // radioGetMRID
@@ -1109,39 +1130,17 @@ namespace HdbPoet
             this.comboBoxModelId.Enabled = false;
             this.comboBoxMrid.Enabled = false;
             this.selectedMRID.Enabled = false;
-        }
-
-        private void comboBoxModelId_OnDropDown(object sender, EventArgs e)
-        {
-            ComboBox senderComboBox = (ComboBox)sender;
-            int width = senderComboBox.DropDownWidth;
-            Graphics g = senderComboBox.CreateGraphics();
-            Font font = senderComboBox.Font;
-            int vertScrollBarWidth =
-                (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
-                ? SystemInformation.VerticalScrollBarWidth : 0;
-
-            int newWidth;
-            var dTab = Hdb.Instance.getModelIds();
-            for (int i = 0; i < dTab.Rows.Count; i++)
-            {
-                string s = dTab.Rows[i][1].GetType().GetMembers()[1].ToString();
-                newWidth = (int)g.MeasureString(s, font).Width
-                    + vertScrollBarWidth;
-                if (width < newWidth)
-                { width = newWidth; }
-            }            
-            senderComboBox.DropDownWidth = width;
-        }
-
-        private void comboBoxMrid_OnDropDown(object sender, EventArgs e)
-        {
-            SetupModelRunIdList(sender, e);            
-        }
+        }              
 
         private void comboBoxModelId_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.comboBoxMrid.DataSource = null;            
+        }
+
+        private void comboBoxMrid_OnDropDown(object sender, EventArgs e)
+        {
+            if (comboBoxMrid.SelectedValue == null)
+            { SetupModelRunIdList(); }
         }
 
         private void comboBoxMrid_SelectedIndexChanged(object sender, EventArgs e)

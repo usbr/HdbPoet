@@ -671,6 +671,13 @@ namespace HdbPoet
                                     "ORDER BY MODEL_ID";
 
             dTabOut = m_server.Table("ModelIdList", sql);
+
+            dTabOut.Columns.Add(new DataColumn("comboBoxCaption", typeof(string)));
+            foreach (DataRow row in dTabOut.Rows)
+            {
+                row["comboBoxCaption"] = row["ModelId"] + ": " + row["ModelName"];
+            }
+
             return dTabOut;
         }
 
@@ -688,10 +695,18 @@ namespace HdbPoet
                                     "DATE_TIME_LOADED as LastUpdateDate, " +
                                     "USER_NAME as LastUser " + 
                                     "FROM REF_MODEL_RUN " +
-                                    "WHERE MODEL_ID =  " + modelId + " " +  
-                                    "ORDER BY MODEL_RUN_ID";
+                                    "WHERE MODEL_ID =  " + modelId + " " +
+                                    "ORDER BY DATE_TIME_LOADED DESC";
 
             dTabOut = m_server.Table("MridList", sql);
+
+            dTabOut.Columns.Add(new DataColumn("comboBoxCaption", typeof(string)));
+            foreach (DataRow row in dTabOut.Rows)
+            {
+                row["comboBoxCaption"] = DateTime.Parse(row["LastUpdateDate"].ToString()).ToString("ddMMMyyyy") + 
+                    ": " + row["ModelName"];  
+            }
+
             return dTabOut;
         }
                
