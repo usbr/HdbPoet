@@ -635,7 +635,7 @@ namespace HdbPoet
         /// <summary>
         /// Gets list of model run ids given a search string
         /// </summary>
-        public DataTable getMrids(string mridSearchString)
+        public DataTable searchModelRunIds(string mridSearchString)
         {
             DataTable dTabOut = new DataTable();
             mridSearchString = SafeSqlLikeClauseLiteral(mridSearchString);
@@ -653,10 +653,48 @@ namespace HdbPoet
                                     "WHERE LOWER(MODEL_RUN_NAME) LIKE '%" + mridSearchString + "%' " +
                                     "ORDER BY mrid";
 
-            DataTable rval = m_server.Table("MridList", sql);
-
+            dTabOut = m_server.Table("MridSearchList", sql);
             return dTabOut;
         }
+
+
+        /// <summary>
+        /// Gets list of model ids for MRID selection
+        /// </summary>
+        public DataTable getModelIds()
+        {
+            DataTable dTabOut = new DataTable();
+            string sql = "SELECT  MODEL_ID as ModelId, " + 
+                                    "MODEL_NAME as ModelName, " +
+                                    "CMMNT as ModelComment " +
+                                    "FROM HDB_MODEL " +
+                                    "ORDER BY MODEL_ID";
+
+            dTabOut = m_server.Table("ModelIdList", sql);
+            return dTabOut;
+        }
+
+
+        /// <summary>
+        /// Gets list of model run ids for MRID selection based on Model_ID
+        /// </summary>
+        public DataTable getModelRunIds(int modelId)
+        {
+            DataTable dTabOut = new DataTable();
+            string sql = "SELECT  MODEL_RUN_ID as Mrid, " + 
+                                    "MODEL_ID as ModelId, " +
+                                    "MODEL_RUN_NAME as ModelName, " + 
+                                    "CMMNT as ModelComment, " +
+                                    "DATE_TIME_LOADED as LastUpdateDate, " +
+                                    "USER_NAME as LastUser " + 
+                                    "FROM REF_MODEL_RUN " +
+                                    "WHERE MODEL_ID =  " + modelId + " " +  
+                                    "ORDER BY MODEL_RUN_ID";
+
+            dTabOut = m_server.Table("MridList", sql);
+            return dTabOut;
+        }
+               
 
 
         #region // sql to get info for a specific site, including period of record.

@@ -90,13 +90,13 @@ namespace HdbPoet
             this.menuItemHelpMain = new System.Windows.Forms.MenuItem();
             this.menuItemGettingStarted = new System.Windows.Forms.MenuItem();
             this.menuItemLegend = new System.Windows.Forms.MenuItem();
+            this.menuItemLog = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.menuItemAbout = new System.Windows.Forms.MenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.menuItemLog = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -206,6 +206,12 @@ namespace HdbPoet
             this.menuItemLegend.Text = "&Legend";
             this.menuItemLegend.Click += new System.EventHandler(this.menuItemLegend_Click);
             // 
+            // menuItemLog
+            // 
+            this.menuItemLog.Index = 2;
+            this.menuItemLog.Text = "&View Log";
+            this.menuItemLog.Click += new System.EventHandler(this.menuItemLog_Click);
+            // 
             // menuItem2
             // 
             this.menuItem2.Index = 3;
@@ -235,16 +241,10 @@ namespace HdbPoet
             this.imageList1.Images.SetKeyName(3, "excelsmall.bmp");
             this.imageList1.Images.SetKeyName(4, "EXCEL_257.ico");
             // 
-            // menuItemLog
-            // 
-            this.menuItemLog.Index = 2;
-            this.menuItemLog.Text = "&View Log";
-            this.menuItemLog.Click += new System.EventHandler(this.menuItemLog_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(855, 609);
+            this.ClientSize = new System.Drawing.Size(1014, 609);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.mainMenu1;
             this.MinimumSize = new System.Drawing.Size(863, 630);
