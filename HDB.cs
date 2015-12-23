@@ -411,7 +411,7 @@ namespace HdbPoet
         /// as specified in the TimeSeriesDataSet
         /// </summary>
         /// <param name="ds"></param>
-        public void Fill(GraphData gd, bool isModeledData, int mrid)
+        public void Fill(GraphData gd)
         {
             
             if (gd.SeriesRows.Count() == 0)
@@ -424,12 +424,12 @@ namespace HdbPoet
             foreach (var s in gd.SeriesRows)
             {
                 s.IsComputed = IsComputed((int)s.hdb_site_datatype_id);
-                var tempMrid = Convert.ToInt32(s.model_run_id);
-                if (tempMrid != 0)
-                {
-                    isModeledData = true;
-                    mrid = Convert.ToInt32(s.model_run_id);
-                }
+                var mrid = Convert.ToInt32(s.model_run_id);
+                bool isModeledData;
+                if (mrid != 0)
+                { isModeledData = true; }
+                else
+                { isModeledData = false; }
 
                 DataTable tbl = Table(s.hdb_site_datatype_id, s.hdb_r_table, s.Interval,gd.GraphRow.InstantInterval, 
                     gd.BeginingTime(), gd.EndingTime(), gd.GraphRow.TimeZone, isModeledData, mrid);

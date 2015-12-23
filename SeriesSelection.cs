@@ -566,6 +566,7 @@ namespace HdbPoet
             this.selectedMRID.Name = "selectedMRID";
             this.selectedMRID.Size = new System.Drawing.Size(65, 20);
             this.selectedMRID.TabIndex = 7;
+            //this.selectedMRID.Text = "0";
             this.selectedMRID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.selectedMRID.TextChanged += new System.EventHandler(this.selectedMRID_TextChanged);
             // 
@@ -791,6 +792,7 @@ namespace HdbPoet
         {
             bool rVal = false;
             int mrid = 0;
+
             bool m_getModeledData = this.radioGetMRID.Checked;
             if (m_getModeledData)
             {
@@ -982,7 +984,10 @@ namespace HdbPoet
                         row.hdb_r_table = (string)r_tableRow["rtable"];
                         row.ReadOnly = true;
                         row.GraphNumber = graphDef.GraphRow.GraphNumber;
-                        row.model_run_id = Convert.ToDecimal(this.selectedMRID.Text);
+                        if (this.selectedMRID.Text == "")
+                        { row.model_run_id = 0; }
+                        else
+                        { row.model_run_id = Convert.ToDecimal(this.selectedMRID.Text); }
                         graphDef.AddSeriesRow(row);
                     }
                 }

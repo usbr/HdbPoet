@@ -86,7 +86,7 @@ namespace HdbPoet
             ds.Graph[0].TimeWindowType = "FromXToY";
             ds.Graph[0].InstantInterval = 15;
             GraphData gd = new GraphData(ds, 0);
-            Hdb.Instance.Fill(gd, false, 0);
+            Hdb.Instance.Fill(gd);
             return ds;
         }
     }

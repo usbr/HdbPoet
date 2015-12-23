@@ -838,16 +838,14 @@ namespace HdbPoet
                 }
 
                 Cursor = Cursors.WaitCursor;
-                
-                var isModeledData = m_seriesSelection.GetModeledDataVars();
-
+                                
                 if (reloadFromOracle) // reload will lose any edits
                 {
                     timeSeriesTableView1.ValidState = false;
                    // ds.RemoveTimeSeriesTables();
 
                     graphData = new GraphData(ds, GraphNumber);
-                    Hdb.Instance.Fill(graphData, isModeledData.Item1, isModeledData.Item2);
+                    Hdb.Instance.Fill(graphData);
                     IntervalList = graphData.IntervalList();
                     this.timeSeriesTableView1.SetDataSource(graphData, SelectedInterval, GetColorColumnName());
                     timeSeriesTableView1.ValidState = true;
