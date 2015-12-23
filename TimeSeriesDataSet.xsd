@@ -33,6 +33,7 @@
               <xs:element name="ReadOnly" msprop:Generator_ColumnVarNameInTable="columnReadOnly" msprop:Generator_ColumnPropNameInRow="ReadOnly" msprop:Generator_ColumnPropNameInTable="ReadOnlyColumn" msprop:Generator_UserColumnName="ReadOnly" type="xs:boolean" minOccurs="0" />
               <xs:element name="IsComputed" msprop:Generator_ColumnVarNameInTable="columnIsComputed" msprop:Generator_ColumnPropNameInRow="IsComputed" msprop:Generator_ColumnPropNameInTable="IsComputedColumn" msprop:Generator_UserColumnName="IsComputed" type="xs:boolean" minOccurs="0" />
               <xs:element name="DisplayFormat" msprop:Generator_ColumnVarNameInTable="columnDisplayFormat" msprop:Generator_ColumnPropNameInRow="DisplayFormat" msprop:Generator_ColumnPropNameInTable="DisplayFormatColumn" msprop:Generator_UserColumnName="DisplayFormat" type="xs:string" default="" />
+              <xs:element name="model_run_id" msprop:Generator_ColumnVarNameInTable="columnmodel_run_id" msprop:Generator_ColumnPropNameInRow="model_run_id" msprop:Generator_ColumnPropNameInTable="model_run_idColumn" msprop:Generator_UserColumnName="model_run_id" type="xs:decimal" default="0" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

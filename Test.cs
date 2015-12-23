@@ -78,7 +78,7 @@ namespace HdbPoet
             TimeSeriesDataSet ds = new TimeSeriesDataSet();
             ds.Series.AddSeriesRow(0,1,"CABALLO", "storage",
                 "HDB", "table0", "", "storage", "acre-feet", "day", false,
-                2678, false, "r_day", "",false,false,"N2");
+                2678, false, "r_day", "",false,false,"N2",0);
             ds.Graph.AddGraphRow(ds.Graph.NewGraphRow());
             ds.Graph[0].GraphType = "TimeSeries";
             ds.Graph[0].BeginningDate = new DateTime(2008, 4, 16);

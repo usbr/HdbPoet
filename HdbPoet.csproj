@@ -623,7 +623,7 @@
       <Project>{80C73D4C-43CF-42DE-ADDC-7B0F06ECF086}</Project>
       <Name>Reclamation.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Pisces\TimeSeries\Reclamation.TimeSeries.csproj">
+    <ProjectReference Include="..\..\Pisces\TimeSeries\Reclamation.TimeSeries.csproj">
       <Project>{5dd20a8a-4037-4885-ab91-2f5a3d1f48b4}</Project>
       <Name>Reclamation.TimeSeries</Name>
     </ProjectReference>

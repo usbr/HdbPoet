@@ -314,7 +314,7 @@ namespace HdbPoet
         {
             DataTable rval;
             bool isModel = tableName.IndexOf("m") == 0;
-            if (isModeledData)
+            if (isModeledData || mrid != 0)
             { return modelData(site_datatype_id, tableName, t1, t2, mrid); }
 
             if (timeZone == "")
@@ -424,6 +424,12 @@ namespace HdbPoet
             foreach (var s in gd.SeriesRows)
             {
                 s.IsComputed = IsComputed((int)s.hdb_site_datatype_id);
+                var tempMrid = Convert.ToInt32(s.model_run_id);
+                if (tempMrid != 0)
+                {
+                    isModeledData = true;
+                    mrid = Convert.ToInt32(s.model_run_id);
+                }
 
                 DataTable tbl = Table(s.hdb_site_datatype_id, s.hdb_r_table, s.Interval,gd.GraphRow.InstantInterval, 
                     gd.BeginingTime(), gd.EndingTime(), gd.GraphRow.TimeZone, isModeledData, mrid);

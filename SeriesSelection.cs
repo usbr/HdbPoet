@@ -982,6 +982,7 @@ namespace HdbPoet
                         row.hdb_r_table = (string)r_tableRow["rtable"];
                         row.ReadOnly = true;
                         row.GraphNumber = graphDef.GraphRow.GraphNumber;
+                        row.model_run_id = Convert.ToDecimal(this.selectedMRID.Text);
                         graphDef.AddSeriesRow(row);
                     }
                 }

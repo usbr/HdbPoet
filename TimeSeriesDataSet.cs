@@ -321,5 +321,6 @@ namespace HdbPoet
 
          return  Graph[index].GraphNumber;
         }
+
     }
 }

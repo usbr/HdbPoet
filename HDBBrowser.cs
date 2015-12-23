@@ -838,7 +838,7 @@ namespace HdbPoet
                 }
 
                 Cursor = Cursors.WaitCursor;
-
+                
                 var isModeledData = m_seriesSelection.GetModeledDataVars();
 
                 if (reloadFromOracle) // reload will lose any edits
