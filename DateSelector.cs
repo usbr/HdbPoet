@@ -238,7 +238,7 @@ namespace HdbPoet
             // radioButtonXToToday
             // 
             this.radioButtonXToToday.CausesValidation = false;
-            this.radioButtonXToToday.Location = new System.Drawing.Point(24, 96);
+            this.radioButtonXToToday.Location = new System.Drawing.Point(21, 99);
             this.radioButtonXToToday.Name = "radioButtonXToToday";
             this.radioButtonXToToday.Size = new System.Drawing.Size(56, 24);
             this.radioButtonXToToday.TabIndex = 26;
@@ -255,7 +255,7 @@ namespace HdbPoet
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(208, 96);
+            this.label11.Location = new System.Drawing.Point(208, 100);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(56, 23);
             this.label11.TabIndex = 28;
@@ -263,6 +263,8 @@ namespace HdbPoet
             // 
             // dateTimePickerFrom
             // 
+            this.dateTimePickerFrom.CalendarTitleBackColor = System.Drawing.SystemColors.ControlText;
+            this.dateTimePickerFrom.CalendarTitleForeColor = System.Drawing.SystemColors.ButtonFace;
             this.dateTimePickerFrom.CustomFormat = "MM/dd/yyyy hh:mm";
             this.dateTimePickerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerFrom.Location = new System.Drawing.Point(88, 64);
@@ -274,7 +276,7 @@ namespace HdbPoet
             // radioButtonFromXToY
             // 
             this.radioButtonFromXToY.CausesValidation = false;
-            this.radioButtonFromXToY.Location = new System.Drawing.Point(24, 64);
+            this.radioButtonFromXToY.Location = new System.Drawing.Point(21, 63);
             this.radioButtonFromXToY.Name = "radioButtonFromXToY";
             this.radioButtonFromXToY.Size = new System.Drawing.Size(56, 24);
             this.radioButtonFromXToY.TabIndex = 20;
@@ -304,7 +306,7 @@ namespace HdbPoet
             // 
             this.dateTimePickerFrom2.CustomFormat = "MM/dd/yyyy hh:mm";
             this.dateTimePickerFrom2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFrom2.Location = new System.Drawing.Point(88, 96);
+            this.dateTimePickerFrom2.Location = new System.Drawing.Point(88, 100);
             this.dateTimePickerFrom2.Name = "dateTimePickerFrom2";
             this.dateTimePickerFrom2.Size = new System.Drawing.Size(112, 20);
             this.dateTimePickerFrom2.TabIndex = 27;
@@ -313,7 +315,7 @@ namespace HdbPoet
             // radioButtonPreviousXDays
             // 
             this.radioButtonPreviousXDays.CausesValidation = false;
-            this.radioButtonPreviousXDays.Location = new System.Drawing.Point(24, 24);
+            this.radioButtonPreviousXDays.Location = new System.Drawing.Point(21, 24);
             this.radioButtonPreviousXDays.Name = "radioButtonPreviousXDays";
             this.radioButtonPreviousXDays.Size = new System.Drawing.Size(72, 24);
             this.radioButtonPreviousXDays.TabIndex = 19;

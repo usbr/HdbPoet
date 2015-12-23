@@ -675,7 +675,7 @@ namespace HdbPoet
             dTabOut.Columns.Add(new DataColumn("comboBoxCaption", typeof(string)));
             foreach (DataRow row in dTabOut.Rows)
             {
-                row["comboBoxCaption"] = row["ModelId"] + ": " + row["ModelName"];
+                row["comboBoxCaption"] = row["ModelId"] + " - " + row["ModelName"];
             }
 
             return dTabOut;
@@ -703,8 +703,8 @@ namespace HdbPoet
             dTabOut.Columns.Add(new DataColumn("comboBoxCaption", typeof(string)));
             foreach (DataRow row in dTabOut.Rows)
             {
-                row["comboBoxCaption"] = DateTime.Parse(row["LastUpdateDate"].ToString()).ToString("ddMMMyyyy") + 
-                    ": " + row["ModelName"];  
+                row["comboBoxCaption"] = row["Mrid"] + " - " + DateTime.Parse(row["LastUpdateDate"].ToString()).ToString("ddMMMyyyy") +
+                                        " - " + row["ModelName"];
             }
 
             return dTabOut;
