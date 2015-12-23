@@ -54,6 +54,8 @@ namespace HdbPoet
         private ComboBox comboBoxMrid;
         private Label label10;
         private Label label9;
+        private Button buttonRemoveAll;
+        private Button buttonAddAll;
         private IContainer components;
 
 
@@ -373,6 +375,8 @@ namespace HdbPoet
             this.buttonRemove = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonAddAll = new System.Windows.Forms.Button();
+            this.buttonRemoveAll = new System.Windows.Forms.Button();
             this.selectedSeriesListBox1 = new HdbPoet.SelectedSeriesListBox();
             this.timeZoneComboBox2 = new HdbPoet.TimeZoneComboBox();
             this.dateSelector1 = new HdbPoet.DateSelector();
@@ -663,7 +667,7 @@ namespace HdbPoet
             // 
             this.buttonAddSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonAddSelected.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddSelected.Location = new System.Drawing.Point(5, 111);
+            this.buttonAddSelected.Location = new System.Drawing.Point(5, 168);
             this.buttonAddSelected.Name = "buttonAddSelected";
             this.buttonAddSelected.Size = new System.Drawing.Size(43, 39);
             this.buttonAddSelected.TabIndex = 13;
@@ -674,7 +678,7 @@ namespace HdbPoet
             // 
             this.buttonRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRemove.Location = new System.Drawing.Point(5, 156);
+            this.buttonRemove.Location = new System.Drawing.Point(5, 213);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(43, 39);
             this.buttonRemove.TabIndex = 14;
@@ -705,6 +709,8 @@ namespace HdbPoet
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonRemoveAll);
+            this.panel1.Controls.Add(this.buttonAddAll);
             this.panel1.Controls.Add(this.buttonAddSelected);
             this.panel1.Controls.Add(this.buttonRemove);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
@@ -712,6 +718,28 @@ namespace HdbPoet
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(55, 328);
             this.panel1.TabIndex = 43;
+            // 
+            // buttonAddAll
+            // 
+            this.buttonAddAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonAddAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAddAll.Location = new System.Drawing.Point(5, 103);
+            this.buttonAddAll.Name = "buttonAddAll";
+            this.buttonAddAll.Size = new System.Drawing.Size(43, 59);
+            this.buttonAddAll.TabIndex = 15;
+            this.buttonAddAll.Text = "All ->";
+            this.buttonAddAll.Click += new System.EventHandler(this.buttonAddAll_Click);
+            // 
+            // buttonRemoveAll
+            // 
+            this.buttonRemoveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonRemoveAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRemoveAll.Location = new System.Drawing.Point(5, 258);
+            this.buttonRemoveAll.Name = "buttonRemoveAll";
+            this.buttonRemoveAll.Size = new System.Drawing.Size(43, 59);
+            this.buttonRemoveAll.TabIndex = 16;
+            this.buttonRemoveAll.Text = "All <-";
+            this.buttonRemoveAll.Click += new System.EventHandler(this.buttonRemoveAll_Click);
             // 
             // selectedSeriesListBox1
             // 
@@ -1148,6 +1176,18 @@ namespace HdbPoet
             this.selectedMRID.Text = null;
             if (comboBoxMrid.SelectedValue != null)
             { this.selectedMRID.Text = this.comboBoxMrid.SelectedValue.ToString(); }
+        }
+
+        private void buttonRemoveAll_Click(object sender, EventArgs e)
+        {
+            this.selectedSeriesListBox1.ClearListBox();
+        }
+
+        private void buttonAddAll_Click(object sender, EventArgs e)
+        {
+            treeView1.ExpandAll();
+            treeView1.SelectAllNodes();
+            AddSelectedSeries();
         }
 
         
