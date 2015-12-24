@@ -56,6 +56,7 @@ namespace HdbPoet
         private Label label9;
         private Button buttonRemoveAll;
         private Button buttonAddAll;
+        private CheckBox checkBoxSelectAll;
         private IContainer components;
 
 
@@ -380,6 +381,7 @@ namespace HdbPoet
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonRemoveAll = new System.Windows.Forms.Button();
             this.buttonAddAll = new System.Windows.Forms.Button();
+            this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -438,6 +440,7 @@ namespace HdbPoet
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBoxSelectAll);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.comboBoxMrid);
@@ -566,7 +569,6 @@ namespace HdbPoet
             this.selectedMRID.Name = "selectedMRID";
             this.selectedMRID.Size = new System.Drawing.Size(65, 20);
             this.selectedMRID.TabIndex = 7;
-            //this.selectedMRID.Text = "0";
             this.selectedMRID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.selectedMRID.TextChanged += new System.EventHandler(this.selectedMRID_TextChanged);
             // 
@@ -767,6 +769,18 @@ namespace HdbPoet
             this.buttonAddAll.TabIndex = 15;
             this.buttonAddAll.Text = "All ->";
             this.buttonAddAll.Click += new System.EventHandler(this.buttonAddAll_Click);
+            // 
+            // checkBoxSelectAll
+            // 
+            this.checkBoxSelectAll.AutoSize = true;
+            this.checkBoxSelectAll.Location = new System.Drawing.Point(177, 55);
+            this.checkBoxSelectAll.Name = "checkBoxSelectAll";
+            this.checkBoxSelectAll.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxSelectAll.Size = new System.Drawing.Size(70, 17);
+            this.checkBoxSelectAll.TabIndex = 40;
+            this.checkBoxSelectAll.Text = "Select All";
+            this.checkBoxSelectAll.UseVisualStyleBackColor = true;
+            this.checkBoxSelectAll.CheckedChanged += new System.EventHandler(this.checkBoxSelectAll_CheckedChanged);
             // 
             // SeriesSelection
             // 
@@ -1225,9 +1239,17 @@ namespace HdbPoet
             AddSelectedSeries();
         }
 
-        private void dateSelector1_Load(object sender, EventArgs e)
+        private void checkBoxSelectAll_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (this.checkBoxSelectAll.Checked)
+            {
+                for (int i = 0; i < listBoxCategory.Items.Count; i++)
+                { listBoxCategory.SelectedIndices.Add(i); }
+            }
+            else
+            {
+                listBoxCategory.SelectedIndices.Clear();
+            }
         }
 
         
