@@ -85,7 +85,9 @@ namespace HdbPoet
 
         private void PointChangedRaised(DateTime dragDateTime, int dragSeriesIndex)
         {
-            
+
+            if (PointChanged != null)
+                Console.WriteLine();
         }
 
 

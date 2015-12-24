@@ -25,7 +25,7 @@ namespace Reclamation.TimeSeries.OracleHdb
             hdb_host_name = ConnectionStringUtility.GetToken(ConnectionString, "hdb_host_name", "");
 
             ScenarioName = BuildScenairoName(model_run_name, model_run_id, run_date);
-            Appearance.LegendText = SiteName + " " + Name;
+            Appearance.LegendText = SiteID + " " + Name;
         }
 
 
