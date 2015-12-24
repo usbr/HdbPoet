@@ -1126,6 +1126,9 @@ namespace HdbPoet
                     default:
                         break;
                 }
+                TimeSpan ts = new TimeSpan(t2.Ticks - t1.Ticks); 
+                this.dateSelector1.numericUpDownDays.Value = ts.Days;
+                this.dateSelector1.dateTimePickerFrom2.Value = t1;
             }
             else
             {
@@ -1148,11 +1151,7 @@ namespace HdbPoet
                 }
             }
             this.dateSelector1.dateTimePickerFrom.Value = t1;
-            this.dateSelector1.dateTimePickerFrom2.Value = t1;
             this.dateSelector1.dateTimePickerTo.Value = t2;
-            TimeSpan ts = new TimeSpan(t2.Ticks-t1.Ticks);
-            this.dateSelector1.numericUpDownDays.Value = ts.Days;
-
         }
 
        

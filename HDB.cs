@@ -257,7 +257,16 @@ namespace HdbPoet
         }
 
 
-        private DataTable modelData(decimal site_datatype_id, string tableName, DateTime t1, DateTime t2, int mrid)
+        /// <summary>
+        /// Queries modeled data from HDB
+        /// </summary>
+        /// <param name="site_datatype_id"></param>
+        /// <param name="tableName"></param>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
+        /// <param name="mrid"></param>
+        /// <returns></returns>
+        private DataTable modelData(decimal site_datatype_id, string tableName, string interval, DateTime t1, DateTime t2, int mrid)
         {
             string sql = "Select start_date_time as date_time,value " +
                "from " + tableName + " where model_run_id = " + mrid
@@ -267,6 +276,52 @@ namespace HdbPoet
                + " order by start_date_time asc";
 
             DataTable rval = m_server.Table(tableName, sql);
+
+            // Fill missing values in between the specified date range.
+            DateTime ithT = t1.Date;
+            switch (interval)
+            {
+                case "hour": ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, ithT.Hour, 0, 0);
+                    break;
+                case "day": ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, 0, 0, 0);
+                    break;
+                case "month": ithT = new DateTime(ithT.Year, ithT.Month, 1, 0, 0, 0);
+                    break;
+                case "year": ithT = new DateTime(ithT.Year, 1, 1, ithT.Hour, 0, 0);
+                    break;
+                case "wy": ithT = new DateTime(ithT.Year, 10, 1, ithT.Hour, 0, 0);
+                    break;
+                default:
+                    break;
+            }
+            
+            while (ithT < t2)
+            {
+                if (!rval.AsEnumerable().Any(row => ithT == row.Field<DateTime>("DATE_TIME")) && ithT > t1)
+                {
+                    DataRow newRow = rval.NewRow();
+                    newRow["DATE_TIME"] = ithT;
+                    newRow["VALUE"] = DBNull.Value;
+                    rval.Rows.Add(newRow);
+                }
+
+                //day,hour,month,year,wy,instant
+                switch (interval)
+                {
+                    case "hour": ithT = ithT.AddHours(1);
+                        break;
+                    case "day": ithT = ithT.AddDays(1);
+                        break;
+                    case "month": ithT = ithT.AddMonths(1);
+                        break;
+                    case "year": ithT = ithT.AddYears(1);
+                        break;
+                    case "wy": ithT = ithT.AddYears(1);
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             if (rval == null)
             {
@@ -315,7 +370,7 @@ namespace HdbPoet
             DataTable rval;
             bool isModel = tableName.IndexOf("m") == 0;
             if (isModeledData || mrid != 0)
-            { return modelData(site_datatype_id, tableName, t1, t2, mrid); }
+            { return modelData(site_datatype_id, tableName, interval, t1, t2, mrid); }
 
             if (timeZone == "")
                 timeZone = "MST";
