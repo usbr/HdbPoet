@@ -1044,6 +1044,8 @@ namespace HdbPoet
         private void listBoxInterval_SelectedIndexChanged(object sender, EventArgs e)
         {
             string[] intervalDescriptions = new string[listBoxInterval.SelectedItems.Count];
+            bool isModeledData = this.radioGetMRID.Checked;
+
             listBoxInterval.SelectedItems.CopyTo(intervalDescriptions, 0);
 
             if (Array.IndexOf(intervalDescriptions, "hour") >= 0
@@ -1058,10 +1060,8 @@ namespace HdbPoet
 
             if( intervalDescriptions.Length == 1)
             {
-
                 string interval = intervalDescriptions[0];
-                SetDefaultDates(interval);
-
+                SetDefaultDates(interval, isModeledData);
             }
 
             if (Array.IndexOf(intervalDescriptions, "instant") >= 0)
@@ -1076,7 +1076,7 @@ namespace HdbPoet
 
         }
 
-        private void SetDefaultDates(string interval)
+        private void SetDefaultDates(string interval, bool isModeledData)
         {
 
             //instant  (most recent 7 days)
@@ -1089,30 +1089,45 @@ namespace HdbPoet
             // Set default range of dates.
             DateTime t1 = DateTime.Now;
             DateTime t2 = DateTime.Now;
-            switch (interval)
+            if (!isModeledData)
             {
-                case "instant":
-                    t1 = t1.AddDays(-7);
-                    break;
-                case "hour":
-                    t1 = t1.AddDays(-7);
-                    break;
-                case "day":
-                    t1 = t1.AddMonths(-1);
-                    break;
-                case "month":
-                    t1 = t1.AddMonths(-12);
-                    break;
-
-                case "year":
-                    t1 = t1.AddYears(-5);
-                    break;
-                case "wy":
-                    t1 = t1.AddYears(-5);
-                    break;
-
-                default:
-                    break;
+                switch (interval)
+                {
+                    case "instant": t1 = t1.AddDays(-7);
+                        break;
+                    case "hour": t1 = t1.AddDays(-7);
+                        break;
+                    case "day": t1 = t1.AddMonths(-1);
+                        break;
+                    case "month": t1 = t1.AddMonths(-12);
+                        break;
+                    case "year": t1 = t1.AddYears(-5);
+                        break;
+                    case "wy": t1 = t1.AddYears(-5);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (interval)
+                {
+                    case "instant": t2 = t1.AddDays(7);
+                        break;
+                    case "hour": t2 = t1.AddDays(7);
+                        break;
+                    case "day": t2 = t1.AddMonths(1);
+                        break;
+                    case "month": t2 = t1.AddYears(2);
+                        break;
+                    case "year": t2 = t1.AddYears(5);
+                        break;
+                    case "wy": t2 = t1.AddYears(5);
+                        break;
+                    default:
+                        break;
+                }
             }
             this.dateSelector1.dateTimePickerFrom.Value = t1;
             this.dateSelector1.dateTimePickerFrom2.Value = t1;
@@ -1160,8 +1175,7 @@ namespace HdbPoet
             this.dateSelector1.radioButtonXToToday.Enabled = false;
             this.dateSelector1.numericUpDownDays.Enabled = false;
             this.dateSelector1.dateTimePickerFrom2.Enabled = false;
-            this.dateSelector1.dateTimePickerFrom.Value = DateTime.Now;
-            this.dateSelector1.dateTimePickerTo.Value = DateTime.Now.AddYears(2);
+            SetDefaultDates(this.listBoxInterval.SelectedItem.ToString(), this.radioGetMRID.Checked);
         }
 
         private void radioGetRData_CheckedChanged(object sender, EventArgs e)
@@ -1177,8 +1191,8 @@ namespace HdbPoet
             this.dateSelector1.radioButtonXToToday.Enabled = true;
             this.dateSelector1.numericUpDownDays.Enabled = true;
             this.dateSelector1.dateTimePickerFrom2.Enabled = true;
-            this.dateSelector1.dateTimePickerFrom.Value = DateTime.Now.AddMonths(-1);
-            this.dateSelector1.dateTimePickerTo.Value = DateTime.Now;
+            this.selectedMRID.Clear();
+            SetDefaultDates(this.listBoxInterval.SelectedItem.ToString(), this.radioGetMRID.Checked);
         }              
 
         private void comboBoxModelId_SelectedIndexChanged(object sender, EventArgs e)
