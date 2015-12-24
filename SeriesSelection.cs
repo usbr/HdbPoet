@@ -46,7 +46,6 @@ namespace HdbPoet
         private Panel panel1;
         private TextBox selectedMRID;
         private Label label8;
-        private Label label7;
         private RadioButton radioGetMRID;
         private RadioButton radioGetRData;
         private TimeZoneComboBox timeZoneComboBox2;
@@ -57,6 +56,7 @@ namespace HdbPoet
         private Button buttonRemoveAll;
         private Button buttonAddAll;
         private CheckBox checkBoxSelectAll;
+        private GroupBox groupBoxDataType;
         private IContainer components;
 
 
@@ -356,11 +356,9 @@ namespace HdbPoet
             this.label9 = new System.Windows.Forms.Label();
             this.comboBoxMrid = new System.Windows.Forms.ComboBox();
             this.comboBoxModelId = new System.Windows.Forms.ComboBox();
-            this.timeZoneComboBox2 = new HdbPoet.TimeZoneComboBox();
             this.radioGetMRID = new System.Windows.Forms.RadioButton();
             this.radioGetRData = new System.Windows.Forms.RadioButton();
             this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.selectedMRID = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBoxBasin = new System.Windows.Forms.ComboBox();
@@ -368,7 +366,6 @@ namespace HdbPoet
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxInstantIncrement = new System.Windows.Forms.ComboBox();
             this.checkBoxShowBase = new System.Windows.Forms.CheckBox();
-            this.dateSelector1 = new HdbPoet.DateSelector();
             this.listBoxInterval = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -377,17 +374,21 @@ namespace HdbPoet
             this.buttonAddSelected = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.selectedSeriesListBox1 = new HdbPoet.SelectedSeriesListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonRemoveAll = new System.Windows.Forms.Button();
             this.buttonAddAll = new System.Windows.Forms.Button();
             this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
+            this.groupBoxDataType = new System.Windows.Forms.GroupBox();
+            this.selectedSeriesListBox1 = new HdbPoet.SelectedSeriesListBox();
+            this.timeZoneComboBox2 = new HdbPoet.TimeZoneComboBox();
+            this.dateSelector1 = new HdbPoet.DateSelector();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBoxDataType.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -440,17 +441,9 @@ namespace HdbPoet
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.groupBoxDataType);
             this.groupBox1.Controls.Add(this.checkBoxSelectAll);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.comboBoxMrid);
-            this.groupBox1.Controls.Add(this.comboBoxModelId);
             this.groupBox1.Controls.Add(this.timeZoneComboBox2);
-            this.groupBox1.Controls.Add(this.radioGetMRID);
-            this.groupBox1.Controls.Add(this.radioGetRData);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.selectedMRID);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.comboBoxBasin);
             this.groupBox1.Controls.Add(this.label5);
@@ -474,7 +467,7 @@ namespace HdbPoet
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(823, 152);
+            this.label10.Location = new System.Drawing.Point(5, 146);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(157, 18);
             this.label10.TabIndex = 39;
@@ -482,7 +475,7 @@ namespace HdbPoet
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(823, 106);
+            this.label9.Location = new System.Drawing.Point(5, 100);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(157, 18);
             this.label9.TabIndex = 38;
@@ -493,7 +486,7 @@ namespace HdbPoet
             this.comboBoxMrid.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMrid.Enabled = false;
             this.comboBoxMrid.FormattingEnabled = true;
-            this.comboBoxMrid.Location = new System.Drawing.Point(824, 172);
+            this.comboBoxMrid.Location = new System.Drawing.Point(6, 166);
             this.comboBoxMrid.MaxDropDownItems = 10;
             this.comboBoxMrid.Name = "comboBoxMrid";
             this.comboBoxMrid.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -507,25 +500,17 @@ namespace HdbPoet
             this.comboBoxModelId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxModelId.Enabled = false;
             this.comboBoxModelId.FormattingEnabled = true;
-            this.comboBoxModelId.Location = new System.Drawing.Point(823, 126);
+            this.comboBoxModelId.Location = new System.Drawing.Point(5, 120);
             this.comboBoxModelId.MaxDropDownItems = 10;
             this.comboBoxModelId.Name = "comboBoxModelId";
             this.comboBoxModelId.Size = new System.Drawing.Size(157, 21);
             this.comboBoxModelId.TabIndex = 36;
             this.comboBoxModelId.SelectedIndexChanged += new System.EventHandler(this.comboBoxModelId_SelectedIndexChanged);
             // 
-            // timeZoneComboBox2
-            // 
-            this.timeZoneComboBox2.Location = new System.Drawing.Point(558, 199);
-            this.timeZoneComboBox2.Name = "timeZoneComboBox2";
-            this.timeZoneComboBox2.Size = new System.Drawing.Size(251, 21);
-            this.timeZoneComboBox2.TabIndex = 35;
-            this.timeZoneComboBox2.TimeZone = "";
-            // 
             // radioGetMRID
             // 
             this.radioGetMRID.AutoSize = true;
-            this.radioGetMRID.Location = new System.Drawing.Point(824, 49);
+            this.radioGetMRID.Location = new System.Drawing.Point(6, 43);
             this.radioGetMRID.Name = "radioGetMRID";
             this.radioGetMRID.Size = new System.Drawing.Size(145, 17);
             this.radioGetMRID.TabIndex = 34;
@@ -537,7 +522,7 @@ namespace HdbPoet
             // 
             this.radioGetRData.AutoSize = true;
             this.radioGetRData.Checked = true;
-            this.radioGetRData.Location = new System.Drawing.Point(824, 25);
+            this.radioGetRData.Location = new System.Drawing.Point(6, 19);
             this.radioGetRData.Name = "radioGetRData";
             this.radioGetRData.Size = new System.Drawing.Size(125, 17);
             this.radioGetRData.TabIndex = 33;
@@ -548,24 +533,16 @@ namespace HdbPoet
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(839, 77);
+            this.label8.Location = new System.Drawing.Point(21, 71);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(77, 18);
             this.label8.TabIndex = 32;
             this.label8.Text = "Model Run ID:";
             // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(821, 8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(145, 14);
-            this.label7.TabIndex = 31;
-            this.label7.Text = "Data Type Selection";
-            // 
             // selectedMRID
             // 
             this.selectedMRID.Enabled = false;
-            this.selectedMRID.Location = new System.Drawing.Point(915, 74);
+            this.selectedMRID.Location = new System.Drawing.Point(97, 68);
             this.selectedMRID.Name = "selectedMRID";
             this.selectedMRID.Size = new System.Drawing.Size(65, 20);
             this.selectedMRID.TabIndex = 7;
@@ -626,15 +603,6 @@ namespace HdbPoet
             this.checkBoxShowBase.TabIndex = 8;
             this.checkBoxShowBase.Text = "Show Base Data";
             this.checkBoxShowBase.UseVisualStyleBackColor = true;
-            // 
-            // dateSelector1
-            // 
-            this.dateSelector1.Location = new System.Drawing.Point(419, 8);
-            this.dateSelector1.Name = "dateSelector1";
-            this.dateSelector1.ShowTime = false;
-            this.dateSelector1.Size = new System.Drawing.Size(387, 126);
-            this.dateSelector1.TabIndex = 5;
-            this.dateSelector1.Validating += new System.ComponentModel.CancelEventHandler(this.dateSelector1_Validating);
             // 
             // listBoxInterval
             // 
@@ -727,15 +695,6 @@ namespace HdbPoet
             this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 43;
             // 
-            // selectedSeriesListBox1
-            // 
-            this.selectedSeriesListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.selectedSeriesListBox1.Location = new System.Drawing.Point(55, 0);
-            this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
-            this.selectedSeriesListBox1.Size = new System.Drawing.Size(463, 328);
-            this.selectedSeriesListBox1.TabIndex = 15;
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.buttonRemoveAll);
@@ -782,6 +741,49 @@ namespace HdbPoet
             this.checkBoxSelectAll.UseVisualStyleBackColor = true;
             this.checkBoxSelectAll.CheckedChanged += new System.EventHandler(this.checkBoxSelectAll_CheckedChanged);
             // 
+            // groupBoxDataType
+            // 
+            this.groupBoxDataType.Controls.Add(this.radioGetRData);
+            this.groupBoxDataType.Controls.Add(this.selectedMRID);
+            this.groupBoxDataType.Controls.Add(this.label10);
+            this.groupBoxDataType.Controls.Add(this.label8);
+            this.groupBoxDataType.Controls.Add(this.label9);
+            this.groupBoxDataType.Controls.Add(this.radioGetMRID);
+            this.groupBoxDataType.Controls.Add(this.comboBoxMrid);
+            this.groupBoxDataType.Controls.Add(this.comboBoxModelId);
+            this.groupBoxDataType.Location = new System.Drawing.Point(812, 8);
+            this.groupBoxDataType.Name = "groupBoxDataType";
+            this.groupBoxDataType.Size = new System.Drawing.Size(169, 219);
+            this.groupBoxDataType.TabIndex = 41;
+            this.groupBoxDataType.TabStop = false;
+            this.groupBoxDataType.Text = "Data Type Selection";
+            // 
+            // selectedSeriesListBox1
+            // 
+            this.selectedSeriesListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selectedSeriesListBox1.Location = new System.Drawing.Point(55, 0);
+            this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
+            this.selectedSeriesListBox1.Size = new System.Drawing.Size(463, 328);
+            this.selectedSeriesListBox1.TabIndex = 15;
+            // 
+            // timeZoneComboBox2
+            // 
+            this.timeZoneComboBox2.Location = new System.Drawing.Point(558, 199);
+            this.timeZoneComboBox2.Name = "timeZoneComboBox2";
+            this.timeZoneComboBox2.Size = new System.Drawing.Size(251, 21);
+            this.timeZoneComboBox2.TabIndex = 35;
+            this.timeZoneComboBox2.TimeZone = "";
+            // 
+            // dateSelector1
+            // 
+            this.dateSelector1.Location = new System.Drawing.Point(419, 8);
+            this.dateSelector1.Name = "dateSelector1";
+            this.dateSelector1.ShowTime = false;
+            this.dateSelector1.Size = new System.Drawing.Size(387, 126);
+            this.dateSelector1.TabIndex = 5;
+            this.dateSelector1.Validating += new System.ComponentModel.CancelEventHandler(this.dateSelector1_Validating);
+            // 
             // SeriesSelection
             // 
             this.Controls.Add(this.splitContainer1);
@@ -796,6 +798,8 @@ namespace HdbPoet
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.groupBoxDataType.ResumeLayout(false);
+            this.groupBoxDataType.PerformLayout();
             this.ResumeLayout(false);
 
         }
