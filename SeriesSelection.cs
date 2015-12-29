@@ -177,7 +177,7 @@ namespace HdbPoet
 
         //           node = new HdbNode(text);
 
-        //           row["site_common_name"] = s.SiteName;
+        //           row["site_name"] = s.SiteName;
         //           row["interval"] = s.Interval;
         //           row["unit_common_name"] = s.Units;
         //           row["datatype_common_name"] = s.ParameterType;
@@ -312,7 +312,7 @@ namespace HdbPoet
             int sz = this.siteTableFiltered.Rows.Count;
             for (int i = 0; i < sz; i++) // Each Site
             {
-                node = new HdbNode((string)siteTableFiltered.Rows[i]["SITE_Common_NAME"]);
+                node = new HdbNode((string)siteTableFiltered.Rows[i]["site_name"]);
                 node.Text = node.Text + " ( " + siteTableFiltered.Rows[i]["SITE_ID"].ToString() + ")";
                 node.Tag = this.siteTableFiltered.Rows[i];
                 node.Nodes.Add( new HdbNode("expand_this_site"));
@@ -991,7 +991,7 @@ namespace HdbPoet
                         DataRow r_tableRow = (DataRow)node.Tag;
                         TimeSeriesDataSet.SeriesRow row = graphDef.NewSeriesRow();
 
-                        row.SiteName = (string)r_tableRow["site_common_name"];
+                        row.SiteName = (string)r_tableRow["site_name"];
                         row.SiteName = row.SiteName.Replace(","," ");
                         row.Interval = (string)r_tableRow["interval"];
                         row.Source = "HDB";

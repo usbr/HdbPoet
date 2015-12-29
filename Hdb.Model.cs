@@ -40,7 +40,7 @@ namespace HdbPoet
 
         public DataTable ModelParameterList(DateTime t, int model_id, string m_table)
         {
-     string sql = " select a.site_id, s.site_common_name, a.datatype_id, site_datatype_id, b.datatype_common_name, u.unit_common_name   "
+            string sql = " select a.site_id, s.site_name, a.datatype_id, site_datatype_id, b.datatype_common_name, u.unit_common_name   "
 + " from hdb_site_datatype a , hdb_datatype b, hdb_unit u , hdb_site s "
 + " where "
 + " a.datatype_id = b.datatype_id and b.unit_id = u.unit_id "

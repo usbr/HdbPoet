@@ -274,7 +274,7 @@ namespace HdbPoet
                         {
                             var id = Convert.ToDecimal(row["site_id"]);
                         Hdb.Instance.AclAddSite(id, node.Parent.Text);
-                        node.Nodes.Add(CreateNode(row["site_common_name"].ToString(), AclNodeType.Site));
+                        node.Nodes.Add(CreateNode(row["site_name"].ToString(), AclNodeType.Site));
                         }
                     }
                 }

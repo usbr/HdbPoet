@@ -34,7 +34,7 @@ namespace HdbPoet.MetaData
         private void RefSiteAttributes()
         {
             ViewRefSiteAttributes.SetQueries("ref_site_attr", "select * from ref_site_attr ",
-                "select r.site_id, s.site_common_name, r.attr_id, r.effective_start_date_time, "
+                "select r.site_id, s.site_name, r.attr_id, r.effective_start_date_time, "
  +" r.effective_end_date_time, r.value, r.string_value,  "
 + " r.date_value, r.date_time_loaded "
 + " FROM ref_site_attr r,  hdb_site s "
@@ -57,7 +57,7 @@ namespace HdbPoet.MetaData
 + " ELEVTJUC,ELEVSB,ELEVTEF,FLDCTRL,RELMAX,RELMIN,RELMAXO,RELMAXP, "
 + "SPLMAX,SPLWSLELEV,STRHT, WSEMAX from ref_res",
                 //d.damtype_name, a.agen_name,o.off_name ,
-"select r.SITE_ID, s.site_common_name, r.DAMTYPE_ID, r.AGEN_ID,  r.OFF_ID,  CONSTN_PRD,CLOSE_DATE, "
+"select r.SITE_ID, s.site_name, r.DAMTYPE_ID, r.AGEN_ID,  r.OFF_ID,  CONSTN_PRD,CLOSE_DATE, "
 + " AREARES, CAPACT,CAPDED,CAPINAC,CAPJNT,CAPLIV,CAPSUR,CAPTOT,CHLCAP,CSTLN, "
 + " DAMVOL,ELEVCST,ELEVMINP,ELEVTAC,ELEVTIC,ELEVTDC, "
 + " ELEVTJUC,ELEVSB,ELEVTEF,FLDCTRL,RELMAX,RELMIN,RELMAXO,RELMAXP, "

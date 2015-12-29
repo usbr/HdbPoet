@@ -567,14 +567,14 @@ namespace HdbPoet
         public DataTable SiteList(string siteSearchString, int[] objecttype_id)
         {
             siteSearchString = SafeSqlLikeClauseLiteral(siteSearchString);
-            string sql = "select c.site_id, c.site_common_name, c.objecttype_id,d.objecttype_name,e.state_name from "
+            string sql = "select c.site_id, c.site_name, c.objecttype_id,d.objecttype_name,e.state_name from "
               + " hdb_site c, hdb_objecttype d, hdb_state e "
               + "where c.state_id = e.state_id (+)  and "
               + " d.objecttype_id = c.objecttype_id";
 
             if (siteSearchString.Trim() != "")
             {
-                sql += " and lower(c.site_common_name) like '%" + siteSearchString.ToLower().Trim() + "%'";
+                sql += " and lower(c.site_name) like '%" + siteSearchString.ToLower().Trim() + "%'";
             }
             if (objecttype_id.Length > 0)
             {
@@ -590,7 +590,7 @@ namespace HdbPoet
                 sql += " ) ";
             }
 
-            sql += " order by site_common_name";
+            sql += " order by site_name";
             DataTable rval = m_server.Table("SiteList", sql);
 
             return rval;
@@ -604,7 +604,7 @@ namespace HdbPoet
         {
 
             siteSearchString = SafeSqlLikeClauseLiteral(siteSearchString);
-            string sql_template = "select c.site_id, c.site_common_name, c.objecttype_id from #TABLE_NAME# a, "
+            string sql_template = "select c.site_id, c.site_name, c.objecttype_id from #TABLE_NAME# a, "
                                     + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
                                     + "where a.site_datatype_id = b.site_datatype_id  and "
                                     + "b.site_id = c.site_id and d.objecttype_id = c.objecttype_id";
@@ -621,7 +621,7 @@ namespace HdbPoet
 
             if (siteSearchString.Trim() != "")
             {
-                sql_template += " and lower(c.site_common_name) like '%" + siteSearchString.ToLower().Trim() + "%'";
+                sql_template += " and lower(c.site_name) like '%" + siteSearchString.ToLower().Trim() + "%'";
             }
             if (objecttype_id.Length > 0)
             {
@@ -665,7 +665,7 @@ namespace HdbPoet
                     sql += " UNION \n";
                 }
             }
-            sql += " order by site_common_name";
+            sql += " order by site_name";
             DataTable rval = m_server.Table("SiteList", sql);
 
             return rval;
@@ -857,7 +857,7 @@ group by d.datatype_id, d.datatype_common_name
             string sql_template = "  select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
                                      + " count(a.value),'#TABLE_NAME#' \"rtable\", max(a.site_datatype_id) "
                                      + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
-                                     + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_common_name) \"site_common_name\"  "
+                                     + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\"  "
                                      + " from "
                                      + " #TABLE_NAME# a, hdb_site_datatype b, hdb_site c, hdb_datatype d, hdb_unit e "
                                      + " where "
