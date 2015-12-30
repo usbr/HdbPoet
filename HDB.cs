@@ -277,8 +277,13 @@ namespace HdbPoet
 
             DataTable rval = m_server.Table(tableName, sql);
 
+            var tDataMin = rval.AsEnumerable()
+                    .Select(cols => cols.Field<DateTime>("DATE_TIME"))
+                    .OrderBy(p => p.Ticks)
+                    .FirstOrDefault();
+
             // Fill missing values in between the specified date range.
-            DateTime ithT = t1.Date;
+            DateTime ithT = tDataMin;
             switch (interval)
             {
                 case "hour": ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, ithT.Hour, 0, 0);
@@ -294,7 +299,7 @@ namespace HdbPoet
                 default:
                     break;
             }
-            
+
             while (ithT < t2)
             {
                 if (!rval.AsEnumerable().Any(row => ithT == row.Field<DateTime>("DATE_TIME")) && ithT > t1)
