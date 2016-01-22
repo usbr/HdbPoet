@@ -268,22 +268,17 @@ namespace HdbPoet
         /// <returns></returns>
         private DataTable modelData(decimal site_datatype_id, string tableName, string interval, DateTime t1, DateTime t2, int mrid)
         {
-            string sql = "Select start_date_time as date_time,value " +
-               "from " + tableName + " where model_run_id = " + mrid
-               + " and site_datatype_id = " + site_datatype_id
-               + " and start_date_time >= " + Hdb.ToHdbDate(t1.Date)
-               + " and start_date_time <= " + Hdb.ToHdbDate(t2.Date)
-               + " order by start_date_time asc";
+            string sql = "Select start_date_time as date_time,value " + "from " + tableName + " where model_run_id = " + mrid
+               + " and site_datatype_id = " + site_datatype_id + " and start_date_time >= " + Hdb.ToHdbDate(t1.Date)
+               + " and start_date_time <= " + Hdb.ToHdbDate(t2.Date) + " order by start_date_time asc";
 
             DataTable rval = m_server.Table(tableName, sql);
 
-            var tDataMin = rval.AsEnumerable()
-                    .Select(cols => cols.Field<DateTime>("DATE_TIME"))
-                    .OrderBy(p => p.Ticks)
-                    .FirstOrDefault();
+            var tDataMax = rval.AsEnumerable().Select(cols => cols.Field<DateTime>("DATE_TIME")).OrderBy(p => p.Ticks).LastOrDefault();
+            var tDataMin = rval.AsEnumerable().Select(cols => cols.Field<DateTime>("DATE_TIME")).OrderBy(p => p.Ticks).FirstOrDefault();
 
             // Fill missing values in between the specified date range.
-            DateTime ithT = tDataMin;
+            DateTime ithT = t1;
             switch (interval)
             {
                 case "hour": ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, ithT.Hour, 0, 0);
@@ -300,17 +295,35 @@ namespace HdbPoet
                     break;
             }
 
-            while (ithT < t2)
+            int pastDatetimeCounter = 0;
+
+            while (ithT <= t2)
             {
-                if (!rval.AsEnumerable().Any(row => ithT == row.Field<DateTime>("DATE_TIME")) && ithT > t1)
+                // Fill in missing dates in the data table
+                if (!rval.AsEnumerable().Any(row => ithT == row.Field<DateTime>("DATE_TIME")))
                 {
+                    // Build an empty row
                     DataRow newRow = rval.NewRow();
                     newRow["DATE_TIME"] = ithT;
                     newRow["VALUE"] = DBNull.Value;
-                    rval.Rows.Add(newRow);
+                    // Insert the row at the correct location
+                    if (ithT < tDataMin) // Add to beginning
+                    {
+                        rval.Rows.InsertAt(newRow, pastDatetimeCounter);
+                        pastDatetimeCounter++;
+                    }
+                    else if (ithT > tDataMax) // Add to end
+                    {
+                        rval.Rows.Add(newRow);
+                    }
+                    else // Add missing in between
+                    {
+                        var closest = rval.Select().OrderBy(dr => Math.Abs((ithT - (DateTime)dr["DATE_TIME"]).Ticks)).ElementAt(1);
+                        rval.Rows.InsertAt(newRow, rval.Rows.IndexOf(closest));
+                    }
                 }
 
-                //day,hour,month,year,wy,instant
+                // Increment ithT
                 switch (interval)
                 {
                     case "hour": ithT = ithT.AddHours(1);
@@ -339,7 +352,7 @@ namespace HdbPoet
             DataColumn sourceColorColumn = new DataColumn();
             sourceColorColumn.ColumnName = "SourceColor";
             sourceColorColumn.DataType = typeof(string);
-            sourceColorColumn.DefaultValue = "white";
+            sourceColorColumn.DefaultValue = "lightsalmon";
             rval.Columns.Add(sourceColorColumn);
 
             DataColumn validationColumn = new DataColumn();
