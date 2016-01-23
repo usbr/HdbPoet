@@ -72,10 +72,13 @@ namespace HdbPoet
             SetupInstantInterval();
             SetupBasinList();
             SetupModelIdList();
+            SetupDataTypeSelection(dataSet);
             DataSet = dataSet;
             timeZoneComboBox2.SelectedIndexChanged += new EventHandler<EventArgs>(timeZoneComboBox2_SelectedIndexChanged);
             dateSelector1.ValueChanged += new EventHandler<EventArgs>(dateSelector1_ValueChanged);
             comboBoxInstantIncrement.SelectedIndexChanged += new EventHandler(comboBoxInstantIncrement_SelectedIndexChanged);
+            radioGetRData.CheckedChanged += new System.EventHandler(this.radioGetRData_CheckedChanged);
+            radioGetMRID.CheckedChanged += new System.EventHandler(this.radioGetMRID_CheckedChanged);
             
             treeView1.NodeControls.Clear();
 
@@ -92,6 +95,29 @@ namespace HdbPoet
             model = new TreeModel();
 
             selectedSeriesListBox1.SetDataSource( dataSet);
+        }
+
+        private void SetupDataTypeSelection(GraphData dataSet)
+        {
+            try
+            {
+                var mrid = dataSet.SeriesRows.CopyToDataTable().Rows[0]["model_run_id"].ToString();
+                if (mrid != "0")
+                {
+                    this.radioGetMRID.Checked = true;
+                    this.radioGetRData.Checked = false;
+                    this.selectedMRID.Enabled = true;
+                    this.selectedMRID.Text = mrid;
+                }
+                else
+                {
+                    this.radioGetMRID.Checked = false;
+                    this.radioGetRData.Checked = true;
+                    this.selectedMRID.Enabled = false;
+                }
+            }
+            catch
+            { }
         }
 
         //void tb_DrawText(object sender, DrawEventArgs e)
@@ -494,7 +520,6 @@ namespace HdbPoet
             this.radioGetRData.TabStop = true;
             this.radioGetRData.Text = "Real Data (R Tables)";
             this.radioGetRData.UseVisualStyleBackColor = true;
-            this.radioGetRData.CheckedChanged += new System.EventHandler(this.radioGetRData_CheckedChanged);
             // 
             // selectedMRID
             // 
@@ -539,7 +564,6 @@ namespace HdbPoet
             this.radioGetMRID.TabIndex = 34;
             this.radioGetMRID.Text = "Modeled Data (M Tables)";
             this.radioGetMRID.UseVisualStyleBackColor = true;
-            this.radioGetMRID.CheckedChanged += new System.EventHandler(this.radioGetMRID_CheckedChanged);
             // 
             // comboBoxMrid
             // 
