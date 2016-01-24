@@ -318,7 +318,9 @@ namespace HdbPoet
                     }
                     else // Add missing in between
                     {
-                        var closest = rval.Select().OrderBy(dr => Math.Abs((ithT - (DateTime)dr["DATE_TIME"]).Ticks)).ElementAt(1);
+                        var closest = rval.Select()
+                                        .OrderBy(dr => Math.Abs((ithT - (DateTime)dr["DATE_TIME"]).Ticks))
+                                        .Where(t => (DateTime)t["DATE_TIME"] >= ithT).FirstOrDefault();//.ElementAt(1);
                         rval.Rows.InsertAt(newRow, rval.Rows.IndexOf(closest));
                     }
                 }
