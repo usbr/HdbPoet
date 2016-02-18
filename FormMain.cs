@@ -244,7 +244,7 @@ namespace HdbPoet
             // FormMain
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(1014, 691);
+            this.ClientSize = new System.Drawing.Size(1014, 712);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.mainMenu1;
             this.MinimumSize = new System.Drawing.Size(1030, 750);

@@ -229,6 +229,7 @@ namespace HdbPoet
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageHome = new System.Windows.Forms.TabPage();
             this.tabPageTable = new System.Windows.Forms.TabPage();
+            this.panelGraph = new System.Windows.Forms.Panel();
             this.buttonShowGraph = new System.Windows.Forms.Button();
             this.buttonHideGraph = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -239,7 +240,6 @@ namespace HdbPoet
             this.menuItemDates = new System.Windows.Forms.MenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.panelGraph = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -607,6 +607,14 @@ namespace HdbPoet
             this.tabPageTable.Text = "Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
             // 
+            // panelGraph
+            // 
+            this.panelGraph.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelGraph.Location = new System.Drawing.Point(460, 3);
+            this.panelGraph.Name = "panelGraph";
+            this.panelGraph.Size = new System.Drawing.Size(422, 398);
+            this.panelGraph.TabIndex = 5;
+            // 
             // buttonShowGraph
             // 
             this.buttonShowGraph.Dock = System.Windows.Forms.DockStyle.Right;
@@ -684,14 +692,6 @@ namespace HdbPoet
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "HDB Files |*.hdb|AllFiles|*.*";
-            // 
-            // panelGraph
-            // 
-            this.panelGraph.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelGraph.Location = new System.Drawing.Point(460, 3);
-            this.panelGraph.Name = "panelGraph";
-            this.panelGraph.Size = new System.Drawing.Size(422, 398);
-            this.panelGraph.TabIndex = 5;
             // 
             // HdbBrowser
             // 

@@ -354,7 +354,7 @@ namespace HdbPoet
             DataColumn sourceColorColumn = new DataColumn();
             sourceColorColumn.ColumnName = "SourceColor";
             sourceColorColumn.DataType = typeof(string);
-            sourceColorColumn.DefaultValue = "lightsalmon";
+            sourceColorColumn.DefaultValue = "light blue";
             rval.Columns.Add(sourceColorColumn);
 
             DataColumn validationColumn = new DataColumn();
@@ -368,6 +368,13 @@ namespace HdbPoet
             rval.DefaultView.Sort = rval.Columns[0].ColumnName;
             rval.DefaultView.ApplyDefaultSort = true;
             rval.Columns[0].DefaultValue = DBNull.Value;
+
+            // Assign datatable colors by row
+            for (int i = 0; i < rval.Rows.Count; i++)
+            {
+                if (rval.Rows[i]["VALUE"] == DBNull.Value)
+                { rval.Rows[i]["SourceColor"] = "silver"; }
+            }
 
             return rval;
         }
