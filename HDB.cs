@@ -354,7 +354,7 @@ namespace HdbPoet
             DataColumn sourceColorColumn = new DataColumn();
             sourceColorColumn.ColumnName = "SourceColor";
             sourceColorColumn.DataType = typeof(string);
-            sourceColorColumn.DefaultValue = "light blue";
+            sourceColorColumn.DefaultValue = "skyblue";
             rval.Columns.Add(sourceColorColumn);
 
             DataColumn validationColumn = new DataColumn();
