@@ -428,7 +428,6 @@
     <Compile Include="TimeSeriesConstants.cs" />
     <Compile Include="TimeSeriesDataSet.cs">
       <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="TimeSeriesChangeEventArgs.cs" />
     <Compile Include="TimeSeriesDataSet.Designer.cs">
@@ -564,7 +563,6 @@
       <DependentUpon>Legend.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
