@@ -1579,7 +1579,7 @@ namespace HdbPoet {
                         return ((decimal)(this[this.tableSeries.model_run_idColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        return ((decimal)0);
+                        throw new global::System.Data.StrongTypingException("The value for column \'model_run_id\' in table \'Series\' is DBNull.", e);
                     }
                 }
                 set {
