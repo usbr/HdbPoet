@@ -48,6 +48,7 @@ namespace HdbPoet
 
         public FormMain()
         {
+            this.Font = new Font("Sans Serif", 8.25F);
             InitializeComponent();
         }
 

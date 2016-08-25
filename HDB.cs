@@ -506,7 +506,14 @@ namespace HdbPoet
             foreach (var s in gd.SeriesRows)
             {
                 s.IsComputed = IsComputed((int)s.hdb_site_datatype_id);
-                var mrid = Convert.ToInt32(s.model_run_id);
+                int mrid;
+                try
+                { mrid = Convert.ToInt32(s.model_run_id); }
+                catch
+                {
+                    s.model_run_id = 0;
+                    mrid = 0;
+                }
                 bool isModeledData;
                 if (mrid != 0)
                 { isModeledData = true; }

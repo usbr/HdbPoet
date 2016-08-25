@@ -102,7 +102,7 @@ namespace HdbPoet
             try
             {
                 var mrid = dataSet.SeriesRows.CopyToDataTable().Rows[0]["model_run_id"].ToString();
-                if (mrid != "0")
+                if (mrid != "0" && mrid != "")
                 {
                     this.radioGetMRID.Checked = true;
                     this.radioGetRData.Checked = false;

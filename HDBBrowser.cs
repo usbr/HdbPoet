@@ -850,12 +850,7 @@ namespace HdbPoet
                     this.timeSeriesTableView1.SetDataSource(graphData, SelectedInterval, GetColorColumnName());
                     timeSeriesTableView1.ValidState = true;
                 }
-                // [JR] commented out to test writing capability
-                //this.toolStripButtonSave.Enabled = !graphData.ReadOnly;
-                //this.toolStripButtonUndo.Enabled = !graphData.ReadOnly;
-
-
-
+                
                 this.textBoxSQL.Text = Hdb.Instance.Server.LastSqlCommand;
                 DrawGraphs();
 
