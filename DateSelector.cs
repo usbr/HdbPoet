@@ -238,9 +238,9 @@ namespace HdbPoet
             // radioButtonXToToday
             // 
             this.radioButtonXToToday.CausesValidation = false;
-            this.radioButtonXToToday.Location = new System.Drawing.Point(21, 99);
+            this.radioButtonXToToday.Location = new System.Drawing.Point(8, 99);
             this.radioButtonXToToday.Name = "radioButtonXToToday";
-            this.radioButtonXToToday.Size = new System.Drawing.Size(56, 24);
+            this.radioButtonXToToday.Size = new System.Drawing.Size(74, 24);
             this.radioButtonXToToday.TabIndex = 26;
             this.radioButtonXToToday.Text = "from";
             this.radioButtonXToToday.CheckedChanged += new System.EventHandler(this.SomethingChanged);
@@ -276,9 +276,9 @@ namespace HdbPoet
             // radioButtonFromXToY
             // 
             this.radioButtonFromXToY.CausesValidation = false;
-            this.radioButtonFromXToY.Location = new System.Drawing.Point(21, 63);
+            this.radioButtonFromXToY.Location = new System.Drawing.Point(8, 63);
             this.radioButtonFromXToY.Name = "radioButtonFromXToY";
-            this.radioButtonFromXToY.Size = new System.Drawing.Size(56, 24);
+            this.radioButtonFromXToY.Size = new System.Drawing.Size(74, 24);
             this.radioButtonFromXToY.TabIndex = 20;
             this.radioButtonFromXToY.Text = "from";
             this.radioButtonFromXToY.CheckedChanged += new System.EventHandler(this.SomethingChanged);
@@ -315,9 +315,9 @@ namespace HdbPoet
             // radioButtonPreviousXDays
             // 
             this.radioButtonPreviousXDays.CausesValidation = false;
-            this.radioButtonPreviousXDays.Location = new System.Drawing.Point(21, 24);
+            this.radioButtonPreviousXDays.Location = new System.Drawing.Point(8, 24);
             this.radioButtonPreviousXDays.Name = "radioButtonPreviousXDays";
-            this.radioButtonPreviousXDays.Size = new System.Drawing.Size(72, 24);
+            this.radioButtonPreviousXDays.Size = new System.Drawing.Size(74, 24);
             this.radioButtonPreviousXDays.TabIndex = 19;
             this.radioButtonPreviousXDays.Text = "previous ";
             this.radioButtonPreviousXDays.CheckedChanged += new System.EventHandler(this.SomethingChanged);

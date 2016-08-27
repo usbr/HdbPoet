@@ -244,11 +244,12 @@ namespace HdbPoet
             // 
             // FormMain
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1014, 712);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.mainMenu1;
-            this.MinimumSize = new System.Drawing.Size(1030, 750);
+            this.MinimumSize = new System.Drawing.Size(1030, 726);
             this.Name = "FormMain";
             this.Text = "HDB-POET";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
