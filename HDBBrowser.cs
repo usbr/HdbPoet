@@ -62,6 +62,7 @@ namespace HdbPoet
         private TabControl tabControl1;
         private TabPage tabPageHome;
         private TabPage tabPageTable;
+        private TabPage tabPageSql;
         Form graphForm1;
         private Splitter splitter1;
         private Button buttonHideGraph;
@@ -108,6 +109,8 @@ namespace HdbPoet
             graphControlPopup.DatesClick += new EventHandler<EventArgs>(graphForm1_DatesClick);
             graphControlRight.DatesClick += new EventHandler<EventArgs>(graphForm1_DatesClick);
             toolStripComboBoxInterval.SelectedIndexChanged += new EventHandler(toolStripComboBoxInterval_SelectedIndexChanged);
+
+            tabControl1.SelectedIndexChanged += new EventHandler(setSqlBuilderTab);
 
             ValidationButtonEnabling();
             Logger.OnLogEvent += new StatusEventHandler(Logger_OnLogEvent);
@@ -234,6 +237,7 @@ namespace HdbPoet
             this.buttonHideGraph = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.timeSeriesTableView1 = new HdbPoet.TimeSeriesTableView();
+            this.tabPageSql = new System.Windows.Forms.TabPage();
             this.textBoxSQL = new System.Windows.Forms.TextBox();
             this.contextMenuChart = new System.Windows.Forms.ContextMenu();
             this.menuItemRefresh = new System.Windows.Forms.MenuItem();
@@ -574,6 +578,7 @@ namespace HdbPoet
             // 
             this.tabControl1.Controls.Add(this.tabPageHome);
             this.tabControl1.Controls.Add(this.tabPageTable);
+            this.tabControl1.Controls.Add(this.tabPageSql);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 32);
             this.tabControl1.Name = "tabControl1";
@@ -654,6 +659,15 @@ namespace HdbPoet
             this.timeSeriesTableView1.Size = new System.Drawing.Size(450, 421);
             this.timeSeriesTableView1.TabIndex = 0;
             this.timeSeriesTableView1.ValidState = false;
+            // 
+            // tabPageSql
+            // 
+            this.tabPageSql.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSql.Name = "tabPageSql";
+            this.tabPageSql.Size = new System.Drawing.Size(911, 427);
+            this.tabPageSql.TabIndex = 2;
+            this.tabPageSql.Text = "SQL Builder";
+            this.tabPageSql.UseVisualStyleBackColor = true;
             // 
             // textBoxSQL
             // 
@@ -1318,6 +1332,14 @@ namespace HdbPoet
 
             LoadMultiGraphComboBox();
 
+        }
+
+        public void setSqlBuilderTab(object sender, EventArgs e)
+        {
+            var sqlBuilderControl = new SqlBuilder(oracle);
+            TabPage myTabPage = this.tabPageSql;
+            myTabPage.Controls.Add(sqlBuilderControl);
+            sqlBuilderControl.Dock = DockStyle.Fill;
         }
 
     }

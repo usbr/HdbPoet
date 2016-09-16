@@ -358,6 +358,9 @@
       <DependentUpon>SelectHdbModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.cs" />
+    <Compile Include="SqlBuilder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="TimeZoneComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -533,6 +536,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SelectHdbModel.resx">
       <DependentUpon>SelectHdbModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SqlBuilder.resx">
+      <DependentUpon>SqlBuilder.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TimeZoneComboBox.resx">
       <DependentUpon>TimeZoneComboBox.cs</DependentUpon>
