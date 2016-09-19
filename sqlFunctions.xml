@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SqlFunctions>
+  <xs:schema id="SqlFunctions" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="SqlFunctions" msdata:IsDataSet="true" msdata:MainDataTable="function" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="function">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="id" msdata:AutoIncrement="true" type="xs:int" minOccurs="0" />
+                <xs:element name="name" type="xs:string" minOccurs="0" />
+                <xs:element name="sql" type="xs:string" minOccurs="0" />
+                <xs:element name="desc" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <function>
+    <id>0</id>
+    <name></name>
+    <sql></sql>
+    <desc>You may select a pre-configured SQL statement from the list or type your own</desc>
+  </function>
+  <function>
+    <id>1</id>
+    <name>Lookup SDI by Site and Datatype</name>
+    <sql>SELECT hdb_site.site_id, hdb_site.site_name, hdb_objecttype.objecttype_name, hdb_site_datatype.site_datatype_id, hdb_datatype.datatype_name, hdb_unit.unit_common_name, hdb_site.db_site_code
+FROM hdb_site 
+INNER JOIN hdb_site_datatype ON hdb_site.site_id=hdb_site_datatype.site_id 
+INNER JOIN hdb_datatype ON hdb_site_datatype.datatype_id=hdb_datatype.datatype_id 
+INNER JOIN hdb_unit ON hdb_datatype.unit_id=hdb_unit.unit_id 
+INNER JOIN hdb_objecttype ON hdb_site.objecttype_id=hdb_objecttype.objecttype_id 
+WHERE lower(hdb_site.site_name) LIKE 
+'%$X%' 
+AND lower(hdb_datatype.datatype_name) LIKE 
+'%$Y%'</sql>
+    <desc>Search for full or partial Site Name and Datatype keywords. Example: To look for Lake Mead elevations, search for $X=mead and $Y=ele.</desc>
+  </function>
+  <function>
+    <id>2</id>
+    <name>Get SDIs given Site ID</name>
+    <sql>SELECT hdb_site.site_id, hdb_site.site_name, hdb_datatype.datatype_name, hdb_unit.unit_common_name , hdb_site_datatype.site_datatype_id
+FROM hdb_site
+INNER JOIN hdb_site_datatype
+ON hdb_site.site_id=hdb_site_datatype.site_id
+INNER JOIN hdb_datatype
+ON hdb_site_datatype.datatype_id=hdb_datatype.datatype_id
+INNER JOIN hdb_unit 
+ON hdb_datatype.unit_id=hdb_unit.unit_id 
+WHERE hdb_site.site_id = 
+$X
+ORDER BY site_datatype_id</sql>
+    <desc>Shows the available SDIs and their matching HDB Datatype and Units of measurement given a Site ID. Ex: To GET SDIs for Lake Powell, use $X=919</desc>
+  </function>
+  <function>
+    <id>3</id>
+    <name>Get period-of-record given SDI</name>
+    <sql>SELECT * FROM
+(
+SELECT 'M_MONTH' as source, COUNT(m_month.site_datatype_id) as count, min(m_month.start_date_time) as minDate, max(m_month.start_date_time) as maxDate FROM m_month where site_datatype_id=
+$X
+UNION
+SELECT 'R_DAY' as source, COUNT(r_day.site_datatype_id) as count, min(r_day.start_date_time) as minDate, max(r_day.start_date_time) as maxDate FROM r_day where site_datatype_id=
+$X
+UNION
+SELECT 'R_HOUR' as source, COUNT(r_hour.site_datatype_id) as count, min(r_hour.start_date_time) as minDate, max(r_hour.start_date_time) as maxDate FROM r_hour where site_datatype_id=
+$X
+UNION
+SELECT 'R_MONTH' as source, COUNT(r_month.site_datatype_id) as count, min(r_month.start_date_time) as minDate, max(r_month.start_date_time) as maxDate FROM r_month where site_datatype_id=
+$X
+)</sql>
+    <desc>. Ex: Returns the time period for existing data and counts the number of datapoints within this period in the R Hour, Day, and Month tables along with the M Month table. To count datapoints for Lake Mead elevations, use $X=1930.</desc>
+  </function>
+  <function>
+	<id>4</id>
+	<name>Get archive history given SDI and Date</name>
+	<sql>SELECT interval, start_date_time, end_date_time, date_time_archived, value 
+FROM r_base_archive 
+WHERE site_datatype_id=
+$X 
+AND start_date_time=
+'$Y' 
+ORDER BY date_time_archived ASC</sql>
+	<desc>Get data from archive tables to show previous values for and SDI for a given date. Example: To look for the history of values for Lake Mead elevation on Jan-01, 2016, use $X=1930 and $Y=01-JAN-2016</desc>
+</function>
+</SqlFunctions>

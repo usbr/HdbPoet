@@ -1,10 +1,12 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 using System.IO;
+using System.Linq;
+using System.Xml.Linq;
+using System.Xml;
 using System.Text;
 using System.Linq;
 using Reclamation.Core;
@@ -17,15 +19,22 @@ namespace HdbPoet
     public class SqlBuilder : System.Windows.Forms.UserControl
     {
         OracleServer oracle = null;
-        string[] sqlCommands;
         private System.Windows.Forms.DataGrid dataGrid1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonSql;
-        private System.Windows.Forms.TextBox textBoxSql;
         private Button buttonExcelExport;
         private ListBox listBoxSqlFxns;
         private Label labelSqlFxns;
         private Label labelSqlDesc;
+
+        private static string filePath = "sqlFunctions.xml";
+        private static DataTable functionTable;
+        private int sqlID;
+        private string sqlName, sqlStmt, sqlDesc;
+        private Button buttonSaveSql;
+        private Button buttonDelSql;
+        private GroupBox groupBoxDesc;
+        private RichTextBox richTextBoxSql;
 
         /// <summary> 
         /// Required designer variable.
@@ -40,7 +49,36 @@ namespace HdbPoet
         {
             this.oracle = oracle;
             InitializeComponent();
+            populateFunctionList();
             this.Text = "SQL Builder";
+        }
+
+        /// <summary>
+        /// Populate SQL function list using XML file
+        /// </summary>
+        private void populateFunctionList()
+        {
+            // Get XML file with list of SQL functions
+            functionTable = new DataTable();
+            functionTable.ReadXml(filePath);
+
+            // Build custom C# List with SQL functions
+            List<SqlFunctions> sqlList = new List<SqlFunctions>();
+            foreach (DataRow row in functionTable.Rows)
+            {
+                sqlList.Add(new SqlFunctions()
+                {
+                    id = Convert.ToInt32(row["id"].ToString()),
+                    name = row["name"].ToString(),
+                    sql = row["sql"].ToString(),
+                    desc = row["desc"].ToString()
+                });
+            }
+
+            // Populate UI listbox with SQL functions
+            listBoxSqlFxns.DisplayMember = "name";
+            listBoxSqlFxns.DataSource = sqlList;
+            listBoxSqlFxns.Refresh();
         }
 
         /// <summary> 
@@ -57,6 +95,89 @@ namespace HdbPoet
             }
             base.Dispose(disposing);
         }
+        
+        /// <summary>
+        /// Populate the SQL UI textbox and description
+        /// </summary>
+        public void listBoxSqlFxns_SelectedIndexChanged(object sender, EventArgs args)
+        {
+            sqlID = (listBoxSqlFxns.SelectedItem as SqlFunctions).id;
+            sqlName = (listBoxSqlFxns.SelectedItem as SqlFunctions).name;
+            sqlDesc = (listBoxSqlFxns.SelectedItem as SqlFunctions).desc;
+            sqlStmt = (listBoxSqlFxns.SelectedItem as SqlFunctions).sql;
+
+            this.labelSqlDesc.Text = sqlDesc;
+            this.richTextBoxSql.Text = sqlStmt;
+            ChangeTextcolor("$", Color.Plum, this.richTextBoxSql, 0);
+        }
+
+        /// <summary>
+        /// Add SQL function to list and XML file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSaveSql_Click(object sender, EventArgs e)
+        {
+            sqlStmt = this.richTextBoxSql.Text;
+            sqlName = "";
+            sqlDesc = "";
+
+            if (sqlStmt.Length == 0 ||
+                    sqlStmt.ToLower().IndexOf("update") >= 0 || sqlStmt.ToLower().IndexOf("insert") >= 0 ||
+                    sqlStmt.ToLower().IndexOf("drop") >= 0 || sqlStmt.ToLower().IndexOf("create") >= 0 ||
+                    sqlStmt.ToLower().IndexOf("alter") >= 0 || sqlStmt.ToLower().IndexOf("truncate") >= 0 ||
+                    sqlStmt.ToLower().IndexOf("rename") >= 0 || sqlStmt.ToLower().IndexOf("delete") >= 0 ||
+                    sqlStmt.ToLower().IndexOf("merge") >= 0 || sqlStmt.ToLower().IndexOf("grant") >= 0 ||
+                    sqlStmt.ToLower().IndexOf("revoke") >= 0 || sqlStmt.ToLower().IndexOf("analyze") >= 0 ||
+                    sqlStmt.ToLower().IndexOf("audit") >= 0 || sqlStmt.ToLower().IndexOf("comment") >= 0 ||
+                    sqlStmt.ToLower().IndexOf("commit") >= 0 || sqlStmt.ToLower().IndexOf("rollback") >= 0 ||
+                    sqlStmt.ToLower().IndexOf("savepoint") >= 0 || sqlStmt.ToLower().IndexOf("set") >= 0)
+            {
+                MessageBox.Show("Check your SQL statement. It is either blank or uses non-SELECT statements.");
+            }
+            else
+            {
+                if (InputBox("SQL Function Name", "Type in a name for your SQL function:", ref sqlName) == DialogResult.OK)
+                {
+                    if (InputBox("SQL Function Description", "Type in a description for your SQL function:", ref sqlDesc) == DialogResult.OK)
+                    {
+                        XDocument doc = XDocument.Load(filePath);
+                        XElement functions = doc.Element("SqlFunctions");
+                        int maxId = Convert.ToInt32(functionTable.Compute("max(id)", string.Empty));
+                        functions.Add(new XElement("function",
+                                   new XElement("id", maxId + 1),
+                                   new XElement("name", sqlName),
+                                   new XElement("sql", sqlStmt),
+                                   new XElement("desc", sqlDesc)
+                                   ));
+                        doc.Save(filePath);
+                        populateFunctionList();
+                        listBoxSqlFxns.SelectedIndex = listBoxSqlFxns.Items.Count - 1;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Delete SQL function from list and XML file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonDelSql_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete this SQL function?", "Confirm Deletion", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                XDocument doc = XDocument.Load(filePath);
+                string id = sqlID.ToString();
+                var function = (from xml2 in doc.Descendants("function")
+                                where xml2.Element("id").Value == id
+                                select xml2).FirstOrDefault();
+                function.Remove();
+                doc.Save(filePath);
+                populateFunctionList();
+                listBoxSqlFxns.SelectedIndex = 0;
+            }
+        }
 
         /// <summary>
         /// Execute SQL Statement
@@ -65,14 +186,14 @@ namespace HdbPoet
         /// <param name="e"></param>
         private void buttonSql_Click(object sender, System.EventArgs e)
         {
-            if (this.textBoxSql.Text.Length > 0)
+            if (this.richTextBoxSql.Text.Length > 0)
             {
                 Cursor = Cursors.WaitCursor;
                 try
                 {
                     //oracle.SetDateFormat();
                     DataTable tbl;
-                    string sql = this.textBoxSql.Text;
+                    string sql = this.richTextBoxSql.Text;
                     if (sql.ToLower().IndexOf("update") >= 0 || sql.ToLower().IndexOf("insert") >= 0 ||
                         sql.ToLower().IndexOf("drop") >= 0 || sql.ToLower().IndexOf("create") >= 0 ||
                         sql.ToLower().IndexOf("alter") >= 0 || sql.ToLower().IndexOf("truncate") >= 0 ||
@@ -97,7 +218,7 @@ namespace HdbPoet
                     }
                     else
                     {
-                        tbl = oracle.Table("queryreturn", this.textBoxSql.Text);
+                        tbl = oracle.Table("queryreturn", this.richTextBoxSql.Text);
                     }
                     this.dataGrid1.DataSource = tbl;
                 }
@@ -142,6 +263,84 @@ namespace HdbPoet
             { }
         }
 
+        /// <summary>
+        /// Build custom input box for SQL function name and description
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="promptText"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static DialogResult InputBox(string title, string promptText, ref string value)
+        {
+            Form form = new Form();
+            Label label = new Label();
+            TextBox textBox = new TextBox();
+            Button buttonOk = new Button();
+            Button buttonCancel = new Button();
+
+            form.Text = title;
+            label.Text = promptText;
+            textBox.Text = value;
+
+            buttonOk.Text = "OK";
+            buttonCancel.Text = "Cancel";
+            buttonOk.DialogResult = DialogResult.OK;
+            buttonCancel.DialogResult = DialogResult.Cancel;
+
+            label.SetBounds(5, 15, 400, 20);
+            textBox.SetBounds(10, 35, 380, 75);
+            textBox.Multiline = true;
+            buttonOk.SetBounds(235, 120, 75, 23);
+            buttonCancel.SetBounds(315, 120, 75, 23);
+
+            label.AutoSize = true;
+            textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
+            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+
+            form.ClientSize = new Size(400, 150);
+            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
+            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            form.StartPosition = FormStartPosition.CenterScreen;
+            form.MinimizeBox = false;
+            form.MaximizeBox = false;
+            form.AcceptButton = buttonOk;
+            form.CancelButton = buttonCancel;
+
+            DialogResult dialogResult = form.ShowDialog();
+            value = textBox.Text;
+            return dialogResult;
+        }
+
+        /// <summary>
+        /// This method highlights the assigned text with the specified color.
+        /// </summary>
+        /// <param name="textToMark">The text to be marked.</param>
+        /// <param name="color">The new Backgroundcolor.</param>
+        /// <param name="richTextBox">The RichTextBox.</param>
+        /// <param name="startIndex">The zero-based starting caracter position.</param>
+        public static void ChangeTextcolor(string textToMark, Color color, RichTextBox richTextBox, int startIndex)
+        {
+            if (startIndex < 0 || startIndex > textToMark.Length - 1) startIndex = 0;
+
+            System.Drawing.Font newFont = new Font("Consolas", 10f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 178, false);
+            try
+            {
+                foreach (string line in richTextBox.Lines)
+                {
+                    if (line.Contains(textToMark))
+                    {
+                        richTextBox.Select(startIndex, line.Length);
+                        richTextBox.SelectionBackColor = color;
+                    }
+                    startIndex += line.Length + 1;
+                }
+            }
+            catch
+            { }
+        }
+
         #region Component Designer generated code
         /// <summary> 
         /// Required method for Designer support - do not modify 
@@ -152,14 +351,18 @@ namespace HdbPoet
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SqlBuilder));
             this.dataGrid1 = new System.Windows.Forms.DataGrid();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxSql = new System.Windows.Forms.TextBox();
+            this.buttonSaveSql = new System.Windows.Forms.Button();
             this.buttonSql = new System.Windows.Forms.Button();
             this.buttonExcelExport = new System.Windows.Forms.Button();
             this.listBoxSqlFxns = new System.Windows.Forms.ListBox();
             this.labelSqlFxns = new System.Windows.Forms.Label();
             this.labelSqlDesc = new System.Windows.Forms.Label();
+            this.buttonDelSql = new System.Windows.Forms.Button();
+            this.groupBoxDesc = new System.Windows.Forms.GroupBox();
+            this.richTextBoxSql = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
             this.panel1.SuspendLayout();
+            this.groupBoxDesc.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGrid1
@@ -174,7 +377,8 @@ namespace HdbPoet
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.textBoxSql);
+            this.panel1.Controls.Add(this.richTextBoxSql);
+            this.panel1.Controls.Add(this.buttonSaveSql);
             this.panel1.Controls.Add(this.buttonSql);
             this.panel1.Controls.Add(this.buttonExcelExport);
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -182,16 +386,15 @@ namespace HdbPoet
             this.panel1.Size = new System.Drawing.Size(714, 325);
             this.panel1.TabIndex = 0;
             // 
-            // textBoxSql
+            // buttonSaveSql
             // 
-            this.textBoxSql.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxSql.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSql.Location = new System.Drawing.Point(3, 3);
-            this.textBoxSql.Multiline = true;
-            this.textBoxSql.Name = "textBoxSql";
-            this.textBoxSql.Size = new System.Drawing.Size(708, 154);
-            this.textBoxSql.TabIndex = 10;
+            this.buttonSaveSql.Location = new System.Drawing.Point(3, 163);
+            this.buttonSaveSql.Name = "buttonSaveSql";
+            this.buttonSaveSql.Size = new System.Drawing.Size(172, 23);
+            this.buttonSaveSql.TabIndex = 6;
+            this.buttonSaveSql.Text = "Save Custom SQL Function";
+            this.buttonSaveSql.UseVisualStyleBackColor = true;
+            this.buttonSaveSql.Click += new System.EventHandler(this.buttonSaveSql_Click);
             // 
             // buttonSql
             // 
@@ -223,8 +426,9 @@ namespace HdbPoet
             this.listBoxSqlFxns.FormattingEnabled = true;
             this.listBoxSqlFxns.Location = new System.Drawing.Point(720, 25);
             this.listBoxSqlFxns.Name = "listBoxSqlFxns";
-            this.listBoxSqlFxns.Size = new System.Drawing.Size(244, 433);
+            this.listBoxSqlFxns.Size = new System.Drawing.Size(244, 394);
             this.listBoxSqlFxns.TabIndex = 3;
+            this.listBoxSqlFxns.SelectedIndexChanged += new System.EventHandler(this.listBoxSqlFxns_SelectedIndexChanged);
             // 
             // labelSqlFxns
             // 
@@ -238,15 +442,47 @@ namespace HdbPoet
             // labelSqlDesc
             // 
             this.labelSqlDesc.AutoSize = true;
-            this.labelSqlDesc.Location = new System.Drawing.Point(720, 464);
+            this.labelSqlDesc.Location = new System.Drawing.Point(6, 16);
+            this.labelSqlDesc.MaximumSize = new System.Drawing.Size(230, 150);
+            this.labelSqlDesc.MinimumSize = new System.Drawing.Size(230, 150);
             this.labelSqlDesc.Name = "labelSqlDesc";
-            this.labelSqlDesc.Size = new System.Drawing.Size(146, 13);
+            this.labelSqlDesc.Size = new System.Drawing.Size(230, 150);
             this.labelSqlDesc.TabIndex = 5;
-            this.labelSqlDesc.Text = "Selected Function Desciption";
+            this.labelSqlDesc.Text = "N/A";
+            // 
+            // buttonDelSql
+            // 
+            this.buttonDelSql.Location = new System.Drawing.Point(835, 1);
+            this.buttonDelSql.Name = "buttonDelSql";
+            this.buttonDelSql.Size = new System.Drawing.Size(129, 23);
+            this.buttonDelSql.TabIndex = 7;
+            this.buttonDelSql.Text = "Delete SQL Function";
+            this.buttonDelSql.UseVisualStyleBackColor = true;
+            this.buttonDelSql.Click += new System.EventHandler(this.buttonDelSql_Click);
+            // 
+            // groupBoxDesc
+            // 
+            this.groupBoxDesc.Controls.Add(this.labelSqlDesc);
+            this.groupBoxDesc.Location = new System.Drawing.Point(720, 425);
+            this.groupBoxDesc.Name = "groupBoxDesc";
+            this.groupBoxDesc.Size = new System.Drawing.Size(243, 171);
+            this.groupBoxDesc.TabIndex = 8;
+            this.groupBoxDesc.TabStop = false;
+            this.groupBoxDesc.Text = "Selected Function Description";
+            // 
+            // richTextBoxSql
+            // 
+            this.richTextBoxSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxSql.Location = new System.Drawing.Point(3, 4);
+            this.richTextBoxSql.Name = "richTextBoxSql";
+            this.richTextBoxSql.Size = new System.Drawing.Size(708, 153);
+            this.richTextBoxSql.TabIndex = 11;
+            this.richTextBoxSql.Text = "";
             // 
             // SqlBuilder
             // 
-            this.Controls.Add(this.labelSqlDesc);
+            this.Controls.Add(this.groupBoxDesc);
+            this.Controls.Add(this.buttonDelSql);
             this.Controls.Add(this.labelSqlFxns);
             this.Controls.Add(this.listBoxSqlFxns);
             this.Controls.Add(this.dataGrid1);
@@ -255,7 +491,8 @@ namespace HdbPoet
             this.Size = new System.Drawing.Size(967, 600);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.groupBoxDesc.ResumeLayout(false);
+            this.groupBoxDesc.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,5 +504,17 @@ namespace HdbPoet
 
 
 
+    }
+
+
+    /// <summary>
+    /// Custom class for SQL Functions
+    /// </summary>
+    public class SqlFunctions
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string sql { get; set; }
+        public string desc { get; set; }
     }
 }

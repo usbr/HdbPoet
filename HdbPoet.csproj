@@ -207,6 +207,7 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="TeeChart, Version=4.0.2009.21355, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ThirdParty\TeeChart.dll</HintPath>
@@ -641,6 +642,9 @@
     <Content Include="License-LGPL.txt" />
     <Content Include="license.txt" />
     <Content Include="LicensedDependency\Readme.txt" />
+    <Content Include="sqlFunctions.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Images\warning.ico" />
     <None Include="report.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
