@@ -37,7 +37,7 @@ WHERE lower(hdb_site.site_name) LIKE
 '%$X%' 
 AND lower(hdb_datatype.datatype_name) LIKE 
 '%$Y%'</sql>
-    <desc>Search for full or partial Site Name and Datatype keywords. Example: To look for Lake Mead elevations, search for $X=mead and $Y=ele.</desc>
+    <desc>Search available datasets via full or partial Site Name and Datatype keywords. Example: To look for Lake Mead elevations, search for $X=mead and $Y=ele.</desc>
   </function>
   <function>
     <id>2</id>
@@ -72,7 +72,7 @@ UNION
 SELECT 'R_MONTH' as source, COUNT(r_month.site_datatype_id) as count, min(r_month.start_date_time) as minDate, max(r_month.start_date_time) as maxDate FROM r_month where site_datatype_id=
 $X
 )</sql>
-    <desc>. Ex: Returns the time period for existing data and counts the number of datapoints within this period in the R Hour, Day, and Month tables along with the M Month table. To count datapoints for Lake Mead elevations, use $X=1930.</desc>
+    <desc>Returns the time period for existing data and counts the number of datapoints within this period in the R Hour, Day, and Month tables along with the M Month table. To count datapoints for Lake Mead elevations, use $X=1930.</desc>
   </function>
   <function>
 	<id>4</id>
@@ -84,7 +84,7 @@ $X
 AND start_date_time=
 '$Y' 
 ORDER BY date_time_archived ASC</sql>
-	<desc>Get data from archive tables to show previous values for and SDI for a given date. Example: To look for the history of values for Lake Mead elevation on Jan-01, 2016, use $X=1930 and $Y=01-JAN-2016</desc>
+	<desc>Get data from archive tables to show previous values for an SDI for a given date. Example: To look for the history of values for Lake Mead elevation on Jan-01, 2016, use $X=1930 and $Y=01-JAN-2016</desc>
 </function>
   <function>
     <id>5</id>
@@ -113,6 +113,6 @@ $X
  AND 
 '$T2'
  ORDER BY obs.start_date_time ASC</sql>
-    <desc>This function queries data based on what the it looked like on a certain date in the past via the r_base_archive table. $X=SDI, $Y=data interval (hour, day, month), $T1 and $T2 for your query dates, and $Tx for the date you want the timemachine to go back to</desc>
+    <desc>This function queries data based on what it looked like during a certain date in the past. $X=SDI, $Y=data interval (hour, day, month), $T1 and $T2 for your query dates, and $Tx for the date you want the timemachine to go back to</desc>
   </function>
 </SqlFunctions>
