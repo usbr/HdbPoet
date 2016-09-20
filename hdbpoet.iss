@@ -38,7 +38,7 @@ Source: "bin\Debug\DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\report.xls"; DestDir: "{app}"; Flags: ignoreversion
-
+Source: "bin\Debug\sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Debug\Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "*.*"; Excludes: "*.zip,*.sln,*.pdf,*.hdb"; DestDir: "{app}\src";
