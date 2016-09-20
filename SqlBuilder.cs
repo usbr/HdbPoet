@@ -35,6 +35,7 @@ namespace HdbPoet
         private Button buttonDelSql;
         private GroupBox groupBoxDesc;
         private RichTextBox richTextBoxSql;
+        private GroupBox groupBoxOutput;
 
         /// <summary> 
         /// Required designer variable.
@@ -351,6 +352,7 @@ namespace HdbPoet
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SqlBuilder));
             this.dataGrid1 = new System.Windows.Forms.DataGrid();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.richTextBoxSql = new System.Windows.Forms.RichTextBox();
             this.buttonSaveSql = new System.Windows.Forms.Button();
             this.buttonSql = new System.Windows.Forms.Button();
             this.buttonExcelExport = new System.Windows.Forms.Button();
@@ -359,17 +361,21 @@ namespace HdbPoet
             this.labelSqlDesc = new System.Windows.Forms.Label();
             this.buttonDelSql = new System.Windows.Forms.Button();
             this.groupBoxDesc = new System.Windows.Forms.GroupBox();
-            this.richTextBoxSql = new System.Windows.Forms.RichTextBox();
+            this.groupBoxOutput = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBoxDesc.SuspendLayout();
+            this.groupBoxOutput.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGrid1
             // 
+            this.dataGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid1.DataMember = "";
             this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.dataGrid1.Location = new System.Drawing.Point(0, 192);
+            this.dataGrid1.Location = new System.Drawing.Point(3, 7);
             this.dataGrid1.Name = "dataGrid1";
             this.dataGrid1.ReadOnly = true;
             this.dataGrid1.Size = new System.Drawing.Size(711, 405);
@@ -377,14 +383,27 @@ namespace HdbPoet
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.richTextBoxSql);
             this.panel1.Controls.Add(this.buttonSaveSql);
             this.panel1.Controls.Add(this.buttonSql);
             this.panel1.Controls.Add(this.buttonExcelExport);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(714, 325);
+            this.panel1.Size = new System.Drawing.Size(714, 186);
             this.panel1.TabIndex = 0;
+            // 
+            // richTextBoxSql
+            // 
+            this.richTextBoxSql.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxSql.Location = new System.Drawing.Point(3, 4);
+            this.richTextBoxSql.Name = "richTextBoxSql";
+            this.richTextBoxSql.Size = new System.Drawing.Size(708, 153);
+            this.richTextBoxSql.TabIndex = 11;
+            this.richTextBoxSql.Text = "";
             // 
             // buttonSaveSql
             // 
@@ -398,6 +417,7 @@ namespace HdbPoet
             // 
             // buttonSql
             // 
+            this.buttonSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSql.Image = global::HdbPoet.Properties.Resources.warning;
             this.buttonSql.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonSql.Location = new System.Drawing.Point(468, 163);
@@ -410,6 +430,7 @@ namespace HdbPoet
             // 
             // buttonExcelExport
             // 
+            this.buttonExcelExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonExcelExport.Image = ((System.Drawing.Image)(resources.GetObject("buttonExcelExport.Image")));
             this.buttonExcelExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonExcelExport.Location = new System.Drawing.Point(594, 163);
@@ -423,6 +444,7 @@ namespace HdbPoet
             // 
             // listBoxSqlFxns
             // 
+            this.listBoxSqlFxns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxSqlFxns.FormattingEnabled = true;
             this.listBoxSqlFxns.Location = new System.Drawing.Point(720, 25);
             this.listBoxSqlFxns.Name = "listBoxSqlFxns";
@@ -432,6 +454,7 @@ namespace HdbPoet
             // 
             // labelSqlFxns
             // 
+            this.labelSqlFxns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSqlFxns.AutoSize = true;
             this.labelSqlFxns.Location = new System.Drawing.Point(720, 6);
             this.labelSqlFxns.Name = "labelSqlFxns";
@@ -452,6 +475,7 @@ namespace HdbPoet
             // 
             // buttonDelSql
             // 
+            this.buttonDelSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonDelSql.Location = new System.Drawing.Point(835, 1);
             this.buttonDelSql.Name = "buttonDelSql";
             this.buttonDelSql.Size = new System.Drawing.Size(129, 23);
@@ -462,6 +486,8 @@ namespace HdbPoet
             // 
             // groupBoxDesc
             // 
+            this.groupBoxDesc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxDesc.Controls.Add(this.labelSqlDesc);
             this.groupBoxDesc.Location = new System.Drawing.Point(720, 425);
             this.groupBoxDesc.Name = "groupBoxDesc";
@@ -470,14 +496,17 @@ namespace HdbPoet
             this.groupBoxDesc.TabStop = false;
             this.groupBoxDesc.Text = "Selected Function Description";
             // 
-            // richTextBoxSql
+            // groupBoxOutput
             // 
-            this.richTextBoxSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBoxSql.Location = new System.Drawing.Point(3, 4);
-            this.richTextBoxSql.Name = "richTextBoxSql";
-            this.richTextBoxSql.Size = new System.Drawing.Size(708, 153);
-            this.richTextBoxSql.TabIndex = 11;
-            this.richTextBoxSql.Text = "";
+            this.groupBoxOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxOutput.Controls.Add(this.dataGrid1);
+            this.groupBoxOutput.Location = new System.Drawing.Point(0, 188);
+            this.groupBoxOutput.Name = "groupBoxOutput";
+            this.groupBoxOutput.Size = new System.Drawing.Size(713, 411);
+            this.groupBoxOutput.TabIndex = 9;
+            this.groupBoxOutput.TabStop = false;
             // 
             // SqlBuilder
             // 
@@ -485,14 +514,15 @@ namespace HdbPoet
             this.Controls.Add(this.buttonDelSql);
             this.Controls.Add(this.labelSqlFxns);
             this.Controls.Add(this.listBoxSqlFxns);
-            this.Controls.Add(this.dataGrid1);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.groupBoxOutput);
             this.Name = "SqlBuilder";
             this.Size = new System.Drawing.Size(967, 600);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.groupBoxDesc.ResumeLayout(false);
             this.groupBoxDesc.PerformLayout();
+            this.groupBoxOutput.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

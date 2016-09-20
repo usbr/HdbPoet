@@ -1338,8 +1338,8 @@ namespace HdbPoet
         {
             var sqlBuilderControl = new SqlBuilder(oracle);
             TabPage myTabPage = this.tabPageSql;
-            myTabPage.Controls.Add(sqlBuilderControl);
             sqlBuilderControl.Dock = DockStyle.Fill;
+            myTabPage.Controls.Add(sqlBuilderControl);
         }
 
     }
