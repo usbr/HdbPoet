@@ -110,6 +110,8 @@ namespace HdbPoet
             this.labelSqlDesc.Text = sqlDesc;
             this.richTextBoxSql.Text = sqlStmt;
             ChangeTextcolor("$", Color.Plum, this.richTextBoxSql, 0);
+            this.richTextBoxSql.SelectionStart = 0;
+            this.richTextBoxSql.ScrollToCaret();
         }
 
         /// <summary>
@@ -248,12 +250,12 @@ namespace HdbPoet
             StringBuilder sb = new StringBuilder();
             try
             {
-                string[] columnNames = dTab.Columns.Cast<DataColumn>().Select(column => column.ColumnName).ToArray();
+                string[] columnNames = dTab.Columns.Cast<DataColumn>().Select(column => column.ColumnName.Replace(",", " ")).ToArray();
                 sb.AppendLine(string.Join(",", columnNames));
 
                 foreach (DataRow row in dTab.Rows)
                 {
-                    string[] fields = row.ItemArray.Select(field => field.ToString()).ToArray();
+                    string[] fields = row.ItemArray.Select(field => field.ToString().Replace(",", " ")).ToArray();
                     sb.AppendLine(string.Join(",", fields));
                 }
                 string filename = Path.ChangeExtension(Path.GetTempFileName(), ".csv");
