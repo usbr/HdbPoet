@@ -377,10 +377,10 @@ namespace HdbPoet
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid1.DataMember = "";
             this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.dataGrid1.Location = new System.Drawing.Point(3, 7);
+            this.dataGrid1.Location = new System.Drawing.Point(4, 10);
             this.dataGrid1.Name = "dataGrid1";
             this.dataGrid1.ReadOnly = true;
-            this.dataGrid1.Size = new System.Drawing.Size(711, 405);
+            this.dataGrid1.Size = new System.Drawing.Size(705, 399);
             this.dataGrid1.TabIndex = 1;
             // 
             // panel1
