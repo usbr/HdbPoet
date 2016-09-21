@@ -19,10 +19,6 @@ namespace HdbPoet
     public class SqlBuilder : System.Windows.Forms.UserControl
     {
         OracleServer oracle = null;
-        private System.Windows.Forms.DataGrid dataGrid1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button buttonSql;
-        private Button buttonExcelExport;
         private ListBox listBoxSqlFxns;
         private Label labelSqlFxns;
         private Label labelSqlDesc;
@@ -31,11 +27,14 @@ namespace HdbPoet
         private static DataTable functionTable;
         private int sqlID;
         private string sqlName, sqlStmt, sqlDesc;
-        private Button buttonSaveSql;
         private Button buttonDelSql;
         private GroupBox groupBoxDesc;
+        private SplitContainer splitContainer1;
         private RichTextBox richTextBoxSql;
-        private GroupBox groupBoxOutput;
+        private Button buttonExcelExport;
+        private Button buttonSaveSql;
+        private Button buttonSql;
+        private DataGrid dataGrid1;
 
         /// <summary> 
         /// Required designer variable.
@@ -357,97 +356,24 @@ namespace HdbPoet
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SqlBuilder));
-            this.dataGrid1 = new System.Windows.Forms.DataGrid();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.richTextBoxSql = new System.Windows.Forms.RichTextBox();
-            this.buttonSaveSql = new System.Windows.Forms.Button();
-            this.buttonSql = new System.Windows.Forms.Button();
-            this.buttonExcelExport = new System.Windows.Forms.Button();
             this.listBoxSqlFxns = new System.Windows.Forms.ListBox();
             this.labelSqlFxns = new System.Windows.Forms.Label();
             this.labelSqlDesc = new System.Windows.Forms.Label();
             this.buttonDelSql = new System.Windows.Forms.Button();
             this.groupBoxDesc = new System.Windows.Forms.GroupBox();
-            this.groupBoxOutput = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.dataGrid1 = new System.Windows.Forms.DataGrid();
+            this.buttonSql = new System.Windows.Forms.Button();
+            this.buttonSaveSql = new System.Windows.Forms.Button();
+            this.buttonExcelExport = new System.Windows.Forms.Button();
+            this.richTextBoxSql = new System.Windows.Forms.RichTextBox();
             this.groupBoxDesc.SuspendLayout();
-            this.groupBoxOutput.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // dataGrid1
-            // 
-            this.dataGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGrid1.DataMember = "";
-            this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.dataGrid1.Location = new System.Drawing.Point(4, 10);
-            this.dataGrid1.Name = "dataGrid1";
-            this.dataGrid1.ReadOnly = true;
-            this.dataGrid1.Size = new System.Drawing.Size(705, 399);
-            this.dataGrid1.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.richTextBoxSql);
-            this.panel1.Controls.Add(this.buttonSaveSql);
-            this.panel1.Controls.Add(this.buttonSql);
-            this.panel1.Controls.Add(this.buttonExcelExport);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(714, 186);
-            this.panel1.TabIndex = 0;
-            // 
-            // richTextBoxSql
-            // 
-            this.richTextBoxSql.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBoxSql.Location = new System.Drawing.Point(3, 4);
-            this.richTextBoxSql.Name = "richTextBoxSql";
-            this.richTextBoxSql.Size = new System.Drawing.Size(708, 153);
-            this.richTextBoxSql.TabIndex = 11;
-            this.richTextBoxSql.Text = "";
-            // 
-            // buttonSaveSql
-            // 
-            this.buttonSaveSql.Location = new System.Drawing.Point(3, 163);
-            this.buttonSaveSql.Name = "buttonSaveSql";
-            this.buttonSaveSql.Size = new System.Drawing.Size(172, 23);
-            this.buttonSaveSql.TabIndex = 6;
-            this.buttonSaveSql.Text = "Save Custom SQL Function";
-            this.buttonSaveSql.UseVisualStyleBackColor = true;
-            this.buttonSaveSql.Click += new System.EventHandler(this.buttonSaveSql_Click);
-            // 
-            // buttonSql
-            // 
-            this.buttonSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSql.Image = global::HdbPoet.Properties.Resources.warning;
-            this.buttonSql.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonSql.Location = new System.Drawing.Point(468, 163);
-            this.buttonSql.Name = "buttonSql";
-            this.buttonSql.Size = new System.Drawing.Size(120, 23);
-            this.buttonSql.TabIndex = 6;
-            this.buttonSql.Text = "Execute SQL";
-            this.buttonSql.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.buttonSql.Click += new System.EventHandler(this.buttonSql_Click);
-            // 
-            // buttonExcelExport
-            // 
-            this.buttonExcelExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonExcelExport.Image = ((System.Drawing.Image)(resources.GetObject("buttonExcelExport.Image")));
-            this.buttonExcelExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonExcelExport.Location = new System.Drawing.Point(594, 163);
-            this.buttonExcelExport.Name = "buttonExcelExport";
-            this.buttonExcelExport.Size = new System.Drawing.Size(117, 23);
-            this.buttonExcelExport.TabIndex = 2;
-            this.buttonExcelExport.Text = "CSV Export";
-            this.buttonExcelExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.buttonExcelExport.UseVisualStyleBackColor = true;
-            this.buttonExcelExport.Click += new System.EventHandler(this.buttonExcelExport_Click);
             // 
             // listBoxSqlFxns
             // 
@@ -498,38 +424,114 @@ namespace HdbPoet
             this.groupBoxDesc.Controls.Add(this.labelSqlDesc);
             this.groupBoxDesc.Location = new System.Drawing.Point(720, 425);
             this.groupBoxDesc.Name = "groupBoxDesc";
-            this.groupBoxDesc.Size = new System.Drawing.Size(243, 171);
+            this.groupBoxDesc.Size = new System.Drawing.Size(243, 174);
             this.groupBoxDesc.TabIndex = 8;
             this.groupBoxDesc.TabStop = false;
             this.groupBoxDesc.Text = "Selected Function Description";
             // 
-            // groupBoxOutput
+            // splitContainer1
             // 
-            this.groupBoxOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxOutput.Controls.Add(this.dataGrid1);
-            this.groupBoxOutput.Location = new System.Drawing.Point(0, 188);
-            this.groupBoxOutput.Name = "groupBoxOutput";
-            this.groupBoxOutput.Size = new System.Drawing.Size(713, 411);
-            this.groupBoxOutput.TabIndex = 9;
-            this.groupBoxOutput.TabStop = false;
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 6);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.richTextBoxSql);
+            this.splitContainer1.Panel1.Controls.Add(this.buttonExcelExport);
+            this.splitContainer1.Panel1.Controls.Add(this.buttonSaveSql);
+            this.splitContainer1.Panel1.Controls.Add(this.buttonSql);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.dataGrid1);
+            this.splitContainer1.Size = new System.Drawing.Size(711, 591);
+            this.splitContainer1.SplitterDistance = 189;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // dataGrid1
+            // 
+            this.dataGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid1.DataMember = "";
+            this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.dataGrid1.Location = new System.Drawing.Point(3, 3);
+            this.dataGrid1.Name = "dataGrid1";
+            this.dataGrid1.ReadOnly = true;
+            this.dataGrid1.Size = new System.Drawing.Size(703, 390);
+            this.dataGrid1.TabIndex = 1;
+            // 
+            // buttonSql
+            // 
+            this.buttonSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSql.Image = global::HdbPoet.Properties.Resources.warning;
+            this.buttonSql.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonSql.Location = new System.Drawing.Point(463, 159);
+            this.buttonSql.Name = "buttonSql";
+            this.buttonSql.Size = new System.Drawing.Size(120, 23);
+            this.buttonSql.TabIndex = 6;
+            this.buttonSql.Text = "Execute SQL";
+            this.buttonSql.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonSql.Click += new System.EventHandler(this.buttonSql_Click);
+            // 
+            // buttonSaveSql
+            // 
+            this.buttonSaveSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonSaveSql.Location = new System.Drawing.Point(3, 159);
+            this.buttonSaveSql.Name = "buttonSaveSql";
+            this.buttonSaveSql.Size = new System.Drawing.Size(172, 23);
+            this.buttonSaveSql.TabIndex = 6;
+            this.buttonSaveSql.Text = "Save Custom SQL Function";
+            this.buttonSaveSql.UseVisualStyleBackColor = true;
+            this.buttonSaveSql.Click += new System.EventHandler(this.buttonSaveSql_Click);
+            // 
+            // buttonExcelExport
+            // 
+            this.buttonExcelExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonExcelExport.Image = ((System.Drawing.Image)(resources.GetObject("buttonExcelExport.Image")));
+            this.buttonExcelExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonExcelExport.Location = new System.Drawing.Point(589, 159);
+            this.buttonExcelExport.Name = "buttonExcelExport";
+            this.buttonExcelExport.Size = new System.Drawing.Size(117, 23);
+            this.buttonExcelExport.TabIndex = 2;
+            this.buttonExcelExport.Text = "CSV Export";
+            this.buttonExcelExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonExcelExport.UseVisualStyleBackColor = true;
+            this.buttonExcelExport.Click += new System.EventHandler(this.buttonExcelExport_Click);
+            // 
+            // richTextBoxSql
+            // 
+            this.richTextBoxSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxSql.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxSql.Name = "richTextBoxSql";
+            this.richTextBoxSql.Size = new System.Drawing.Size(703, 150);
+            this.richTextBoxSql.TabIndex = 11;
+            this.richTextBoxSql.Text = "";
             // 
             // SqlBuilder
             // 
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.groupBoxDesc);
             this.Controls.Add(this.buttonDelSql);
             this.Controls.Add(this.labelSqlFxns);
             this.Controls.Add(this.listBoxSqlFxns);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.groupBoxOutput);
             this.Name = "SqlBuilder";
             this.Size = new System.Drawing.Size(967, 600);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.groupBoxDesc.ResumeLayout(false);
             this.groupBoxDesc.PerformLayout();
-            this.groupBoxOutput.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
