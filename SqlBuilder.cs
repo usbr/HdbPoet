@@ -219,6 +219,11 @@ namespace HdbPoet
                         tbl.Rows.Add("this");
                         tbl.Rows.Add("interface");
                     }
+                    else if (sql.ToLower().IndexOf("$") >=0)
+                    {
+                        MessageBox.Show("Missing input found. Replace all $-variables with your desired inputs.", "Missing Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        tbl = new DataTable("queryerror");
+                    }
                     else
                     {
                         tbl = oracle.Table("queryreturn", this.richTextBoxSql.Text);
