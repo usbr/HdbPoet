@@ -92,6 +92,8 @@ namespace HdbPoet
             treeView1.NodeControls.Add(tb);
             treeView1.SelectionMode = TreeSelectionMode.Multi;
             treeView1.Expanding += new EventHandler<TreeViewAdvEventArgs>(treeView1_Expanding);
+            treeView1.NodeMouseDoubleClick += new EventHandler<TreeNodeAdvMouseEventArgs>(treeView1_NodeMouseDoubleClick);
+
             model = new TreeModel();
 
             selectedSeriesListBox1.SetDataSource( dataSet);
@@ -707,9 +709,8 @@ namespace HdbPoet
             // 
             // buttonAddSelected
             // 
-            this.buttonAddSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonAddSelected.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddSelected.Location = new System.Drawing.Point(5, 168);
+            this.buttonAddSelected.Location = new System.Drawing.Point(5, 71);
             this.buttonAddSelected.Name = "buttonAddSelected";
             this.buttonAddSelected.Size = new System.Drawing.Size(43, 39);
             this.buttonAddSelected.TabIndex = 13;
@@ -718,9 +719,8 @@ namespace HdbPoet
             // 
             // buttonRemove
             // 
-            this.buttonRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRemove.Location = new System.Drawing.Point(5, 213);
+            this.buttonRemove.Location = new System.Drawing.Point(5, 116);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(43, 39);
             this.buttonRemove.TabIndex = 14;
@@ -763,9 +763,8 @@ namespace HdbPoet
             // 
             // buttonRemoveAll
             // 
-            this.buttonRemoveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonRemoveAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRemoveAll.Location = new System.Drawing.Point(5, 258);
+            this.buttonRemoveAll.Location = new System.Drawing.Point(5, 161);
             this.buttonRemoveAll.Name = "buttonRemoveAll";
             this.buttonRemoveAll.Size = new System.Drawing.Size(43, 59);
             this.buttonRemoveAll.TabIndex = 16;
@@ -774,9 +773,8 @@ namespace HdbPoet
             // 
             // buttonAddAll
             // 
-            this.buttonAddAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonAddAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddAll.Location = new System.Drawing.Point(5, 103);
+            this.buttonAddAll.Location = new System.Drawing.Point(5, 6);
             this.buttonAddAll.Name = "buttonAddAll";
             this.buttonAddAll.Size = new System.Drawing.Size(43, 59);
             this.buttonAddAll.TabIndex = 15;
@@ -831,6 +829,19 @@ namespace HdbPoet
         #endregion
 
         
+        // If a node is double-clicked, open the file indicated by the TreeNode.
+        void treeView1_NodeMouseDoubleClick(object sender, TreeNodeAdvMouseEventArgs e)
+        {
+            if (e.Node.Level == 0)
+            {
+                e.Node.Expand();
+            }
+            else
+            {
+                AddSelectedSeries();
+            }
+        }
+
         public Tuple<bool,int> GetModeledDataVars()
         {
             bool rVal = false;

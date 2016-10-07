@@ -14,6 +14,8 @@ namespace HdbPoet
         public SelectedSeriesListBox()
         {
             InitializeComponent();
+
+            this.listBox.MouseDoubleClick += new MouseEventHandler(selectedSeriesListBox_MouseDoubleClick);
         }
 
         GraphData ds;
@@ -54,6 +56,11 @@ namespace HdbPoet
                 //ds.SeriesRows.RemoveSeriesRow(rows[i]);
             }
             FillListBox();
+        }
+
+        void selectedSeriesListBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            RemoveSelected();
         }
 
         public void ClearListBox()

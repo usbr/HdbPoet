@@ -106,7 +106,9 @@ $X
 ) AND date_time_archived >= 
 '$Tx'
 ) arcInner ON t.date_time=arcInner.start_date_time ORDER BY t.date_time, arcInner.date_time_archived) SELECT obs.start_date_time, obs.end_date_time, obs.value as CurrentValue, obs.date_time_loaded as CurrentValue_LoadedOn, CAST(NVL(arc.value, obs.value) AS VARCHAR(10)) as TimeMachineValue, CAST(NVL(arc.date_time_archived,to_date('11-jan-1111')) AS DATE)as TimeMachineValue_ArchivedOn
- FROM r_day obs LEFT OUTER JOIN arc ON obs.start_date_time=arc.date_time WHERE obs.site_datatype_id=
+ FROM 
+r_$Y
+ obs LEFT OUTER JOIN arc ON obs.start_date_time=arc.date_time WHERE obs.site_datatype_id=
 $X
  AND arc.rank = 1 ORDER BY obs.start_date_time ASC</sql>
     <desc>This function queries data based on what it looked like during a certain date in the past. $X=SDI, $Y=data interval (hour, day, month), $T1 and $T2 for your query dates, and $Tx for the date you want the timemachine to go back to</desc>

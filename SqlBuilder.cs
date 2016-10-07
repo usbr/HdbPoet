@@ -320,6 +320,11 @@ namespace HdbPoet
             return dialogResult;
         }
 
+        private void dataGrid1_Navigate(object sender, NavigateEventArgs ne)
+        {
+
+        }
+
         /// <summary>
         /// This method highlights the assigned text with the specified color.
         /// </summary>
@@ -362,11 +367,11 @@ namespace HdbPoet
             this.buttonDelSql = new System.Windows.Forms.Button();
             this.groupBoxDesc = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dataGrid1 = new System.Windows.Forms.DataGrid();
-            this.buttonSql = new System.Windows.Forms.Button();
-            this.buttonSaveSql = new System.Windows.Forms.Button();
-            this.buttonExcelExport = new System.Windows.Forms.Button();
             this.richTextBoxSql = new System.Windows.Forms.RichTextBox();
+            this.buttonExcelExport = new System.Windows.Forms.Button();
+            this.buttonSaveSql = new System.Windows.Forms.Button();
+            this.buttonSql = new System.Windows.Forms.Button();
+            this.dataGrid1 = new System.Windows.Forms.DataGrid();
             this.groupBoxDesc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -453,42 +458,17 @@ namespace HdbPoet
             this.splitContainer1.SplitterDistance = 189;
             this.splitContainer1.TabIndex = 2;
             // 
-            // dataGrid1
+            // richTextBoxSql
             // 
-            this.dataGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.richTextBoxSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGrid1.DataMember = "";
-            this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.dataGrid1.Location = new System.Drawing.Point(3, 3);
-            this.dataGrid1.Name = "dataGrid1";
-            this.dataGrid1.ReadOnly = true;
-            this.dataGrid1.Size = new System.Drawing.Size(703, 390);
-            this.dataGrid1.TabIndex = 1;
-            // 
-            // buttonSql
-            // 
-            this.buttonSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSql.Image = global::HdbPoet.Properties.Resources.warning;
-            this.buttonSql.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonSql.Location = new System.Drawing.Point(463, 159);
-            this.buttonSql.Name = "buttonSql";
-            this.buttonSql.Size = new System.Drawing.Size(120, 23);
-            this.buttonSql.TabIndex = 6;
-            this.buttonSql.Text = "Execute SQL";
-            this.buttonSql.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.buttonSql.Click += new System.EventHandler(this.buttonSql_Click);
-            // 
-            // buttonSaveSql
-            // 
-            this.buttonSaveSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonSaveSql.Location = new System.Drawing.Point(3, 159);
-            this.buttonSaveSql.Name = "buttonSaveSql";
-            this.buttonSaveSql.Size = new System.Drawing.Size(172, 23);
-            this.buttonSaveSql.TabIndex = 6;
-            this.buttonSaveSql.Text = "Save Custom SQL Function";
-            this.buttonSaveSql.UseVisualStyleBackColor = true;
-            this.buttonSaveSql.Click += new System.EventHandler(this.buttonSaveSql_Click);
+            this.richTextBoxSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxSql.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxSql.Name = "richTextBoxSql";
+            this.richTextBoxSql.Size = new System.Drawing.Size(703, 150);
+            this.richTextBoxSql.TabIndex = 11;
+            this.richTextBoxSql.Text = "";
             // 
             // buttonExcelExport
             // 
@@ -504,17 +484,43 @@ namespace HdbPoet
             this.buttonExcelExport.UseVisualStyleBackColor = true;
             this.buttonExcelExport.Click += new System.EventHandler(this.buttonExcelExport_Click);
             // 
-            // richTextBoxSql
+            // buttonSaveSql
             // 
-            this.richTextBoxSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.buttonSaveSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonSaveSql.Location = new System.Drawing.Point(3, 159);
+            this.buttonSaveSql.Name = "buttonSaveSql";
+            this.buttonSaveSql.Size = new System.Drawing.Size(172, 23);
+            this.buttonSaveSql.TabIndex = 6;
+            this.buttonSaveSql.Text = "Save Custom SQL Function";
+            this.buttonSaveSql.UseVisualStyleBackColor = true;
+            this.buttonSaveSql.Click += new System.EventHandler(this.buttonSaveSql_Click);
+            // 
+            // buttonSql
+            // 
+            this.buttonSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSql.Image = global::HdbPoet.Properties.Resources.warning;
+            this.buttonSql.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonSql.Location = new System.Drawing.Point(463, 159);
+            this.buttonSql.Name = "buttonSql";
+            this.buttonSql.Size = new System.Drawing.Size(120, 23);
+            this.buttonSql.TabIndex = 6;
+            this.buttonSql.Text = "Execute SQL";
+            this.buttonSql.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonSql.Click += new System.EventHandler(this.buttonSql_Click);
+            // 
+            // dataGrid1
+            // 
+            this.dataGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBoxSql.Location = new System.Drawing.Point(3, 3);
-            this.richTextBoxSql.Name = "richTextBoxSql";
-            this.richTextBoxSql.Size = new System.Drawing.Size(703, 150);
-            this.richTextBoxSql.TabIndex = 11;
-            this.richTextBoxSql.Text = "";
+            this.dataGrid1.DataMember = "";
+            this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.dataGrid1.Location = new System.Drawing.Point(3, 3);
+            this.dataGrid1.Name = "dataGrid1";
+            this.dataGrid1.ReadOnly = true;
+            this.dataGrid1.Size = new System.Drawing.Size(703, 390);
+            this.dataGrid1.TabIndex = 1;
+            this.dataGrid1.Navigate += new System.Windows.Forms.NavigateEventHandler(this.dataGrid1_Navigate);
             // 
             // SqlBuilder
             // 
