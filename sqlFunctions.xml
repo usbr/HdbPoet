@@ -75,17 +75,17 @@ $X
     <desc>Returns the time period for existing data and counts the number of datapoints within this period in the R Hour, Day, and Month tables along with the M Month table. To count datapoints for Lake Mead elevations, use $X=1930.</desc>
   </function>
   <function>
-	<id>4</id>
-	<name>Get archive history given SDI and Date</name>
-	<sql>SELECT interval, start_date_time, end_date_time, date_time_archived, value 
+    <id>4</id>
+    <name>Get archive history given SDI and Date</name>
+    <sql>SELECT interval, start_date_time, end_date_time, date_time_archived, value 
 FROM r_base_archive 
 WHERE site_datatype_id=
 $X 
 AND start_date_time=
 '$Y' 
 ORDER BY date_time_archived ASC</sql>
-	<desc>Get data from archive tables to show previous values for an SDI for a given date. Example: To look for the history of values for Lake Mead elevation on Jan-01, 2016, use $X=1930 and $Y=01-JAN-2016</desc>
-</function>
+    <desc>Get data from archive tables to show previous values for an SDI for a given date. Example: To look for the history of values for Lake Mead elevation on Jan-01, 2016, use $X=1930 and $Y=01-JAN-2016</desc>
+  </function>
   <function>
     <id>5</id>
     <name>Timemachine Query</name>
@@ -103,7 +103,7 @@ $X
 '$T2'
  AND interval=lower(
 '$Y'
-) AND date_time_archived >= 
+) AND date_time_archived &gt;= 
 '$Tx'
 ) arcInner ON t.date_time=arcInner.start_date_time ORDER BY t.date_time, arcInner.date_time_archived) SELECT obs.start_date_time, obs.end_date_time, obs.value as CurrentValue, obs.date_time_loaded as CurrentValue_LoadedOn, CAST(NVL(arc.value, obs.value) AS VARCHAR(10)) as TimeMachineValue, CAST(NVL(arc.date_time_archived,to_date('11-jan-1111')) AS DATE)as TimeMachineValue_ArchivedOn
  FROM 
@@ -112,5 +112,18 @@ r_$Y
 $X
  AND arc.rank = 1 ORDER BY obs.start_date_time ASC</sql>
     <desc>This function queries data based on what it looked like during a certain date in the past. $X=SDI, $Y=data interval (hour, day, month), $T1 and $T2 for your query dates, and $Tx for the date you want the timemachine to go back to</desc>
+  </function>
+  <function>
+    <id>6</id>
+    <name>Lookup information given SDI</name>
+    <sql>SELECT hdb_site_datatype.site_datatype_id, hdb_site.site_name, hdb_objecttype.objecttype_name, hdb_datatype.datatype_name, hdb_unit.unit_common_name, hdb_site.db_site_code
+FROM hdb_site 
+INNER JOIN hdb_site_datatype ON hdb_site.site_id=hdb_site_datatype.site_id 
+INNER JOIN hdb_datatype ON hdb_site_datatype.datatype_id=hdb_datatype.datatype_id 
+INNER JOIN hdb_unit ON hdb_datatype.unit_id=hdb_unit.unit_id 
+INNER JOIN hdb_objecttype ON hdb_site.objecttype_id=hdb_objecttype.objecttype_id 
+WHERE hdb_site_datatype.site_datatype_id=
+$X</sql>
+    <desc>Search for Site and Datatype information given a Site Datatype ID (SDI). Example: $X=21323</desc>
   </function>
 </SqlFunctions>
