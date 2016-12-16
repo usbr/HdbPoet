@@ -57,6 +57,7 @@ namespace HdbPoet
         private Button buttonAddAll;
         private CheckBox checkBoxSelectAll;
         private GroupBox groupBoxDataType;
+        private CheckBox sdidSearchCheckBox;
         private IContainer components;
 
 
@@ -408,6 +409,7 @@ namespace HdbPoet
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonRemoveAll = new System.Windows.Forms.Button();
             this.buttonAddAll = new System.Windows.Forms.Button();
+            this.sdidSearchCheckBox = new System.Windows.Forms.CheckBox();
             this.selectedSeriesListBox1 = new HdbPoet.SelectedSeriesListBox();
             this.timeZoneComboBox2 = new HdbPoet.TimeZoneComboBox();
             this.dateSelector1 = new HdbPoet.DateSelector();
@@ -470,6 +472,7 @@ namespace HdbPoet
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.sdidSearchCheckBox);
             this.groupBox1.Controls.Add(this.groupBoxDataType);
             this.groupBox1.Controls.Add(this.checkBoxSelectAll);
             this.groupBox1.Controls.Add(this.timeZoneComboBox2);
@@ -781,6 +784,17 @@ namespace HdbPoet
             this.buttonAddAll.Text = "All ->";
             this.buttonAddAll.Click += new System.EventHandler(this.buttonAddAll_Click);
             // 
+            // sdidSearchCheckBox
+            // 
+            this.sdidSearchCheckBox.AutoSize = true;
+            this.sdidSearchCheckBox.Location = new System.Drawing.Point(173, 13);
+            this.sdidSearchCheckBox.Name = "sdidSearchCheckBox";
+            this.sdidSearchCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.sdidSearchCheckBox.Size = new System.Drawing.Size(74, 17);
+            this.sdidSearchCheckBox.TabIndex = 42;
+            this.sdidSearchCheckBox.Text = "Use SDID";
+            this.sdidSearchCheckBox.UseVisualStyleBackColor = true;
+            // 
             // selectedSeriesListBox1
             // 
             this.selectedSeriesListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -884,14 +898,14 @@ namespace HdbPoet
                 if (m_getModeledData)
                 {
                     siteTableFiltered = Hdb.Instance.FilteredSiteList(this.textBoxKeyWords.Text,
-                                       intervalDescriptions,
-                                       categories, comboBoxBasin.SelectedValue.ToString(), m_getModeledData, isModeledData.Item2);
+                                       intervalDescriptions, categories, comboBoxBasin.SelectedValue.ToString(), 
+                                       this.sdidSearchCheckBox.Checked, m_getModeledData, isModeledData.Item2);
                 }
                 else
                 {
                     siteTableFiltered = Hdb.Instance.FilteredSiteList(this.textBoxKeyWords.Text,
-                                       intervalDescriptions,
-                                       categories, comboBoxBasin.SelectedValue.ToString());
+                                       intervalDescriptions, categories, comboBoxBasin.SelectedValue.ToString(),
+                                       this.sdidSearchCheckBox.Checked);
                 }
               //  CsvFile.Write( siteTableFiltered,@"c:\temp\site.csv");
                 LoadTree();

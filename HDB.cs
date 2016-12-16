@@ -634,41 +634,46 @@ namespace HdbPoet
         /// Gets list of sites for the graph series editor (graph properties)
         /// </summary>
         public DataTable FilteredSiteList(string siteSearchString, string[] r_names, int[] objecttype_id, string basin_id,
-                                            bool getModeledData = false, int modelRunID = 0)
+                                            bool getSdidInfo, bool getModeledData = false, int modelRunID = 0)
         {
-
             siteSearchString = SafeSqlLikeClauseLiteral(siteSearchString);
             string sql_template = "select c.site_id, c.site_name, c.objecttype_id from #TABLE_NAME# a, "
-                                    + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
-                                    + "where a.site_datatype_id = b.site_datatype_id  and "
-                                    + "b.site_id = c.site_id and d.objecttype_id = c.objecttype_id";
-
-            if (getModeledData)
+                                        + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
+                                        + "where a.site_datatype_id = b.site_datatype_id  and "
+                                        + "b.site_id = c.site_id and d.objecttype_id = c.objecttype_id";
+            if (!getSdidInfo)
             {
-                sql_template += " and a.model_run_id = " + modelRunID;
-            }
-
-            if (basin_id!= "-1")
-            {
-                sql_template += " and c.basin_id = " + basin_id;
-            }
-
-            if (siteSearchString.Trim() != "")
-            {
-                sql_template += " and lower(c.site_name) like '%" + siteSearchString.ToLower().Trim() + "%'";
-            }
-            if (objecttype_id.Length > 0)
-            {
-                sql_template += " and (";
-                for (int i = 0; i < objecttype_id.Length; i++)
+                if (getModeledData)
                 {
-                    sql_template += " c.objecttype_id = " + objecttype_id[i];
-                    if (i < objecttype_id.Length - 1)
-                    {
-                        sql_template += " or ";
-                    }
+                    sql_template += " and a.model_run_id = " + modelRunID;
                 }
-                sql_template += " ) ";
+
+                if (basin_id != "-1")
+                {
+                    sql_template += " and c.basin_id = " + basin_id;
+                }
+
+                if (siteSearchString.Trim() != "")
+                {
+                    sql_template += " and lower(c.site_name) like '%" + siteSearchString.ToLower().Trim() + "%'";
+                }
+                if (objecttype_id.Length > 0)
+                {
+                    sql_template += " and (";
+                    for (int i = 0; i < objecttype_id.Length; i++)
+                    {
+                        sql_template += " c.objecttype_id = " + objecttype_id[i];
+                        if (i < objecttype_id.Length - 1)
+                        {
+                            sql_template += " or ";
+                        }
+                    }
+                    sql_template += " ) ";
+                }
+            }
+            else
+            {
+                sql_template += " and b.site_datatype_id in (" + siteSearchString + ")";
             }
 
 
@@ -687,11 +692,11 @@ namespace HdbPoet
                     tableName = Hdb.m_tables[idx];
                 }
                 else
-                { 
-                    tableName = Hdb.r_tables[idx]; 
+                {
+                    tableName = Hdb.r_tables[idx];
                 }
                 sql += sql_template;
-                
+
                 sql = sql.Replace("#TABLE_NAME#", tableName);
 
                 if (i < r_names.Length - 1)
@@ -700,6 +705,7 @@ namespace HdbPoet
                 }
             }
             sql += " order by site_name";
+
             DataTable rval = m_server.Table("SiteList", sql);
 
             return rval;

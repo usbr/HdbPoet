@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.linkLabelRefresh = new System.Windows.Forms.LinkLabel();
+            this.linkLabelClear = new System.Windows.Forms.LinkLabel();
             this.labelSaveStatus = new System.Windows.Forms.Label();
             this.labelRatingTableName = new System.Windows.Forms.Label();
             this.labelSiteName = new System.Windows.Forms.Label();
@@ -45,8 +47,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageTable = new System.Windows.Forms.TabPage();
             this.tabPageGraph = new System.Windows.Forms.TabPage();
-            this.linkLabelClear = new System.Windows.Forms.LinkLabel();
-            this.linkLabelRefresh = new System.Windows.Forms.LinkLabel();
             this.graph1 = new HdbPoet.MetaData.RatingTableGraphZ();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -71,10 +71,32 @@
             this.panel1.Size = new System.Drawing.Size(580, 87);
             this.panel1.TabIndex = 0;
             // 
+            // linkLabelRefresh
+            // 
+            this.linkLabelRefresh.AutoSize = true;
+            this.linkLabelRefresh.Location = new System.Drawing.Point(91, 7);
+            this.linkLabelRefresh.Name = "linkLabelRefresh";
+            this.linkLabelRefresh.Size = new System.Drawing.Size(39, 13);
+            this.linkLabelRefresh.TabIndex = 15;
+            this.linkLabelRefresh.TabStop = true;
+            this.linkLabelRefresh.Text = "refresh";
+            this.linkLabelRefresh.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelRefresh_LinkClicked);
+            // 
+            // linkLabelClear
+            // 
+            this.linkLabelClear.AutoSize = true;
+            this.linkLabelClear.Location = new System.Drawing.Point(136, 7);
+            this.linkLabelClear.Name = "linkLabelClear";
+            this.linkLabelClear.Size = new System.Drawing.Size(56, 13);
+            this.linkLabelClear.TabIndex = 14;
+            this.linkLabelClear.TabStop = true;
+            this.linkLabelClear.Text = "clear table";
+            this.linkLabelClear.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelClear_LinkClicked);
+            // 
             // labelSaveStatus
             // 
             this.labelSaveStatus.AutoSize = true;
-            this.labelSaveStatus.Location = new System.Drawing.Point(249, 13);
+            this.labelSaveStatus.Location = new System.Drawing.Point(198, 7);
             this.labelSaveStatus.Name = "labelSaveStatus";
             this.labelSaveStatus.Size = new System.Drawing.Size(35, 13);
             this.labelSaveStatus.TabIndex = 13;
@@ -84,7 +106,7 @@
             // 
             this.labelRatingTableName.AutoSize = true;
             this.labelRatingTableName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRatingTableName.Location = new System.Drawing.Point(8, 52);
+            this.labelRatingTableName.Location = new System.Drawing.Point(2, 52);
             this.labelRatingTableName.Name = "labelRatingTableName";
             this.labelRatingTableName.Size = new System.Drawing.Size(70, 25);
             this.labelRatingTableName.TabIndex = 12;
@@ -94,7 +116,7 @@
             // 
             this.labelSiteName.AutoSize = true;
             this.labelSiteName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSiteName.Location = new System.Drawing.Point(8, 26);
+            this.labelSiteName.Location = new System.Drawing.Point(2, 27);
             this.labelSiteName.Name = "labelSiteName";
             this.labelSiteName.Size = new System.Drawing.Size(70, 25);
             this.labelSiteName.TabIndex = 11;
@@ -103,7 +125,7 @@
             // linkLabelSave
             // 
             this.linkLabelSave.AutoSize = true;
-            this.linkLabelSave.Location = new System.Drawing.Point(56, 11);
+            this.linkLabelSave.Location = new System.Drawing.Point(55, 7);
             this.linkLabelSave.Name = "linkLabelSave";
             this.linkLabelSave.Size = new System.Drawing.Size(30, 13);
             this.linkLabelSave.TabIndex = 10;
@@ -114,7 +136,7 @@
             // linkLabelBack
             // 
             this.linkLabelBack.AutoSize = true;
-            this.linkLabelBack.Location = new System.Drawing.Point(7, 11);
+            this.linkLabelBack.Location = new System.Drawing.Point(6, 7);
             this.linkLabelBack.Name = "linkLabelBack";
             this.linkLabelBack.Size = new System.Drawing.Size(43, 13);
             this.linkLabelBack.TabIndex = 7;
@@ -209,28 +231,6 @@
             this.tabPageGraph.TabIndex = 1;
             this.tabPageGraph.Text = "graph";
             this.tabPageGraph.UseVisualStyleBackColor = true;
-            // 
-            // linkLabelClear
-            // 
-            this.linkLabelClear.AutoSize = true;
-            this.linkLabelClear.Location = new System.Drawing.Point(135, 11);
-            this.linkLabelClear.Name = "linkLabelClear";
-            this.linkLabelClear.Size = new System.Drawing.Size(56, 13);
-            this.linkLabelClear.TabIndex = 14;
-            this.linkLabelClear.TabStop = true;
-            this.linkLabelClear.Text = "clear table";
-            this.linkLabelClear.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelClear_LinkClicked);
-            // 
-            // linkLabelRefresh
-            // 
-            this.linkLabelRefresh.AutoSize = true;
-            this.linkLabelRefresh.Location = new System.Drawing.Point(92, 13);
-            this.linkLabelRefresh.Name = "linkLabelRefresh";
-            this.linkLabelRefresh.Size = new System.Drawing.Size(39, 13);
-            this.linkLabelRefresh.TabIndex = 15;
-            this.linkLabelRefresh.TabStop = true;
-            this.linkLabelRefresh.Text = "refresh";
-            this.linkLabelRefresh.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelRefresh_LinkClicked);
             // 
             // graph1
             // 
