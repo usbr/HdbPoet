@@ -435,7 +435,7 @@ namespace HdbPoet
 
         private void menuItemGettingStarted_Click(object sender, EventArgs e)
         {
-            Process.Start("http://www.usbr.gov/pn/hydromet/poet/GettingStartedwithHDB-POET.pdf");
+            Process.Start("https://github.com/usbr/HdbPoet/wiki");
         }
 
         private void menuItemMetadata_Click(object sender, EventArgs e)
