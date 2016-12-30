@@ -40,9 +40,9 @@ namespace Reclamation.TimeSeries.OracleHdb
                           + ";hdb_host_name=" +hostname;
 
                 var name = s.SiteName+ " "+ s.ParameterType + " " + s.Units;
-                seriesCatalog.AddSeriesCatalogRow(sdi++, root.ID, false, 1, "Hdb", name,
+                seriesCatalog.AddSeriesCatalogRow(sdi++, root.ID, 0, 1, "Hdb", name,
                     s.SiteName, s.Units, IntervalString(s.hdb_r_table), s.ParameterType,
-                    "",  "HdbOracleSeries", cs, "","",true);
+                    "",  "HdbOracleSeries", cs, "","",1);
             }
 
             db.Server.SaveTable(seriesCatalog);

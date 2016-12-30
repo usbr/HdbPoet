@@ -34,19 +34,19 @@ namespace Reclamation.TimeSeries.OracleHdb
                 int site_id = Convert.ToInt32(siteList.Rows[i]["site_id"]);
                 DataRow[] rows = sitesAndParameters.Select("Site_ID=" + site_id);
                 int siteRowID = nextPiscesID++;
-                rval.AddSeriesCatalogRow(siteRowID, parentID, true, 1, "HdbModel",
-                rows[0]["site_name"].ToString(), "", "", "", "", "", "", "", "", "", true);
+                rval.AddSeriesCatalogRow(siteRowID, parentID, 1, 1, "HdbModel",
+                rows[0]["site_name"].ToString(), "", "", "", "", "", "", "", "", "", 1);
 
                 for (int j = 0; j < rows.Length; j++)
                 {
                     string cs = HdbModelSeries.BuildConnectionString(m_table, model_run_id.ToString(),model_run_name,run_date, rows[j]["site_datatype_id"].ToString());
-                    rval.AddSeriesCatalogRow(nextPiscesID++, siteRowID, false, j,
+                    rval.AddSeriesCatalogRow(nextPiscesID++, siteRowID, 0, j,
                         "HdbModel", rows[j]["datatype_common_name"].ToString(),
                         rows[j]["site_name"].ToString(),
                         rows[j]["unit_common_name"].ToString(),
                         IntervalString(m_table),
                         rows[j]["datatype_common_name"].ToString(),
-                        "",  "HdbModelSeries",cs , "", "",true);
+                        "",  "HdbModelSeries",cs , "", "",1);
 
                 }
                 
