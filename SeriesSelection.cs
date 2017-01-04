@@ -343,7 +343,7 @@ namespace HdbPoet
             for (int i = 0; i < sz; i++) // Each Site
             {
                 node = new HdbNode((string)siteTableFiltered.Rows[i]["site_name"]);
-                node.Text = node.Text + " ( " + siteTableFiltered.Rows[i]["SITE_ID"].ToString() + ")";
+                node.Text = node.Text + " (SID=" + siteTableFiltered.Rows[i]["SITE_ID"].ToString() + ")";
                 node.Tag = this.siteTableFiltered.Rows[i];
                 node.Nodes.Add( new HdbNode("expand_this_site"));
                 root.Nodes.Add(node);
@@ -994,13 +994,13 @@ namespace HdbPoet
                         text = tblUnique.Rows[0][0] + " : ";
                     }
                     text += (string)tbl.Rows[i]["DATATYPE_COMMON_NAME"];
-                    text += " (" + tbl.Rows[i]["DATATYPE_ID"] + ")";
+                    text += " (DID=" + tbl.Rows[i]["DATATYPE_ID"] + ")";
                     text += " " + tbl.Rows[i]["COUNT(A.VALUE)"].ToString() + "";
-                    text += " records";
+                    text += " records from";
                     text += " " + ((DateTime)tbl.Rows[i]["min(start_date_time)"]).ToString("MMM-dd-yyyy")
-                         + " --> "
+                         + " to "
                          + ((DateTime)tbl.Rows[i]["max(start_date_time)"]).ToString("MMM-dd-yyyy");
-                    text += " (" + tbl.Rows[i]["site_datatype_id"] + ") ";
+                    text += " (SDID=" + tbl.Rows[i]["site_datatype_id"] + ") ";
 
                     HdbNode node = new HdbNode(text);
                     node.Tag = tbl.Rows[i];

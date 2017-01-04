@@ -97,7 +97,7 @@ namespace HdbPoet
             {
                 get
                 {
-                    return this.SiteName +" " + this.Interval + " : " + this.ParameterType;
+                    return this.SiteName + " " + this.Interval + ": " + this.ParameterType + " (SDID=" + this.hdb_site_datatype_id + ")";
                     //return "";
                 }
                 set

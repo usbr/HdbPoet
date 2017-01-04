@@ -673,7 +673,15 @@ namespace HdbPoet
             }
             else
             {
-                sql_template += " and b.site_datatype_id in (" + siteSearchString + ")";
+                if (System.Text.RegularExpressions.Regex.Matches(siteSearchString, @"[a-zA-Z]").Count > 0)
+                {
+                    System.Windows.Forms.MessageBox.Show("Use SDID button is checked - Enter valid SDID number(s)...", "Error");
+                    return new DataTable();
+                }
+                else
+                {
+                    sql_template += " and b.site_datatype_id in (" + siteSearchString + ")";
+                }
             }
 
 

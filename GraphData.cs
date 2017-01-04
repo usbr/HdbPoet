@@ -128,11 +128,11 @@ namespace HdbPoet
                 {
                     units = s.Units;
                 }
-                s.Title = s.ParameterType + " " + units;
+                s.Title = s.ParameterType + " " + units + " (SDID=" + s.hdb_site_datatype_id + ")";
                 // If there are multiple sites, append site name to legend.
                 if (HasMultipleSites())
                 {
-                    s.Title = s.SiteName + " " + s.ParameterType + " " + units;
+                    s.Title = s.SiteName + " " + s.ParameterType + " " + units + " (SDID=" + s.hdb_site_datatype_id + ")";
                 }
                 if (s.hdb_r_table == "r_base")
                 { // this is needed because r_base could be any interval.
