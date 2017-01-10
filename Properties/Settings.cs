@@ -52,6 +52,7 @@ namespace HdbPoet.Properties {
                     int idx = c.ServicePrefix.IndexOf(".");
                     if (idx > 0)
                         c.ServicePrefix = c.ServicePrefix.Substring(0, idx);
+                    c.ServicePrefix += "@" + c.Host;
                     c.Timezone = re.Match(line).Groups["timezone"].Value;
 
                     rval.Add(c);

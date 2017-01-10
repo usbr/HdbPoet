@@ -31,6 +31,7 @@
   &lt;string&gt;host:www.troa.net service:troahdb timezone:PDT&lt;/string&gt;
   &lt;string&gt;host:ibr3yaohdb.bor.doi.net service:yaohdb  timezone:MST&lt;/string&gt;
   &lt;string&gt;host:uchdbdev.uc.usbr.gov service:uchdbdev.uc.usbr.gov  timezone:MST&lt;/string&gt;
+  &lt;string&gt;host:ibr4ucraplx003.bor.doi.net service:uchdb2.bor.doi.net  timezone:MST&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="SeriesColors" Type="System.Collections.Specialized.StringCollection" Scope="User">

@@ -91,12 +91,12 @@ namespace HdbPoet
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.textBoxUser = new System.Windows.Forms.TextBox();
             this.comboBoxHostList = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtPort = new System.Windows.Forms.TextBox();
+            this.textBoxUser = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonCancel
@@ -145,22 +145,13 @@ namespace HdbPoet
             this.label1.TabIndex = 7;
             this.label1.Text = "username:";
             // 
-            // textBoxUser
-            // 
-            this.textBoxUser.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HdbPoet.Properties.Settings.Default, "OracleUsername", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBoxUser.Location = new System.Drawing.Point(104, 16);
-            this.textBoxUser.Name = "textBoxUser";
-            this.textBoxUser.Size = new System.Drawing.Size(100, 20);
-            this.textBoxUser.TabIndex = 0;
-            this.textBoxUser.Text = global::HdbPoet.Properties.Settings.Default.OracleUsername;
-            // 
             // comboBoxHostList
             // 
             this.comboBoxHostList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxHostList.FormattingEnabled = true;
             this.comboBoxHostList.Location = new System.Drawing.Point(101, 79);
             this.comboBoxHostList.Name = "comboBoxHostList";
-            this.comboBoxHostList.Size = new System.Drawing.Size(157, 21);
+            this.comboBoxHostList.Size = new System.Drawing.Size(233, 21);
             this.comboBoxHostList.TabIndex = 2;
             // 
             // label3
@@ -173,7 +164,7 @@ namespace HdbPoet
             // 
             // buttonEdit
             // 
-            this.buttonEdit.Location = new System.Drawing.Point(258, 78);
+            this.buttonEdit.Location = new System.Drawing.Point(340, 79);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(30, 22);
             this.buttonEdit.TabIndex = 3;
@@ -198,12 +189,21 @@ namespace HdbPoet
             this.txtPort.TabIndex = 4;
             this.txtPort.Text = "1521";
             // 
+            // textBoxUser
+            // 
+            this.textBoxUser.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HdbPoet.Properties.Settings.Default, "OracleUsername", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBoxUser.Location = new System.Drawing.Point(104, 16);
+            this.textBoxUser.Name = "textBoxUser";
+            this.textBoxUser.Size = new System.Drawing.Size(100, 20);
+            this.textBoxUser.TabIndex = 0;
+            this.textBoxUser.Text = global::HdbPoet.Properties.Settings.Default.OracleUsername;
+            // 
             // OracleLogin
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(373, 146);
+            this.ClientSize = new System.Drawing.Size(373, 136);
             this.Controls.Add(this.txtPort);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.buttonEdit);
