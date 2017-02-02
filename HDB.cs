@@ -905,14 +905,16 @@ group by d.datatype_id, d.datatype_common_name
             string sql_template = "  select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
                                      + " count(a.value),'#TABLE_NAME#' \"rtable\", max(a.site_datatype_id) "
                                      + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
-                                     + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\"  "
+                                     + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\","
+                                     + " max(f.cmmnt) \"sdid_descriptor\" "
                                      + " from "
-                                     + " #TABLE_NAME# a, hdb_site_datatype b, hdb_site c, hdb_datatype d, hdb_unit e "
+                                     + " #TABLE_NAME# a, hdb_site_datatype b, hdb_site c, hdb_datatype d, hdb_unit e, ref_ext_site_data_map f "
                                      + " where "
                                      + " a.site_datatype_id = b.site_datatype_id and "
                                      + " b.datatype_id = d.datatype_id and c.site_id =" + site_id.ToString()
                                      + "  and e.unit_id = d.unit_id and "
                                      + " b.site_id = " + site_id.ToString()
+                                     + " and a.site_datatype_id = f.hdb_site_datatype_id "
                                      + " group by d.datatype_id, d.datatype_common_name ";
             string sql = "";
             for (int i = 0; i < r_names.Length; i++)

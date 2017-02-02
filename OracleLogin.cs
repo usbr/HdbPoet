@@ -24,11 +24,13 @@ namespace HdbPoet
         private Button buttonEdit;
         private Label label4;
         private TextBox txtPort;
+        private Label labelVersion;
         private System.ComponentModel.IContainer components;
 
         public OracleLogin(string defaultHostname = "")
         {
             InitializeComponent();
+            this.labelVersion.Text = "HDB POET Version " + Application.ProductVersion;
             ConnectionInfo = new OracleConnectionInfo();
             LoadUserPrefs(defaultHostname);
         }
@@ -97,76 +99,77 @@ namespace HdbPoet
             this.label4 = new System.Windows.Forms.Label();
             this.txtPort = new System.Windows.Forms.TextBox();
             this.textBoxUser = new System.Windows.Forms.TextBox();
+            this.labelVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(295, 43);
+            this.buttonCancel.Location = new System.Drawing.Point(231, 41);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 24);
+            this.buttonCancel.Size = new System.Drawing.Size(91, 24);
             this.buttonCancel.TabIndex = 6;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // textBoxPass
             // 
-            this.textBoxPass.Location = new System.Drawing.Point(104, 48);
+            this.textBoxPass.Location = new System.Drawing.Point(77, 45);
             this.textBoxPass.Name = "textBoxPass";
             this.textBoxPass.PasswordChar = '*';
-            this.textBoxPass.Size = new System.Drawing.Size(100, 20);
+            this.textBoxPass.Size = new System.Drawing.Size(103, 20);
             this.textBoxPass.TabIndex = 1;
             // 
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOk.Location = new System.Drawing.Point(295, 11);
+            this.buttonOk.Location = new System.Drawing.Point(231, 9);
             this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(75, 24);
+            this.buttonOk.Size = new System.Drawing.Size(91, 24);
             this.buttonOk.TabIndex = 5;
             this.buttonOk.Text = "Ok";
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(16, 48);
+            this.label2.Location = new System.Drawing.Point(7, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 23);
+            this.label2.Size = new System.Drawing.Size(64, 23);
             this.label2.TabIndex = 8;
-            this.label2.Text = "password:";
+            this.label2.Text = "Password:";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(16, 16);
+            this.label1.Location = new System.Drawing.Point(7, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 23);
             this.label1.TabIndex = 7;
-            this.label1.Text = "username:";
+            this.label1.Text = "User Name:";
             // 
             // comboBoxHostList
             // 
             this.comboBoxHostList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxHostList.FormattingEnabled = true;
-            this.comboBoxHostList.Location = new System.Drawing.Point(101, 79);
+            this.comboBoxHostList.Location = new System.Drawing.Point(77, 76);
             this.comboBoxHostList.Name = "comboBoxHostList";
-            this.comboBoxHostList.Size = new System.Drawing.Size(233, 21);
+            this.comboBoxHostList.Size = new System.Drawing.Size(219, 21);
             this.comboBoxHostList.TabIndex = 2;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(16, 79);
+            this.label3.Location = new System.Drawing.Point(7, 79);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 23);
+            this.label3.Size = new System.Drawing.Size(64, 23);
             this.label3.TabIndex = 10;
-            this.label3.Text = "database:";
+            this.label3.Text = "Database:";
             // 
             // buttonEdit
             // 
-            this.buttonEdit.Location = new System.Drawing.Point(340, 79);
+            this.buttonEdit.Location = new System.Drawing.Point(298, 75);
             this.buttonEdit.Name = "buttonEdit";
-            this.buttonEdit.Size = new System.Drawing.Size(30, 22);
+            this.buttonEdit.Size = new System.Drawing.Size(24, 22);
             this.buttonEdit.TabIndex = 3;
             this.buttonEdit.Text = "...";
             this.buttonEdit.UseVisualStyleBackColor = true;
@@ -175,35 +178,46 @@ namespace HdbPoet
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 106);
+            this.label4.Location = new System.Drawing.Point(10, 106);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(28, 13);
+            this.label4.Size = new System.Drawing.Size(29, 13);
             this.label4.TabIndex = 12;
-            this.label4.Text = "port:";
+            this.label4.Text = "Port:";
             // 
             // txtPort
             // 
-            this.txtPort.Location = new System.Drawing.Point(101, 106);
+            this.txtPort.Location = new System.Drawing.Point(77, 103);
             this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(100, 20);
+            this.txtPort.Size = new System.Drawing.Size(67, 20);
             this.txtPort.TabIndex = 4;
             this.txtPort.Text = "1521";
             // 
             // textBoxUser
             // 
             this.textBoxUser.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HdbPoet.Properties.Settings.Default, "OracleUsername", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBoxUser.Location = new System.Drawing.Point(104, 16);
+            this.textBoxUser.Location = new System.Drawing.Point(77, 13);
             this.textBoxUser.Name = "textBoxUser";
-            this.textBoxUser.Size = new System.Drawing.Size(100, 20);
+            this.textBoxUser.Size = new System.Drawing.Size(103, 20);
             this.textBoxUser.TabIndex = 0;
             this.textBoxUser.Text = global::HdbPoet.Properties.Settings.Default.OracleUsername;
+            // 
+            // labelVersion
+            // 
+            this.labelVersion.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.labelVersion.Location = new System.Drawing.Point(165, 104);
+            this.labelVersion.Name = "labelVersion";
+            this.labelVersion.Size = new System.Drawing.Size(156, 18);
+            this.labelVersion.TabIndex = 13;
+            this.labelVersion.Text = "Version: X.Y.Z";
+            this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // OracleLogin
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(373, 136);
+            this.ClientSize = new System.Drawing.Size(333, 136);
+            this.Controls.Add(this.labelVersion);
             this.Controls.Add(this.txtPort);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.buttonEdit);
@@ -220,7 +234,7 @@ namespace HdbPoet
             this.MinimizeBox = false;
             this.Name = "OracleLogin";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Oracle Login";
+            this.Text = "Oracle HDB Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 

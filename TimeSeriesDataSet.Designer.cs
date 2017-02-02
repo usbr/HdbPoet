@@ -352,6 +352,8 @@ namespace HdbPoet {
             
             private global::System.Data.DataColumn columnmodel_run_id;
             
+            private global::System.Data.DataColumn columnsdid_descriptor;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public SeriesDataTable() {
@@ -539,6 +541,14 @@ namespace HdbPoet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn sdid_descriptorColumn {
+                get {
+                    return this.columnsdid_descriptor;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -593,7 +603,8 @@ namespace HdbPoet {
                         bool ReadOnly, 
                         bool IsComputed, 
                         string DisplayFormat, 
-                        decimal model_run_id) {
+                        decimal model_run_id, 
+                        string sdid_descriptor) {
                 SeriesRow rowSeriesRow = ((SeriesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         SeriesNumber,
@@ -614,7 +625,8 @@ namespace HdbPoet {
                         ReadOnly,
                         IsComputed,
                         DisplayFormat,
-                        model_run_id};
+                        model_run_id,
+                        sdid_descriptor};
                 rowSeriesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSeriesRow);
                 return rowSeriesRow;
@@ -663,6 +675,7 @@ namespace HdbPoet {
                 this.columnIsComputed = base.Columns["IsComputed"];
                 this.columnDisplayFormat = base.Columns["DisplayFormat"];
                 this.columnmodel_run_id = base.Columns["model_run_id"];
+                this.columnsdid_descriptor = base.Columns["sdid_descriptor"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -706,6 +719,8 @@ namespace HdbPoet {
                 base.Columns.Add(this.columnDisplayFormat);
                 this.columnmodel_run_id = new global::System.Data.DataColumn("model_run_id", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnmodel_run_id);
+                this.columnsdid_descriptor = new global::System.Data.DataColumn("sdid_descriptor", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnsdid_descriptor);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnSeriesNumber}, true));
                 this.columnSeriesNumber.AllowDBNull = false;
@@ -720,6 +735,7 @@ namespace HdbPoet {
                 this.columnDisplayFormat.AllowDBNull = false;
                 this.columnDisplayFormat.DefaultValue = ((string)(""));
                 this.columnmodel_run_id.DefaultValue = ((decimal)(0m));
+                this.columnsdid_descriptor.DefaultValue = ((string)("(Null)"));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1589,6 +1605,22 @@ namespace HdbPoet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string sdid_descriptor {
+                get {
+                    if (this.Issdid_descriptorNull()) {
+                        return null;
+                    }
+                    else {
+                        return ((string)(this[this.tableSeries.sdid_descriptorColumn]));
+                    }
+                }
+                set {
+                    this[this.tableSeries.sdid_descriptorColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsSiteNameNull() {
                 return this.IsNull(this.tableSeries.SiteNameColumn);
             }
@@ -1777,6 +1809,18 @@ namespace HdbPoet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void Setmodel_run_idNull() {
                 this[this.tableSeries.model_run_idColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Issdid_descriptorNull() {
+                return this.IsNull(this.tableSeries.sdid_descriptorColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setsdid_descriptorNull() {
+                this[this.tableSeries.sdid_descriptorColumn] = global::System.Convert.DBNull;
             }
         }
         

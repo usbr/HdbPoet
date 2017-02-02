@@ -34,6 +34,7 @@
               <xs:element name="IsComputed" msprop:Generator_ColumnVarNameInTable="columnIsComputed" msprop:Generator_ColumnPropNameInRow="IsComputed" msprop:Generator_ColumnPropNameInTable="IsComputedColumn" msprop:Generator_UserColumnName="IsComputed" type="xs:boolean" minOccurs="0" />
               <xs:element name="DisplayFormat" msprop:Generator_ColumnVarNameInTable="columnDisplayFormat" msprop:Generator_ColumnPropNameInRow="DisplayFormat" msprop:Generator_ColumnPropNameInTable="DisplayFormatColumn" msprop:Generator_UserColumnName="DisplayFormat" type="xs:string" default="" />
               <xs:element name="model_run_id" msprop:Generator_ColumnVarNameInTable="columnmodel_run_id" msprop:Generator_ColumnPropNameInRow="model_run_id" msprop:Generator_ColumnPropNameInTable="model_run_idColumn" msprop:Generator_UserColumnName="model_run_id" type="xs:decimal" default="0" minOccurs="0" />
+              <xs:element name="sdid_descriptor" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="sdid_descriptor" msprop:Generator_ColumnVarNameInTable="columnsdid_descriptor" msprop:Generator_ColumnPropNameInTable="sdid_descriptorColumn" msprop:Generator_UserColumnName="sdid_descriptor" type="xs:string" default="(Null)" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

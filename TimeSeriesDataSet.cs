@@ -27,7 +27,7 @@ namespace HdbPoet
             graphsRow.ShowTime = false;
             graphsRow.TimeZone = Hdb.Instance.Server.TimeZone;
             int next = this.Graph.GetMaxGraphNumber() + 1;
-            graphsRow.Name = "Config "+next;
+            graphsRow.Name = "Config " + next;
             graphsRow.GraphNumber = next;
         }
 
@@ -55,7 +55,7 @@ namespace HdbPoet
                 return max;
             }
         }
-    
+
         partial class SeriesDataTable
         {
             /// <summary>
@@ -87,7 +87,7 @@ namespace HdbPoet
                         return i;
                 }
 
-                return - 1;
+                return -1;
             }
         }
 
@@ -97,7 +97,9 @@ namespace HdbPoet
             {
                 get
                 {
-                    return this.SiteName + " " + this.Interval + ": " + this.ParameterType + " (SDID=" + this.hdb_site_datatype_id + ")";
+                    return this.SiteName + " " + this.Interval + ": " + this.ParameterType +
+                        ", " + this.sdid_descriptor +
+                        " (SDID=" + this.hdb_site_datatype_id + ")";
                     //return "";
                 }
                 set
@@ -106,9 +108,9 @@ namespace HdbPoet
             }
         }
 
-    
-     
-        
+
+
+
         /// <summary>
         /// Saves Time Series Data Set to xml file.
         /// Set SaveEveryting to true to save everything
@@ -131,7 +133,7 @@ namespace HdbPoet
             {// 
 
                 TimeSeriesDataSet ds = new TimeSeriesDataSet();
-                for (int i = 0; i < Series.Count ; i++)
+                for (int i = 0; i < Series.Count; i++)
                 {
                     SeriesRow r = ds.Series.NewSeriesRow();
                     ds.Series.AddSeriesRow(r);
@@ -186,7 +188,7 @@ namespace HdbPoet
             base.ReadXml(filename);
 
             int index = Graph.GetMaxGraphNumber() + 1;
-            
+
             if (Graph.Count == 1 && Graph[0].Name.Trim() == "")
             {
                 Graph[0].Name = Path.GetFileNameWithoutExtension(filename);
@@ -215,7 +217,7 @@ namespace HdbPoet
                     s.SeriesNumber = index;
                 index++;
             }
-           
+
             this.EnforceConstraints = true;
         }
 
@@ -276,7 +278,7 @@ namespace HdbPoet
         {
             // if there is only one graph and it is empty remove it.
             if (Graph.Count == 1 && this.Series.Count == 0
-                && Graph[0].Name.IndexOf("Config") ==0) 
+                && Graph[0].Name.IndexOf("Config") == 0)
             {
                 Graph[0].Delete();
             }
@@ -319,7 +321,7 @@ namespace HdbPoet
         internal int GraphNumberFromIndex(int index)
         {
 
-         return  Graph[index].GraphNumber;
+            return Graph[index].GraphNumber;
         }
 
     }

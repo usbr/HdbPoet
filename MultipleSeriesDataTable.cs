@@ -35,7 +35,7 @@ namespace HdbPoet
             this.ds = ds;
             s_instanceCounter++;
 
-            Logger.WriteLine("MultipleSeriesDataTable(" + interval + ") + instanceCounter= "+s_instanceCounter);
+            Logger.WriteLine("MultipleSeriesDataTable(" + interval + ") + instanceCounter= " + s_instanceCounter);
 
             m_instanceNumber = s_instanceCounter;
             m_tblList = new List<DataTable>();
@@ -60,7 +60,8 @@ namespace HdbPoet
                     m_Series.Add(s);
 
                     string title = s.SiteName + " " + s.ParameterType;
-                    title += " " + s.Units + " (SDID=" + s.hdb_site_datatype_id + ")";
+                    title += " " + s.Units + ", " + s.sdid_descriptor + 
+                        " (SDID=" + s.hdb_site_datatype_id + ")";
                     if (s.hdb_r_table == "r_base")
                     {// this is needed because r_base could be any interval.
                         // we need to identify it as different

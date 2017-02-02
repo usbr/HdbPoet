@@ -995,6 +995,7 @@ namespace HdbPoet
                     }
                     text += (string)tbl.Rows[i]["DATATYPE_COMMON_NAME"];
                     text += " (DID=" + tbl.Rows[i]["DATATYPE_ID"] + ")";
+                    text += " " + tbl.Rows[i]["SDID_DESCRIPTOR"];
                     text += " " + tbl.Rows[i]["COUNT(A.VALUE)"].ToString() + "";
                     text += " records from";
                     text += " " + ((DateTime)tbl.Rows[i]["min(start_date_time)"]).ToString("MMM-dd-yyyy")
@@ -1056,6 +1057,10 @@ namespace HdbPoet
                         { row.model_run_id = 0; }
                         else
                         { row.model_run_id = Convert.ToDecimal(this.selectedMRID.Text); }
+                        if (r_tableRow["sdid_descriptor"] == DBNull.Value)
+                        { row.sdid_descriptor = ""; }
+                        else
+                        { row.sdid_descriptor = (string)r_tableRow["sdid_descriptor"]; }
                         graphDef.AddSeriesRow(row);
                     }
                 }
