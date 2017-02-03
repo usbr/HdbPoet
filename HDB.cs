@@ -673,7 +673,8 @@ namespace HdbPoet
             }
             else
             {
-                if (System.Text.RegularExpressions.Regex.Matches(siteSearchString, @"[a-zA-Z]").Count > 0)
+                if (System.Text.RegularExpressions.Regex.Matches(siteSearchString, @"[a-zA-Z]").Count > 0 ||
+                    siteSearchString == "")
                 {
                     System.Windows.Forms.MessageBox.Show("Use SDID button is checked - Enter valid SDID number(s)...", "Error");
                     return new DataTable();
