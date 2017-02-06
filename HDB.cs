@@ -903,20 +903,22 @@ group by d.datatype_id, d.datatype_common_name
         public DataTable SiteInfo(int site_id, string[] r_names, bool showBase, bool getModeledData = false, int mrid = 0)
         {
 
-            string sql_template = "  select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
-                                     + " count(a.value),'#TABLE_NAME#' \"rtable\", max(a.site_datatype_id) "
-                                     + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
-                                     + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\","
-                                     + " max(f.cmmnt) \"sdid_descriptor\" "
-                                     + " from "
-                                     + " #TABLE_NAME# a, hdb_site_datatype b, hdb_site c, hdb_datatype d, hdb_unit e, ref_ext_site_data_map f "
-                                     + " where "
-                                     + " a.site_datatype_id = b.site_datatype_id and "
-                                     + " b.datatype_id = d.datatype_id and c.site_id =" + site_id.ToString()
-                                     + "  and e.unit_id = d.unit_id and "
-                                     + " b.site_id = " + site_id.ToString()
-                                     + " and a.site_datatype_id = f.hdb_site_datatype_id "
-                                     + " group by d.datatype_id, d.datatype_common_name ";
+            string sql_template = " select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
+                         + " count(a.value),'#TABLE_NAME#' \"rtable\", max(a.site_datatype_id) "
+                         + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
+                         + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\","
+                         + " nvl(max(f.cmmnt),null) \"sdid_descriptor\" "
+                         + " from #TABLE_NAME# a "
+                         + " left join hdb_site_datatype b on a.site_datatype_id = b.site_datatype_id "
+                         + " left join hdb_site c on b.site_id=c.site_id "
+                         + " left join hdb_datatype d on b.datatype_id=d.datatype_id "
+                         + " left join hdb_unit e on d.unit_id=e.unit_id "
+                         + " left join (select * from ref_ext_site_data_map where ext_data_source_id = 68) f "
+                         + " on a.site_datatype_id=f.hdb_site_datatype_id"
+                         + " where c.site_id = " + site_id.ToString()
+                         + " and b.site_id = " + site_id.ToString()
+                         + " group by d.datatype_id, d.datatype_common_name ";
+
             string sql = "";
             for (int i = 0; i < r_names.Length; i++)
             {
@@ -928,7 +930,7 @@ group by d.datatype_id, d.datatype_common_name
                 if (getModeledData)
                 {
                     tableName = Hdb.m_tables[idx];
-                    query = query.Replace("where", "where model_run_id = " + mrid + " and");
+                    query = query.Replace("where c.site_id = ", "where model_run_id = " + mrid + " and c.site_id = ");
                 }
                 else
                 { 
