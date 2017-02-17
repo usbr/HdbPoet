@@ -77,29 +77,6 @@ namespace HdbPoet.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>host:ecohdb.bor.doi.net service:ecohdb.bor.doi.net timezone:MST</string>
-  <string>host:uchdb2.uc.usbr.gov service:uchdb2.uc.usbr.gov timezone:MST</string>
-  <string>host:albhdb.uc.usbr.gov service:albhdb   timezone: MDT</string>
-  <string>host:ibr3river.bor.doi.net  service:lchdb2.usbr.gov  timezone:MST</string>
-  <string>host:ibr3rwatr.lc.usbr.gov service:lctest  timezone:MST</string>
-  <string>host:www.troa.net service:troahdb timezone:PDT</string>
-  <string>host:ibr3yaohdb.bor.doi.net service:yaohdb  timezone:MST</string>
-  <string>host:uchdbdev.uc.usbr.gov service:uchdbdev.uc.usbr.gov  timezone:MST</string>
-  <string>host:ibr4ucraplx003.bor.doi.net service:uchdb2.bor.doi.net  timezone:MST</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection HdbServers {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["HdbServers"]));
-            }
-            set {
-                this["HdbServers"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
             "tring>Red</string>\r\n  <string>Green</string>\r\n  <string>Blue</string>\r\n  <string" +
@@ -160,6 +137,30 @@ namespace HdbPoet.Properties {
             }
             set {
                 this["SeriesColors"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>host:ecohdb.bor.doi.net service:ecohdb.bor.doi.net timezone:MST</string>
+  <string>host:uchdb2.uc.usbr.gov service:uchdb2.uc.usbr.gov timezone:MST</string>
+  <string>host:albhdb.uc.usbr.gov service:albhdb   timezone: MDT</string>
+  <string>host:ibr3river.bor.doi.net  service:lchdb2.usbr.gov  timezone:MST</string>
+  <string>host:ibr3rwatr.lc.usbr.gov service:lctest  timezone:MST</string>
+  <string>host:www.troa.net service:troahdb timezone:PDT</string>
+  <string>host:ibr3yaohdb.bor.doi.net service:yaohdb  timezone:MST</string>
+  <string>host:uchdbdev.uc.usbr.gov service:uchdbdev.uc.usbr.gov  timezone:MST</string>
+  <string>host:ibr4ucraplx003.bor.doi.net service:uchdb2.bor.doi.net  timezone:MST</string>
+  <string>host:gphyd1.bor.doi.net service:hydro.bor.doi.net  timezone:MDT</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection HdbServers {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["HdbServers"]));
+            }
+            set {
+                this["HdbServers"] = value;
             }
         }
     }
