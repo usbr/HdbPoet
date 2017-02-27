@@ -59,9 +59,15 @@ namespace HdbPoet
 
                     m_Series.Add(s);
 
-                    string title = s.SiteName + " " + s.ParameterType;
-                    title += " " + s.Units + ", " + s.sdid_descriptor + 
-                        " (SDID=" + s.hdb_site_datatype_id + ")";
+                    string title = s.SiteName + "\r\n" +
+                                   s.ParameterType + "\r\n" +
+                                   "(SDID=" + s.hdb_site_datatype_id + ")\r\n";
+                    if (s.sdid_descriptor != "")
+                    {
+                        title += s.sdid_descriptor + "\r\n";
+                    }
+                    title += s.Units;
+
                     if (s.hdb_r_table == "r_base")
                     {// this is needed because r_base could be any interval.
                         // we need to identify it as different
