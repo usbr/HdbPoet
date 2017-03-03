@@ -3,8 +3,7 @@ HdbPoet
 
 HDB POET Hydrologic Database - Perusal or Editing Tool  
 
-source code at https://github.com/usbr/HdbPoet
-installer at: http://www.usbr.gov/pn/hydromet/poet/
+Installer at: https://github.com/usbr/HdbPoet/releases
 
 The project as originally published constitutes a work of the United States Government and is not subject to domestic copyright protection under 17 USC ¤ 105. Subsequent contributions by members of the public, however, retain their original copyright.
 
