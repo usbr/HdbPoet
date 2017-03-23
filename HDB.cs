@@ -655,7 +655,8 @@ namespace HdbPoet
 
                 if (siteSearchString.Trim() != "")
                 {
-                    sql_template += " and lower(c.site_name) like '%" + siteSearchString.ToLower().Trim() + "%'";
+                    sql_template += " and (lower(c.site_name) like '%" + siteSearchString.ToLower().Trim() + "%' or ";
+                    sql_template += " lower(c.site_common_name) like '%" + siteSearchString.ToLower().Trim() + "%') ";
                 }
                 if (objecttype_id.Length > 0)
                 {
