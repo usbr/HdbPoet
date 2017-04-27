@@ -637,12 +637,17 @@ namespace HdbPoet
                                             bool getSdidInfo, bool getModeledData = false, int modelRunID = 0)
         {
             siteSearchString = SafeSqlLikeClauseLiteral(siteSearchString);
-            string sql_template = "select c.site_id, c.site_name, c.objecttype_id from #TABLE_NAME# a, "
+            string sql_template = "select c.site_id, c.site_name, c.objecttype_id from "
+                                        //+ "#TABLE_NAME# a, "
                                         + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
-                                        + "where a.site_datatype_id = b.site_datatype_id  and "
-                                        + "b.site_id = c.site_id and d.objecttype_id = c.objecttype_id";
+                                        + "where "
+                                        //+ "a.site_datatype_id = b.site_datatype_id and "
+                                        + "b.site_id = c.site_id and d.objecttype_id = c.objecttype_id ";
             if (!getSdidInfo)
             {
+                sql_template = sql_template.Replace("c.objecttype_id from hdb_site_datatype", "c.objecttype_id from #TABLE_NAME# a, hdb_site_datatype");
+                sql_template = sql_template.Replace("where b.site_id", "where a.site_datatype_id = b.site_datatype_id and b.site_id");
+
                 if (getModeledData)
                 {
                     sql_template += " and a.model_run_id = " + modelRunID;
@@ -905,17 +910,26 @@ group by d.datatype_id, d.datatype_common_name
         {
 
             string sql_template = " select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
-                         + " count(a.value),'#TABLE_NAME#' \"rtable\", max(a.site_datatype_id) "
+                         + " count(a.value),'#TABLE_NAME#' \"rtable\", "
+                         //+ " max(a.site_datatype_id) "
+                         + " max(b.site_datatype_id) "
                          + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
                          + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\","
                          + " nvl(max(f.cmmnt),null) \"sdid_descriptor\" "
-                         + " from #TABLE_NAME# a "
-                         + " left join hdb_site_datatype b on a.site_datatype_id = b.site_datatype_id "
-                         + " left join hdb_site c on b.site_id=c.site_id "
-                         + " left join hdb_datatype d on b.datatype_id=d.datatype_id "
-                         + " left join hdb_unit e on d.unit_id=e.unit_id "
+                         //+ " from #TABLE_NAME# a "
+                         //+ " left join hdb_site_datatype b on a.site_datatype_id = b.site_datatype_id "
+                         //+ " left join hdb_site c on b.site_id=c.site_id "
+                         //+ " left join hdb_datatype d on b.datatype_id=d.datatype_id "
+                         //+ " left join hdb_unit e on d.unit_id=e.unit_id "
+                         //+ " left join (select * from ref_ext_site_data_map where ext_data_source_id = 68) f "
+                         //+ " on a.site_datatype_id=f.hdb_site_datatype_id"
+                         + " from hdb_site c"
+                         + " left join hdb_site_datatype b on c.site_id = b.site_id  "
+                         + " left join hdb_datatype d on d.datatype_id=b.datatype_id "
+                         + " left join hdb_unit e on e.unit_id=d.unit_id "
                          + " left join (select * from ref_ext_site_data_map where ext_data_source_id = 68) f "
-                         + " on a.site_datatype_id=f.hdb_site_datatype_id"
+                         + " on f.hdb_site_datatype_id=b.site_datatype_id "
+                         + " left join #TABLE_NAME# a on a.site_datatype_id=b.site_datatype_id "
                          + " where c.site_id = " + site_id.ToString()
                          + " and b.site_id = " + site_id.ToString()
                          + " group by d.datatype_id, d.datatype_common_name ";

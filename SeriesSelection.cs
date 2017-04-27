@@ -996,11 +996,19 @@ namespace HdbPoet
                     text += (string)tbl.Rows[i]["DATATYPE_COMMON_NAME"];
                     text += " (DID=" + tbl.Rows[i]["DATATYPE_ID"] + ")";
                     text += " " + tbl.Rows[i]["SDID_DESCRIPTOR"];
-                    text += " " + tbl.Rows[i]["COUNT(A.VALUE)"].ToString() + "";
-                    text += " records from";
-                    text += " " + ((DateTime)tbl.Rows[i]["min(start_date_time)"]).ToString("MMM-dd-yyyy")
-                         + " to "
-                         + ((DateTime)tbl.Rows[i]["max(start_date_time)"]).ToString("MMM-dd-yyyy");
+                    text += " " + tbl.Rows[i]["COUNT(A.VALUE)"].ToString();
+                    text += " records";
+                    if (tbl.Rows[i]["min(start_date_time)"] != DBNull.Value || tbl.Rows[i]["max(start_date_time)"] != DBNull.Value)
+                    {
+                        text += " from ";
+                        text += ((DateTime)tbl.Rows[i]["min(start_date_time)"]).ToString("MMM-dd-yyyy")
+                             + " to "
+                             + ((DateTime)tbl.Rows[i]["max(start_date_time)"]).ToString("MMM-dd-yyyy");
+                    }
+                    else
+                    {
+                        text += " No data for selected interval";
+                    }
                     text += " (SDID=" + tbl.Rows[i]["site_datatype_id"] + ") ";
 
                     HdbNode node = new HdbNode(text);
