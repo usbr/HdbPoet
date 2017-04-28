@@ -36,7 +36,20 @@
             // 
             // 
             // 
-            this.tChart1.Aspect.ZOffset = 0;
+            this.tChart1.Aspect.ColorPaletteIndex = 20;
+            this.tChart1.Aspect.View3D = false;
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Automatic = true;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Bottom.Grid.DrawEvery = 2;
+            this.tChart1.Axes.Bottom.Grid.Visible = false;
             // 
             // 
             // 
@@ -46,46 +59,160 @@
             // 
             // 
             // 
-            this.tChart1.Axes.Bottom.Title.Transparent = true;
+            this.tChart1.Axes.Bottom.Labels.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.tChart1.Axes.Bottom.Labels.Font.Size = 9;
+            this.tChart1.Axes.Bottom.Labels.Font.SizeFloat = 9F;
             // 
             // 
             // 
             // 
             // 
             // 
-            this.tChart1.Axes.Depth.Title.Transparent = true;
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Bottom.Title.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart1.Axes.Bottom.Title.Font.Size = 11;
+            this.tChart1.Axes.Bottom.Title.Font.SizeFloat = 11F;
             // 
             // 
             // 
             // 
             // 
             // 
-            this.tChart1.Axes.DepthTop.Title.Transparent = true;
+            this.tChart1.Axes.Left.AxisPen.Visible = false;
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Left.Grid.DrawEvery = 2;
+            this.tChart1.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Solid;
             // 
             // 
             // 
             // 
             // 
             // 
-            this.tChart1.Axes.Left.Title.Transparent = true;
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Left.Labels.Font.Brush.Color = System.Drawing.Color.Gray;
+            this.tChart1.Axes.Left.Labels.Font.Size = 9;
+            this.tChart1.Axes.Left.Labels.Font.SizeFloat = 9F;
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Left.MinorTicks.Visible = false;
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Left.Ticks.Visible = false;
             // 
             // 
             // 
             // 
             // 
             // 
-            this.tChart1.Axes.Right.Title.Transparent = true;
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Left.Title.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart1.Axes.Left.Title.Font.Size = 11;
+            this.tChart1.Axes.Left.Title.Font.SizeFloat = 11F;
             // 
             // 
             // 
             // 
             // 
             // 
-            this.tChart1.Axes.Top.Title.Transparent = true;
-            this.tChart1.Location = new System.Drawing.Point(56, 26);
+            this.tChart1.Axes.Right.AxisPen.Visible = false;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Right.Labels.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart1.Axes.Right.Labels.Font.Size = 9;
+            this.tChart1.Axes.Right.Labels.Font.SizeFloat = 9F;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart1.Axes.Top.Labels.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart1.Axes.Top.Labels.Font.Size = 9;
+            this.tChart1.Axes.Top.Labels.Font.SizeFloat = 9F;
+            this.tChart1.CurrentTheme = Steema.TeeChart.ThemeType.Report;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart1.Header.Font.Brush.Color = System.Drawing.Color.Gray;
+            this.tChart1.Header.Font.Size = 12;
+            this.tChart1.Header.Font.SizeFloat = 12F;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart1.Legend.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart1.Legend.Font.Size = 9;
+            this.tChart1.Legend.Font.SizeFloat = 9F;
+            // 
+            // 
+            // 
+            this.tChart1.Legend.Pen.Visible = false;
+            // 
+            // 
+            // 
+            this.tChart1.Legend.Shadow.Visible = false;
+            this.tChart1.Legend.Transparent = true;
+            this.tChart1.Location = new System.Drawing.Point(13, 13);
             this.tChart1.Name = "tChart1";
-            this.tChart1.Size = new System.Drawing.Size(400, 250);
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart1.Panel.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            // 
+            // 
+            // 
+            this.tChart1.Panel.Brush.Gradient.Visible = false;
+            this.tChart1.Size = new System.Drawing.Size(267, 248);
             this.tChart1.TabIndex = 0;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart1.Walls.Back.Brush.Visible = false;
+            this.tChart1.Walls.Back.Transparent = true;
+            this.tChart1.Walls.Back.Visible = false;
             // 
             // FormTeeChartLicense
             // 
@@ -99,9 +226,11 @@
 
         }
 
+        private Steema.TeeChart.TChart tChart1;
+
         #endregion
 
-        private Steema.TeeChart.TChart tChart1;
+        //private Steema.TeeChart.TChart tChart1;
 
     }
 }

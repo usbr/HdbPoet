@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Reclamation.Core;
 using System.IO;
 using System.Diagnostics;
-using Devart.Data.Oracle;
+using Devart.Data.Universal;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,7 +57,7 @@ namespace HdbPoet
                     }
                 }
             }
-            catch (OracleException ex)
+            catch (Devart.Data.Universal.UniException ex)
             {
                 MessageBox.Show(ex.Message);
                 
@@ -195,7 +195,7 @@ namespace HdbPoet
                     }
                 }
             }
-            catch (OracleException ex)
+            catch (Devart.Data.Universal.UniException ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -231,7 +231,7 @@ namespace HdbPoet
                     }
                 }
             }
-            catch (OracleException ex)
+            catch (Devart.Data.Universal.UniException ex)
             {
                 MessageBox.Show(ex.Message);
             }

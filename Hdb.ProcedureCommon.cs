@@ -7,7 +7,7 @@ using System.Data;
 #if HDB_OPEN
 using Oracle.ManagedDataAccess.Client;
 #else
-using Devart.Data.Oracle;
+using Devart.Data.Universal;
 #endif
 
 namespace HdbPoet
@@ -21,26 +21,26 @@ namespace HdbPoet
         static decimal s_METHOD_ID = HDB_INVALID_ID;
         static decimal s_COMPUTATION_ID = HDB_INVALID_ID;
 
-        static OracleDbType GetVarCharType()
+        static  UniDbType GetVarCharType()
         {
 #if HDB_OPEN
             return OracleDbType.Varchar2;
 #else
-            return Devart.Data.Oracle.OracleDbType.VarChar;
+            return UniDbType.VarChar;
 #endif
         }
-static OracleDbType GetNumberType()
+static UniDbType GetNumberType()
         {
 #if HDB_OPEN
             return OracleDbType.Decimal;
 #else
-            return Devart.Data.Oracle.OracleDbType.Number;
+            return UniDbType.BigInt;
 #endif
         }
 
         public int delete_from_mtable(int mrid, int sdi, DateTime t1, DateTime t2, string interval)
         {
-            OracleCommand cmd = new OracleCommand("DELETE_M_TABLE");
+            UniCommand cmd = new UniCommand("DELETE_M_TABLE");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("MODEL_RUN_ID", mrid);
@@ -57,7 +57,7 @@ static OracleDbType GetNumberType()
 
         public int modify_m_table(int mrid, int sdi, DateTime t1, DateTime t2, double value, string interval, bool isNewEntry)
         {
-            OracleCommand cmd = new OracleCommand("MODIFY_M_TABLE");
+            UniCommand cmd = new UniCommand("MODIFY_M_TABLE");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string doUpdateYorN;
@@ -81,19 +81,19 @@ static OracleDbType GetNumberType()
 
         internal void delete_from_hdb(decimal sdi, DateTime t, string interval, string timeZone)
         {
-            OracleCommand cmd = new OracleCommand("DELETE_FROM_HDB");
+            UniCommand cmd = new UniCommand("DELETE_FROM_HDB");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("SAMPLE_SDI", sdi);
             cmd.Parameters.Add("SAMPLE_DATE_TIME", t);
-            cmd.Parameters.Add("SAMPLE_END_TIME", OracleDbType.Date, DBNull.Value, ParameterDirection.Input);
+            cmd.Parameters.Add("SAMPLE_END_TIME", DBNull.Value);
             cmd.Parameters.Add("SAMPLE_INTERVAL", interval);
             cmd.Parameters.Add("LOADING_APP_ID", s_LOADING_APPLICATION_ID);
             int modelrun_id = 0;
             cmd.Parameters.Add("MODELRUN_ID", modelrun_id);
             cmd.Parameters.Add("AGENCY_ID", s_AGEN_ID);
 
-            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("time_zone", timeZone);
             m_server.RunStoredProc(cmd);
 
         }
@@ -125,7 +125,7 @@ static OracleDbType GetNumberType()
             }
 
 
-            OracleCommand cmd = new OracleCommand("LOOKUP_APPLICATION");
+            UniCommand cmd = new UniCommand("LOOKUP_APPLICATION");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string agen_id_name = System.Configuration.ConfigurationManager.AppSettings["AGEN_ID_NAME"];
@@ -138,11 +138,31 @@ static OracleDbType GetNumberType()
 
             //output parameters.
             var n = GetNumberType();
-            cmd.Parameters.Add("AGEN_ID",n , ParameterDirection.Output);
-            cmd.Parameters.Add("COLLECTION_SYSTEM_ID", n, ParameterDirection.Output);
-            cmd.Parameters.Add("LOADING_APPLICATION_ID", n, ParameterDirection.Output);
-            cmd.Parameters.Add("METHOD_ID", n, ParameterDirection.Output);
-            cmd.Parameters.Add("COMPUTATION_ID", n, ParameterDirection.Output);
+            //cmd.Parameters.Add("AGEN_ID",n , ParameterDirection.Output);
+            UniParameter parameter = new UniParameter("AGEN_ID", n);
+            parameter.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(parameter);
+
+            //cmd.Parameters.Add("COLLECTION_SYSTEM_ID", n, ParameterDirection.Output);
+            parameter = new UniParameter("COLLECTION_SYSTEM_ID", n);
+            parameter.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(parameter);
+
+            //cmd.Parameters.Add("LOADING_APPLICATION_ID", n, ParameterDirection.Output);
+            parameter = new UniParameter("LOADING_APPLICATION_ID", n);
+            parameter.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(parameter);
+
+            //cmd.Parameters.Add("METHOD_ID", n, ParameterDirection.Output);
+            parameter = new UniParameter("METHOD_ID", n);
+            parameter.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(parameter);
+
+            //cmd.Parameters.Add("COMPUTATION_ID", n, ParameterDirection.Output);
+            parameter = new UniParameter("COMPUTATION_ID", n);
+            parameter.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(parameter);
+
 
             m_server.RunStoredProc(cmd);
 
@@ -168,7 +188,7 @@ static OracleDbType GetNumberType()
           string validationFlag, string timeZone)
         {
             //status = "";
-            OracleCommand cmd = new OracleCommand("hdb_utilities.set_validation");
+            UniCommand cmd = new UniCommand("hdb_utilities.set_validation");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
@@ -181,7 +201,7 @@ static OracleDbType GetNumberType()
             else
                 cmd.Parameters["VALIDATION_FLAG"].Value = validationFlag;
 
-            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("time_zone", timeZone);
 
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
@@ -204,7 +224,7 @@ static OracleDbType GetNumberType()
         //out string status) //   'O'  'null' 
         {
             //            status = "";
-            OracleCommand cmd = new OracleCommand("hdb_utilities.set_overwrite_flag");
+            UniCommand cmd = new UniCommand("hdb_utilities.set_overwrite_flag");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
@@ -222,7 +242,7 @@ static OracleDbType GetNumberType()
                 cmd.Parameters["OVERWRITE_FLAG"].Value = DBNull.Value;
             }
 
-            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("time_zone", timeZone);
 
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
@@ -247,13 +267,13 @@ static OracleDbType GetNumberType()
            string timeZone) // 'V' '-' 'Z'
         {
 
-            OracleCommand cmd = new OracleCommand("MODIFY_R_BASE_RAW");
+            UniCommand cmd = new UniCommand("MODIFY_R_BASE_RAW");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
             cmd.Parameters.Add("INTERVAL", interval);
             cmd.Parameters.Add("START_DATE_TIME", t);
-            cmd.Parameters.Add("END_DATE_TIME", OracleDbType.Date, DBNull.Value, ParameterDirection.Input);
+            cmd.Parameters.Add("END_DATE_TIME", DBNull.Value);
             cmd.Parameters.Add("VALUE", value);
             cmd.Parameters.Add("AGEN_ID", s_AGEN_ID);
             cmd.Parameters.Add("OVERWRITE_FLAG", GetVarCharType(), 1);
@@ -267,15 +287,15 @@ static OracleDbType GetNumberType()
                 cmd.Parameters["OVERWRITE_FLAG"].Value = DBNull.Value;
             }
 
-            cmd.Parameters.Add("VALIDATION", OracleDbType.Char, VALIDATION, ParameterDirection.Input);
+            cmd.Parameters.Add("VALIDATION", VALIDATION);
             cmd.Parameters.Add("COLLECTION_SYSTEM_ID", s_COLLECTION_SYSTEM_ID);
             cmd.Parameters.Add("LOADING_APPLICATION_ID", s_LOADING_APPLICATION_ID);
             cmd.Parameters.Add("METHOD_ID", s_METHOD_ID);
             cmd.Parameters.Add("COMPUTATION_ID", s_COMPUTATION_ID);
 
-            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", GetVarCharType(), 1, "Y", ParameterDirection.Input);
-            cmd.Parameters.Add("DATA_FLAGS", GetVarCharType(), DBNull.Value, ParameterDirection.Input);
-            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", "Y");
+            cmd.Parameters.Add("DATA_FLAGS", DBNull.Value);
+            cmd.Parameters.Add("time_zone", timeZone);
 
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
@@ -285,13 +305,13 @@ static OracleDbType GetNumberType()
 
         internal int Calculate_Series(decimal sdi, string interval, DateTime t, string timeZone)
         {
-            OracleCommand cmd = new OracleCommand("HDB_POET.CALCULATE_SERIES");
+            UniCommand cmd = new UniCommand("HDB_POET.CALCULATE_SERIES");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("SITE_DATATYPE_ID", sdi);
             cmd.Parameters.Add("INTERVAL", interval);
             cmd.Parameters.Add("START_TIME", t);
-            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
+            cmd.Parameters.Add("time_zone", timeZone);
 
             int rval = m_server.RunStoredProc(cmd);
 
@@ -327,7 +347,7 @@ static OracleDbType GetNumberType()
 
         private int Modify_Acl(string user, string group, bool active, bool delete)
         {
-            OracleCommand cmd = new OracleCommand("hdb_utilities.modify_acl");
+            UniCommand cmd = new UniCommand("hdb_utilities.modify_acl");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string p_active_flag = active ? "Y" : "N";
@@ -356,7 +376,7 @@ static OracleDbType GetNumberType()
         private int Modify_Site_Group_Name(decimal site_id, string group,
              bool delete)
         {
-            OracleCommand cmd = new OracleCommand("hdb_utilities.modify_site_group_name");
+            UniCommand cmd = new UniCommand("hdb_utilities.modify_site_group_name");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string p_delete_flag = delete ? "Y" : "N";
@@ -373,9 +393,15 @@ static OracleDbType GetNumberType()
 
         internal bool AclReadonly(int sdi)
         {
-            OracleCommand cmd = new OracleCommand("hdb_utilities.is_sdi_in_acl");
+            UniCommand cmd = new UniCommand("hdb_utilities.is_sdi_in_acl");
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("RS", GetVarCharType(), 10, null, ParameterDirection.ReturnValue);
+
+            //cmd.Parameters.Add("RS", GetVarCharType(), 10, null, ParameterDirection.ReturnValue);
+            UniParameter parameter = new UniParameter("RS", GetVarCharType(), 10);
+            parameter.Value = null;
+            parameter.Direction = ParameterDirection.ReturnValue;
+            cmd.Parameters.Add(parameter);
+
             cmd.Parameters.Add("P_SITE_DATATYPE_ID", (decimal)sdi);
 
             int rval = m_server.RunStoredProc(cmd);

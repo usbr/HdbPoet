@@ -134,7 +134,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'poet|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\poet\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;HDB_OPEN</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HDB2_OPEN</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
     <NoWarn>1591</NoWarn>
@@ -163,13 +163,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ThirdParty\Aga.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="Devart.Data">
-      <HintPath>PaidThirdParty\Devart.Data.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Devart.Data, Version=5.0.1586.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Universal\Devart.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Devart.Data.Oracle">
-      <HintPath>PaidThirdParty\Devart.Data.Oracle.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Devart.Data.Universal, Version=3.60.1291.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Universal\Devart.Data.Universal.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data.Universal.Oracle, Version=3.60.1291.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Universal\Providers\Devart.Data.Universal.Oracle.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data.Universal.OracleClient, Version=3.60.1291.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Universal\Providers\Devart.Data.Universal.OracleClient.dll</HintPath>
     </Reference>
     <Reference Include="DgvFilterPopup">
       <HintPath>ThirdParty\DgvFilterPopup.dll</HintPath>
@@ -197,6 +205,8 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
@@ -208,10 +218,6 @@
       <Name>System.XML</Name>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TeeChart, Version=4.0.2009.21355, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ThirdParty\TeeChart.dll</HintPath>
-    </Reference>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -219,6 +225,10 @@
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
     </COMReference>
+    <Reference Include="TeeChart, Version=4.1.2016.10263, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steema Software\net45\x86\TeeChart.dll</HintPath>
+    </Reference>
     <Reference Include="ZedGraph, Version=5.1.6.417, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pisces\packages\ZedGraph.5.1.6\lib\net35-Client\ZedGraph.dll</HintPath>
