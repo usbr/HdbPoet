@@ -43,6 +43,7 @@ namespace HdbPoet
         private MenuItem menuItemGettingStarted;
         private MenuItem menuItemMetadata;
         private MenuItem menuItemLog;
+        private MenuItem menuItemUpgrade;
         private System.Windows.Forms.ToolTip toolTip1;
 
 
@@ -98,6 +99,7 @@ namespace HdbPoet
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.menuItemUpgrade = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -192,7 +194,8 @@ namespace HdbPoet
             this.menuItemLegend,
             this.menuItemLog,
             this.menuItem2,
-            this.menuItemAbout});
+            this.menuItemAbout,
+            this.menuItemUpgrade});
             this.menuItemHelpMain.Text = "&Help";
             // 
             // menuItemGettingStarted
@@ -241,6 +244,12 @@ namespace HdbPoet
             this.imageList1.Images.SetKeyName(2, "database_pipes_24bit.bmp");
             this.imageList1.Images.SetKeyName(3, "excelsmall.bmp");
             this.imageList1.Images.SetKeyName(4, "EXCEL_257.ico");
+            // 
+            // menuItemUpgrade
+            // 
+            this.menuItemUpgrade.Index = 5;
+            this.menuItemUpgrade.Text = "Check Upgrades";
+            this.menuItemUpgrade.Click += new System.EventHandler(this.menuItemUpgrade_Click);
             // 
             // FormMain
             // 
@@ -316,6 +325,12 @@ namespace HdbPoet
         {
             About a = new About();
             a.ShowDialog();
+        }
+
+        private void menuItemUpgrade_Click(object sender, System.EventArgs e)
+        {
+            Upgrade u = new Upgrade();
+            u.ShowDialog();
         }
 
 
