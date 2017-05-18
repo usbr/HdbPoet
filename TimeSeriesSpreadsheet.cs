@@ -418,25 +418,76 @@ namespace HdbPoet
 
         private void menuDetails_Click(object sender, EventArgs e)
         {
-                DataGridViewCell cell = dataGrid1.SelectedCells[0];
+            DataGridViewCell cell = dataGrid1.SelectedCells[0];
 
-                if (cell.ColumnIndex != 0 && cell.Value != DBNull.Value)
+            if (cell.ColumnIndex != 0 && cell.Value != DBNull.Value)
+            {
+                DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
+                MultipleSeriesDataTable tbl = row.Table as MultipleSeriesDataTable;
+                DateTime t = Convert.ToDateTime(row[0]);
+                string interval = tbl.TableName;
+                HdbPoet.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
+                var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, interval);
+
+                info = DataTableUtility.Transpose(info);
+
+                // GET Computation Processor Information
+                try
                 {
-                    DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
-                    MultipleSeriesDataTable tbl = row.Table as MultipleSeriesDataTable;
-                    DateTime t = Convert.ToDateTime(row[0]);
-                    string interval = tbl.TableName;
-                    HdbPoet.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
-                    var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, interval);
+                    if (info.Columns.Count > 1 && Convert.ToInt32(info.Rows[info.Rows.Count - 1][1]) > 99)
+                    {
+                        var cpInfo = Hdb.Instance.CpInfo(info.Rows[info.Rows.Count - 1][1].ToString());
 
-                    info =DataTableUtility.Transpose(info);
-                    TableViewer tv = new TableViewer(info);
-                    tv.Show();
+                        // cp comment
+                        var cpRow = info.NewRow();
+                        cpRow[0] = "CP_COMMENT";
+                        cpRow[1] = cpInfo.Rows[0]["CMMNT"];
+                        info.Rows.Add(cpRow);
 
-
-                    //msDataTable
-                    //row[cell.ColumnIndex] = DBNull.Value;
+                        // cp inputs
+                        if (cpInfo.Rows[0]["GRP"].ToString() != "")
+                        {
+                            cpRow = info.NewRow();
+                            cpRow[0] = "CP_INPUT";
+                            cpRow[1] = "Group Comp - Input is self with a different time-step or ";
+                            info.Rows.Add(cpRow);
+                            cpRow = info.NewRow();
+                            cpRow[0] = "CP_INPUT";
+                            cpRow[1] = "a different SDID under the same site";
+                            info.Rows.Add(cpRow);
+                        }
+                        else
+                        {
+                            int inputCounter = 1;
+                            foreach (DataRow item in cpInfo.Rows)
+                            {
+                                cpRow = info.NewRow();
+                                cpRow[0] = "CP_INPUT_" + inputCounter;
+                                cpRow[1] = "SDID " + item["SDID"].ToString() +
+                                           " (" + item["SNAME"].ToString().ToUpper() +
+                                           "-" + item["DNAME"].ToString().ToUpper() +
+                                           ") from " + item["TABL"].ToString().ToUpper();
+                                info.Rows.Add(cpRow);
+                                inputCounter++;
+                            }
+                        }
+                    }
                 }
+                catch
+                {
+                    var cpRow = info.NewRow();
+                    cpRow[0] = "CP COMMENT";
+                    cpRow[1] = "Unable to get CP Information from the DB...";
+                    info.Rows.Add(cpRow);
+                }
+
+                TableViewer tv = new TableViewer(info);
+                tv.Show();
+
+
+                //msDataTable
+                //row[cell.ColumnIndex] = DBNull.Value;
+            }
         }
 
 
