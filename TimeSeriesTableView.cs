@@ -77,7 +77,14 @@ namespace HdbPoet
             if (GetIntervalDataTable() != null)
             {
                 string filename = Path.ChangeExtension(Path.GetTempFileName(), ".csv");
-                
+
+                // remove new line characters in header for proper csv export
+                var dTab = GetIntervalDataTable();
+                for (int i = 0; i < dTab.Columns.Count; i++)
+                {
+                    dTab.Columns[i].ColumnName = dTab.Columns[i].ColumnName.Replace("\r\n", " ");
+                }
+
                 CsvFile.WriteToCSV(GetIntervalDataTable(), filename, false);
 
                 Process.Start(filename);
