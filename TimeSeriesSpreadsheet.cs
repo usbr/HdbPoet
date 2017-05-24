@@ -452,7 +452,7 @@ namespace HdbPoet
                             cpRow[1] = "Group Comp - Input is self with a different time-step or ";
                             info.Rows.Add(cpRow);
                             cpRow = info.NewRow();
-                            cpRow[0] = "CP_INPUT";
+                            cpRow[0] = "";
                             cpRow[1] = "a different SDID under the same site";
                             info.Rows.Add(cpRow);
                         }
