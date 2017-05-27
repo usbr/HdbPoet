@@ -44,6 +44,7 @@ namespace HdbPoet
         private MenuItem menuItemMetadata;
         private MenuItem menuItemLog;
         private MenuItem menuItemUpgrade;
+        private MenuItem menuItemOptions;
         private System.Windows.Forms.ToolTip toolTip1;
 
 
@@ -95,11 +96,12 @@ namespace HdbPoet
             this.menuItemLog = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.menuItemAbout = new System.Windows.Forms.MenuItem();
+            this.menuItemUpgrade = new System.Windows.Forms.MenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.menuItemUpgrade = new System.Windows.Forms.MenuItem();
+            this.menuItemOptions = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -193,6 +195,7 @@ namespace HdbPoet
             this.menuItemGettingStarted,
             this.menuItemLegend,
             this.menuItemLog,
+            this.menuItemOptions,
             this.menuItem2,
             this.menuItemAbout,
             this.menuItemUpgrade});
@@ -218,14 +221,20 @@ namespace HdbPoet
             // 
             // menuItem2
             // 
-            this.menuItem2.Index = 3;
+            this.menuItem2.Index = 4;
             this.menuItem2.Text = "-";
             // 
             // menuItemAbout
             // 
-            this.menuItemAbout.Index = 4;
+            this.menuItemAbout.Index = 5;
             this.menuItemAbout.Text = "&About";
             this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
+            // 
+            // menuItemUpgrade
+            // 
+            this.menuItemUpgrade.Index = 6;
+            this.menuItemUpgrade.Text = "Check Upgrades";
+            this.menuItemUpgrade.Click += new System.EventHandler(this.menuItemUpgrade_Click);
             // 
             // saveFileDialog1
             // 
@@ -245,11 +254,11 @@ namespace HdbPoet
             this.imageList1.Images.SetKeyName(3, "excelsmall.bmp");
             this.imageList1.Images.SetKeyName(4, "EXCEL_257.ico");
             // 
-            // menuItemUpgrade
+            // menuItemOptions
             // 
-            this.menuItemUpgrade.Index = 5;
-            this.menuItemUpgrade.Text = "Check Upgrades";
-            this.menuItemUpgrade.Click += new System.EventHandler(this.menuItemUpgrade_Click);
+            this.menuItemOptions.Index = 3;
+            this.menuItemOptions.Text = "Options";
+            this.menuItemOptions.Click += new System.EventHandler(this.menuItemOptions_Click);
             // 
             // FormMain
             // 
@@ -465,6 +474,10 @@ namespace HdbPoet
             Logger.ViewLog();
         }
 
-
+        private void menuItemOptions_Click(object sender, EventArgs e)
+        {
+            var f = new Options();
+            f.Show();
+        }
     }
 }

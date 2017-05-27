@@ -97,11 +97,11 @@ namespace HdbPoet
                 dataGrid1.Columns[c].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 dataGrid1.Columns[c].ReadOnly = msDataTable.LookupSeries(c).ReadOnly;
                 // adjust column widths to auto-fit
-                dataGrid1.Columns[c].Width = Convert.ToInt16(System.Math.Max(//System.Math.Max(
+                dataGrid1.Columns[c].Width = Convert.ToInt16(System.Math.Max(System.Math.Max(
                         TextRenderer.MeasureText(msDataTable.LookupSeries(c).ParameterType, dataGrid1.Font).Width,
-                        //TextRenderer.MeasureText(msDataTable.LookupSeries(c).SiteName, dataGrid1.Font).Width),
+                        TextRenderer.MeasureText(msDataTable.LookupSeries(c).SiteName, dataGrid1.Font).Width / 2),
                         TextRenderer.MeasureText(msDataTable.LookupSeries(c).sdid_descriptor, dataGrid1.Font).Width
-                        ) * 1.5);
+                        ) * 1.25);
 
             }
 
