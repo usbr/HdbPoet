@@ -13,7 +13,6 @@ namespace HdbPoet
 	public class Options : System.Windows.Forms.Form
 	{
 		private System.Windows.Forms.Button buttonOk;
-        private Button buttonCancel;
         public CheckBox checkBoxShowEmptySdids;
         public CheckBox checkBoxInsertIntoRbase;
         private Label label1;
@@ -62,7 +61,6 @@ namespace HdbPoet
 		private void InitializeComponent()
 		{
             this.buttonOk = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
             this.checkBoxShowEmptySdids = new System.Windows.Forms.CheckBox();
             this.checkBoxInsertIntoRbase = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -87,15 +85,6 @@ namespace HdbPoet
             this.buttonOk.TabIndex = 1;
             this.buttonOk.Text = "Ok";
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
-            // 
-            // buttonCancel
-            // 
-            this.buttonCancel.Location = new System.Drawing.Point(179, 261);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // checkBoxShowEmptySdids
             // 
@@ -252,7 +241,6 @@ namespace HdbPoet
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBoxInsertIntoRbase);
             this.Controls.Add(this.checkBoxShowEmptySdids);
-            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
