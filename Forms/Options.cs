@@ -20,6 +20,12 @@ namespace HdbPoet
         private Button buttonLogIn;
         private Label label2;
         public CheckBox checkBoxShowBase;
+        private GroupBox validationGroupBox;
+        private RadioButton eValidationRadioButton;
+        private RadioButton tValidationRadioButton;
+        private RadioButton zValidationRadioButton;
+        private RadioButton pValidationRadioButton;
+        private RadioButton vValidationRadioButton;
 
         /// <summary>
         /// Required designer variable.
@@ -62,11 +68,18 @@ namespace HdbPoet
             this.buttonLogIn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.checkBoxShowBase = new System.Windows.Forms.CheckBox();
+            this.validationGroupBox = new System.Windows.Forms.GroupBox();
+            this.eValidationRadioButton = new System.Windows.Forms.RadioButton();
+            this.tValidationRadioButton = new System.Windows.Forms.RadioButton();
+            this.zValidationRadioButton = new System.Windows.Forms.RadioButton();
+            this.pValidationRadioButton = new System.Windows.Forms.RadioButton();
+            this.vValidationRadioButton = new System.Windows.Forms.RadioButton();
+            this.validationGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(261, 167);
+            this.buttonOk.Location = new System.Drawing.Point(260, 261);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 1;
@@ -75,7 +88,7 @@ namespace HdbPoet
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(180, 167);
+            this.buttonCancel.Location = new System.Drawing.Point(179, 261);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -90,8 +103,7 @@ namespace HdbPoet
             this.checkBoxShowEmptySdids.Size = new System.Drawing.Size(164, 17);
             this.checkBoxShowEmptySdids.TabIndex = 3;
             this.checkBoxShowEmptySdids.Text = "Show empty SDIDs in search";
-            this.checkBoxShowEmptySdids.UseVisualStyleBackColor = true; 
-            this.checkBoxShowEmptySdids.Checked = GlobalVariables.showEmptySdids;
+            this.checkBoxShowEmptySdids.UseVisualStyleBackColor = true;
             this.checkBoxShowEmptySdids.CheckedChanged += new System.EventHandler(this.showEmptySdid_CheckedChanged);
             // 
             // checkBoxInsertIntoRbase
@@ -103,7 +115,6 @@ namespace HdbPoet
             this.checkBoxInsertIntoRbase.TabIndex = 4;
             this.checkBoxInsertIntoRbase.Text = "Insert into R-Base on write";
             this.checkBoxInsertIntoRbase.UseVisualStyleBackColor = true;
-            this.checkBoxInsertIntoRbase.Checked = GlobalVariables.insertOnWrite;
             this.checkBoxInsertIntoRbase.CheckedChanged += new System.EventHandler(this.insertOnWrite_CheckedChanged);
             // 
             // label1
@@ -117,7 +128,7 @@ namespace HdbPoet
             // 
             // buttonLogIn
             // 
-            this.buttonLogIn.Location = new System.Drawing.Point(13, 100);
+            this.buttonLogIn.Location = new System.Drawing.Point(12, 231);
             this.buttonLogIn.Name = "buttonLogIn";
             this.buttonLogIn.Size = new System.Drawing.Size(86, 23);
             this.buttonLogIn.TabIndex = 6;
@@ -128,7 +139,7 @@ namespace HdbPoet
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(105, 105);
+            this.label2.Location = new System.Drawing.Point(104, 236);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(125, 13);
             this.label2.TabIndex = 7;
@@ -143,13 +154,84 @@ namespace HdbPoet
             this.checkBoxShowBase.TabIndex = 8;
             this.checkBoxShowBase.Text = "Show base data";
             this.checkBoxShowBase.UseVisualStyleBackColor = true;
-            this.checkBoxShowBase.Checked = GlobalVariables.showBaseData;
             this.checkBoxShowBase.CheckedChanged += new System.EventHandler(this.showBaseData_CheckedChanged);
+            // 
+            // validationGroupBox
+            // 
+            this.validationGroupBox.Controls.Add(this.eValidationRadioButton);
+            this.validationGroupBox.Controls.Add(this.tValidationRadioButton);
+            this.validationGroupBox.Controls.Add(this.zValidationRadioButton);
+            this.validationGroupBox.Controls.Add(this.pValidationRadioButton);
+            this.validationGroupBox.Controls.Add(this.vValidationRadioButton);
+            this.validationGroupBox.Location = new System.Drawing.Point(11, 101);
+            this.validationGroupBox.Name = "validationGroupBox";
+            this.validationGroupBox.Size = new System.Drawing.Size(324, 73);
+            this.validationGroupBox.TabIndex = 9;
+            this.validationGroupBox.TabStop = false;
+            this.validationGroupBox.Text = "Set Validation Flag on write";
+            // 
+            // eValidationRadioButton
+            // 
+            this.eValidationRadioButton.AutoSize = true;
+            this.eValidationRadioButton.Location = new System.Drawing.Point(111, 42);
+            this.eValidationRadioButton.Name = "eValidationRadioButton";
+            this.eValidationRadioButton.Size = new System.Drawing.Size(70, 17);
+            this.eValidationRadioButton.TabIndex = 4;
+            this.eValidationRadioButton.Text = "Edited (e)";
+            this.eValidationRadioButton.UseVisualStyleBackColor = true;
+            this.eValidationRadioButton.CheckedChanged += new System.EventHandler(this.validationGroupBox_CheckedChanged);
+            // 
+            // tValidationRadioButton
+            // 
+            this.tValidationRadioButton.AutoSize = true;
+            this.tValidationRadioButton.Location = new System.Drawing.Point(20, 42);
+            this.tValidationRadioButton.Name = "tValidationRadioButton";
+            this.tValidationRadioButton.Size = new System.Drawing.Size(68, 17);
+            this.tValidationRadioButton.TabIndex = 3;
+            this.tValidationRadioButton.Text = "Temp (T)";
+            this.tValidationRadioButton.UseVisualStyleBackColor = true;
+            this.tValidationRadioButton.CheckedChanged += new System.EventHandler(this.validationGroupBox_CheckedChanged);
+            // 
+            // zValidationRadioButton
+            // 
+            this.zValidationRadioButton.AutoSize = true;
+            this.zValidationRadioButton.Checked = true;
+            this.zValidationRadioButton.Location = new System.Drawing.Point(209, 19);
+            this.zValidationRadioButton.Name = "zValidationRadioButton";
+            this.zValidationRadioButton.Size = new System.Drawing.Size(59, 17);
+            this.zValidationRadioButton.TabIndex = 2;
+            this.zValidationRadioButton.TabStop = true;
+            this.zValidationRadioButton.Text = "Default";
+            this.zValidationRadioButton.UseVisualStyleBackColor = true;
+            this.zValidationRadioButton.CheckedChanged += new System.EventHandler(this.validationGroupBox_CheckedChanged);
+            // 
+            // pValidationRadioButton
+            // 
+            this.pValidationRadioButton.AutoSize = true;
+            this.pValidationRadioButton.Location = new System.Drawing.Point(111, 19);
+            this.pValidationRadioButton.Name = "pValidationRadioButton";
+            this.pValidationRadioButton.Size = new System.Drawing.Size(92, 17);
+            this.pValidationRadioButton.TabIndex = 1;
+            this.pValidationRadioButton.Text = "Provisional (P)";
+            this.pValidationRadioButton.UseVisualStyleBackColor = true;
+            this.pValidationRadioButton.CheckedChanged += new System.EventHandler(this.validationGroupBox_CheckedChanged);
+            // 
+            // vValidationRadioButton
+            // 
+            this.vValidationRadioButton.AutoSize = true;
+            this.vValidationRadioButton.Location = new System.Drawing.Point(20, 19);
+            this.vValidationRadioButton.Name = "vValidationRadioButton";
+            this.vValidationRadioButton.Size = new System.Drawing.Size(85, 17);
+            this.vValidationRadioButton.TabIndex = 0;
+            this.vValidationRadioButton.Text = "Validated (V)";
+            this.vValidationRadioButton.UseVisualStyleBackColor = true;
+            this.vValidationRadioButton.CheckedChanged += new System.EventHandler(this.validationGroupBox_CheckedChanged);
             // 
             // Options
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(348, 202);
+            this.ClientSize = new System.Drawing.Size(348, 296);
+            this.Controls.Add(this.validationGroupBox);
             this.Controls.Add(this.checkBoxShowBase);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonLogIn);
@@ -164,6 +246,8 @@ namespace HdbPoet
             this.Name = "Options";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "HDB POET Advanced Options";
+            this.validationGroupBox.ResumeLayout(false);
+            this.validationGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -204,6 +288,32 @@ namespace HdbPoet
         private void openNewPoetInstance(object sender, EventArgs e)
         {
             Application.Restart();
+        }
+
+        private void validationGroupBox_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+
+            if (vValidationRadioButton.Checked)
+            {
+                GlobalVariables.writeValidationFlag = 'V';
+            }
+            else if (pValidationRadioButton.Checked)
+            {
+                GlobalVariables.writeValidationFlag = 'P';
+            }
+            else if (eValidationRadioButton.Checked)
+            {
+                GlobalVariables.writeValidationFlag = 'e';
+            }
+            else if (tValidationRadioButton.Checked)
+            {
+                GlobalVariables.writeValidationFlag = 'T';
+            }
+            else
+            {
+                GlobalVariables.writeValidationFlag = 'Z';
+            }
         }
 
     }

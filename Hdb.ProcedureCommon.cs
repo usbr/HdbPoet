@@ -258,6 +258,12 @@ static OracleDbType GetNumberType()
             cmd.Parameters.Add("AGEN_ID", s_AGEN_ID);
             cmd.Parameters.Add("OVERWRITE_FLAG", GetVarCharType(), 1);
 
+
+            if (GlobalVariables.writeValidationFlag != 'Z')
+            {
+                VALIDATION = GlobalVariables.writeValidationFlag;
+            }
+
             if (overwrite)
             {
                 cmd.Parameters["OVERWRITE_FLAG"].Value = "O";
