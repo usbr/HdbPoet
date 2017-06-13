@@ -264,7 +264,7 @@ static OracleDbType GetNumberType()
                 VALIDATION = GlobalVariables.writeValidationFlag;
             }
 
-            if (overwrite)
+            if (overwrite || GlobalVariables.overwriteOnWrite)
             {
                 cmd.Parameters["OVERWRITE_FLAG"].Value = "O";
             }

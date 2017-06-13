@@ -26,6 +26,7 @@ namespace HdbPoet
         private RadioButton zValidationRadioButton;
         private RadioButton pValidationRadioButton;
         private RadioButton vValidationRadioButton;
+        public CheckBox checkBoxSendOverwrite;
 
         /// <summary>
         /// Required designer variable.
@@ -35,7 +36,7 @@ namespace HdbPoet
 		public Options()
 		{
 			InitializeComponent();
-            
+            readOptionSettings();            
 		}
 
 		/// <summary>
@@ -74,6 +75,7 @@ namespace HdbPoet
             this.zValidationRadioButton = new System.Windows.Forms.RadioButton();
             this.pValidationRadioButton = new System.Windows.Forms.RadioButton();
             this.vValidationRadioButton = new System.Windows.Forms.RadioButton();
+            this.checkBoxSendOverwrite = new System.Windows.Forms.CheckBox();
             this.validationGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -163,7 +165,7 @@ namespace HdbPoet
             this.validationGroupBox.Controls.Add(this.zValidationRadioButton);
             this.validationGroupBox.Controls.Add(this.pValidationRadioButton);
             this.validationGroupBox.Controls.Add(this.vValidationRadioButton);
-            this.validationGroupBox.Location = new System.Drawing.Point(11, 101);
+            this.validationGroupBox.Location = new System.Drawing.Point(11, 119);
             this.validationGroupBox.Name = "validationGroupBox";
             this.validationGroupBox.Size = new System.Drawing.Size(324, 73);
             this.validationGroupBox.TabIndex = 9;
@@ -227,10 +229,22 @@ namespace HdbPoet
             this.vValidationRadioButton.UseVisualStyleBackColor = true;
             this.vValidationRadioButton.CheckedChanged += new System.EventHandler(this.validationGroupBox_CheckedChanged);
             // 
+            // checkBoxSendOverwrite
+            // 
+            this.checkBoxSendOverwrite.AutoSize = true;
+            this.checkBoxSendOverwrite.Location = new System.Drawing.Point(13, 97);
+            this.checkBoxSendOverwrite.Name = "checkBoxSendOverwrite";
+            this.checkBoxSendOverwrite.Size = new System.Drawing.Size(162, 17);
+            this.checkBoxSendOverwrite.TabIndex = 10;
+            this.checkBoxSendOverwrite.Text = "Send Overwrite Flag on write";
+            this.checkBoxSendOverwrite.UseVisualStyleBackColor = true;
+            this.checkBoxSendOverwrite.CheckedChanged += new System.EventHandler(this.checkBoxSendOverwrite_CheckedChanged);
+            // 
             // Options
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(348, 296);
+            this.Controls.Add(this.checkBoxSendOverwrite);
             this.Controls.Add(this.validationGroupBox);
             this.Controls.Add(this.checkBoxShowBase);
             this.Controls.Add(this.label2);
@@ -254,16 +268,36 @@ namespace HdbPoet
     }
 		#endregion
 
+        private void readOptionSettings()
+        {
+            this.checkBoxShowEmptySdids.Checked = GlobalVariables.showEmptySdids;
+            this.checkBoxShowBase.Checked = GlobalVariables.showBaseData;
+            this.checkBoxInsertIntoRbase.Checked = GlobalVariables.insertOnWrite;
+            this.checkBoxSendOverwrite.Checked = GlobalVariables.overwriteOnWrite;
+            switch (GlobalVariables.writeValidationFlag)
+            {
+                case 'V':
+                    this.vValidationRadioButton.Checked = true;
+                    break;
+                case 'P':
+                    this.pValidationRadioButton.Checked = true;
+                    break;
+                case 'T':
+                    this.tValidationRadioButton.Checked = true;
+                    break;
+                case 'e':
+                    this.eValidationRadioButton.Checked = true;
+                    break;
+                default:
+                    this.zValidationRadioButton.Checked = true;
+                    break;
+            }
+        }
+
 		private void buttonOk_Click(object sender, System.EventArgs e)
 		{
 			Close();
 		}
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            // Send the URL to the operating system.
-            Process.Start(@"https://github.com/usbr/HdbPoet/releases" as string);
-        }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
@@ -283,6 +317,11 @@ namespace HdbPoet
         private void insertOnWrite_CheckedChanged(object sender, EventArgs e)
         {
             GlobalVariables.insertOnWrite = this.checkBoxInsertIntoRbase.Checked;
+        }
+
+        private void checkBoxSendOverwrite_CheckedChanged(object sender, EventArgs e)
+        {
+            GlobalVariables.overwriteOnWrite = this.checkBoxSendOverwrite.Checked;
         }
 
         private void openNewPoetInstance(object sender, EventArgs e)
