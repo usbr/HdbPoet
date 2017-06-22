@@ -94,6 +94,7 @@ namespace HdbPoet
             this.menuItemGettingStarted = new System.Windows.Forms.MenuItem();
             this.menuItemLegend = new System.Windows.Forms.MenuItem();
             this.menuItemLog = new System.Windows.Forms.MenuItem();
+            this.menuItemOptions = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.menuItemAbout = new System.Windows.Forms.MenuItem();
             this.menuItemUpgrade = new System.Windows.Forms.MenuItem();
@@ -101,7 +102,6 @@ namespace HdbPoet
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.menuItemOptions = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -219,6 +219,12 @@ namespace HdbPoet
             this.menuItemLog.Text = "&View Log";
             this.menuItemLog.Click += new System.EventHandler(this.menuItemLog_Click);
             // 
+            // menuItemOptions
+            // 
+            this.menuItemOptions.Index = 3;
+            this.menuItemOptions.Text = "Options";
+            this.menuItemOptions.Click += new System.EventHandler(this.menuItemOptions_Click);
+            // 
             // menuItem2
             // 
             this.menuItem2.Index = 4;
@@ -254,20 +260,14 @@ namespace HdbPoet
             this.imageList1.Images.SetKeyName(3, "excelsmall.bmp");
             this.imageList1.Images.SetKeyName(4, "EXCEL_257.ico");
             // 
-            // menuItemOptions
-            // 
-            this.menuItemOptions.Index = 3;
-            this.menuItemOptions.Text = "Options";
-            this.menuItemOptions.Click += new System.EventHandler(this.menuItemOptions_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1014, 712);
+            this.ClientSize = new System.Drawing.Size(1184, 741);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.mainMenu1;
-            this.MinimumSize = new System.Drawing.Size(1030, 726);
+            this.MinimumSize = new System.Drawing.Size(1200, 800);
             this.Name = "FormMain";
             this.Text = "HDB-POET";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
