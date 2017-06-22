@@ -30,17 +30,17 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 
 [Files]
-Source: "bin\Debug\HDB-POET.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\HDB-POET.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\Aga.Controls.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\report.xls"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\HDB-POET.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\HDB-POET.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\Aga.Controls.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\report.xls"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\poet\Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "*.*"; Excludes: "*.zip,*.sln,*.pdf,*.hdb"; DestDir: "{app}\src";
 ;Source: "Acl\*.*"; Excludes: "*.zip,*.sln"; DestDir: "{app}\src";
 
