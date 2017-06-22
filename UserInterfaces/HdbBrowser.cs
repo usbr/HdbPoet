@@ -254,13 +254,13 @@ namespace HdbPoet
             // 
             // statusBar1
             // 
-            this.statusBar1.Location = new System.Drawing.Point(0, 519);
+            this.statusBar1.Location = new System.Drawing.Point(0, 676);
             this.statusBar1.Name = "statusBar1";
             this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.statusBarPanel2,
             this.statusBarPanel1});
             this.statusBar1.ShowPanels = true;
-            this.statusBar1.Size = new System.Drawing.Size(919, 24);
+            this.statusBar1.Size = new System.Drawing.Size(1100, 24);
             this.statusBar1.TabIndex = 26;
             this.statusBar1.DrawItem += new System.Windows.Forms.StatusBarDrawItemEventHandler(this.statusBar1_DrawItem);
             this.statusBar1.DoubleClick += new System.EventHandler(this.statusBar1_DoubleClick);
@@ -308,7 +308,7 @@ namespace HdbPoet
             this.addConfigFile});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(919, 32);
+            this.toolStrip1.Size = new System.Drawing.Size(1100, 32);
             this.toolStrip1.TabIndex = 2;
             // 
             // toolStripButtonSQL
@@ -571,7 +571,7 @@ namespace HdbPoet
             this.panelGraphTable.Controls.Add(this.toolStrip1);
             this.panelGraphTable.Location = new System.Drawing.Point(0, 0);
             this.panelGraphTable.Name = "panelGraphTable";
-            this.panelGraphTable.Size = new System.Drawing.Size(919, 526);
+            this.panelGraphTable.Size = new System.Drawing.Size(1100, 683);
             this.panelGraphTable.TabIndex = 27;
             // 
             // tabControl1
@@ -583,7 +583,7 @@ namespace HdbPoet
             this.tabControl1.Location = new System.Drawing.Point(0, 32);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(919, 453);
+            this.tabControl1.Size = new System.Drawing.Size(1100, 610);
             this.tabControl1.TabIndex = 3;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -592,7 +592,7 @@ namespace HdbPoet
             this.tabPageHome.Location = new System.Drawing.Point(4, 22);
             this.tabPageHome.Name = "tabPageHome";
             this.tabPageHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHome.Size = new System.Drawing.Size(911, 427);
+            this.tabPageHome.Size = new System.Drawing.Size(1092, 584);
             this.tabPageHome.TabIndex = 0;
             this.tabPageHome.Text = "Home";
             this.tabPageHome.UseVisualStyleBackColor = true;
@@ -672,11 +672,11 @@ namespace HdbPoet
             // textBoxSQL
             // 
             this.textBoxSQL.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBoxSQL.Location = new System.Drawing.Point(0, 485);
+            this.textBoxSQL.Location = new System.Drawing.Point(0, 642);
             this.textBoxSQL.Multiline = true;
             this.textBoxSQL.Name = "textBoxSQL";
             this.textBoxSQL.ReadOnly = true;
-            this.textBoxSQL.Size = new System.Drawing.Size(919, 41);
+            this.textBoxSQL.Size = new System.Drawing.Size(1100, 41);
             this.textBoxSQL.TabIndex = 1;
             // 
             // contextMenuChart
@@ -713,7 +713,7 @@ namespace HdbPoet
             this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.panelGraphTable);
             this.Name = "HdbBrowser";
-            this.Size = new System.Drawing.Size(919, 543);
+            this.Size = new System.Drawing.Size(1100, 700);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.HDBBrowser_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.HDBBrowser_DragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel2)).EndInit();

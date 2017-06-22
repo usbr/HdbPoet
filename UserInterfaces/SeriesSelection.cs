@@ -31,7 +31,6 @@ namespace HdbPoet
         private System.Windows.Forms.ListBox listBoxInterval;
         private HdbPoet.DateSelector dateSelector1;
         private ToolTip toolTip1;
-        private CheckBox checkBoxShowBase;
         private Label label4;
         private ComboBox comboBoxInstantIncrement;
         private Aga.Controls.Tree.TreeViewAdv treeView1;
@@ -58,7 +57,6 @@ namespace HdbPoet
         private CheckBox checkBoxSelectAll;
         private GroupBox groupBoxDataType;
         private CheckBox sdidSearchCheckBox;
-        private CheckBox checkBoxShowEmptySdids;
         private IContainer components;
 
 
@@ -399,7 +397,6 @@ namespace HdbPoet
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxInstantIncrement = new System.Windows.Forms.ComboBox();
-            this.checkBoxShowBase = new System.Windows.Forms.CheckBox();
             this.listBoxInterval = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -411,7 +408,6 @@ namespace HdbPoet
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonRemoveAll = new System.Windows.Forms.Button();
             this.buttonAddAll = new System.Windows.Forms.Button();
-            this.checkBoxShowEmptySdids = new System.Windows.Forms.CheckBox();
             this.selectedSeriesListBox1 = new HdbPoet.SelectedSeriesListBox();
             this.timeZoneComboBox2 = new HdbPoet.TimeZoneComboBox();
             this.dateSelector1 = new HdbPoet.DateSelector();
@@ -426,6 +422,9 @@ namespace HdbPoet
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Location = new System.Drawing.Point(8, 16);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(160, 16);
@@ -434,6 +433,8 @@ namespace HdbPoet
             // 
             // textBoxKeyWords
             // 
+            this.textBoxKeyWords.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxKeyWords.Location = new System.Drawing.Point(8, 32);
             this.textBoxKeyWords.Name = "textBoxKeyWords";
             this.textBoxKeyWords.Size = new System.Drawing.Size(242, 20);
@@ -441,6 +442,7 @@ namespace HdbPoet
             // 
             // buttonRefresh
             // 
+            this.buttonRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonRefresh.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.buttonRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonRefresh.FlatAppearance.BorderColor = System.Drawing.Color.Black;
@@ -448,9 +450,9 @@ namespace HdbPoet
             this.buttonRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRefresh.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.buttonRefresh.Location = new System.Drawing.Point(268, 198);
+            this.buttonRefresh.Location = new System.Drawing.Point(268, 182);
             this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(169, 29);
+            this.buttonRefresh.Size = new System.Drawing.Size(169, 38);
             this.buttonRefresh.TabIndex = 11;
             this.buttonRefresh.Text = "Create Site List";
             this.buttonRefresh.UseVisualStyleBackColor = false;
@@ -458,6 +460,9 @@ namespace HdbPoet
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Location = new System.Drawing.Point(6, 55);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(104, 16);
@@ -466,6 +471,8 @@ namespace HdbPoet
             // 
             // listBoxCategory
             // 
+            this.listBoxCategory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxCategory.Location = new System.Drawing.Point(8, 74);
             this.listBoxCategory.Name = "listBoxCategory";
             this.listBoxCategory.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
@@ -474,6 +481,8 @@ namespace HdbPoet
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.sdidSearchCheckBox);
             this.groupBox1.Controls.Add(this.groupBoxDataType);
             this.groupBox1.Controls.Add(this.checkBoxSelectAll);
@@ -483,7 +492,6 @@ namespace HdbPoet
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.comboBoxInstantIncrement);
-            this.groupBox1.Controls.Add(this.checkBoxShowBase);
             this.groupBox1.Controls.Add(this.dateSelector1);
             this.groupBox1.Controls.Add(this.listBoxInterval);
             this.groupBox1.Controls.Add(this.label1);
@@ -494,25 +502,27 @@ namespace HdbPoet
             this.groupBox1.Controls.Add(this.buttonRefresh);
             this.groupBox1.Location = new System.Drawing.Point(8, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(986, 233);
+            this.groupBox1.Size = new System.Drawing.Size(1138, 233);
             this.groupBox1.TabIndex = 30;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Site List Criteria";
             // 
             // sdidSearchCheckBox
             // 
-            this.sdidSearchCheckBox.AutoSize = true;
-            this.sdidSearchCheckBox.Location = new System.Drawing.Point(173, 13);
+            this.sdidSearchCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sdidSearchCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.sdidSearchCheckBox.Location = new System.Drawing.Point(116, 13);
             this.sdidSearchCheckBox.Name = "sdidSearchCheckBox";
             this.sdidSearchCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.sdidSearchCheckBox.Size = new System.Drawing.Size(74, 17);
+            this.sdidSearchCheckBox.Size = new System.Drawing.Size(131, 19);
             this.sdidSearchCheckBox.TabIndex = 42;
             this.sdidSearchCheckBox.Text = "Use SDID";
-            this.sdidSearchCheckBox.UseVisualStyleBackColor = true;
+            this.sdidSearchCheckBox.UseVisualStyleBackColor = false;
             // 
             // groupBoxDataType
             // 
-            this.groupBoxDataType.Controls.Add(this.checkBoxShowEmptySdids);
+            this.groupBoxDataType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxDataType.Controls.Add(this.radioGetRData);
             this.groupBoxDataType.Controls.Add(this.selectedMRID);
             this.groupBoxDataType.Controls.Add(this.label10);
@@ -521,38 +531,39 @@ namespace HdbPoet
             this.groupBoxDataType.Controls.Add(this.radioGetMRID);
             this.groupBoxDataType.Controls.Add(this.comboBoxMrid);
             this.groupBoxDataType.Controls.Add(this.comboBoxModelId);
-            this.groupBoxDataType.Location = new System.Drawing.Point(812, 8);
+            this.groupBoxDataType.Location = new System.Drawing.Point(915, 8);
             this.groupBoxDataType.Name = "groupBoxDataType";
-            this.groupBoxDataType.Size = new System.Drawing.Size(169, 219);
+            this.groupBoxDataType.Size = new System.Drawing.Size(214, 219);
             this.groupBoxDataType.TabIndex = 41;
             this.groupBoxDataType.TabStop = false;
             this.groupBoxDataType.Text = "Data Type Selection";
             // 
             // radioGetRData
             // 
-            this.radioGetRData.AutoSize = true;
+            this.radioGetRData.BackColor = System.Drawing.Color.Transparent;
             this.radioGetRData.Checked = true;
             this.radioGetRData.Location = new System.Drawing.Point(6, 19);
             this.radioGetRData.Name = "radioGetRData";
-            this.radioGetRData.Size = new System.Drawing.Size(73, 17);
+            this.radioGetRData.Size = new System.Drawing.Size(202, 19);
             this.radioGetRData.TabIndex = 33;
             this.radioGetRData.TabStop = true;
             this.radioGetRData.Text = "Real Data";
-            this.radioGetRData.UseVisualStyleBackColor = true;
+            this.radioGetRData.UseVisualStyleBackColor = false;
             // 
             // selectedMRID
             // 
             this.selectedMRID.Enabled = false;
-            this.selectedMRID.Location = new System.Drawing.Point(97, 89);
+            this.selectedMRID.Location = new System.Drawing.Point(114, 64);
             this.selectedMRID.Name = "selectedMRID";
-            this.selectedMRID.Size = new System.Drawing.Size(65, 20);
+            this.selectedMRID.Size = new System.Drawing.Size(94, 20);
             this.selectedMRID.TabIndex = 7;
             this.selectedMRID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.selectedMRID.TextChanged += new System.EventHandler(this.selectedMRID_TextChanged);
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(5, 170);
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Location = new System.Drawing.Point(5, 145);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(157, 18);
             this.label10.TabIndex = 39;
@@ -560,7 +571,8 @@ namespace HdbPoet
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(21, 92);
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Location = new System.Drawing.Point(21, 67);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(77, 18);
             this.label8.TabIndex = 32;
@@ -568,7 +580,8 @@ namespace HdbPoet
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(5, 124);
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Location = new System.Drawing.Point(5, 99);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(157, 18);
             this.label9.TabIndex = 38;
@@ -576,24 +589,24 @@ namespace HdbPoet
             // 
             // radioGetMRID
             // 
-            this.radioGetMRID.AutoSize = true;
-            this.radioGetMRID.Location = new System.Drawing.Point(6, 64);
+            this.radioGetMRID.BackColor = System.Drawing.Color.Transparent;
+            this.radioGetMRID.Location = new System.Drawing.Point(6, 39);
             this.radioGetMRID.Name = "radioGetMRID";
-            this.radioGetMRID.Size = new System.Drawing.Size(92, 17);
+            this.radioGetMRID.Size = new System.Drawing.Size(202, 19);
             this.radioGetMRID.TabIndex = 34;
             this.radioGetMRID.Text = "Modeled Data";
-            this.radioGetMRID.UseVisualStyleBackColor = true;
+            this.radioGetMRID.UseVisualStyleBackColor = false;
             // 
             // comboBoxMrid
             // 
             this.comboBoxMrid.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMrid.Enabled = false;
             this.comboBoxMrid.FormattingEnabled = true;
-            this.comboBoxMrid.Location = new System.Drawing.Point(6, 190);
+            this.comboBoxMrid.Location = new System.Drawing.Point(6, 165);
             this.comboBoxMrid.MaxDropDownItems = 10;
             this.comboBoxMrid.Name = "comboBoxMrid";
             this.comboBoxMrid.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.comboBoxMrid.Size = new System.Drawing.Size(156, 21);
+            this.comboBoxMrid.Size = new System.Drawing.Size(202, 21);
             this.comboBoxMrid.TabIndex = 37;
             this.comboBoxMrid.DropDown += new System.EventHandler(this.comboBoxMrid_OnDropDown);
             this.comboBoxMrid.SelectedIndexChanged += new System.EventHandler(this.comboBoxMrid_SelectedIndexChanged);
@@ -603,36 +616,40 @@ namespace HdbPoet
             this.comboBoxModelId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxModelId.Enabled = false;
             this.comboBoxModelId.FormattingEnabled = true;
-            this.comboBoxModelId.Location = new System.Drawing.Point(5, 144);
+            this.comboBoxModelId.Location = new System.Drawing.Point(5, 119);
             this.comboBoxModelId.MaxDropDownItems = 10;
             this.comboBoxModelId.Name = "comboBoxModelId";
-            this.comboBoxModelId.Size = new System.Drawing.Size(157, 21);
+            this.comboBoxModelId.Size = new System.Drawing.Size(203, 21);
             this.comboBoxModelId.TabIndex = 36;
             this.comboBoxModelId.SelectedIndexChanged += new System.EventHandler(this.comboBoxModelId_SelectedIndexChanged);
             // 
             // checkBoxSelectAll
             // 
-            this.checkBoxSelectAll.AutoSize = true;
-            this.checkBoxSelectAll.Location = new System.Drawing.Point(177, 55);
+            this.checkBoxSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBoxSelectAll.BackColor = System.Drawing.Color.Transparent;
+            this.checkBoxSelectAll.Location = new System.Drawing.Point(116, 55);
             this.checkBoxSelectAll.Name = "checkBoxSelectAll";
             this.checkBoxSelectAll.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBoxSelectAll.Size = new System.Drawing.Size(70, 17);
+            this.checkBoxSelectAll.Size = new System.Drawing.Size(131, 16);
             this.checkBoxSelectAll.TabIndex = 40;
             this.checkBoxSelectAll.Text = "Select All";
-            this.checkBoxSelectAll.UseVisualStyleBackColor = true;
+            this.checkBoxSelectAll.UseVisualStyleBackColor = false;
             this.checkBoxSelectAll.CheckedChanged += new System.EventHandler(this.checkBoxSelectAll_CheckedChanged);
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Location = new System.Drawing.Point(265, 136);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(33, 13);
+            this.label6.Size = new System.Drawing.Size(184, 14);
             this.label6.TabIndex = 29;
             this.label6.Text = "Basin";
             // 
             // comboBoxBasin
             // 
+            this.comboBoxBasin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxBasin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxBasin.FormattingEnabled = true;
             this.comboBoxBasin.Location = new System.Drawing.Point(268, 153);
@@ -642,52 +659,48 @@ namespace HdbPoet
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(555, 182);
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Location = new System.Drawing.Point(590, 181);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(58, 13);
+            this.label5.Size = new System.Drawing.Size(319, 15);
             this.label5.TabIndex = 26;
             this.label5.Text = "Time Zone";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Location = new System.Drawing.Point(440, 182);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(79, 13);
+            this.label4.Size = new System.Drawing.Size(144, 14);
             this.label4.TabIndex = 25;
             this.label4.Text = "Increment (min)";
             // 
             // comboBoxInstantIncrement
             // 
+            this.comboBoxInstantIncrement.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxInstantIncrement.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxInstantIncrement.FormattingEnabled = true;
             this.comboBoxInstantIncrement.Location = new System.Drawing.Point(443, 199);
             this.comboBoxInstantIncrement.Name = "comboBoxInstantIncrement";
-            this.comboBoxInstantIncrement.Size = new System.Drawing.Size(109, 21);
+            this.comboBoxInstantIncrement.Size = new System.Drawing.Size(143, 21);
             this.comboBoxInstantIncrement.TabIndex = 9;
-            // 
-            // checkBoxShowBase
-            // 
-            this.checkBoxShowBase.AutoSize = true;
-            this.checkBoxShowBase.Location = new System.Drawing.Point(268, 179);
-            this.checkBoxShowBase.Name = "checkBoxShowBase";
-            this.checkBoxShowBase.Size = new System.Drawing.Size(106, 17);
-            this.checkBoxShowBase.TabIndex = 8;
-            this.checkBoxShowBase.Text = "Show Base Data";
-            this.checkBoxShowBase.UseVisualStyleBackColor = true;
             // 
             // listBoxInterval
             // 
+            this.listBoxInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxInterval.Location = new System.Drawing.Point(267, 25);
             this.listBoxInterval.Name = "listBoxInterval";
             this.listBoxInterval.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxInterval.Size = new System.Drawing.Size(143, 108);
+            this.listBoxInterval.Size = new System.Drawing.Size(170, 108);
             this.listBoxInterval.TabIndex = 3;
             this.listBoxInterval.SelectedIndexChanged += new System.EventHandler(this.listBoxInterval_SelectedIndexChanged);
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(265, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(145, 14);
@@ -706,7 +719,7 @@ namespace HdbPoet
             this.treeView1.Name = "treeView1";
             this.treeView1.RowHeight = 20;
             this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(457, 328);
+            this.treeView1.Size = new System.Drawing.Size(527, 496);
             this.treeView1.TabIndex = 12;
             this.treeView1.Text = "treeView1";
             // 
@@ -761,8 +774,8 @@ namespace HdbPoet
             // 
             this.splitContainer1.Panel2.Controls.Add(this.selectedSeriesListBox1);
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(987, 330);
-            this.splitContainer1.SplitterDistance = 459;
+            this.splitContainer1.Size = new System.Drawing.Size(1139, 498);
+            this.splitContainer1.SplitterDistance = 529;
             this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 43;
             // 
@@ -775,7 +788,7 @@ namespace HdbPoet
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(55, 328);
+            this.panel1.Size = new System.Drawing.Size(55, 496);
             this.panel1.TabIndex = 43;
             // 
             // buttonRemoveAll
@@ -798,39 +811,31 @@ namespace HdbPoet
             this.buttonAddAll.Text = "All ->";
             this.buttonAddAll.Click += new System.EventHandler(this.buttonAddAll_Click);
             // 
-            // checkBoxShowEmptySdids
-            // 
-            this.checkBoxShowEmptySdids.AutoSize = true;
-            this.checkBoxShowEmptySdids.Location = new System.Drawing.Point(24, 41);
-            this.checkBoxShowEmptySdids.Name = "checkBoxShowEmptySdids";
-            this.checkBoxShowEmptySdids.Size = new System.Drawing.Size(119, 17);
-            this.checkBoxShowEmptySdids.TabIndex = 43;
-            this.checkBoxShowEmptySdids.Text = "Show Empty SDIDs";
-            this.checkBoxShowEmptySdids.UseVisualStyleBackColor = true;
-            // 
             // selectedSeriesListBox1
             // 
             this.selectedSeriesListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.selectedSeriesListBox1.Location = new System.Drawing.Point(55, 0);
             this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
             this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
-            this.selectedSeriesListBox1.Size = new System.Drawing.Size(463, 328);
+            this.selectedSeriesListBox1.Size = new System.Drawing.Size(545, 496);
             this.selectedSeriesListBox1.TabIndex = 15;
             // 
             // timeZoneComboBox2
             // 
-            this.timeZoneComboBox2.Location = new System.Drawing.Point(558, 199);
+            this.timeZoneComboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.timeZoneComboBox2.Location = new System.Drawing.Point(593, 199);
             this.timeZoneComboBox2.Name = "timeZoneComboBox2";
-            this.timeZoneComboBox2.Size = new System.Drawing.Size(251, 21);
+            this.timeZoneComboBox2.Size = new System.Drawing.Size(316, 21);
             this.timeZoneComboBox2.TabIndex = 35;
             this.timeZoneComboBox2.TimeZone = "";
             // 
             // dateSelector1
             // 
-            this.dateSelector1.Location = new System.Drawing.Point(419, 8);
+            this.dateSelector1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dateSelector1.Location = new System.Drawing.Point(443, 8);
             this.dateSelector1.Name = "dateSelector1";
             this.dateSelector1.ShowTime = false;
-            this.dateSelector1.Size = new System.Drawing.Size(387, 126);
+            this.dateSelector1.Size = new System.Drawing.Size(466, 126);
             this.dateSelector1.TabIndex = 5;
             this.dateSelector1.Validating += new System.ComponentModel.CancelEventHandler(this.dateSelector1_Validating);
             // 
@@ -838,9 +843,9 @@ namespace HdbPoet
             // 
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.groupBox1);
-            this.MinimumSize = new System.Drawing.Size(826, 500);
+            this.MinimumSize = new System.Drawing.Size(1150, 750);
             this.Name = "SeriesSelection";
-            this.Size = new System.Drawing.Size(998, 582);
+            this.Size = new System.Drawing.Size(1150, 750);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBoxDataType.ResumeLayout(false);
@@ -887,13 +892,11 @@ namespace HdbPoet
         }
 
 
-        bool m_showBase = false;
         private void buttonRefresh_Click(object sender, System.EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
             try
             {
-                m_showBase = this.checkBoxShowBase.Checked;
                 var isModeledData = GetModeledDataVars();
                 bool m_getModeledData = isModeledData.Item1;
                
@@ -913,14 +916,14 @@ namespace HdbPoet
                     siteTableFiltered = Hdb.Instance.FilteredSiteList(this.textBoxKeyWords.Text,
                                        intervalDescriptions, categories, comboBoxBasin.SelectedValue.ToString(), 
                                        this.sdidSearchCheckBox.Checked, m_getModeledData, isModeledData.Item2,
-                                       this.checkBoxShowEmptySdids.Checked);
+                                       GlobalVariables.showEmptySdids);
                 }
                 else
                 {
                     siteTableFiltered = Hdb.Instance.FilteredSiteList(this.textBoxKeyWords.Text,
                                        intervalDescriptions, categories, comboBoxBasin.SelectedValue.ToString(),
                                        this.sdidSearchCheckBox.Checked, m_getModeledData, isModeledData.Item2,
-                                       this.checkBoxShowEmptySdids.Checked);
+                                       GlobalVariables.showEmptySdids);
                 }
               //  CsvFile.Write( siteTableFiltered,@"c:\temp\site.csv");
                 LoadTree();
@@ -953,7 +956,7 @@ namespace HdbPoet
                     && selectedNode.Nodes[0].Text == "expand_this_site")
                 {
 
-                    AddSiteInventoryToTree(intervalDescriptions.ToArray(), selectedNode, m_showBase);
+                    AddSiteInventoryToTree(intervalDescriptions.ToArray(), selectedNode, GlobalVariables.showBaseData);
                 }
                 if (n.Text != "HDB Sites")
                 {
@@ -973,7 +976,7 @@ namespace HdbPoet
 
             var isModeledData = GetModeledDataVars();
 
-            DataTable tblSiteInfo = Hdb.Instance.SiteInfo(site_id, intervalDescriptions, showBase, isModeledData.Item1, isModeledData.Item2, this.checkBoxShowEmptySdids.Checked);
+            DataTable tblSiteInfo = Hdb.Instance.SiteInfo(site_id, intervalDescriptions, showBase, isModeledData.Item1, isModeledData.Item2, GlobalVariables.showEmptySdids);
             //  CsvFile.Write( tblSiteInfo,@"c:\temp\siteInfo.csv");
 
             DataTable tblUnique = DataTableUtility.SelectDistinct(tblSiteInfo, "interval_Text");
@@ -1269,8 +1272,7 @@ namespace HdbPoet
             this.dateSelector1.radioButtonXToToday.Enabled = false;
             this.dateSelector1.numericUpDownDays.Enabled = false;
             this.dateSelector1.dateTimePickerFrom2.Enabled = false;
-            this.checkBoxShowEmptySdids.Checked = false;
-            this.checkBoxShowEmptySdids.Enabled = false;
+            GlobalVariables.showEmptySdids = false;
             SetDefaultDates(this.listBoxInterval.SelectedItem.ToString(), this.radioGetMRID.Checked);
         }
 
@@ -1287,7 +1289,6 @@ namespace HdbPoet
             this.dateSelector1.radioButtonXToToday.Enabled = true;
             this.dateSelector1.numericUpDownDays.Enabled = true;
             this.dateSelector1.dateTimePickerFrom2.Enabled = true;
-            this.checkBoxShowEmptySdids.Enabled = true;
             this.selectedMRID.Clear();
             SetDefaultDates(this.listBoxInterval.SelectedItem.ToString(), this.radioGetMRID.Checked);
         }              

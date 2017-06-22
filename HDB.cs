@@ -179,7 +179,7 @@ namespace HdbPoet
                             else
                             {// update
                                 double val = Convert.ToDouble(row[1]);
-                                ModifyRase(s.hdb_site_datatype_id, interval, t, val, overWrite,
+                                ModifyRBase(s.hdb_site_datatype_id, interval, t, val, overWrite,
                                     validationFlag, ds.GraphRow.TimeZone);
                             }
                         }

@@ -237,7 +237,7 @@ static OracleDbType GetNumberType()
         /// inserted.
         /// </summary>
         /// <returns></returns>
-        internal int ModifyRase(
+        internal int ModifyRBase(
           decimal sdi,
           string interval, // 'instant', 'other', 'hour', 'day', 'month', 'year', 'wy', 'table interval'
           DateTime t,
@@ -258,7 +258,13 @@ static OracleDbType GetNumberType()
             cmd.Parameters.Add("AGEN_ID", s_AGEN_ID);
             cmd.Parameters.Add("OVERWRITE_FLAG", GetVarCharType(), 1);
 
-            if (overwrite)
+
+            if (GlobalVariables.writeValidationFlag != 'Z')
+            {
+                VALIDATION = GlobalVariables.writeValidationFlag;
+            }
+
+            if (overwrite || GlobalVariables.overwriteOnWrite)
             {
                 cmd.Parameters["OVERWRITE_FLAG"].Value = "O";
             }
@@ -272,8 +278,14 @@ static OracleDbType GetNumberType()
             cmd.Parameters.Add("LOADING_APPLICATION_ID", s_LOADING_APPLICATION_ID);
             cmd.Parameters.Add("METHOD_ID", s_METHOD_ID);
             cmd.Parameters.Add("COMPUTATION_ID", s_COMPUTATION_ID);
-
-            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", GetVarCharType(), 1, "Y", ParameterDirection.Input);
+            if (GlobalVariables.insertOnWrite)
+            {
+                cmd.Parameters.Add("DO_UPDATE_Y_OR_N", GetVarCharType(), 1, "N", ParameterDirection.Input);
+            }
+            else
+            {
+                cmd.Parameters.Add("DO_UPDATE_Y_OR_N", GetVarCharType(), 1, "Y", ParameterDirection.Input);
+            }
             cmd.Parameters.Add("DATA_FLAGS", GetVarCharType(), DBNull.Value, ParameterDirection.Input);
             cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
 
