@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 using System.IO;
+using System.Linq;
 using System.Diagnostics;
 using Reclamation.Core;
 using System.Collections.Generic;
@@ -96,13 +97,13 @@ namespace HdbPoet
                 dataGrid1.Columns[c].DefaultCellStyle.Format = msDataTable.LookupSeries(c).DisplayFormat;
                 dataGrid1.Columns[c].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 dataGrid1.Columns[c].ReadOnly = msDataTable.LookupSeries(c).ReadOnly;
-                // adjust column widths to auto-fit
-                dataGrid1.Columns[c].Width = Convert.ToInt16(System.Math.Max(System.Math.Max(
-                        TextRenderer.MeasureText(msDataTable.LookupSeries(c).ParameterType, dataGrid1.Font).Width,
-                        TextRenderer.MeasureText(msDataTable.LookupSeries(c).SiteName, dataGrid1.Font).Width / 2),
-                        TextRenderer.MeasureText(msDataTable.LookupSeries(c).sdid_descriptor, dataGrid1.Font).Width
-                        ) * 1.25);
-
+                // adjust column width to auto-fit longest header entry
+                var cName = dataGrid1.Columns[c].Name.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var sortedNames = cName.OrderBy(n => n.Length);
+                var longestName = sortedNames.LastOrDefault();
+                dataGrid1.Columns[c].Width = System.Math.Max(Convert.ToInt16(130),
+                    System.Math.Min(Convert.ToInt16(TextRenderer.MeasureText(longestName.ToUpper(), dataGrid1.Font).Width), 
+                    Convert.ToInt16(260)));
             }
 
         }
