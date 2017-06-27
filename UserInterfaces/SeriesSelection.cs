@@ -422,12 +422,10 @@ namespace HdbPoet
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(8, 16);
+            this.label2.Location = new System.Drawing.Point(8, 14);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(160, 16);
+            this.label2.Size = new System.Drawing.Size(237, 19);
             this.label2.TabIndex = 11;
             this.label2.Text = "Site Name Search";
             // 
@@ -435,9 +433,9 @@ namespace HdbPoet
             // 
             this.textBoxKeyWords.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxKeyWords.Location = new System.Drawing.Point(8, 32);
+            this.textBoxKeyWords.Location = new System.Drawing.Point(8, 34);
             this.textBoxKeyWords.Name = "textBoxKeyWords";
-            this.textBoxKeyWords.Size = new System.Drawing.Size(242, 20);
+            this.textBoxKeyWords.Size = new System.Drawing.Size(235, 20);
             this.textBoxKeyWords.TabIndex = 1;
             // 
             // buttonRefresh
@@ -450,7 +448,7 @@ namespace HdbPoet
             this.buttonRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRefresh.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.buttonRefresh.Location = new System.Drawing.Point(268, 182);
+            this.buttonRefresh.Location = new System.Drawing.Point(252, 182);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(169, 38);
             this.buttonRefresh.TabIndex = 11;
@@ -460,12 +458,10 @@ namespace HdbPoet
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(6, 55);
+            this.label3.Location = new System.Drawing.Point(6, 57);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(104, 16);
+            this.label3.Size = new System.Drawing.Size(237, 16);
             this.label3.TabIndex = 7;
             this.label3.Text = "Object Type";
             // 
@@ -476,7 +472,7 @@ namespace HdbPoet
             this.listBoxCategory.Location = new System.Drawing.Point(8, 74);
             this.listBoxCategory.Name = "listBoxCategory";
             this.listBoxCategory.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxCategory.Size = new System.Drawing.Size(242, 147);
+            this.listBoxCategory.Size = new System.Drawing.Size(235, 147);
             this.listBoxCategory.TabIndex = 2;
             // 
             // groupBox1
@@ -502,7 +498,7 @@ namespace HdbPoet
             this.groupBox1.Controls.Add(this.buttonRefresh);
             this.groupBox1.Location = new System.Drawing.Point(8, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1138, 233);
+            this.groupBox1.Size = new System.Drawing.Size(1088, 233);
             this.groupBox1.TabIndex = 30;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Site List Criteria";
@@ -512,10 +508,10 @@ namespace HdbPoet
             this.sdidSearchCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.sdidSearchCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.sdidSearchCheckBox.Location = new System.Drawing.Point(116, 13);
+            this.sdidSearchCheckBox.Location = new System.Drawing.Point(162, 14);
             this.sdidSearchCheckBox.Name = "sdidSearchCheckBox";
             this.sdidSearchCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.sdidSearchCheckBox.Size = new System.Drawing.Size(131, 19);
+            this.sdidSearchCheckBox.Size = new System.Drawing.Size(81, 19);
             this.sdidSearchCheckBox.TabIndex = 42;
             this.sdidSearchCheckBox.Text = "Use SDID";
             this.sdidSearchCheckBox.UseVisualStyleBackColor = false;
@@ -531,7 +527,7 @@ namespace HdbPoet
             this.groupBoxDataType.Controls.Add(this.radioGetMRID);
             this.groupBoxDataType.Controls.Add(this.comboBoxMrid);
             this.groupBoxDataType.Controls.Add(this.comboBoxModelId);
-            this.groupBoxDataType.Location = new System.Drawing.Point(915, 8);
+            this.groupBoxDataType.Location = new System.Drawing.Point(868, 8);
             this.groupBoxDataType.Name = "groupBoxDataType";
             this.groupBoxDataType.Size = new System.Drawing.Size(214, 219);
             this.groupBoxDataType.TabIndex = 41;
@@ -628,10 +624,10 @@ namespace HdbPoet
             this.checkBoxSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBoxSelectAll.BackColor = System.Drawing.Color.Transparent;
-            this.checkBoxSelectAll.Location = new System.Drawing.Point(116, 55);
+            this.checkBoxSelectAll.Location = new System.Drawing.Point(162, 57);
             this.checkBoxSelectAll.Name = "checkBoxSelectAll";
             this.checkBoxSelectAll.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBoxSelectAll.Size = new System.Drawing.Size(131, 16);
+            this.checkBoxSelectAll.Size = new System.Drawing.Size(81, 16);
             this.checkBoxSelectAll.TabIndex = 40;
             this.checkBoxSelectAll.Text = "Select All";
             this.checkBoxSelectAll.UseVisualStyleBackColor = false;
@@ -641,7 +637,7 @@ namespace HdbPoet
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Location = new System.Drawing.Point(265, 136);
+            this.label6.Location = new System.Drawing.Point(249, 136);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(184, 14);
             this.label6.TabIndex = 29;
@@ -652,7 +648,7 @@ namespace HdbPoet
             this.comboBoxBasin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxBasin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxBasin.FormattingEnabled = true;
-            this.comboBoxBasin.Location = new System.Drawing.Point(268, 153);
+            this.comboBoxBasin.Location = new System.Drawing.Point(252, 153);
             this.comboBoxBasin.Name = "comboBoxBasin";
             this.comboBoxBasin.Size = new System.Drawing.Size(181, 21);
             this.comboBoxBasin.TabIndex = 4;
@@ -661,9 +657,9 @@ namespace HdbPoet
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(590, 181);
+            this.label5.Location = new System.Drawing.Point(574, 182);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(319, 15);
+            this.label5.Size = new System.Drawing.Size(292, 14);
             this.label5.TabIndex = 26;
             this.label5.Text = "Time Zone";
             // 
@@ -671,7 +667,7 @@ namespace HdbPoet
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Location = new System.Drawing.Point(440, 182);
+            this.label4.Location = new System.Drawing.Point(424, 182);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(144, 14);
             this.label4.TabIndex = 25;
@@ -682,7 +678,7 @@ namespace HdbPoet
             this.comboBoxInstantIncrement.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxInstantIncrement.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxInstantIncrement.FormattingEnabled = true;
-            this.comboBoxInstantIncrement.Location = new System.Drawing.Point(443, 199);
+            this.comboBoxInstantIncrement.Location = new System.Drawing.Point(427, 199);
             this.comboBoxInstantIncrement.Name = "comboBoxInstantIncrement";
             this.comboBoxInstantIncrement.Size = new System.Drawing.Size(143, 21);
             this.comboBoxInstantIncrement.TabIndex = 9;
@@ -690,7 +686,7 @@ namespace HdbPoet
             // listBoxInterval
             // 
             this.listBoxInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxInterval.Location = new System.Drawing.Point(267, 25);
+            this.listBoxInterval.Location = new System.Drawing.Point(251, 25);
             this.listBoxInterval.Name = "listBoxInterval";
             this.listBoxInterval.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBoxInterval.Size = new System.Drawing.Size(170, 108);
@@ -701,7 +697,7 @@ namespace HdbPoet
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(265, 8);
+            this.label1.Location = new System.Drawing.Point(249, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(145, 14);
             this.label1.TabIndex = 20;
@@ -709,9 +705,11 @@ namespace HdbPoet
             // 
             // treeView1
             // 
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.BackColor = System.Drawing.SystemColors.Window;
             this.treeView1.DefaultToolTipProvider = null;
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
             this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
@@ -719,7 +717,7 @@ namespace HdbPoet
             this.treeView1.Name = "treeView1";
             this.treeView1.RowHeight = 20;
             this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(527, 496);
+            this.treeView1.Size = new System.Drawing.Size(503, 447);
             this.treeView1.TabIndex = 12;
             this.treeView1.Text = "treeView1";
             // 
@@ -774,21 +772,22 @@ namespace HdbPoet
             // 
             this.splitContainer1.Panel2.Controls.Add(this.selectedSeriesListBox1);
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(1139, 498);
-            this.splitContainer1.SplitterDistance = 529;
+            this.splitContainer1.Size = new System.Drawing.Size(1089, 448);
+            this.splitContainer1.SplitterDistance = 505;
             this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 43;
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.Controls.Add(this.buttonRemoveAll);
             this.panel1.Controls.Add(this.buttonAddAll);
             this.panel1.Controls.Add(this.buttonAddSelected);
             this.panel1.Controls.Add(this.buttonRemove);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(55, 496);
+            this.panel1.Size = new System.Drawing.Size(52, 447);
             this.panel1.TabIndex = 43;
             // 
             // buttonRemoveAll
@@ -813,29 +812,31 @@ namespace HdbPoet
             // 
             // selectedSeriesListBox1
             // 
-            this.selectedSeriesListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selectedSeriesListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.selectedSeriesListBox1.Location = new System.Drawing.Point(55, 0);
             this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
             this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
-            this.selectedSeriesListBox1.Size = new System.Drawing.Size(545, 496);
+            this.selectedSeriesListBox1.Size = new System.Drawing.Size(519, 447);
             this.selectedSeriesListBox1.TabIndex = 15;
             // 
             // timeZoneComboBox2
             // 
             this.timeZoneComboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.timeZoneComboBox2.Location = new System.Drawing.Point(593, 199);
+            this.timeZoneComboBox2.Location = new System.Drawing.Point(577, 199);
             this.timeZoneComboBox2.Name = "timeZoneComboBox2";
-            this.timeZoneComboBox2.Size = new System.Drawing.Size(316, 21);
+            this.timeZoneComboBox2.Size = new System.Drawing.Size(286, 21);
             this.timeZoneComboBox2.TabIndex = 35;
             this.timeZoneComboBox2.TimeZone = "";
             // 
             // dateSelector1
             // 
             this.dateSelector1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateSelector1.Location = new System.Drawing.Point(443, 8);
+            this.dateSelector1.Location = new System.Drawing.Point(424, 8);
             this.dateSelector1.Name = "dateSelector1";
             this.dateSelector1.ShowTime = false;
-            this.dateSelector1.Size = new System.Drawing.Size(466, 126);
+            this.dateSelector1.Size = new System.Drawing.Size(439, 126);
             this.dateSelector1.TabIndex = 5;
             this.dateSelector1.Validating += new System.ComponentModel.CancelEventHandler(this.dateSelector1_Validating);
             // 
@@ -843,9 +844,9 @@ namespace HdbPoet
             // 
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.groupBox1);
-            this.MinimumSize = new System.Drawing.Size(1150, 750);
+            this.MinimumSize = new System.Drawing.Size(1000, 700);
             this.Name = "SeriesSelection";
-            this.Size = new System.Drawing.Size(1150, 750);
+            this.Size = new System.Drawing.Size(1100, 700);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBoxDataType.ResumeLayout(false);

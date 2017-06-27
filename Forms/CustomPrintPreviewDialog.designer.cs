@@ -72,7 +72,7 @@ namespace SpreadsheetGearExplorer
             this.toolStripButtonPrint.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPrint.Image")));
             this.toolStripButtonPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPrint.Name = "toolStripButtonPrint";
-            this.toolStripButtonPrint.Size = new System.Drawing.Size(32, 22);
+            this.toolStripButtonPrint.Size = new System.Drawing.Size(36, 22);
             this.toolStripButtonPrint.Text = "Print";
             this.toolStripButtonPrint.Click += new System.EventHandler(this.toolStripButtonPrint_Click);
             // 
@@ -83,7 +83,7 @@ namespace SpreadsheetGearExplorer
             this.toolStripButtonZoom.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonZoom.Image")));
             this.toolStripButtonZoom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonZoom.Name = "toolStripButtonZoom";
-            this.toolStripButtonZoom.Size = new System.Drawing.Size(38, 22);
+            this.toolStripButtonZoom.Size = new System.Drawing.Size(43, 22);
             this.toolStripButtonZoom.Text = "Zoom";
             this.toolStripButtonZoom.Click += new System.EventHandler(this.toolStripButtonZoom_Click);
             // 
@@ -98,7 +98,7 @@ namespace SpreadsheetGearExplorer
             this.toolStripButtonPreviousPage.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPreviousPage.Image")));
             this.toolStripButtonPreviousPage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPreviousPage.Name = "toolStripButtonPreviousPage";
-            this.toolStripButtonPreviousPage.Size = new System.Drawing.Size(80, 22);
+            this.toolStripButtonPreviousPage.Size = new System.Drawing.Size(85, 22);
             this.toolStripButtonPreviousPage.Text = "Previous Page";
             this.toolStripButtonPreviousPage.Click += new System.EventHandler(this.toolStripButtonPreviousPage_Click);
             // 
@@ -108,7 +108,7 @@ namespace SpreadsheetGearExplorer
             this.toolStripButtonNextPage.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonNextPage.Image")));
             this.toolStripButtonNextPage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonNextPage.Name = "toolStripButtonNextPage";
-            this.toolStripButtonNextPage.Size = new System.Drawing.Size(61, 22);
+            this.toolStripButtonNextPage.Size = new System.Drawing.Size(64, 22);
             this.toolStripButtonNextPage.Text = "Next Page";
             this.toolStripButtonNextPage.Click += new System.EventHandler(this.toolStripButtonNextPage_Click);
             // 
@@ -123,7 +123,7 @@ namespace SpreadsheetGearExplorer
             this.toolStripButtonClose.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonClose.Image")));
             this.toolStripButtonClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonClose.Name = "toolStripButtonClose";
-            this.toolStripButtonClose.Size = new System.Drawing.Size(37, 22);
+            this.toolStripButtonClose.Size = new System.Drawing.Size(40, 22);
             this.toolStripButtonClose.Text = "Close";
             this.toolStripButtonClose.Click += new System.EventHandler(this.toolStripButtonClose_Click);
             // 
@@ -134,6 +134,7 @@ namespace SpreadsheetGearExplorer
             this.ClientSize = new System.Drawing.Size(792, 571);
             this.Controls.Add(this.printPreviewControl);
             this.Controls.Add(this.toolStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CustomPrintPreviewDialog";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

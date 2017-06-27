@@ -220,7 +220,7 @@ namespace HdbPoet
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(450, 160);
+            this.groupBox1.Size = new System.Drawing.Size(441, 160);
             this.groupBox1.TabIndex = 32;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Time Window Selection";
@@ -343,7 +343,7 @@ namespace HdbPoet
             // 
             this.Controls.Add(this.groupBox1);
             this.Name = "DateSelector";
-            this.Size = new System.Drawing.Size(450, 160);
+            this.Size = new System.Drawing.Size(441, 160);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDays)).EndInit();
             this.ResumeLayout(false);

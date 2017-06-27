@@ -80,6 +80,7 @@ namespace HdbPoet
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SqlView));
             this.dataGrid1 = new System.Windows.Forms.DataGrid();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonInfo = new System.Windows.Forms.Button();
@@ -145,8 +146,8 @@ namespace HdbPoet
             // 
             // textBoxSql
             // 
-            this.textBoxSql.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSql.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSql.Location = new System.Drawing.Point(8, 184);
             this.textBoxSql.Multiline = true;
             this.textBoxSql.Name = "textBoxSql";
@@ -178,6 +179,7 @@ namespace HdbPoet
             this.ClientSize = new System.Drawing.Size(761, 459);
             this.Controls.Add(this.dataGrid1);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SqlView";
             this.Text = "SQL Viewer ";
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();

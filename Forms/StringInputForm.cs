@@ -71,48 +71,51 @@ namespace HdbPoet
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.textBoxInput = new System.Windows.Forms.TextBox();
-			this.buttonCancel = new System.Windows.Forms.Button();
-			this.buttonOk = new System.Windows.Forms.Button();
-			this.SuspendLayout();
-			// 
-			// textBoxInput
-			// 
-			this.textBoxInput.Location = new System.Drawing.Point(8, 48);
-			this.textBoxInput.Name = "textBoxInput";
-			this.textBoxInput.Size = new System.Drawing.Size(280, 20);
-			this.textBoxInput.TabIndex = 0;
-			this.textBoxInput.Text = "";
-			// 
-			// buttonCancel
-			// 
-			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(224, 136);
-			this.buttonCancel.Name = "buttonCancel";
-			this.buttonCancel.TabIndex = 1;
-			this.buttonCancel.Text = "Cancel";
-			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
-			// 
-			// buttonOk
-			// 
-			this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonOk.Location = new System.Drawing.Point(224, 104);
-			this.buttonOk.Name = "buttonOk";
-			this.buttonOk.TabIndex = 2;
-			this.buttonOk.Text = "Ok";
-			this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
-			// 
-			// StringInputForm
-			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(304, 166);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																		  this.buttonOk,
-																		  this.buttonCancel,
-																		  this.textBoxInput});
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.Name = "StringInputForm";
-			this.ResumeLayout(false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StringInputForm));
+            this.textBoxInput = new System.Windows.Forms.TextBox();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonOk = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // textBoxInput
+            // 
+            this.textBoxInput.Location = new System.Drawing.Point(8, 48);
+            this.textBoxInput.Name = "textBoxInput";
+            this.textBoxInput.Size = new System.Drawing.Size(280, 20);
+            this.textBoxInput.TabIndex = 0;
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(224, 136);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 1;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
+            // buttonOk
+            // 
+            this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonOk.Location = new System.Drawing.Point(224, 104);
+            this.buttonOk.Name = "buttonOk";
+            this.buttonOk.Size = new System.Drawing.Size(75, 23);
+            this.buttonOk.TabIndex = 2;
+            this.buttonOk.Text = "Ok";
+            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            // 
+            // StringInputForm
+            // 
+            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.ClientSize = new System.Drawing.Size(304, 166);
+            this.Controls.Add(this.buttonOk);
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.textBoxInput);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "StringInputForm";
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 		#endregion

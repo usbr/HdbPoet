@@ -60,6 +60,7 @@ namespace HdbPoet
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Options));
             this.buttonOk = new System.Windows.Forms.Button();
             this.checkBoxShowEmptySdids = new System.Windows.Forms.CheckBox();
             this.checkBoxInsertIntoRbase = new System.Windows.Forms.CheckBox();
@@ -243,6 +244,7 @@ namespace HdbPoet
             this.Controls.Add(this.checkBoxShowEmptySdids);
             this.Controls.Add(this.buttonOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Options";

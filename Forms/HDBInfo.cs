@@ -50,31 +50,33 @@ namespace HdbPoet
 		/// </summary>
 		private void InitializeComponent()
 		{
-      this.dataGrid1 = new System.Windows.Forms.DataGrid();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
-      this.SuspendLayout();
-      // 
-      // dataGrid1
-      // 
-      this.dataGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-        | System.Windows.Forms.AnchorStyles.Left) 
-        | System.Windows.Forms.AnchorStyles.Right)));
-      this.dataGrid1.DataMember = "";
-      this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-      this.dataGrid1.Location = new System.Drawing.Point(8, 8);
-      this.dataGrid1.Name = "dataGrid1";
-      this.dataGrid1.Size = new System.Drawing.Size(488, 336);
-      this.dataGrid1.TabIndex = 0;
-      // 
-      // HDBInfo
-      // 
-      this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-      this.ClientSize = new System.Drawing.Size(504, 350);
-      this.Controls.Add(this.dataGrid1);
-      this.Name = "HDBInfo";
-      this.Text = "HDBInfo";
-      ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
-      this.ResumeLayout(false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HdbInfo));
+            this.dataGrid1 = new System.Windows.Forms.DataGrid();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // dataGrid1
+            // 
+            this.dataGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid1.DataMember = "";
+            this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.dataGrid1.Location = new System.Drawing.Point(8, 8);
+            this.dataGrid1.Name = "dataGrid1";
+            this.dataGrid1.Size = new System.Drawing.Size(488, 336);
+            this.dataGrid1.TabIndex = 0;
+            // 
+            // HdbInfo
+            // 
+            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.ClientSize = new System.Drawing.Size(504, 350);
+            this.Controls.Add(this.dataGrid1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "HdbInfo";
+            this.Text = "HDBInfo";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
+            this.ResumeLayout(false);
 
     }
 		#endregion

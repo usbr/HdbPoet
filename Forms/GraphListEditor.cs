@@ -220,6 +220,7 @@ namespace HdbPoet
             this.Controls.Add(this.listBoxGraphs);
             this.Controls.Add(this.buttonOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GraphListEditor";
             this.Text = "Graph List Editor";
             this.ResumeLayout(false);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ColumnFormat));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.SeriesName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Format = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -116,6 +117,7 @@
             this.ClientSize = new System.Drawing.Size(568, 351);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ColumnFormat";
             this.Text = "Series Data Format";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

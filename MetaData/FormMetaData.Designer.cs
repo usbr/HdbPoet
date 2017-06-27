@@ -28,23 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMetaData));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.ref_res = new System.Windows.Forms.TabPage();
-            this.tabPageHdbAttr = new System.Windows.Forms.TabPage();
-            this.tabPageRefSiteAttributes = new System.Windows.Forms.TabPage();
-            this.tabPageRatingTables = new System.Windows.Forms.TabPage();
             this.editSites = new HdbPoet.MetaData.SqlViewEditor();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.editSiteDataType = new HdbPoet.MetaData.SqlViewEditor();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.editDataTypes = new HdbPoet.MetaData.SqlViewEditor();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.ViewKeyVal = new HdbPoet.MetaData.SqlViewEditor();
             this.editRefExtMap = new HdbPoet.MetaData.SqlViewEditor();
+            this.ref_res = new System.Windows.Forms.TabPage();
             this.edit_ref_res = new HdbPoet.MetaData.SqlViewEditor();
+            this.tabPageHdbAttr = new System.Windows.Forms.TabPage();
             this.ViewHdb_attr = new HdbPoet.MetaData.SqlViewEditor();
+            this.tabPageRefSiteAttributes = new System.Windows.Forms.TabPage();
             this.ViewRefSiteAttributes = new HdbPoet.MetaData.SqlViewEditor();
+            this.tabPageRatingTables = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -84,6 +85,14 @@
             this.tabPage1.Text = "sites";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // editSites
+            // 
+            this.editSites.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editSites.Location = new System.Drawing.Point(3, 3);
+            this.editSites.Name = "editSites";
+            this.editSites.Size = new System.Drawing.Size(743, 591);
+            this.editSites.TabIndex = 1;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.editSiteDataType);
@@ -94,6 +103,14 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "site datatype";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // editSiteDataType
+            // 
+            this.editSiteDataType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editSiteDataType.Location = new System.Drawing.Point(3, 3);
+            this.editSiteDataType.Name = "editSiteDataType";
+            this.editSiteDataType.Size = new System.Drawing.Size(743, 591);
+            this.editSiteDataType.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -106,6 +123,14 @@
             this.tabPage3.Text = "datatypes";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // editDataTypes
+            // 
+            this.editDataTypes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editDataTypes.Location = new System.Drawing.Point(3, 3);
+            this.editDataTypes.Name = "editDataTypes";
+            this.editDataTypes.Size = new System.Drawing.Size(743, 591);
+            this.editDataTypes.TabIndex = 0;
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.ViewKeyVal);
@@ -117,73 +142,6 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "ref ext site_data_map";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // ref_res
-            // 
-            this.ref_res.Controls.Add(this.edit_ref_res);
-            this.ref_res.Location = new System.Drawing.Point(4, 22);
-            this.ref_res.Name = "ref_res";
-            this.ref_res.Padding = new System.Windows.Forms.Padding(3);
-            this.ref_res.Size = new System.Drawing.Size(749, 597);
-            this.ref_res.TabIndex = 4;
-            this.ref_res.Text = "ref_res";
-            this.ref_res.UseVisualStyleBackColor = true;
-            // 
-            // tabPageHdbAttr
-            // 
-            this.tabPageHdbAttr.Controls.Add(this.ViewHdb_attr);
-            this.tabPageHdbAttr.Location = new System.Drawing.Point(4, 22);
-            this.tabPageHdbAttr.Name = "tabPageHdbAttr";
-            this.tabPageHdbAttr.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHdbAttr.Size = new System.Drawing.Size(749, 597);
-            this.tabPageHdbAttr.TabIndex = 5;
-            this.tabPageHdbAttr.Text = "hdb_attr";
-            this.tabPageHdbAttr.UseVisualStyleBackColor = true;
-            // 
-            // tabPageRefSiteAttributes
-            // 
-            this.tabPageRefSiteAttributes.Controls.Add(this.ViewRefSiteAttributes);
-            this.tabPageRefSiteAttributes.Location = new System.Drawing.Point(4, 22);
-            this.tabPageRefSiteAttributes.Name = "tabPageRefSiteAttributes";
-            this.tabPageRefSiteAttributes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRefSiteAttributes.Size = new System.Drawing.Size(749, 597);
-            this.tabPageRefSiteAttributes.TabIndex = 6;
-            this.tabPageRefSiteAttributes.Text = "ref_site_attributes";
-            this.tabPageRefSiteAttributes.UseVisualStyleBackColor = true;
-            // 
-            // tabPageRatingTables
-            // 
-            this.tabPageRatingTables.Location = new System.Drawing.Point(4, 22);
-            this.tabPageRatingTables.Name = "tabPageRatingTables";
-            this.tabPageRatingTables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRatingTables.Size = new System.Drawing.Size(749, 597);
-            this.tabPageRatingTables.TabIndex = 7;
-            this.tabPageRatingTables.Text = "rating tables";
-            this.tabPageRatingTables.UseVisualStyleBackColor = true;
-            // 
-            // editSites
-            // 
-            this.editSites.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editSites.Location = new System.Drawing.Point(3, 3);
-            this.editSites.Name = "editSites";
-            this.editSites.Size = new System.Drawing.Size(743, 591);
-            this.editSites.TabIndex = 1;
-            // 
-            // editSiteDataType
-            // 
-            this.editSiteDataType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editSiteDataType.Location = new System.Drawing.Point(3, 3);
-            this.editSiteDataType.Name = "editSiteDataType";
-            this.editSiteDataType.Size = new System.Drawing.Size(743, 591);
-            this.editSiteDataType.TabIndex = 0;
-            // 
-            // editDataTypes
-            // 
-            this.editDataTypes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editDataTypes.Location = new System.Drawing.Point(3, 3);
-            this.editDataTypes.Name = "editDataTypes";
-            this.editDataTypes.Size = new System.Drawing.Size(743, 591);
-            this.editDataTypes.TabIndex = 0;
             // 
             // ViewKeyVal
             // 
@@ -201,6 +159,17 @@
             this.editRefExtMap.Size = new System.Drawing.Size(743, 352);
             this.editRefExtMap.TabIndex = 1;
             // 
+            // ref_res
+            // 
+            this.ref_res.Controls.Add(this.edit_ref_res);
+            this.ref_res.Location = new System.Drawing.Point(4, 22);
+            this.ref_res.Name = "ref_res";
+            this.ref_res.Padding = new System.Windows.Forms.Padding(3);
+            this.ref_res.Size = new System.Drawing.Size(749, 597);
+            this.ref_res.TabIndex = 4;
+            this.ref_res.Text = "ref_res";
+            this.ref_res.UseVisualStyleBackColor = true;
+            // 
             // edit_ref_res
             // 
             this.edit_ref_res.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -208,6 +177,17 @@
             this.edit_ref_res.Name = "edit_ref_res";
             this.edit_ref_res.Size = new System.Drawing.Size(743, 591);
             this.edit_ref_res.TabIndex = 2;
+            // 
+            // tabPageHdbAttr
+            // 
+            this.tabPageHdbAttr.Controls.Add(this.ViewHdb_attr);
+            this.tabPageHdbAttr.Location = new System.Drawing.Point(4, 22);
+            this.tabPageHdbAttr.Name = "tabPageHdbAttr";
+            this.tabPageHdbAttr.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageHdbAttr.Size = new System.Drawing.Size(749, 597);
+            this.tabPageHdbAttr.TabIndex = 5;
+            this.tabPageHdbAttr.Text = "hdb_attr";
+            this.tabPageHdbAttr.UseVisualStyleBackColor = true;
             // 
             // ViewHdb_attr
             // 
@@ -217,6 +197,17 @@
             this.ViewHdb_attr.Size = new System.Drawing.Size(743, 591);
             this.ViewHdb_attr.TabIndex = 0;
             // 
+            // tabPageRefSiteAttributes
+            // 
+            this.tabPageRefSiteAttributes.Controls.Add(this.ViewRefSiteAttributes);
+            this.tabPageRefSiteAttributes.Location = new System.Drawing.Point(4, 22);
+            this.tabPageRefSiteAttributes.Name = "tabPageRefSiteAttributes";
+            this.tabPageRefSiteAttributes.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageRefSiteAttributes.Size = new System.Drawing.Size(749, 597);
+            this.tabPageRefSiteAttributes.TabIndex = 6;
+            this.tabPageRefSiteAttributes.Text = "ref_site_attributes";
+            this.tabPageRefSiteAttributes.UseVisualStyleBackColor = true;
+            // 
             // ViewRefSiteAttributes
             // 
             this.ViewRefSiteAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -225,12 +216,23 @@
             this.ViewRefSiteAttributes.Size = new System.Drawing.Size(743, 591);
             this.ViewRefSiteAttributes.TabIndex = 1;
             // 
+            // tabPageRatingTables
+            // 
+            this.tabPageRatingTables.Location = new System.Drawing.Point(4, 22);
+            this.tabPageRatingTables.Name = "tabPageRatingTables";
+            this.tabPageRatingTables.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageRatingTables.Size = new System.Drawing.Size(749, 597);
+            this.tabPageRatingTables.TabIndex = 7;
+            this.tabPageRatingTables.Text = "rating tables";
+            this.tabPageRatingTables.UseVisualStyleBackColor = true;
+            // 
             // FormMetaData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(757, 623);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMetaData";
             this.Text = "hdb meta data editor";
             this.tabControl1.ResumeLayout(false);
