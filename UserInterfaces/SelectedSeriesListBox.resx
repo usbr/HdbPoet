@@ -112,30 +112,30 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonMoveGraphDown.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk02AQAAAAAAAHYAAAAoAAAAFAAAABAAAAABAAQAAAAAAAAAAADEDgAAxA4AABAAAAAQAAAAAAAA/wAA
         gP8AgAD/AICA/4AAAP+AAID/gIAA/4CAgP/AwMD/AAD//wD/AP8A/////wAA//8A/////wD//////4iI
-        iIiIiIiIiIgA/4iIiIiICIiIiIgA/4iIiIiAAIiIiIgA/4iIiIgAAAiIiIgA/4iIiIAAAACIiIgA/4iI
-        iAAAAAAIiIgA/4iIgAAAAAAAiIgA/4iIAAAAAAAACIgA/4iIiIAAAACIiIgA/4iIiIAAAACIiIgA/4iI
-        iIAAAACIiIgA/4iIiIAAAACIiIgA/4iIiIAAAACIiIgA/4iIiIAAAACIiIgA/4iIiIAAAACIiIgA/4iI
-        iIiIiIiIiIgA/w==
+        iIiIiIiIiIgAAIiIiIiICIiIiIgAAIiIiIiAAIiIiIgAAIiIiIgAAAiIiIgAAIiIiIAAAACIiIgAAIiI
+        iAAAAAAIiIgAAIiIgAAAAAAAiIgAAIiIAAAAAAAACIgAAIiIiIAAAACIiIgAAIiIiIAAAACIiIgAAIiI
+        iIAAAACIiIgAAIiIiIAAAACIiIgAAIiIiIAAAACIiIgAAIiIiIAAAACIiIgAAIiIiIAAAACIiIgAAIiI
+        iIiIiIiIiIgAAA==
 </value>
   </data>
   <data name="buttonMoveGraphUp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk02AQAAAAAAAHYAAAAoAAAAFAAAABAAAAABAAQAAAAAAAAAAADEDgAAxA4AABAAAAAQAAAAAAAA/wAA
         gP8AgAD/AICA/4AAAP+AAID/gIAA/4CAgP/AwMD/AAD//wD/AP8A/////wAA//8A/////wD//////4iI
-        iIiIiIiIiIgA/4iIiIAAAACIiIgA/4iIiIAAAACIiIgA/4iIiIAAAACIiIgA/4iIiIAAAACIiIgA/4iI
-        iIAAAACIiIgA/4iIiIAAAACIiIgA/4iIiIAAAACIiIgA/4iIAAAAAAAACIgA/4iIgAAAAAAAiIgA/4iI
-        iAAAAAAIiIgA/4iIiIAAAACIiIgA/4iIiIgAAAiIiIgA/4iIiIiAAIiIiIgA/4iIiIiICIiIiIgA/4iI
-        iIiIiIiIiIgA/w==
+        iIiIiIiIiIgAAIiIiIAAAACIiIgAAIiIiIAAAACIiIgAAIiIiIAAAACIiIgAAIiIiIAAAACIiIgAAIiI
+        iIAAAACIiIgAAIiIiIAAAACIiIgAAIiIiIAAAACIiIgAAIiIAAAAAAAACIgAAIiIgAAAAAAAiIgAAIiI
+        iAAAAAAIiIgAAIiIiIAAAACIiIgAAIiIiIgAAAiIiIgAAIiIiIiAAIiIiIgAAIiIiIiICIiIiIgAAIiI
+        iIiIiIiIiIgAAA==
 </value>
   </data>
 </root>

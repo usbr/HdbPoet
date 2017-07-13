@@ -53,7 +53,7 @@
             this.buttonMoveGraphDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonMoveGraphDown.BackColor = System.Drawing.Color.Silver;
             this.buttonMoveGraphDown.Image = ((System.Drawing.Image)(resources.GetObject("buttonMoveGraphDown.Image")));
-            this.buttonMoveGraphDown.Location = new System.Drawing.Point(9, 159);
+            this.buttonMoveGraphDown.Location = new System.Drawing.Point(7, 38);
             this.buttonMoveGraphDown.Name = "buttonMoveGraphDown";
             this.buttonMoveGraphDown.Size = new System.Drawing.Size(24, 32);
             this.buttonMoveGraphDown.TabIndex = 32;
@@ -65,7 +65,7 @@
             this.buttonMoveGraphUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonMoveGraphUp.BackColor = System.Drawing.Color.Silver;
             this.buttonMoveGraphUp.Image = ((System.Drawing.Image)(resources.GetObject("buttonMoveGraphUp.Image")));
-            this.buttonMoveGraphUp.Location = new System.Drawing.Point(9, 127);
+            this.buttonMoveGraphUp.Location = new System.Drawing.Point(7, 6);
             this.buttonMoveGraphUp.Name = "buttonMoveGraphUp";
             this.buttonMoveGraphUp.Size = new System.Drawing.Size(24, 32);
             this.buttonMoveGraphUp.TabIndex = 31;
