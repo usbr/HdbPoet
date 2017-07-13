@@ -84,7 +84,6 @@ namespace HdbPoet
             int idx = this.listBox.SelectedIndex;
             if (idx < 0 || idx == 0) // cant move up if you are at the top.
                 return;
-
             MoveSeries(idx, idx-1);
         }
 
@@ -108,16 +107,19 @@ namespace HdbPoet
             object[] array = selected.ItemArray;
             var newRow = table.NewRow();
             newRow.ItemArray = array;
-            selected.Delete();
 
-            table.Rows.InsertAt(newRow, insertIndex);
+            // Fix to allow the down button on the RHS of the UI
+            int insertOffset = 0;
+            if (idxNew > idx)
+            { insertOffset = 1; }
+
+            selected.Delete();
+            table.Rows.InsertAt(newRow, insertIndex + insertOffset);
+
             table.AcceptChanges();
             FillListBox();
             listBox.SelectedIndex = idxNew;
-        }
-
-        
-
+        }      
         
     }
 }
