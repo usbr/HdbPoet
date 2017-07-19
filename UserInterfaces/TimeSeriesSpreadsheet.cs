@@ -432,54 +432,65 @@ namespace HdbPoet
 
                 info = DataTableUtility.Transpose(info);
 
-                // GET Computation Processor Information
-                try
+                if (s.hdb_r_table.ToString().ToLower()[0] == 'm')
                 {
-                    if (info.Columns.Count > 1 && Convert.ToInt32(info.Rows[info.Rows.Count - 1][1]) > 99)
+                    info = new DataTable();
+                    info.Columns.Add("Query Failure");
+                    var infoRow = info.NewRow();
+                    infoRow[0] = "HDB does not store metadata for data in the Modeled Tables...";
+                    info.Rows.Add(infoRow);
+                }
+                else
+                {
+                    // GET Computation Processor Information
+                    try
                     {
-                        var cpInfo = Hdb.Instance.CpInfo(info.Rows[info.Rows.Count - 1][1].ToString());
-
-                        // cp comment
-                        var cpRow = info.NewRow();
-                        cpRow[0] = "CP_COMMENT";
-                        cpRow[1] = cpInfo.Rows[0]["CMMNT"];
-                        info.Rows.Add(cpRow);
-
-                        // cp inputs
-                        if (cpInfo.Rows[0]["GRP"].ToString() != "")
+                        if (info.Columns.Count > 1 && Convert.ToInt32(info.Rows[info.Rows.Count - 1][1]) > 99)
                         {
-                            cpRow = info.NewRow();
-                            cpRow[0] = "CP_INPUT";
-                            cpRow[1] = "Group Comp - Input is self with a different time-step or ";
+                            var cpInfo = Hdb.Instance.CpInfo(info.Rows[info.Rows.Count - 1][1].ToString());
+
+                            // cp comment
+                            var cpRow = info.NewRow();
+                            cpRow[0] = "CP_COMMENT";
+                            cpRow[1] = cpInfo.Rows[0]["CMMNT"];
                             info.Rows.Add(cpRow);
-                            cpRow = info.NewRow();
-                            cpRow[0] = "";
-                            cpRow[1] = "a different SDID under the same site";
-                            info.Rows.Add(cpRow);
-                        }
-                        else
-                        {
-                            int inputCounter = 1;
-                            foreach (DataRow item in cpInfo.Rows)
+
+                            // cp inputs
+                            if (cpInfo.Rows[0]["GRP"].ToString() != "")
                             {
                                 cpRow = info.NewRow();
-                                cpRow[0] = "CP_INPUT_" + inputCounter;
-                                cpRow[1] = "SDID " + item["SDID"].ToString() +
-                                           " (" + item["SNAME"].ToString().ToUpper() +
-                                           "-" + item["DNAME"].ToString().ToUpper() +
-                                           ") from " + item["TABL"].ToString().ToUpper();
+                                cpRow[0] = "CP_INPUT";
+                                cpRow[1] = "Group Comp - Input is self with a different time-step or ";
                                 info.Rows.Add(cpRow);
-                                inputCounter++;
+                                cpRow = info.NewRow();
+                                cpRow[0] = "";
+                                cpRow[1] = "a different SDID under the same site";
+                                info.Rows.Add(cpRow);
+                            }
+                            else
+                            {
+                                int inputCounter = 1;
+                                foreach (DataRow item in cpInfo.Rows)
+                                {
+                                    cpRow = info.NewRow();
+                                    cpRow[0] = "CP_INPUT_" + inputCounter;
+                                    cpRow[1] = "SDID " + item["SDID"].ToString() +
+                                               " (" + item["SNAME"].ToString().ToUpper() +
+                                               "-" + item["DNAME"].ToString().ToUpper() +
+                                               ") from " + item["TABL"].ToString().ToUpper();
+                                    info.Rows.Add(cpRow);
+                                    inputCounter++;
+                                }
                             }
                         }
                     }
-                }
-                catch
-                {
-                    var cpRow = info.NewRow();
-                    cpRow[0] = "CP COMMENT";
-                    cpRow[1] = "Unable to get CP Information from the DB...";
-                    info.Rows.Add(cpRow);
+                    catch
+                    {
+                        var cpRow = info.NewRow();
+                        cpRow[0] = "CP COMMENT";
+                        cpRow[1] = "Unable to get CP Information from the DB...";
+                        info.Rows.Add(cpRow);
+                    }
                 }
 
                 TableViewer tv = new TableViewer(info);
