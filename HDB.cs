@@ -192,7 +192,7 @@ namespace HdbPoet
                             else if (interval.ToLower() == "day")
                             { tEnd = t.AddDays(1); }
                             else if (interval.ToLower() == "month")
-                            { tEnd.AddMonths(1); }
+                            { tEnd = t.AddMonths(1); }
                             else if (interval.ToLower() == "year")
                             { tEnd = t.AddYears(1); }
                             else
