@@ -62,7 +62,7 @@ namespace HdbPoet
                     string title = s.SiteName + "\r\n" +
                                    s.ParameterType + "\r\n" +
                                    s.Units  + "\r\n" +
-                                   "(SDID=" + s.hdb_site_datatype_id + ")\r\n";
+                                   "(SDI=" + s.hdb_site_datatype_id + ")\r\n";
                     if (s.hdb_r_table == "r_base")
                     {// this is needed because r_base could be any interval.
                         // we need to identify it as different

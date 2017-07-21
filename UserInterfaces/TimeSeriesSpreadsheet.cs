@@ -464,7 +464,7 @@ namespace HdbPoet
                                 info.Rows.Add(cpRow);
                                 cpRow = info.NewRow();
                                 cpRow[0] = "";
-                                cpRow[1] = "a different SDID under the same site";
+                                cpRow[1] = "a different SDI under the same site";
                                 info.Rows.Add(cpRow);
                             }
                             else
@@ -474,7 +474,7 @@ namespace HdbPoet
                                 {
                                     cpRow = info.NewRow();
                                     cpRow[0] = "CP_INPUT_" + inputCounter;
-                                    cpRow[1] = "SDID " + item["SDID"].ToString() +
+                                    cpRow[1] = "SDI " + item["SDID"].ToString() +
                                                " (" + item["SNAME"].ToString().ToUpper() +
                                                "-" + item["DNAME"].ToString().ToUpper() +
                                                ") from " + item["TABL"].ToString().ToUpper();

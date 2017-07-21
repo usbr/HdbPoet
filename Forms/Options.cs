@@ -94,7 +94,7 @@ namespace HdbPoet
             this.checkBoxShowEmptySdids.Name = "checkBoxShowEmptySdids";
             this.checkBoxShowEmptySdids.Size = new System.Drawing.Size(164, 17);
             this.checkBoxShowEmptySdids.TabIndex = 3;
-            this.checkBoxShowEmptySdids.Text = "Show empty SDIDs in search";
+            this.checkBoxShowEmptySdids.Text = "Show empty SDIs in search";
             this.checkBoxShowEmptySdids.UseVisualStyleBackColor = true;
             this.checkBoxShowEmptySdids.CheckedChanged += new System.EventHandler(this.showEmptySdid_CheckedChanged);
             // 

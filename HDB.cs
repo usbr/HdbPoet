@@ -364,7 +364,7 @@ namespace HdbPoet
             DataColumn sourceColorColumn = new DataColumn();
             sourceColorColumn.ColumnName = "SourceColor";
             sourceColorColumn.DataType = typeof(string);
-            sourceColorColumn.DefaultValue = "skyblue";
+            sourceColorColumn.DefaultValue = "PaleGoldenrod";
             rval.Columns.Add(sourceColorColumn);
 
             DataColumn validationColumn = new DataColumn();
@@ -704,7 +704,7 @@ namespace HdbPoet
                 if (System.Text.RegularExpressions.Regex.Matches(siteSearchString, @"[a-zA-Z]").Count > 0 ||
                     siteSearchString == "")
                 {
-                    System.Windows.Forms.MessageBox.Show("Use SDID button is checked - Enter valid SDID number(s)...", "Error");
+                    System.Windows.Forms.MessageBox.Show("Use SDI button is checked - Enter valid SDI number(s)...", "Error");
                     return new DataTable();
                 }
                 else

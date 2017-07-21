@@ -342,7 +342,7 @@ namespace HdbPoet
             for (int i = 0; i < sz; i++) // Each Site
             {
                 node = new HdbNode((string)siteTableFiltered.Rows[i]["site_name"]);
-                node.Text = node.Text + " (SID=" + siteTableFiltered.Rows[i]["SITE_ID"].ToString() + ")";
+                node.Text = node.Text + " (SiteID=" + siteTableFiltered.Rows[i]["SITE_ID"].ToString() + ")";
                 node.Tag = this.siteTableFiltered.Rows[i];
                 node.Nodes.Add( new HdbNode("expand_this_site"));
                 root.Nodes.Add(node);
@@ -513,7 +513,7 @@ namespace HdbPoet
             this.sdidSearchCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.sdidSearchCheckBox.Size = new System.Drawing.Size(81, 19);
             this.sdidSearchCheckBox.TabIndex = 42;
-            this.sdidSearchCheckBox.Text = "Use SDID";
+            this.sdidSearchCheckBox.Text = "Use SDI";
             this.sdidSearchCheckBox.UseVisualStyleBackColor = false;
             // 
             // groupBoxDataType
@@ -1013,7 +1013,7 @@ namespace HdbPoet
                         text = tblUnique.Rows[0][0] + " : ";
                     }
                     text += (string)tbl.Rows[i]["DATATYPE_COMMON_NAME"];
-                    text += " (DID=" + tbl.Rows[i]["DATATYPE_ID"] + ")";
+                    text += " (DatatypeID=" + tbl.Rows[i]["DATATYPE_ID"] + ")";
                     text += " " + tbl.Rows[i]["SDID_DESCRIPTOR"];
                     text += " " + tbl.Rows[i]["COUNT(A.VALUE)"].ToString();
                     text += " records";
@@ -1028,7 +1028,7 @@ namespace HdbPoet
                     {
                         text += " No data for selected interval";
                     }
-                    text += " (SDID=" + tbl.Rows[i]["site_datatype_id"] + ") ";
+                    text += " (SDI=" + tbl.Rows[i]["site_datatype_id"] + ") ";
 
                     HdbNode node = new HdbNode(text);
                     node.Tag = tbl.Rows[i];
