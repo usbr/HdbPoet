@@ -298,24 +298,19 @@ static UniDbType GetNumberType()
             cmd.Parameters.Add("LOADING_APPLICATION_ID", s_LOADING_APPLICATION_ID);
             cmd.Parameters.Add("METHOD_ID", s_METHOD_ID);
             cmd.Parameters.Add("COMPUTATION_ID", s_COMPUTATION_ID);
-<<<<<<< HEAD
-
             cmd.Parameters.Add("DO_UPDATE_Y_OR_N", "Y");
             cmd.Parameters.Add("DATA_FLAGS", DBNull.Value);
             cmd.Parameters.Add("time_zone", timeZone);
-=======
             if (GlobalVariables.insertOnWrite)
             {
-                cmd.Parameters.Add("DO_UPDATE_Y_OR_N", GetVarCharType(), 1, "N", ParameterDirection.Input);
+                cmd.Parameters.Add("DO_UPDATE_Y_OR_N", "N");
             }
             else
             {
-                cmd.Parameters.Add("DO_UPDATE_Y_OR_N", GetVarCharType(), 1, "Y", ParameterDirection.Input);
+                cmd.Parameters.Add("DO_UPDATE_Y_OR_N", "Y");
             }
-            cmd.Parameters.Add("DATA_FLAGS", GetVarCharType(), DBNull.Value, ParameterDirection.Input);
-            cmd.Parameters.Add("time_zone", GetVarCharType(), 3, timeZone, ParameterDirection.Input);
->>>>>>> master
-
+            cmd.Parameters.Add("DATA_FLAGS", DBNull.Value);
+            cmd.Parameters.Add("time_zone", timeZone);
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
             return rval;

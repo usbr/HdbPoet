@@ -85,13 +85,9 @@ namespace HdbPoet
         }
 
 
-         void SetupTChartTools()
+        void SetupTChartTools()
         {
             chart.Tools.Clear();
-            Steema.TeeChart.Tools.MarksTip marksTip1 = new Steema.TeeChart.Tools.MarksTip();
-            marksTip1.Style = Steema.TeeChart.Styles.MarksStyles.XY;
-            marksTip1.GetText += new Steema.TeeChart.Tools.MarksTipGetTextEventHandler(this.marksTip1_GetText);
-            chart.Tools.Add(marksTip1);
 
             if (graphDef == null)
                 return;
@@ -109,14 +105,34 @@ namespace HdbPoet
                     chart.Tools.Add(dragPoint1);
                 }
             }
+            //// format nearest point
+            //for (int i = 0; i < graphDef.SeriesRows.Count(); i++)
+            //{
+            //    Steema.TeeChart.Tools.NearestPoint nearestPoint1 = new Steema.TeeChart.Tools.NearestPoint(chart[i]);
+            //    nearestPoint1.Pen.Color = Color.Blue;
+            //    nearestPoint1.Size = 25;
+            //    nearestPoint1.Style = Steema.TeeChart.Tools.NearestPointStyles.Circle;
+            //    chart.Tools.Add(nearestPoint1);
+            //}
 
+            // Add point tooltips
+            Steema.TeeChart.Tools.MarksTip marksTip1 = new Steema.TeeChart.Tools.MarksTip(chart.Chart);
+            marksTip1.Style = Steema.TeeChart.Styles.MarksStyles.XY;
+            marksTip1.Active = true;
+            marksTip1.MouseDelay = 250;
+            marksTip1.HideDelay = 9999;
+            marksTip1.MouseAction = Steema.TeeChart.Tools.MarksTipMouseAction.Move;
+            marksTip1.BackColor = Color.LightSteelBlue;
+            marksTip1.ForeColor = Color.Black;
+            chart.Tools.Add(marksTip1);
         }
-         bool m_SetActiveCellNeeded = false;
+
+
+        bool m_SetActiveCellNeeded = false;
         DateTime dragDateTime = DateTime.MinValue;
         int dragSeriesIndex = -1;
 
-        private void dragPoint1_Drag(Steema.TeeChart.Tools.DragPoint sender,
-            int Index)
+        private void dragPoint1_Drag(Steema.TeeChart.Tools.DragPoint sender, int Index)
         {
 
             int seriesIndex = chart.Series.IndexOf(sender.Series);
