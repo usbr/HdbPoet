@@ -99,7 +99,7 @@ namespace HdbPoet
                 {
                     return this.SiteName + " " + this.Interval + ": " + this.ParameterType +
                         ", " + this.sdid_descriptor +
-                        " (SDID=" + this.hdb_site_datatype_id + ")";
+                        " (SDI=" + this.hdb_site_datatype_id + ")";
                     //return "";
                 }
                 set

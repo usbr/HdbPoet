@@ -235,7 +235,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs">
+    <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Acl\AclManagement.cs">
@@ -260,12 +260,13 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ColumnFormat.cs">
+    <Compile Include="Forms\ColumnFormat.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ColumnFormat.Designer.cs">
+    <Compile Include="Forms\ColumnFormat.Designer.cs">
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalVariables.cs" />
     <Compile Include="LicensedDependency\GraphControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -273,33 +274,33 @@
       <DependentUpon>GraphControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Hdb.ProcedureCommon.cs" />
-    <Compile Include="GraphControlZedGraph.cs">
+    <Compile Include="UserInterfaces\GraphControlZedGraph.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GraphControlZedGraph.Designer.cs">
+    <Compile Include="UserInterfaces\GraphControlZedGraph.Designer.cs">
       <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
     </Compile>
     <Compile Include="ExcelReportTemplate.cs" />
-    <Compile Include="FormAddSeries.cs">
+    <Compile Include="Forms\FormAddSeries.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAddSeries.Designer.cs">
+    <Compile Include="Forms\FormAddSeries.Designer.cs">
       <DependentUpon>FormAddSeries.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormNewGraphName.cs">
+    <Compile Include="Forms\FormNewGraphName.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormNewGraphName.Designer.cs">
+    <Compile Include="Forms\FormNewGraphName.Designer.cs">
       <DependentUpon>FormNewGraphName.cs</DependentUpon>
     </Compile>
     <Compile Include="GraphData.cs" />
-    <Compile Include="GraphForm.cs">
+    <Compile Include="Forms\GraphForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GraphForm.Designer.cs">
+    <Compile Include="Forms\GraphForm.Designer.cs">
       <DependentUpon>GraphForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphListEditor.cs">
+    <Compile Include="Forms\GraphListEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="IExcelReportTool.cs" />
@@ -335,26 +336,29 @@
       <DependentUpon>SqlViewEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="IGraphControl.cs" />
-    <Compile Include="Upgrade.cs">
+    <Compile Include="Forms\Options.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Upgrade.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pisces\HdbModelSeries.cs" />
     <Compile Include="Pisces\HdbModelTreeBuilder.cs" />
     <Compile Include="Pisces\HdbOracleSeries.cs" />
     <Compile Include="Pisces\ImportFromHdb.cs" />
-    <Compile Include="SelectedSeriesListBox.cs">
+    <Compile Include="UserInterfaces\SelectedSeriesListBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SelectedSeriesListBox.Designer.cs">
+    <Compile Include="UserInterfaces\SelectedSeriesListBox.Designer.cs">
       <DependentUpon>SelectedSeriesListBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="SeriesSelection.cs">
+    <Compile Include="UserInterfaces\SeriesSelection.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CustomPrintPreviewDialog.cs">
+    <Compile Include="Forms\CustomPrintPreviewDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomPrintPreviewDialog.designer.cs">
+    <Compile Include="Forms\CustomPrintPreviewDialog.designer.cs">
       <DependentUpon>CustomPrintPreviewDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="LicensedDependency\FormTeeChartLicense.cs">
@@ -365,40 +369,40 @@
     </Compile>
     <Compile Include="Hdb.Model.cs" />
     <Compile Include="HdbNode.cs" />
-    <Compile Include="SelectHdbModel.cs">
+    <Compile Include="Forms\SelectHdbModel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelectHdbModel.Designer.cs">
+    <Compile Include="Forms\SelectHdbModel.Designer.cs">
       <DependentUpon>SelectHdbModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.cs" />
-    <Compile Include="SqlBuilder.cs">
+    <Compile Include="UserInterfaces\SqlBuilder.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimeZoneComboBox.cs">
+    <Compile Include="UserInterfaces\TimeZoneComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimeZoneComboBox.Designer.cs">
+    <Compile Include="UserInterfaces\TimeZoneComboBox.Designer.cs">
       <DependentUpon>TimeZoneComboBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeZoneOptions.cs">
+    <Compile Include="Forms\TimeZoneOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TimeZoneOptions.Designer.cs">
+    <Compile Include="Forms\TimeZoneOptions.Designer.cs">
       <DependentUpon>TimeZoneOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="PointChangeEventArgs.cs" />
-    <Compile Include="EditStringCollection.cs">
+    <Compile Include="Forms\EditStringCollection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditStringCollection.Designer.cs">
+    <Compile Include="Forms\EditStringCollection.Designer.cs">
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </Compile>
     <Compile Include="ZedGraphDataLoader.cs" />
-    <None Include="GraphControl.cs">
+    <None Include="UserInterfaces\GraphControl.cs">
       <SubType>UserControl</SubType>
     </None>
-    <None Include="GraphControl.Designer.cs">
+    <None Include="UserInterfaces\GraphControl.Designer.cs">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </None>
     <Compile Include="OracleConnectionInfo.cs" />
@@ -408,30 +412,30 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Test.cs" />
-    <Compile Include="TimeSeriesCommitChanges.cs">
+    <Compile Include="Forms\TimeSeriesCommitChanges.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TimeSeriesCommitChanges.Designer.cs">
+    <Compile Include="Forms\TimeSeriesCommitChanges.Designer.cs">
       <DependentUpon>TimeSeriesCommitChanges.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMain.cs">
+    <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Hdb.cs" />
-    <Compile Include="HdbBrowser.cs">
+    <Compile Include="UserInterfaces\HdbBrowser.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="HdbInfo.cs">
+    <Compile Include="Forms\HdbInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DateSelector.cs">
+    <Compile Include="UserInterfaces\DateSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="LicensedDependency\Graphs.cs" />
-    <Compile Include="Legend.cs">
+    <Compile Include="Forms\Legend.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Legend.Designer.cs">
+    <Compile Include="Forms\Legend.Designer.cs">
       <DependentUpon>Legend.cs</DependentUpon>
     </Compile>
     <Compile Include="MultipleSeriesDataTable.cs">
@@ -442,10 +446,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TimeSelector.cs">
+    <Compile Include="UserInterfaces\TimeSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimeSelectorForm.cs">
+    <Compile Include="Forms\TimeSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TimeSeriesConstants.cs" />
@@ -458,32 +462,32 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="TimeSeriesSpreadsheet.cs">
+    <Compile Include="UserInterfaces\TimeSeriesSpreadsheet.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimeSeriesTableView.cs">
+    <Compile Include="UserInterfaces\TimeSeriesTableView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimeSeriesTableView.Designer.cs">
+    <Compile Include="UserInterfaces\TimeSeriesTableView.Designer.cs">
       <DependentUpon>TimeSeriesTableView.cs</DependentUpon>
     </Compile>
     <Compile Include="OracleServer.cs" />
-    <Compile Include="OracleLogin.cs">
+    <Compile Include="Forms\OracleLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SqlView.cs">
+    <Compile Include="Forms\SqlView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StringInputForm.cs">
+    <Compile Include="Forms\StringInputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TimeZoneWarning.cs">
+    <Compile Include="Forms\TimeZoneWarning.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TimeZoneWarning.Designer.cs">
+    <Compile Include="Forms\TimeZoneWarning.Designer.cs">
       <DependentUpon>TimeZoneWarning.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="About.resx">
+    <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -497,29 +501,33 @@
     <EmbeddedResource Include="Acl\AddUserAndGroup.resx">
       <DependentUpon>AddUserAndGroup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ColumnFormat.resx">
+    <EmbeddedResource Include="Forms\ColumnFormat.resx">
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GraphControlZedGraph.resx">
+    <EmbeddedResource Include="UserInterfaces\GraphControlZedGraph.resx">
       <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormAddSeries.resx">
+    <EmbeddedResource Include="Forms\FormAddSeries.resx">
       <DependentUpon>FormAddSeries.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormNewGraphName.resx">
+    <EmbeddedResource Include="Forms\FormNewGraphName.resx">
       <DependentUpon>FormNewGraphName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GraphForm.resx">
+    <EmbeddedResource Include="Forms\GraphForm.resx">
       <DependentUpon>GraphForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GraphListEditor.resx">
+    <EmbeddedResource Include="Forms\GraphListEditor.resx">
       <DependentUpon>GraphListEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Upgrade.resx">
+    <EmbeddedResource Include="Forms\Options.resx">
+      <DependentUpon>Options.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Upgrade.resx">
       <DependentUpon>Upgrade.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -539,59 +547,59 @@
     <EmbeddedResource Include="MetaData\SqlViewEditor.resx">
       <DependentUpon>SqlViewEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectedSeriesListBox.resx">
+    <EmbeddedResource Include="UserInterfaces\SelectedSeriesListBox.resx">
       <DependentUpon>SelectedSeriesListBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SeriesSelection.resx">
+    <EmbeddedResource Include="UserInterfaces\SeriesSelection.resx">
       <DependentUpon>SeriesSelection.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomPrintPreviewDialog.resx">
+    <EmbeddedResource Include="Forms\CustomPrintPreviewDialog.resx">
       <DependentUpon>CustomPrintPreviewDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LicensedDependency\FormTeeChartLicense.resx">
       <DependentUpon>FormTeeChartLicense.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectHdbModel.resx">
+    <EmbeddedResource Include="Forms\SelectHdbModel.resx">
       <DependentUpon>SelectHdbModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SqlBuilder.resx">
+    <EmbeddedResource Include="UserInterfaces\SqlBuilder.resx">
       <DependentUpon>SqlBuilder.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeZoneComboBox.resx">
+    <EmbeddedResource Include="UserInterfaces\TimeZoneComboBox.resx">
       <DependentUpon>TimeZoneComboBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeZoneOptions.resx">
+    <EmbeddedResource Include="Forms\TimeZoneOptions.resx">
       <DependentUpon>TimeZoneOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditStringCollection.resx">
+    <EmbeddedResource Include="Forms\EditStringCollection.resx">
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="GraphControl.resx">
+    <None Include="UserInterfaces\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </None>
-    <EmbeddedResource Include="TimeSeriesCommitChanges.resx">
+    <EmbeddedResource Include="Forms\TimeSeriesCommitChanges.resx">
       <DependentUpon>TimeSeriesCommitChanges.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
+    <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HdbBrowser.resx">
+    <EmbeddedResource Include="UserInterfaces\HdbBrowser.resx">
       <DependentUpon>HdbBrowser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HdbInfo.resx">
+    <EmbeddedResource Include="Forms\HdbInfo.resx">
       <DependentUpon>HdbInfo.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="DateSelector.resx">
+    <EmbeddedResource Include="UserInterfaces\DateSelector.resx">
       <DependentUpon>DateSelector.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Legend.resx">
+    <EmbeddedResource Include="Forms\Legend.resx">
       <DependentUpon>Legend.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -600,35 +608,35 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeSelector.resx">
+    <EmbeddedResource Include="UserInterfaces\TimeSelector.resx">
       <DependentUpon>TimeSelector.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeSelectorForm.resx">
+    <EmbeddedResource Include="Forms\TimeSelectorForm.resx">
       <DependentUpon>TimeSelectorForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeSeriesSpreadsheet.resx">
+    <EmbeddedResource Include="UserInterfaces\TimeSeriesSpreadsheet.resx">
       <DependentUpon>TimeSeriesSpreadsheet.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="OracleLogin.resx">
+    <EmbeddedResource Include="Forms\OracleLogin.resx">
       <DependentUpon>OracleLogin.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SqlView.resx">
+    <EmbeddedResource Include="Forms\SqlView.resx">
       <DependentUpon>SqlView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="StringInputForm.resx">
+    <EmbeddedResource Include="Forms\StringInputForm.resx">
       <DependentUpon>StringInputForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeSeriesTableView.resx">
+    <EmbeddedResource Include="UserInterfaces\TimeSeriesTableView.resx">
       <DependentUpon>TimeSeriesTableView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeZoneWarning.resx">
+    <EmbeddedResource Include="Forms\TimeZoneWarning.resx">
       <DependentUpon>TimeZoneWarning.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config">
@@ -669,7 +677,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pisces\Core\Reclamation.Core.csproj">
-      <Project>{80C73D4C-43CF-42DE-ADDC-7B0F06ECF086}</Project>
+      <Project>{80c73d4c-43cf-42de-addc-7b0f06ecf086}</Project>
       <Name>Reclamation.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pisces\TimeSeries\Reclamation.TimeSeries.csproj">

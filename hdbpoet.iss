@@ -1,5 +1,6 @@
 #define AppName "HDB-POET"
-#define SrcApp ".\bin\debug\HDB-POET.exe"
+#define bin "bin\Debug\"
+#define SrcApp ".\bin\Debug\HDB-POET.exe"
 #define FileVerStr GetFileVersion(SrcApp)
 #define public StripBuild(str aVerStr) Copy(aVerStr, 1, RPos(".", aVerStr)-1)
 #define AppVerStr StripBuild(FileVerStr)
@@ -30,17 +31,17 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 
 [Files]
-Source: "bin\Debug\HDB-POET.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\HDB-POET.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\Aga.Controls.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\report.xls"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Debug\Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}HDB-POET.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}HDB-POET.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Aga.Controls.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}report.xls"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "*.*"; Excludes: "*.zip,*.sln,*.pdf,*.hdb"; DestDir: "{app}\src";
 ;Source: "Acl\*.*"; Excludes: "*.zip,*.sln"; DestDir: "{app}\src";
 
