@@ -507,6 +507,7 @@
     <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Include="UserInterfaces\GraphControlZedGraph.resx">
       <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
     </EmbeddedResource>
