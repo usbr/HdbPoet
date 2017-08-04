@@ -1,6 +1,6 @@
 #define AppName "HDB-POET"
-#define bin "bin\Debug\"
-#define SrcApp ".\bin\Debug\HDB-POET.exe"
+#define bin "bin\poet\"
+#define SrcApp ".\bin\poet\HDB-POET.exe"
 #define FileVerStr GetFileVersion(SrcApp)
 #define public StripBuild(str aVerStr) Copy(aVerStr, 1, RPos(".", aVerStr)-1)
 #define AppVerStr StripBuild(FileVerStr)
@@ -41,7 +41,9 @@ Source: "{#bin}Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}report.xls"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#bin}Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Devart.Data.Universal.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Devart.Data.Universal.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Devart.Data.Universal.OracleClient.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "*.*"; Excludes: "*.zip,*.sln,*.pdf,*.hdb"; DestDir: "{app}\src";
 ;Source: "Acl\*.*"; Excludes: "*.zip,*.sln"; DestDir: "{app}\src";
 

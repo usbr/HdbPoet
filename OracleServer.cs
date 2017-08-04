@@ -5,6 +5,7 @@ using System.Diagnostics;
 #if HDB_OPEN
 using Oracle.ManagedDataAccess.Client;
 #else
+using Devart.Data.Universal;
 using Devart.Data.Oracle;
 #endif
 
@@ -145,7 +146,7 @@ namespace HdbPoet
             // + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + service + ")));"
             // + "User Id=" + username + ";Password=" + password + ";";
 
-            OracleConnectionStringBuilder sb = new OracleConnectionStringBuilder();
+            Devart.Data.Oracle.OracleConnectionStringBuilder sb = new OracleConnectionStringBuilder();            
             sb.Direct = true;
             sb.Server = m_host;
             sb.Port = 1521;
@@ -165,7 +166,7 @@ namespace HdbPoet
             sb.ServiceName = service;
             sb.UserId = username;
             sb.Password = password;
-
+            //sb.ConnectionString = "Provider=Oracle;" + sb.ConnectionString;
             ConnectionString = sb.ConnectionString;
 
             sb.Password = "***";
@@ -185,9 +186,9 @@ namespace HdbPoet
         public DataTable Table(string tableName, string sql, bool throwErrors)
         {
             string strAccessSelect = sql;
-            OracleConnection myAccessConn = new OracleConnection(ConnectionString);
-            OracleCommand myAccessCommand = new OracleCommand(strAccessSelect, myAccessConn);
-            OracleDataAdapter myDataAdapter = new OracleDataAdapter(myAccessCommand);
+            UniConnection myAccessConn = new UniConnection("Provider=Oracle;" + ConnectionString);
+            UniCommand myAccessCommand = new UniCommand(strAccessSelect, myAccessConn);
+            UniDataAdapter myDataAdapter = new UniDataAdapter(myAccessCommand);
 
             //Console.WriteLine(sql);
             this.lastSqlCommand = sql;
@@ -228,10 +229,10 @@ namespace HdbPoet
         }
 
 
-        public int RunStoredProc(OracleCommand cmd)
+        public int RunStoredProc(UniCommand cmd)
         {
             int rval = 0;
-            OracleConnection conn = new OracleConnection(this.ConnectionString);
+            UniConnection conn = new UniConnection("Provider=Oracle;" + this.ConnectionString);
             Debug.Assert(cmd.CommandType == CommandType.StoredProcedure);
             cmd.Connection = conn;
 
@@ -270,10 +271,10 @@ namespace HdbPoet
         {
             int rval = 0;
             this.lastMessage = "";
-            OracleConnection myConnection = new OracleConnection(strAccessConn);
+            UniConnection myConnection = new UniConnection("Provider=Oracle;" + strAccessConn);
             myConnection.Open();
-            OracleCommand myCommand = new OracleCommand();
-            OracleTransaction myTrans;
+            UniCommand myCommand = new UniCommand();
+            UniTransaction myTrans;
 
             // Start a local transaction
             myTrans = myConnection.BeginTransaction(IsolationLevel.ReadCommitted);
@@ -379,10 +380,10 @@ namespace HdbPoet
             DataSet myDataSet = new DataSet();
             myDataSet.Tables.Add(dataTable.TableName);
 
-            OracleConnection myAccessConn = new OracleConnection(ConnectionString);
-            OracleCommand myAccessCommand = new OracleCommand(sql, myAccessConn);
-            OracleDataAdapter myDataAdapter = new OracleDataAdapter(myAccessCommand);
-            OracleCommandBuilder cb = new OracleCommandBuilder(myDataAdapter);
+            UniConnection myAccessConn = new UniConnection("Provider=Oracle;" + ConnectionString);
+            UniCommand myAccessCommand = new UniCommand(sql, myAccessConn);
+            UniDataAdapter myDataAdapter = new UniDataAdapter(myAccessCommand);
+            UniCommandBuilder cb = new UniCommandBuilder(myDataAdapter);
 //            myDataAdapter.InsertCommand =  cb.GetInsertCommand();
             this.lastSqlCommand = sql;
             SqlCommands.Add(sql);

@@ -78,7 +78,8 @@ namespace HdbPoet
                     LoadSeriesData(dataTable, columnName, avg, series);
 
 					series.Title = s.Title;
-					if( i>0) // check units to determine what yaxis to use(left,or right)
+
+                    if ( i>0) // check units to determine what yaxis to use(left,or right)
 					{
 						string units = s.Units.Trim();
 						if( units != unitsOfFirstSeries)
