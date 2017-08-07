@@ -2,11 +2,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Diagnostics;
-#if HDB_OPEN
 using Oracle.ManagedDataAccess.Client;
-#else
-using Devart.Data.Oracle;
-#endif
 
 using System.Collections;
 using System.Windows.Forms;
@@ -123,7 +119,7 @@ namespace HdbPoet
             return true;
         }
 
-#if HDB_OPEN
+ 
         void MakeConnectionString(string username, string password)
         {
             //strAccessConn = "Provider="+provider+";User ID="+username+";"
@@ -136,43 +132,7 @@ namespace HdbPoet
            Logger.WriteLine(ConnectionString.Replace(";Password=" + password,";Password=***"));
         }
 
-#else
-
-        void MakeConnectionString(string username, string password)
-        {
-            //strAccessConn = "Data Source=(DESCRIPTION="
-            // + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + host + ")(PORT=1521)))"
-            // + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + service + ")));"
-            // + "User Id=" + username + ";Password=" + password + ";";
-
-            OracleConnectionStringBuilder sb = new OracleConnectionStringBuilder();
-            sb.Direct = true;
-            sb.Server = m_host;
-            sb.Port = 1521;
-            if(!string.IsNullOrEmpty(m_port))
-                {
-                    try
-                    {
-                        sb.Port = Convert.ToInt32(m_port); 
-                    }
-                    catch (FormatException ex)
-                    {
-                        MessageBox.Show("You must enter a numeric value for the Port Number:  " + ex.Message, "HDB Poet");
-                    }
-                    
-                }
-            //sb.Sid = ;
-            sb.ServiceName = service;
-            sb.UserId = username;
-            sb.Password = password;
-
-            ConnectionString = sb.ConnectionString;
-
-            sb.Password = "***";
-            Logger.WriteLine(sb.ConnectionString);
-        }
-#endif
-
+ 
 
         public override DataTable Table(string tableName)
         {

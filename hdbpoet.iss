@@ -40,8 +40,9 @@ Source: "{#bin}ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}report.xls"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#bin}Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#bin}Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Oracle.ManagedDataAccess.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#bin}Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#bin}Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "*.*"; Excludes: "*.zip,*.sln,*.pdf,*.hdb"; DestDir: "{app}\src";
 ;Source: "Acl\*.*"; Excludes: "*.zip,*.sln"; DestDir: "{app}\src";
 

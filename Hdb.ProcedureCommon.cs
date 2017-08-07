@@ -4,11 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 
-#if HDB_OPEN
 using Oracle.ManagedDataAccess.Client;
-#else
-using Devart.Data.Oracle;
-#endif
 
 namespace HdbPoet
 {
@@ -23,19 +19,11 @@ namespace HdbPoet
 
         static OracleDbType GetVarCharType()
         {
-#if HDB_OPEN
             return OracleDbType.Varchar2;
-#else
-            return Devart.Data.Oracle.OracleDbType.VarChar;
-#endif
         }
 static OracleDbType GetNumberType()
         {
-#if HDB_OPEN
             return OracleDbType.Decimal;
-#else
-            return Devart.Data.Oracle.OracleDbType.Number;
-#endif
         }
 
         public int delete_from_mtable(int mrid, int sdi, DateTime t1, DateTime t2, string interval)

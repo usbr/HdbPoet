@@ -8,7 +8,6 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml;
 using System.Text;
-using System.Linq;
 using Reclamation.Core;
 
 namespace HdbPoet
