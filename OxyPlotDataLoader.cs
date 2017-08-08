@@ -32,9 +32,9 @@ namespace HdbPoet
                 Title = " ",
                 Subtitle = " ",
                 PlotType = PlotType.XY,
-                Background = OxyColors.White,
-                LegendPlacement = LegendPlacement.Inside,
-                LegendPosition = LegendPosition.TopRight
+                Background = OxyColors.WhiteSmoke,
+                LegendPlacement = LegendPlacement.Outside,
+                LegendPosition = LegendPosition.RightTop
             };
 
             foreach (var s in list.SeriesRows)
@@ -62,9 +62,20 @@ namespace HdbPoet
                 series.Title = s.SiteName + "-" + s.ParameterType;
                 pm.Series.Add(series);
             }
-            pm.Axes.Add(new OxyPlot.Axes.DateTimeAxis {
+            pm.Axes.Add(new OxyPlot.Axes.DateTimeAxis
+            {
                 Position = OxyPlot.Axes.AxisPosition.Bottom,
-                StringFormat = "M/d/yyyy"
+                StringFormat = "M/d/yyyy",
+                MajorGridlineStyle = LineStyle.Dot,
+                MajorGridlineThickness = 0.25,
+                MajorGridlineColor = OxyColors.LightSlateGray
+            });
+            pm.Axes.Add(new OxyPlot.Axes.LinearAxis
+            {
+                Position = OxyPlot.Axes.AxisPosition.Left,
+                MajorGridlineStyle = LineStyle.Dot,
+                MajorGridlineThickness = 0.25,
+                MajorGridlineColor = OxyColors.LightSlateGray
             });
             chart1.Model = pm;
         }

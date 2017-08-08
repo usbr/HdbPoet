@@ -24,17 +24,38 @@ namespace HdbPoet
             InitChart();
         }
 
+        public PlotController customController { get; private set; }
+
         private void InitChart()
         {
             chart = new OxyPlot.WindowsForms.PlotView();
             //pane = chart.GraphPane;
             chart.Parent = this;
             chart.Dock = DockStyle.Fill;
+
+            //Sets the controller to enable show tracker on mouse hover
+            customController = new PlotController();
+            customController.UnbindMouseDown(OxyMouseButton.Left);
+            customController.BindMouseEnter(PlotCommands.HoverSnapTrack);
+            customController.BindMouseDown(OxyMouseButton.Left, PlotCommands.ZoomRectangle);
+            chart.Controller = customController;
         }
 
          
         internal void Print()
         {
+            //string fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
+            //var pngExporter = new PngExporter { Width = 600, Height = 400, Background = OxyColors.White };
+            //pngExporter.ExportToFile(chart.ActualModel, fileName);
+            //System.Diagnostics.Process.Start(fileName);
+
+            var fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
+            using (var stream = File.Create(fileName))
+            {
+                var pdfExporter = new PdfExporter { Width = 600, Height = 400, Background = OxyColors.White };
+                pdfExporter.Export(chart.ActualModel, stream);
+            }
+            System.Diagnostics.Process.Start(fileName);
         }
 
         public void ChangeSeriesValue(TimeSeriesChangeEventArgs e)
@@ -45,15 +66,15 @@ namespace HdbPoet
         public void DrawGraph(GraphData graphDef)
         {
             this.graphDef = graphDef;
-            this.toolStripButtonDragPoints.Enabled = !graphDef.ReadOnly;
 
-            StandardTChart(graphDef, chart);
+            StandardOxyChart(graphDef, chart);
         }
+
         /// <summary>
-        /// This overloaded StandardTChart is used with WindowsForms.
+        /// This overloaded method is used with WindowsForms.
         /// </summary>
         /// <returns></returns>
-         static void StandardTChart(GraphData ds, PlotView tChart1)
+         static void StandardOxyChart(GraphData ds, PlotView tChart1)
         {
             if (tChart1 == null)
             {
@@ -71,12 +92,9 @@ namespace HdbPoet
             get { return m_dragPoints; }
             set
             {
-
                 m_dragPoints = value;
             }
         }
-
-
 
         public event EventHandler<PointChangeEventArgs> PointChanged;
 
@@ -86,9 +104,6 @@ namespace HdbPoet
 
         private void PointChangedRaised(DateTime dragDateTime, int dragSeriesIndex)
         {
-
-            if (PointChanged != null)
-                Console.WriteLine();
         }
 
 
@@ -102,21 +117,10 @@ namespace HdbPoet
             toolStripButtonDragPoints.Checked = DragPoints;
         }
 
-        private void marksTip1_GetText(Steema.TeeChart.Tools.MarksTip sender, Steema.TeeChart.Tools.MarksTipGetTextEventArgs e)
-        {
-            e.Text = m_markTipText;
-        }
-
-        string m_markTipText = "";
-
-        private void chart_MouseMove(object sender, MouseEventArgs e)
-        {
-        }
-
-
         private void toolStripButtonUndoZoom_Click(object sender, EventArgs e)
         {
-           // UndoZoom();
+            chart.Model.ResetAllAxes();
+            chart.Refresh();
         }
 
         private void toolStripButtonProperties_Click(object sender, EventArgs e)
@@ -126,7 +130,8 @@ namespace HdbPoet
 
         private void undoZoomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //UndoZoom();
+            chart.Model.ResetAllAxes();
+            chart.Refresh();
         }
 
         private void propertieschartToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,7 +149,9 @@ namespace HdbPoet
                 handler(this, EventArgs.Empty);
             }   
         }
+
         public event EventHandler<EventArgs> DatesClick;
+
         private void toolStripButtonDates_Click(object sender, EventArgs e)
         {
             EventHandler<EventArgs> handler = DatesClick;
@@ -163,9 +170,6 @@ namespace HdbPoet
         {
             Print();
         }
-
-
-
 
         public void Cleanup()
         {

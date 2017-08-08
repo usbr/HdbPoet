@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphControlZedGraph));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphControlOxyPlot));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemDates = new System.Windows.Forms.ToolStripMenuItem();
             this.undoZoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,6 +71,7 @@
             // 
             // propertieschartToolStripMenuItem
             // 
+            this.propertieschartToolStripMenuItem.Enabled = false;
             this.propertieschartToolStripMenuItem.Name = "propertieschartToolStripMenuItem";
             this.propertieschartToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.propertieschartToolStripMenuItem.Text = "Properties (chart) ...";
@@ -78,6 +79,7 @@
             // 
             // editSeriesToolStripMenuItem
             // 
+            this.editSeriesToolStripMenuItem.Enabled = false;
             this.editSeriesToolStripMenuItem.Name = "editSeriesToolStripMenuItem";
             this.editSeriesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.editSeriesToolStripMenuItem.Text = "Edit Series ...";
@@ -111,6 +113,7 @@
             // 
             this.toolStripButtonDragPoints.CheckOnClick = true;
             this.toolStripButtonDragPoints.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonDragPoints.Enabled = false;
             this.toolStripButtonDragPoints.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDragPoints.Image")));
             this.toolStripButtonDragPoints.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDragPoints.Name = "toolStripButtonDragPoints";
@@ -131,6 +134,7 @@
             // toolStripButtonProperties
             // 
             this.toolStripButtonProperties.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonProperties.Enabled = false;
             this.toolStripButtonProperties.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonProperties.Image")));
             this.toolStripButtonProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonProperties.Name = "toolStripButtonProperties";
@@ -148,12 +152,12 @@
             this.toolStripButtonDates.Text = "Dates";
             this.toolStripButtonDates.Click += new System.EventHandler(this.toolStripButtonDates_Click);
             // 
-            // GraphControl
+            // GraphControlOxyPlot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.toolStrip1);
-            this.Name = "GraphControl";
+            this.Name = "GraphControlOxyPlot";
             this.Size = new System.Drawing.Size(557, 382);
             this.contextMenuStrip1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
