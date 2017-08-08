@@ -264,6 +264,12 @@
       <DependentUpon>GraphControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Hdb.ProcedureCommon.cs" />
+    <Compile Include="MetaData\RatingTableGraphOxyPlot.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetaData\RatingTableGraphOxyPlot.Designer.cs">
+      <DependentUpon>RatingTableGraphOxyPlot.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserInterfaces\GraphControlOxyPlot.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -503,6 +509,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetaData\RatingTableGraphOxyPlot.resx">
+      <DependentUpon>RatingTableGraphOxyPlot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterfaces\GraphControlOxyPlot.resx">
       <DependentUpon>GraphControlOxyPlot.cs</DependentUpon>
