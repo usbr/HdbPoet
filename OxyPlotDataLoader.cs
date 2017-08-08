@@ -37,6 +37,8 @@ namespace HdbPoet
                 LegendPosition = LegendPosition.RightTop
             };
 
+            var yAxes = new List<string>();
+
             foreach (var s in list.SeriesRows)
             {
                 LineSeries series = new LineSeries();
@@ -60,6 +62,9 @@ namespace HdbPoet
                 series.MarkerSize = 3.0;
                 series.CanTrackerInterpolatePoints = false;
                 series.Title = s.SiteName + "-" + s.ParameterType;
+                series.YAxisKey = s.Units;
+                if (!yAxes.Contains(s.Units))
+                { yAxes.Add(s.Units); }
                 pm.Series.Add(series);
             }
             pm.Axes.Add(new OxyPlot.Axes.DateTimeAxis
@@ -70,13 +75,30 @@ namespace HdbPoet
                 MajorGridlineThickness = 0.25,
                 MajorGridlineColor = OxyColors.LightSlateGray
             });
-            pm.Axes.Add(new OxyPlot.Axes.LinearAxis
+            var yAxisCounter = 0;
+            var multiAxisDistanceOffset = 50;
+            foreach (var unit in yAxes)
             {
-                Position = OxyPlot.Axes.AxisPosition.Left,
-                MajorGridlineStyle = LineStyle.Dot,
-                MajorGridlineThickness = 0.25,
-                MajorGridlineColor = OxyColors.LightSlateGray
-            });
+                var newYAxis = new OxyPlot.Axes.LinearAxis();
+                if (yAxisCounter == 0)
+                {
+                    newYAxis.Position = OxyPlot.Axes.AxisPosition.Left;
+                    newYAxis.AxisTickToLabelDistance = 0;
+                }
+                else
+                {
+                    newYAxis.Position = OxyPlot.Axes.AxisPosition.Right;
+                    newYAxis.AxisDistance = (yAxisCounter - 1) * multiAxisDistanceOffset;
+                    newYAxis.AxisTickToLabelDistance = 0;
+                }
+                newYAxis.MajorGridlineStyle = LineStyle.Dot;
+                newYAxis.MajorGridlineThickness = 0.25;
+                newYAxis.MajorGridlineColor = OxyColors.LightSlateGray;
+                newYAxis.Key = unit;
+                newYAxis.Title = unit;
+                pm.Axes.Add(newYAxis);
+                yAxisCounter++;
+            }
             chart1.Model = pm;
         }
         
