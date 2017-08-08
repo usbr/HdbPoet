@@ -58,6 +58,7 @@ namespace HdbPoet
                     series.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(t), val));
                 }
                 series.Selectable = true;
+                series.LineStyle = LineStyle.Solid;
                 series.Smooth = false;
                 series.StrokeThickness = 2;
                 series.MarkerType = MarkerType.Circle;
@@ -74,7 +75,7 @@ namespace HdbPoet
             pm.Axes.Add(new OxyPlot.Axes.DateTimeAxis
             {
                 Position = OxyPlot.Axes.AxisPosition.Bottom,
-                StringFormat = "M/d/yyyy",
+                //StringFormat = "M/d/yyyy",
                 MajorGridlineStyle = LineStyle.Dot,
                 MajorGridlineThickness = 0.25,
                 MajorGridlineColor = OxyColors.LightSlateGray
@@ -89,14 +90,14 @@ namespace HdbPoet
                 if (yAxisCounter == 0)
                 {
                     newYAxis.Position = OxyPlot.Axes.AxisPosition.Left;
-                    newYAxis.AxisTickToLabelDistance = 0;
                 }
                 else
                 {
                     newYAxis.Position = OxyPlot.Axes.AxisPosition.Right;
                     newYAxis.AxisDistance = (yAxisCounter - 1) * multiAxisDistanceOffset;
-                    newYAxis.AxisTickToLabelDistance = 0;
                 }
+                newYAxis.AxisTickToLabelDistance = 0;
+                newYAxis.AxisTitleDistance = 0;
                 newYAxis.MajorGridlineStyle = LineStyle.Dot;
                 newYAxis.MajorGridlineThickness = 0.25;
                 newYAxis.MajorGridlineColor = OxyColors.LightSlateGray;
@@ -105,6 +106,9 @@ namespace HdbPoet
                 pm.Axes.Add(newYAxis);
                 yAxisCounter++;
             }
+
+            // Set OxyPlot color palette
+            pm.DefaultColors = OxyPalettes.Rainbow(pm.Series.Count).Colors;
 
             // Set OxyChart contents
             chart1.Model = pm;
