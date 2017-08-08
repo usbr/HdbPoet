@@ -16,7 +16,6 @@ namespace HdbPoet
     {
         GraphData graphDef;
         OxyPlot.WindowsForms.PlotView chart;
-        //private GraphPane pane; 
 
         public GraphControlOxyPlot()
         {
@@ -29,11 +28,10 @@ namespace HdbPoet
         private void InitChart()
         {
             chart = new OxyPlot.WindowsForms.PlotView();
-            //pane = chart.GraphPane;
             chart.Parent = this;
             chart.Dock = DockStyle.Fill;
 
-            //Sets the controller to enable show tracker on mouse hover
+            // Sets the controller to enable show tracker on mouse hover
             customController = new PlotController();
             customController.UnbindMouseDown(OxyMouseButton.Left);
             customController.BindMouseEnter(PlotCommands.HoverSnapTrack);
@@ -82,7 +80,7 @@ namespace HdbPoet
             }
 
             OxyPlotDataLoader loader = new OxyPlotDataLoader(tChart1);
-            loader.DrawTimeSeries(ds, ds.GraphRow.Title, "", true, false);
+            loader.DrawTimeSeries(ds);
         }
 
         private bool m_dragPoints = false;
@@ -97,20 +95,7 @@ namespace HdbPoet
         }
 
         public event EventHandler<PointChangeEventArgs> PointChanged;
-
-        private void chart_MouseUp(object sender, MouseEventArgs e)
-        {
-        }
-
-        private void PointChangedRaised(DateTime dragDateTime, int dragSeriesIndex)
-        {
-        }
-
-
-        private void menuItemChartProperties_Click(object sender, EventArgs e)
-        {
-        }
-
+        
         private void toolStripButtonDragPoints_Click(object sender, EventArgs e)
         {
             DragPoints = !DragPoints;

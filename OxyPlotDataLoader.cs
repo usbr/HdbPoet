@@ -24,9 +24,13 @@ namespace HdbPoet
         }
         
 
-        public void DrawTimeSeries(GraphData list, string title, string subTitle,
-            bool undoZoom, bool multiLeftAxis = false)
+        /// <summary>
+        /// Populates the OxyChart with all the components that it needs
+        /// </summary>
+        /// <param name="list"></param>
+        public void DrawTimeSeries(GraphData list)
         {
+            // Initialize OxyPlot PlotModel
             var pm = new PlotModel
             {
                 Title = " ",
@@ -37,8 +41,8 @@ namespace HdbPoet
                 LegendPosition = LegendPosition.RightTop
             };
 
+            // Add individual Series to PlotModel
             var yAxes = new List<string>();
-
             foreach (var s in list.SeriesRows)
             {
                 LineSeries series = new LineSeries();
@@ -57,8 +61,6 @@ namespace HdbPoet
                 series.Smooth = false;
                 series.StrokeThickness = 2;
                 series.MarkerType = MarkerType.Circle;
-                //series.MarkerFill = OxyColors.Transparent;
-                //series.MarkerStroke = series.Color;
                 series.MarkerSize = 3.0;
                 series.CanTrackerInterpolatePoints = false;
                 series.Title = s.SiteName + "-" + s.ParameterType;
@@ -67,6 +69,8 @@ namespace HdbPoet
                 { yAxes.Add(s.Units); }
                 pm.Series.Add(series);
             }
+
+            // Add X-Axis formatted as a DateTime
             pm.Axes.Add(new OxyPlot.Axes.DateTimeAxis
             {
                 Position = OxyPlot.Axes.AxisPosition.Bottom,
@@ -75,6 +79,8 @@ namespace HdbPoet
                 MajorGridlineThickness = 0.25,
                 MajorGridlineColor = OxyColors.LightSlateGray
             });
+
+            // Add Y-Axes formatted as doubles
             var yAxisCounter = 0;
             var multiAxisDistanceOffset = 50;
             foreach (var unit in yAxes)
@@ -99,6 +105,8 @@ namespace HdbPoet
                 pm.Axes.Add(newYAxis);
                 yAxisCounter++;
             }
+
+            // Set OxyChart contents
             chart1.Model = pm;
         }
         
