@@ -1,6 +1,6 @@
 #define AppName "HDB-POET"
-#define bin "bin\Debug\"
-#define SrcApp ".\bin\Debug\HDB-POET.exe"
+#define bin "bin\poet\"
+#define SrcApp ".\bin\poet\HDB-POET.exe"
 #define FileVerStr GetFileVersion(SrcApp)
 #define public StripBuild(str aVerStr) Copy(aVerStr, 1, RPos(".", aVerStr)-1)
 #define AppVerStr StripBuild(FileVerStr)
@@ -10,6 +10,7 @@ AppName={#AppName}
 AppVersion={#AppVerStr}
 AppVerName={#AppName} {#AppVerStr}
 AppPublisher=Reclamation
+DisableDirPage = no
 DefaultDirName={sd}\HDB-POET
 DefaultGroupName=HDB-POET
 OutputBaseFilename=setup_hdbpoet
@@ -36,11 +37,13 @@ Source: "{#bin}TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}HDB-POET.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Aga.Controls.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#bin}ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#bin}ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}report.xls"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Oracle.ManagedDataAccess.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}OxyPlot.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}OxyPlot.WindowsForms.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "{#bin}Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "{#bin}Devart.Data.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "*.*"; Excludes: "*.zip,*.sln,*.pdf,*.hdb"; DestDir: "{app}\src";

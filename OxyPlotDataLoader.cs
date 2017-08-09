@@ -66,6 +66,7 @@ namespace HdbPoet
                 series.CanTrackerInterpolatePoints = false;
                 series.Title = s.SiteName + "-" + s.ParameterType;
                 series.YAxisKey = s.Units;
+                series.XAxisKey = "date";
                 if (!yAxes.Contains(s.Units))
                 { yAxes.Add(s.Units); }
                 pm.Series.Add(series);
@@ -75,6 +76,8 @@ namespace HdbPoet
             pm.Axes.Add(new OxyPlot.Axes.DateTimeAxis
             {
                 Position = OxyPlot.Axes.AxisPosition.Bottom,
+                Key = "date",
+                Title = "Date",
                 //StringFormat = "M/d/yyyy",
                 MajorGridlineStyle = LineStyle.Dot,
                 MajorGridlineThickness = 0.25,
