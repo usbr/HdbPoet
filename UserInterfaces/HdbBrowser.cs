@@ -118,11 +118,12 @@ namespace HdbPoet
 
         static IGraphControl GetGraph()
         {
-            #if HDB_OPEN
-                return  new GraphControlZedGraph();
-            #else
+#if HDB_OPEN
+            //return  new GraphControlZedGraph();
+            return new GraphControlOxyPlot();
+#else
                 return new GraphControl();
-            #endif
+#endif
         }
         private void CreateNewDataSet()
         {

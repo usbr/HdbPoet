@@ -47,7 +47,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageTable = new System.Windows.Forms.TabPage();
             this.tabPageGraph = new System.Windows.Forms.TabPage();
-            this.graph1 = new HdbPoet.MetaData.RatingTableGraphZ();
+            this.graph1 = new HdbPoet.MetaData.RatingTableGraphOxyPlot();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -268,7 +268,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageTable;
         private System.Windows.Forms.TabPage tabPageGraph;
-        private RatingTableGraphZ graph1;
+        private RatingTableGraphOxyPlot graph1;
         private System.Windows.Forms.Label labelRatingTableName;
         private System.Windows.Forms.Label labelSiteName;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;

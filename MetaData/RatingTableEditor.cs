@@ -37,12 +37,10 @@ namespace HdbPoet.MetaData
         private void DrawGraph()
         {
             // draw the graph.
-            graph1.ClearSeries();
-            graph1.AddSeriesFromTable(ratingTable, "independent_value", "dependent_value");
-
-            graph1.YAxisText = ratingTableDetails.Rows[0]["rating_type_common_name"].ToString();
-            graph1.XAxisText = ratingTableDetails.Rows[0]["unit_common_name"].ToString();
-            graph1.Title = ratingTableDetails.Rows[0]["site_name"].ToString();
+            graph1.AddSeriesFromTable(ratingTable, "independent_value", "dependent_value",
+                ratingTableDetails.Rows[0]["rating_type_common_name"].ToString(),
+                ratingTableDetails.Rows[0]["unit_common_name"].ToString(),
+                ratingTableDetails.Rows[0]["site_name"].ToString());
         }
 
         public event EventHandler<EventArgs> OnClose;

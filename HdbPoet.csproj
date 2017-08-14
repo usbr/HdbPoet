@@ -170,6 +170,14 @@
       <HintPath>..\Pisces\packages\Oracle.ManagedDataAccess.12.2.1100\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.WindowsForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=245eacd6b5d2d338, processorArchitecture=MSIL">
+      <HintPath>packages\OxyPlot.WindowsForms.1.0.0\lib\net45\OxyPlot.WindowsForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -256,6 +264,18 @@
       <DependentUpon>GraphControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Hdb.ProcedureCommon.cs" />
+    <Compile Include="MetaData\RatingTableGraphOxyPlot.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetaData\RatingTableGraphOxyPlot.Designer.cs">
+      <DependentUpon>RatingTableGraphOxyPlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterfaces\GraphControlOxyPlot.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserInterfaces\GraphControlOxyPlot.Designer.cs">
+      <DependentUpon>GraphControlOxyPlot.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserInterfaces\GraphControlZedGraph.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -380,6 +400,7 @@
     <Compile Include="Forms\EditStringCollection.Designer.cs">
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </Compile>
+    <Compile Include="OxyPlotDataLoader.cs" />
     <Compile Include="ZedGraphDataLoader.cs" />
     <None Include="UserInterfaces\GraphControl.cs">
       <SubType>UserControl</SubType>
@@ -488,6 +509,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetaData\RatingTableGraphOxyPlot.resx">
+      <DependentUpon>RatingTableGraphOxyPlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterfaces\GraphControlOxyPlot.resx">
+      <DependentUpon>GraphControlOxyPlot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterfaces\GraphControlZedGraph.resx">
       <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
