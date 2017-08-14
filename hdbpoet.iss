@@ -33,7 +33,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "{#bin}HDB-POET.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#bin}TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#bin}TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}HDB-POET.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Aga.Controls.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion

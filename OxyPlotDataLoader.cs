@@ -111,7 +111,10 @@ namespace HdbPoet
             }
 
             // Set OxyPlot color palette
-            pm.DefaultColors = OxyPalettes.Rainbow(pm.Series.Count).Colors;
+            if (yAxes.Count > 1)
+            {
+                pm.DefaultColors = OxyPalettes.Rainbow(pm.Series.Count).Colors;
+            }
 
             // Set OxyChart contents
             chart1.Model = pm;

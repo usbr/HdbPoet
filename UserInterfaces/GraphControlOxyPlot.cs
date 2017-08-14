@@ -64,7 +64,7 @@ namespace HdbPoet
         public void DrawGraph(GraphData graphDef)
         {
             this.graphDef = graphDef;
-
+            this.toolStripButtonProperties.Enabled = true;
             StandardOxyChart(graphDef, chart);
         }
 
@@ -110,6 +110,7 @@ namespace HdbPoet
 
         private void toolStripButtonProperties_Click(object sender, EventArgs e)
         {
+            // [JR] build UI and code to allow users to customize graph apperance and formatting
         }
 
 

@@ -71,7 +71,7 @@
             // 
             // propertieschartToolStripMenuItem
             // 
-            this.propertieschartToolStripMenuItem.Enabled = false;
+            this.propertieschartToolStripMenuItem.Enabled = true;
             this.propertieschartToolStripMenuItem.Name = "propertieschartToolStripMenuItem";
             this.propertieschartToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.propertieschartToolStripMenuItem.Text = "Properties (chart) ...";
