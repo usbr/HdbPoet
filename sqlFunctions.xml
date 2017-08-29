@@ -126,4 +126,32 @@ WHERE hdb_site_datatype.site_datatype_id=
 $X</sql>
     <desc>Search for Site and Datatype information given a Site Datatype ID (SDI). Example: $X=21323</desc>
   </function>
+  <function>
+    <id>7</id>
+    <name>Get SDI Summary Statistics per Time-Step</name>
+    <sql>SELECT 
+to_char(START_DATE_TIME, 
+'$X'
+) t, 
+percentile_disc(.0) within group(order by value) min, 
+percentile_disc(.25) within group(order by value) q1,  
+percentile_disc(.5) within group(order by value) q2,  
+percentile_disc(.75) within group(order by value) q3,  
+percentile_disc(1.0) within group(order by value) max, 
+round(avg(value)) avg 
+FROM r_day 
+WHERE SITE_DATATYPE_ID= 
+$Y 
+AND START_DATE_TIME BETWEEN 
+'$T1' 
+AND 
+'$T2' 
+GROUP BY 
+to_char(START_DATE_TIME,
+'$X'
+) 
+ORDER BY t
+</sql>
+    <desc>Get summary statistics (min, max, avg, IQR) on a per-timestep basis given an SDI. Example: To get summary stats for Lake Mead elevation for CY2000 - CY2010 on a daily time-step, use $X=ddd, $Y=1930, $T1=01-JAN-2000, and $T2=31-DEC-2010. You may also set $Y=mm to get the same stats on a monthly time-step.</desc>
+  </function>
 </SqlFunctions>

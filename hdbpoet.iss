@@ -65,10 +65,10 @@ Filename: "{app}\HDB-POET.exe"; Description: "{cm:LaunchProgram,HDB-POET}"; Flag
 
 [Code]
 
-function HaveDotNet35: boolean;
+function HaveDotNet45: boolean;
 var ResultDWord:Cardinal;
 begin
-result:=RegQueryDWordValue(HKEY_LOCAL_MACHINE, 'Software\Microsoft\NET Framework Setup\NDP\v3.5','Install', ResultDWord);
+result:=RegQueryDWordValue(HKEY_LOCAL_MACHINE, 'Software\Microsoft\NET Framework Setup\NDP\v4\Full', 'Release', ResultDWord);
 if ResultDWord = 1 then
 begin
 result:= True;
@@ -78,9 +78,9 @@ end;
 function InitializeSetup(): Boolean;
 
 begin
-if not HaveDotNet35 then
+if not HaveDotNet45 then
   begin
- MsgBox('WARNING: You do not have the Microsoft .NET Framework 3.5 installed.  HDB-POET requires the .NET Framework 3.5 ', mbInformation, MB_OK);
+ MsgBox('WARNING: You do not have the Microsoft .NET Framework 4.5 installed.  HDB-POET requires the .NET Framework 4.5 ', mbInformation, MB_OK);
  end ;
  result:= true;
  end;
