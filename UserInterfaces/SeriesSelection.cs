@@ -345,6 +345,7 @@ namespace HdbPoet
                 node.Text = node.Text + " (SiteID=" + siteTableFiltered.Rows[i]["SITE_ID"].ToString() + ")";
                 node.Tag = this.siteTableFiltered.Rows[i];
                 node.Nodes.Add( new HdbNode("expand_this_site"));
+                node.Icon = GetIcon(siteTableFiltered.Rows[i]["OBJECTTYPE_ID"].ToString());
                 root.Nodes.Add(node);
             }
             treeView1.FindNode( model.GetPath(root)).Expand();
@@ -392,13 +393,11 @@ namespace HdbPoet
             this.comboBoxMrid = new System.Windows.Forms.ComboBox();
             this.comboBoxModelId = new System.Windows.Forms.ComboBox();
             this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
-            this.timeZoneComboBox2 = new HdbPoet.TimeZoneComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBoxBasin = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxInstantIncrement = new System.Windows.Forms.ComboBox();
-            this.dateSelector1 = new HdbPoet.DateSelector();
             this.listBoxInterval = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -407,10 +406,12 @@ namespace HdbPoet
             this.buttonAddSelected = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.selectedSeriesListBox1 = new HdbPoet.SelectedSeriesListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonRemoveAll = new System.Windows.Forms.Button();
             this.buttonAddAll = new System.Windows.Forms.Button();
+            this.selectedSeriesListBox1 = new HdbPoet.SelectedSeriesListBox();
+            this.timeZoneComboBox2 = new HdbPoet.TimeZoneComboBox();
+            this.dateSelector1 = new HdbPoet.DateSelector();
             this.groupBox1.SuspendLayout();
             this.groupBoxDataType.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -633,15 +634,6 @@ namespace HdbPoet
             this.checkBoxSelectAll.UseVisualStyleBackColor = false;
             this.checkBoxSelectAll.CheckedChanged += new System.EventHandler(this.checkBoxSelectAll_CheckedChanged);
             // 
-            // timeZoneComboBox2
-            // 
-            this.timeZoneComboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.timeZoneComboBox2.Location = new System.Drawing.Point(577, 199);
-            this.timeZoneComboBox2.Name = "timeZoneComboBox2";
-            this.timeZoneComboBox2.Size = new System.Drawing.Size(286, 21);
-            this.timeZoneComboBox2.TabIndex = 35;
-            this.timeZoneComboBox2.TimeZone = "";
-            // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -691,16 +683,6 @@ namespace HdbPoet
             this.comboBoxInstantIncrement.Name = "comboBoxInstantIncrement";
             this.comboBoxInstantIncrement.Size = new System.Drawing.Size(143, 21);
             this.comboBoxInstantIncrement.TabIndex = 9;
-            // 
-            // dateSelector1
-            // 
-            this.dateSelector1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateSelector1.Location = new System.Drawing.Point(424, 8);
-            this.dateSelector1.Name = "dateSelector1";
-            this.dateSelector1.ShowTime = false;
-            this.dateSelector1.Size = new System.Drawing.Size(439, 126);
-            this.dateSelector1.TabIndex = 5;
-            this.dateSelector1.Validating += new System.ComponentModel.CancelEventHandler(this.dateSelector1_Validating);
             // 
             // listBoxInterval
             // 
@@ -758,6 +740,9 @@ namespace HdbPoet
             this.imageList1.Images.SetKeyName(11, "length.bmp");
             this.imageList1.Images.SetKeyName(12, "pct.bmp");
             this.imageList1.Images.SetKeyName(13, "volume.bmp");
+            this.imageList1.Images.SetKeyName(14, "user.bmp");
+            this.imageList1.Images.SetKeyName(15, "dam.bmp");
+            this.imageList1.Images.SetKeyName(16, "river.bmp");
             // 
             // buttonAddSelected
             // 
@@ -801,17 +786,6 @@ namespace HdbPoet
             this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 43;
             // 
-            // selectedSeriesListBox1
-            // 
-            this.selectedSeriesListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectedSeriesListBox1.Location = new System.Drawing.Point(55, 0);
-            this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
-            this.selectedSeriesListBox1.Size = new System.Drawing.Size(516, 447);
-            this.selectedSeriesListBox1.TabIndex = 15;
-            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -844,6 +818,36 @@ namespace HdbPoet
             this.buttonAddAll.TabIndex = 15;
             this.buttonAddAll.Text = "All ->";
             this.buttonAddAll.Click += new System.EventHandler(this.buttonAddAll_Click);
+            // 
+            // selectedSeriesListBox1
+            // 
+            this.selectedSeriesListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.selectedSeriesListBox1.Location = new System.Drawing.Point(55, 0);
+            this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
+            this.selectedSeriesListBox1.Size = new System.Drawing.Size(516, 447);
+            this.selectedSeriesListBox1.TabIndex = 15;
+            // 
+            // timeZoneComboBox2
+            // 
+            this.timeZoneComboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.timeZoneComboBox2.Location = new System.Drawing.Point(577, 199);
+            this.timeZoneComboBox2.Name = "timeZoneComboBox2";
+            this.timeZoneComboBox2.Size = new System.Drawing.Size(286, 21);
+            this.timeZoneComboBox2.TabIndex = 35;
+            this.timeZoneComboBox2.TimeZone = "";
+            // 
+            // dateSelector1
+            // 
+            this.dateSelector1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dateSelector1.Location = new System.Drawing.Point(424, 8);
+            this.dateSelector1.Name = "dateSelector1";
+            this.dateSelector1.ShowTime = false;
+            this.dateSelector1.Size = new System.Drawing.Size(439, 126);
+            this.dateSelector1.TabIndex = 5;
+            this.dateSelector1.Validating += new System.ComponentModel.CancelEventHandler(this.dateSelector1_Validating);
             // 
             // SeriesSelection
             // 
@@ -1051,27 +1055,66 @@ namespace HdbPoet
             //root.ExpandAll();
         }
 
-        private Image GetIcon(string units = "")
+        private Image GetIcon(string unitType = "")
         {
-            switch (units.ToLower())
+            int n;
+            bool isNumeric = int.TryParse(unitType, out n);
+
+            if (!isNumeric)
             {
-                case "cfs":
-                    return imageList1.Images[10];
-                case "feet":
-                    return imageList1.Images[11];
-                case "acre-feet":
-                    return imageList1.Images[13];
-                case "kw":
-                case "kwh":
-                case "mw":
-                case "mwh":
-                case "gw":
-                case "gwh":
-                    return imageList1.Images[9];
-                case "decimal":
-                    return imageList1.Images[12];
-                default:
-                    return imageList1.Images[8];
+                switch (unitType.ToLower())
+                {
+                    case "kw":
+                    case "kwh":
+                    case "mw":
+                    case "mwh":
+                    case "gw":
+                    case "gwh":
+                        return imageList1.Images[9];
+                    case "cfs":
+                        return imageList1.Images[10];
+                    case "feet":
+                        return imageList1.Images[11];
+                    case "decimal":
+                        return imageList1.Images[12];
+                    case "acre-feet":
+                        return imageList1.Images[13];
+                    default:
+                        return imageList1.Images[8];
+                }
+            }
+            else
+            {
+                switch (unitType.ToLower())
+                {
+                    case "4":
+                    case "301":
+                    case "302":
+                    case "303":
+                    case "304":
+                    case "305":
+                    case "306":
+                    case "307":
+                    case "308":
+                    case "309":
+                    case "310":
+                    case "330":
+                        return imageList1.Images[14];
+                    case "5":
+                    case "7":
+                    case "10":
+                        return imageList1.Images[15];
+                    case "1":
+                    case "3":
+                    case "6":
+                    case "9":
+                    case "11":
+                    case "13":
+                        return imageList1.Images[16];
+                    default:
+                        return imageList1.Images[0];
+                }
+
             }
             //return imageList1.Images[8];
         }
