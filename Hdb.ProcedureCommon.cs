@@ -333,52 +333,57 @@ static UniDbType GetNumberType()
 
             cmd.Parameters.Add("SITE_DATATYPE_ID", UniDbType.Int);
             cmd.Parameters["SITE_DATATYPE_ID"].Value = sdi;
+
             cmd.Parameters.Add("INTERVAL",UniDbType.VarChar);
             cmd.Parameters["INTERVAL"].Value = interval;
+
             cmd.Parameters.Add("START_DATE_TIME", UniDbType.DateTime);
             cmd.Parameters["START_DATE_TIME"].Value = t;
+
             cmd.Parameters.Add("END_DATE_TIME", UniDbType.DateTime);
             cmd.Parameters["END_DATE_TIME"].Value = DBNull.Value;
+
             cmd.Parameters.Add("VALUE", UniDbType.Double);
             cmd.Parameters["VALUE"].Value = value;
+
             cmd.Parameters.Add("AGEN_ID", UniDbType.Double);
             cmd.Parameters["AGEN_ID"].Value = s_AGEN_ID;
+
             cmd.Parameters.Add("OVERWRITE_FLAG", UniDbType.VarChar);
             if (overwrite || GlobalVariables.overwriteOnWrite)
-            {
-                cmd.Parameters["OVERWRITE_FLAG"].Value = "O";
-            }
+            { cmd.Parameters["OVERWRITE_FLAG"].Value = "O"; }
             else
-            {
-                cmd.Parameters["OVERWRITE_FLAG"].Value = DBNull.Value;
-            }
+            { cmd.Parameters["OVERWRITE_FLAG"].Value = DBNull.Value; }
+
             if (GlobalVariables.writeValidationFlag != 'Z')
-            {
-                s_validation = GlobalVariables.writeValidationFlag;
-            }
+            { s_validation = GlobalVariables.writeValidationFlag; }
             cmd.Parameters.Add("VALIDATION", UniDbType.VarChar);
             cmd.Parameters["VALIDATION"].Value = s_validation;
+
             cmd.Parameters.Add("COLLECTION_SYSTEM_ID", UniDbType.VarChar);
             cmd.Parameters["COLLECTION_SYSTEM_ID"].Value = s_COLLECTION_SYSTEM_ID;
+
             cmd.Parameters.Add("LOADING_APPLICATION_ID", UniDbType.VarChar);
             cmd.Parameters["LOADING_APPLICATION_ID"].Value = s_LOADING_APPLICATION_ID;
+
             cmd.Parameters.Add("METHOD_ID", UniDbType.VarChar);
             cmd.Parameters["METHOD_ID"].Value = s_METHOD_ID;
+
             cmd.Parameters.Add("COMPUTATION_ID", UniDbType.VarChar);
             cmd.Parameters["COMPUTATION_ID"].Value = s_COMPUTATION_ID;
+
             cmd.Parameters.Add("DO_UPDATE_Y_OR_N", UniDbType.VarChar);
             if (GlobalVariables.insertOnWrite)
-            {
-                cmd.Parameters["DO_UPDATE_Y_OR_N"].Value = "N";
-            }
+            { cmd.Parameters["DO_UPDATE_Y_OR_N"].Value = "N"; }
             else
-            {
-                cmd.Parameters["DO_UPDATE_Y_OR_N"].Value = "Y";
-            }
+            { cmd.Parameters["DO_UPDATE_Y_OR_N"].Value = "Y"; }
+
             cmd.Parameters.Add("DATA_FLAGS", UniDbType.VarChar);
             cmd.Parameters["DATA_FLAGS"].Value = DBNull.Value;
+
             cmd.Parameters.Add("time_zone", UniDbType.VarChar);
             cmd.Parameters["time_zone"].Value = timeZone;
+
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
             return rval;
@@ -392,10 +397,13 @@ static UniDbType GetNumberType()
 
             cmd.Parameters.Add("SITE_DATATYPE_ID", UniDbType.Int);
             cmd.Parameters["SITE_DATATYPE_ID"].Value = sdi;
+
             cmd.Parameters.Add("INTERVAL", UniDbType.VarChar);
             cmd.Parameters["INTERVAL"].Value = interval;
+
             cmd.Parameters.Add("START_TIME", UniDbType.DateTime);
             cmd.Parameters["START_TIME"].Value = t;
+
             cmd.Parameters.Add("time_zone", UniDbType.VarChar);
             cmd.Parameters["time_zone"].Value = timeZone;
 
@@ -439,10 +447,17 @@ static UniDbType GetNumberType()
             string p_active_flag = active ? "Y" : "N";
             string p_delete_flag = delete ? "Y" : "N";
 
-            cmd.Parameters.Add("p_user_name", user.ToUpper());
-            cmd.Parameters.Add("p_group_name", group.ToUpper());
-            cmd.Parameters.Add("p_active_flag", p_active_flag);
-            cmd.Parameters.Add("p_delete_flag", p_delete_flag);
+            cmd.Parameters.Add("p_user_name", UniDbType.VarChar);
+            cmd.Parameters["p_user_name"].Value = user.ToUpper();
+
+            cmd.Parameters.Add("p_group_name", UniDbType.VarChar);
+            cmd.Parameters["p_group_name"].Value = group.ToUpper();
+
+            cmd.Parameters.Add("p_active_flag", UniDbType.VarChar);
+            cmd.Parameters["p_active_flag"].Value = p_active_flag;
+
+            cmd.Parameters.Add("p_delete_flag", UniDbType.VarChar);
+            cmd.Parameters["p_delete_flag"].Value = p_delete_flag;
 
             int rval = m_server.RunStoredProc(cmd);
 
@@ -467,10 +482,15 @@ static UniDbType GetNumberType()
 
             string p_delete_flag = delete ? "Y" : "N";
 
-            cmd.Parameters.Add("p_site_id", site_id);
-            cmd.Parameters.Add("p_group_name", group.ToUpper());
-            cmd.Parameters.Add("p_delete_flag", p_delete_flag);
+            cmd.Parameters.Add("p_site_id", UniDbType.VarChar);
+            cmd.Parameters["p_site_id"].Value = site_id;
 
+            cmd.Parameters.Add("p_group_name", UniDbType.VarChar);
+            cmd.Parameters["p_group_name"].Value = group.ToUpper();
+
+            cmd.Parameters.Add("p_delete_flag", UniDbType.VarChar);
+            cmd.Parameters["p_delete_flag"].Value = p_delete_flag;
+            
             int rval = m_server.RunStoredProc(cmd);
 
             return rval;
@@ -488,7 +508,8 @@ static UniDbType GetNumberType()
             parameter.Direction = ParameterDirection.ReturnValue;
             cmd.Parameters.Add(parameter);
 
-            cmd.Parameters.Add("P_SITE_DATATYPE_ID", (decimal)sdi);
+            cmd.Parameters.Add("P_SITE_DATATYPE_ID", UniDbType.Int);
+            cmd.Parameters["P_SITE_DATATYPE_ID"].Value = sdi;
 
             int rval = m_server.RunStoredProc(cmd);
 
