@@ -74,7 +74,7 @@
             this.selectAnalysisButton.TabIndex = 2;
             this.selectAnalysisButton.Text = "Select Analysis";
             this.selectAnalysisButton.UseVisualStyleBackColor = false;
-            this.selectAnalysisButton.Click += new System.EventHandler(this.DatabaseChanged);
+            this.selectAnalysisButton.Click += new System.EventHandler(this.DisplayAnalysisOptions);
             // 
             // selectedAnalysisTextBox
             // 
