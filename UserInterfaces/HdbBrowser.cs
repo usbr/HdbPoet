@@ -77,6 +77,7 @@ namespace HdbPoet
         private ToolStripButton reorder;
         private Panel panelGraph;
         IGraphControl graphControlPopup;
+        private TabPage tabPageAnalysis;
         IGraphControl graphControlRight;
         
 
@@ -111,6 +112,7 @@ namespace HdbPoet
             toolStripComboBoxInterval.SelectedIndexChanged += new EventHandler(toolStripComboBoxInterval_SelectedIndexChanged);
 
             tabControl1.SelectedIndexChanged += new EventHandler(setSqlBuilderTab);
+            tabControl1.SelectedIndexChanged += new EventHandler(setAnalysisTab);
 
             ValidationButtonEnabling();
             Logger.OnLogEvent += new StatusEventHandler(Logger_OnLogEvent);
@@ -244,6 +246,7 @@ namespace HdbPoet
             this.menuItemDates = new System.Windows.Forms.MenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.tabPageAnalysis = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -578,6 +581,7 @@ namespace HdbPoet
             // 
             this.tabControl1.Controls.Add(this.tabPageHome);
             this.tabControl1.Controls.Add(this.tabPageTable);
+            this.tabControl1.Controls.Add(this.tabPageAnalysis);
             this.tabControl1.Controls.Add(this.tabPageSql);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 32);
@@ -607,7 +611,7 @@ namespace HdbPoet
             this.tabPageTable.Location = new System.Drawing.Point(4, 22);
             this.tabPageTable.Name = "tabPageTable";
             this.tabPageTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTable.Size = new System.Drawing.Size(911, 427);
+            this.tabPageTable.Size = new System.Drawing.Size(1092, 584);
             this.tabPageTable.TabIndex = 1;
             this.tabPageTable.Text = "Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
@@ -617,15 +621,15 @@ namespace HdbPoet
             this.panelGraph.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGraph.Location = new System.Drawing.Point(460, 3);
             this.panelGraph.Name = "panelGraph";
-            this.panelGraph.Size = new System.Drawing.Size(422, 398);
+            this.panelGraph.Size = new System.Drawing.Size(603, 555);
             this.panelGraph.TabIndex = 5;
             // 
             // buttonShowGraph
             // 
             this.buttonShowGraph.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonShowGraph.Location = new System.Drawing.Point(882, 3);
+            this.buttonShowGraph.Location = new System.Drawing.Point(1063, 3);
             this.buttonShowGraph.Name = "buttonShowGraph";
-            this.buttonShowGraph.Size = new System.Drawing.Size(26, 398);
+            this.buttonShowGraph.Size = new System.Drawing.Size(26, 555);
             this.buttonShowGraph.TabIndex = 4;
             this.buttonShowGraph.Text = "<";
             this.buttonShowGraph.UseVisualStyleBackColor = true;
@@ -635,9 +639,9 @@ namespace HdbPoet
             // buttonHideGraph
             // 
             this.buttonHideGraph.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonHideGraph.Location = new System.Drawing.Point(460, 401);
+            this.buttonHideGraph.Location = new System.Drawing.Point(460, 558);
             this.buttonHideGraph.Name = "buttonHideGraph";
-            this.buttonHideGraph.Size = new System.Drawing.Size(448, 23);
+            this.buttonHideGraph.Size = new System.Drawing.Size(629, 23);
             this.buttonHideGraph.TabIndex = 3;
             this.buttonHideGraph.Text = "hide >>";
             this.buttonHideGraph.UseVisualStyleBackColor = true;
@@ -647,7 +651,7 @@ namespace HdbPoet
             // 
             this.splitter1.Location = new System.Drawing.Point(453, 3);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(7, 421);
+            this.splitter1.Size = new System.Drawing.Size(7, 578);
             this.splitter1.TabIndex = 1;
             this.splitter1.TabStop = false;
             // 
@@ -656,7 +660,7 @@ namespace HdbPoet
             this.timeSeriesTableView1.Dock = System.Windows.Forms.DockStyle.Left;
             this.timeSeriesTableView1.Location = new System.Drawing.Point(3, 3);
             this.timeSeriesTableView1.Name = "timeSeriesTableView1";
-            this.timeSeriesTableView1.Size = new System.Drawing.Size(450, 421);
+            this.timeSeriesTableView1.Size = new System.Drawing.Size(450, 578);
             this.timeSeriesTableView1.TabIndex = 0;
             this.timeSeriesTableView1.ValidState = false;
             // 
@@ -664,7 +668,7 @@ namespace HdbPoet
             // 
             this.tabPageSql.Location = new System.Drawing.Point(4, 22);
             this.tabPageSql.Name = "tabPageSql";
-            this.tabPageSql.Size = new System.Drawing.Size(911, 427);
+            this.tabPageSql.Size = new System.Drawing.Size(1092, 584);
             this.tabPageSql.TabIndex = 2;
             this.tabPageSql.Text = "SQL Builder";
             this.tabPageSql.UseVisualStyleBackColor = true;
@@ -706,6 +710,16 @@ namespace HdbPoet
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "HDB Files |*.hdb|AllFiles|*.*";
+            // 
+            // tabPageAnalysis
+            // 
+            this.tabPageAnalysis.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAnalysis.Name = "tabPageAnalysis";
+            this.tabPageAnalysis.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAnalysis.Size = new System.Drawing.Size(1092, 584);
+            this.tabPageAnalysis.TabIndex = 3;
+            this.tabPageAnalysis.Text = "Analysis";
+            this.tabPageAnalysis.UseVisualStyleBackColor = true;
             // 
             // HdbBrowser
             // 
@@ -1340,6 +1354,14 @@ namespace HdbPoet
             TabPage myTabPage = this.tabPageSql;
             sqlBuilderControl.Dock = DockStyle.Fill;
             myTabPage.Controls.Add(sqlBuilderControl);
+        }
+
+        public void setAnalysisTab(object sender, EventArgs e)
+        {
+            var analysisControl = new DataAnalysis();
+            TabPage myTabPage = this.tabPageAnalysis;
+            analysisControl.Dock = DockStyle.Fill;
+            myTabPage.Controls.Add(analysisControl);
         }
 
     }

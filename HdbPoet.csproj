@@ -163,6 +163,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ThirdParty\Aga.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="BumpKit">
+      <HintPath>..\Pisces\packages\Bumpkit.1.0.2\lib\BumpKit.dll</HintPath>
+    </Reference>
     <Reference Include="Devart.Data, Version=5.0.1586.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Universal\Devart.Data.dll</HintPath>
@@ -206,6 +209,7 @@
       <Name>System.Drawing</Name>
     </Reference>
     <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Speech" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
@@ -274,6 +278,12 @@
       <DependentUpon>GraphControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Hdb.ProcedureCommon.cs" />
+    <Compile Include="UserInterfaces\Analysis.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserInterfaces\Analysis.Designer.cs">
+      <DependentUpon>Analysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserInterfaces\GraphControlZedGraph.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -508,6 +518,9 @@
       <DependentUpon>GraphControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="UserInterfaces\Analysis.resx">
+      <DependentUpon>Analysis.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserInterfaces\GraphControlZedGraph.resx">
       <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
     </EmbeddedResource>
@@ -680,6 +693,10 @@
     <ProjectReference Include="..\Pisces\Core\Reclamation.Core.csproj">
       <Project>{80c73d4c-43cf-42de-addc-7b0f06ecf086}</Project>
       <Name>Reclamation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pisces\TimeSeries.Forms\Reclamation.TimeSeries.Forms.csproj">
+      <Project>{A7E73F2A-CA66-4BC8-934A-B5068C566F10}</Project>
+      <Name>Reclamation.TimeSeries.Forms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pisces\TimeSeries\Reclamation.TimeSeries.csproj">
       <Project>{5dd20a8a-4037-4885-ab91-2f5a3d1f48b4}</Project>
