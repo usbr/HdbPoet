@@ -439,7 +439,7 @@ namespace HdbPoet
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Location = new System.Drawing.Point(3, 6);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -466,7 +466,7 @@ namespace HdbPoet
             this.richTextBoxSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBoxSql.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxSql.Name = "richTextBoxSql";
-            this.richTextBoxSql.Size = new System.Drawing.Size(703, 150);
+            this.richTextBoxSql.Size = new System.Drawing.Size(701, 148);
             this.richTextBoxSql.TabIndex = 11;
             this.richTextBoxSql.Text = "";
             // 
@@ -475,7 +475,7 @@ namespace HdbPoet
             this.buttonExcelExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonExcelExport.Image = ((System.Drawing.Image)(resources.GetObject("buttonExcelExport.Image")));
             this.buttonExcelExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonExcelExport.Location = new System.Drawing.Point(589, 159);
+            this.buttonExcelExport.Location = new System.Drawing.Point(587, 157);
             this.buttonExcelExport.Name = "buttonExcelExport";
             this.buttonExcelExport.Size = new System.Drawing.Size(117, 23);
             this.buttonExcelExport.TabIndex = 2;
@@ -487,7 +487,7 @@ namespace HdbPoet
             // buttonSaveSql
             // 
             this.buttonSaveSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonSaveSql.Location = new System.Drawing.Point(3, 159);
+            this.buttonSaveSql.Location = new System.Drawing.Point(3, 157);
             this.buttonSaveSql.Name = "buttonSaveSql";
             this.buttonSaveSql.Size = new System.Drawing.Size(172, 23);
             this.buttonSaveSql.TabIndex = 6;
@@ -500,7 +500,7 @@ namespace HdbPoet
             this.buttonSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSql.Image = global::HdbPoet.Properties.Resources.warning;
             this.buttonSql.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonSql.Location = new System.Drawing.Point(463, 159);
+            this.buttonSql.Location = new System.Drawing.Point(461, 157);
             this.buttonSql.Name = "buttonSql";
             this.buttonSql.Size = new System.Drawing.Size(120, 23);
             this.buttonSql.TabIndex = 6;
@@ -518,7 +518,7 @@ namespace HdbPoet
             this.dataGrid1.Location = new System.Drawing.Point(3, 3);
             this.dataGrid1.Name = "dataGrid1";
             this.dataGrid1.ReadOnly = true;
-            this.dataGrid1.Size = new System.Drawing.Size(703, 390);
+            this.dataGrid1.Size = new System.Drawing.Size(701, 388);
             this.dataGrid1.TabIndex = 1;
             this.dataGrid1.Navigate += new System.Windows.Forms.NavigateEventHandler(this.dataGrid1_Navigate);
             // 

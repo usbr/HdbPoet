@@ -39,7 +39,7 @@ namespace HdbPoet
         private Label label6;
         private ComboBox comboBoxBasin;
         private Button buttonAddSelected;
-        private SelectedSeriesListBox selectedSeriesListBox1;
+        public SelectedSeriesListBox selectedSeriesListBox1;
         private Button buttonRemove;
         private SplitContainer splitContainer1;
         private Panel panel1;

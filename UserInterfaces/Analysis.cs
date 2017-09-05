@@ -16,16 +16,16 @@ namespace HdbPoet
 {
     public partial class DataAnalysis : UserControl
     {
-
-        private PiscesEngine engine1;
-        PiscesTree tree1;
-        GraphExplorerView graphView1;
-        private DisplayOptionsDialog displayOptionsDialog1;
         
         public DataAnalysis()
         {
             InitializeComponent();
         }
+
+        private PiscesEngine engine1;
+        PiscesTree tree1;
+        GraphExplorerView graphView1;
+        private DisplayOptionsDialog displayOptionsDialog1;
 
         void DatabaseChanged(object sender, EventArgs e)
         {
@@ -44,6 +44,8 @@ namespace HdbPoet
             engine1.View.Clear();
             engine1.Run();
         }
+
+        
 
 
 

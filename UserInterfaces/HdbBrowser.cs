@@ -1353,13 +1353,18 @@ namespace HdbPoet
             var sqlBuilderControl = new SqlBuilder(oracle);
             TabPage myTabPage = this.tabPageSql;
             sqlBuilderControl.Dock = DockStyle.Fill;
-            myTabPage.Controls.Add(sqlBuilderControl);
+            if (myTabPage.Controls.Count == 0)
+            {
+                myTabPage.Controls.Add(sqlBuilderControl);
+            }
         }
 
         public void setAnalysisTab(object sender, EventArgs e)
         {
             var analysisControl = new DataAnalysis();
+            analysisControl.selectedSeriesListBox1.SetDataSource(graphData);
             TabPage myTabPage = this.tabPageAnalysis;
+            myTabPage.Controls.Clear();
             analysisControl.Dock = DockStyle.Fill;
             myTabPage.Controls.Add(analysisControl);
         }
