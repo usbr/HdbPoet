@@ -21,41 +21,103 @@ namespace HdbPoet
         static decimal s_METHOD_ID = HDB_INVALID_ID;
         static decimal s_COMPUTATION_ID = HDB_INVALID_ID;
 
-        static  UniDbType GetVarCharType()
-        {
 #if HDB_OPEN
+        static OracleCommand GetCommandProvider()
+        {
+            return new OracleCommand();
+        }
+        static OracleParameter GetCommandOutputParameter()
+        {
+            var par = new OracleParameter();
+            par.OracleDbType = GetNumberType();
+            par.Direction = ParameterDirection.Output;
+            return par;
+        }
+        static OracleParameter GetCommandReturnParameter()
+        {
+            var par = new OracleParameter();
+            par.OracleDbType = GetVarCharType();
+            par.Direction = ParameterDirection.ReturnValue;
+            return par;
+        }
+        static OracleDbType GetVarCharType()
+        {
             return OracleDbType.Varchar2;
-#else
-            return UniDbType.VarChar;
-#endif
         }
-static UniDbType GetNumberType()
+        static OracleDbType GetIntegerType()
         {
-#if HDB_OPEN
-            return OracleDbType.Decimal;
-#else
-            return UniDbType.BigInt;
-#endif
+            return OracleDbType.Int32;
         }
+
+        static OracleDbType GetNumberType()
+        {
+            return OracleDbType.Decimal;
+        }
+
+        static OracleDbType GetDateTimeType()
+        {
+            return OracleDbType.Date;
+        }
+
+
+#else
+        static UniCommand GetCommandProvider()
+        {
+            return new UniCommand();
+        }
+        static UniParameter GetCommandOutputParameter()
+        {
+            var par = new UniParameter();
+            par.UniDbType = GetNumberType();
+            par.Direction = ParameterDirection.Output;
+            return par;
+        }
+        static UniParameter GetCommandReturnParameter()
+        {
+            var par = new UniParameter();
+            par.UniDbType = GetVarCharType();
+            par.Direction = ParameterDirection.ReturnValue;
+            return par;
+        }
+        static UniDbType GetVarCharType()
+        {
+            return UniDbType.VarChar;
+        }
+        static UniDbType GetIntegerType()
+        {
+            return UniDbType.BigInt;
+        }
+        static UniDbType GetNumberType()
+        {
+            return UniDbType.Double;
+        }
+        static UniDbType GetDateTimeType()
+        {
+            return UniDbType.DateTime;
+        }
+#endif
+
 
         public int delete_from_mtable(int mrid, int sdi, DateTime t1, DateTime t2, string interval)
         {
-            UniCommand cmd = new UniCommand("DELETE_M_TABLE");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "DELETE_M_TABLE";
+            //UniCommand cmd = new UniCommand("DELETE_M_TABLE");
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add("MODEL_RUN_ID", UniDbType.Int);
+            cmd.Parameters.Add("MODEL_RUN_ID", GetIntegerType());
             cmd.Parameters["MODEL_RUN_ID"].Value = mrid;
 
-            cmd.Parameters.Add("SITE_DATATYPE_ID", UniDbType.Int);
+            cmd.Parameters.Add("SITE_DATATYPE_ID", GetIntegerType());
             cmd.Parameters["SITE_DATATYPE_ID"].Value = sdi;
 
-            cmd.Parameters.Add("START_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("START_DATE_TIME", GetDateTimeType());
             cmd.Parameters["START_DATE_TIME"].Value = t1;
 
-            cmd.Parameters.Add("END_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("END_DATE_TIME", GetDateTimeType());
             cmd.Parameters["END_DATE_TIME"].Value = t2;
 
-            cmd.Parameters.Add("INTERVAL", UniDbType.VarChar);
+            cmd.Parameters.Add("INTERVAL", GetVarCharType());
             cmd.Parameters["INTERVAL"].Value = interval;
 
 
@@ -67,7 +129,9 @@ static UniDbType GetNumberType()
 
         public int modify_m_table(int mrid, int sdi, DateTime t1, DateTime t2, double value, string interval, bool isNewEntry)
         {
-            UniCommand cmd = new UniCommand("MODIFY_M_TABLE");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "MODIFY_M_TABLE";
+            //UniCommand cmd = new UniCommand("MODIFY_M_TABLE");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string doUpdateYorN;
@@ -76,25 +140,25 @@ static UniDbType GetNumberType()
             else
             { doUpdateYorN = "N"; }
 
-            cmd.Parameters.Add("MODEL_RUN_ID", UniDbType.Int);
+            cmd.Parameters.Add("MODEL_RUN_ID", GetIntegerType());
             cmd.Parameters["MODEL_RUN_ID"].Value = mrid;
 
-            cmd.Parameters.Add("SITE_DATATYPE_ID", UniDbType.Int);
+            cmd.Parameters.Add("SITE_DATATYPE_ID", GetIntegerType());
             cmd.Parameters["SITE_DATATYPE_ID"].Value = sdi;
 
-            cmd.Parameters.Add("START_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("START_DATE_TIME", GetDateTimeType());
             cmd.Parameters["START_DATE_TIME"].Value = t1;
 
-            cmd.Parameters.Add("END_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("END_DATE_TIME", GetDateTimeType());
             cmd.Parameters["END_DATE_TIME"].Value = t2;
 
-            cmd.Parameters.Add("VALUE", UniDbType.Double);
+            cmd.Parameters.Add("VALUE", GetNumberType());
             cmd.Parameters["VALUE"].Value = value;
 
-            cmd.Parameters.Add("INTERVAL", UniDbType.VarChar);
+            cmd.Parameters.Add("INTERVAL", GetVarCharType());
             cmd.Parameters["INTERVAL"].Value = interval;
 
-            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", UniDbType.VarChar);
+            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", GetVarCharType());
             cmd.Parameters["DO_UPDATE_Y_OR_N"].Value = doUpdateYorN;
 
 
@@ -105,32 +169,34 @@ static UniDbType GetNumberType()
 
         internal void delete_from_hdb(decimal sdi, DateTime t, string interval, string timeZone)
         {
-            UniCommand cmd = new UniCommand("DELETE_FROM_HDB");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "DELETE_FROM_HDB";
+            //UniCommand cmd = new UniCommand("DELETE_FROM_HDB");
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add("SAMPLE_SDI", UniDbType.Int);
+            cmd.Parameters.Add("SAMPLE_SDI", GetIntegerType());
             cmd.Parameters["SAMPLE_SDI"].Value = sdi;
 
-            cmd.Parameters.Add("SAMPLE_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("SAMPLE_DATE_TIME", GetDateTimeType());
             cmd.Parameters["SAMPLE_DATE_TIME"].Value = t;
 
-            cmd.Parameters.Add("SAMPLE_END_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("SAMPLE_END_TIME", GetDateTimeType());
             cmd.Parameters["SAMPLE_END_TIME"].Value = DBNull.Value;
 
-            cmd.Parameters.Add("SAMPLE_INTERVAL", UniDbType.VarChar);
+            cmd.Parameters.Add("SAMPLE_INTERVAL", GetVarCharType());
             cmd.Parameters["SAMPLE_INTERVAL"].Value = interval;
 
-            cmd.Parameters.Add("LOADING_APP_ID", UniDbType.VarChar);
+            cmd.Parameters.Add("LOADING_APP_ID", GetVarCharType());
             cmd.Parameters["LOADING_APP_ID"].Value = s_LOADING_APPLICATION_ID;
 
             int modelrun_id = 0;
-            cmd.Parameters.Add("MODELRUN_ID", UniDbType.Int);
+            cmd.Parameters.Add("MODELRUN_ID", GetIntegerType());
             cmd.Parameters["MODELRUN_ID"].Value = modelrun_id;
 
-            cmd.Parameters.Add("AGENCY_ID", UniDbType.VarChar);
+            cmd.Parameters.Add("AGENCY_ID", GetVarCharType());
             cmd.Parameters["AGENCY_ID"].Value = s_AGEN_ID;
 
-            cmd.Parameters.Add("time_zone", UniDbType.VarChar);
+            cmd.Parameters.Add("time_zone", GetVarCharType());
             cmd.Parameters["time_zone"].Value = timeZone;
 
             m_server.RunStoredProc(cmd);
@@ -163,53 +229,50 @@ static UniDbType GetNumberType()
                 throw new Exception("Error:  HDB-POET is not listed as an loading application");
             }
 
-            UniCommand cmd = new UniCommand("LOOKUP_APPLICATION");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "LOOKUP_APPLICATION";
+            //UniCommand cmd = new UniCommand("LOOKUP_APPLICATION");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string agen_id_name = System.Configuration.ConfigurationManager.AppSettings["AGEN_ID_NAME"];
 
             //inputs
-            cmd.Parameters.Add("AGEN_ID_NAME", UniDbType.VarChar);
+            cmd.Parameters.Add("AGEN_ID_NAME", GetVarCharType());
             cmd.Parameters["AGEN_ID_NAME"].Value = agen_id_name;
 
-            cmd.Parameters.Add("COLLECTION_SYSTEM_NAME", UniDbType.VarChar);
+            cmd.Parameters.Add("COLLECTION_SYSTEM_NAME", GetVarCharType());
             cmd.Parameters["COLLECTION_SYSTEM_NAME"].Value = "(see agency)";
 
-            cmd.Parameters.Add("LOADING_APPLICATION_NAME", UniDbType.VarChar);
+            cmd.Parameters.Add("LOADING_APPLICATION_NAME", GetVarCharType());
             cmd.Parameters["LOADING_APPLICATION_NAME"].Value = "HDB-POET";
 
-            cmd.Parameters.Add("METHOD_NAME", UniDbType.VarChar);
+            cmd.Parameters.Add("METHOD_NAME", GetVarCharType());
             cmd.Parameters["METHOD_NAME"].Value = "unknown";
 
-            cmd.Parameters.Add("COMPUTATION_NAME", UniDbType.VarChar);
+            cmd.Parameters.Add("COMPUTATION_NAME", GetVarCharType());
             cmd.Parameters["COMPUTATION_NAME"].Value = "unknown";
 
             //output parameters.
-            var n = GetNumberType();
-            //cmd.Parameters.Add("AGEN_ID",n , ParameterDirection.Output);
-            UniParameter parameter = new UniParameter("AGEN_ID", n);
-            parameter.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(parameter);
-
-            //cmd.Parameters.Add("COLLECTION_SYSTEM_ID", n, ParameterDirection.Output);
-            parameter = new UniParameter("COLLECTION_SYSTEM_ID", n);
-            parameter.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(parameter);
-
-            //cmd.Parameters.Add("LOADING_APPLICATION_ID", n, ParameterDirection.Output);
-            parameter = new UniParameter("LOADING_APPLICATION_ID", n);
-            parameter.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(parameter);
-
-            //cmd.Parameters.Add("METHOD_ID", n, ParameterDirection.Output);
-            parameter = new UniParameter("METHOD_ID", n);
-            parameter.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(parameter);
-
-            //cmd.Parameters.Add("COMPUTATION_ID", n, ParameterDirection.Output);
-            parameter = new UniParameter("COMPUTATION_ID", n);
-            parameter.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(parameter);
+            
+            var par = GetCommandOutputParameter();
+            par.ParameterName = "AGEN_ID";
+            cmd.Parameters.Add(par);
+            
+            par = GetCommandOutputParameter();
+            par.ParameterName = "COLLECTION_SYSTEM_ID";
+            cmd.Parameters.Add(par);
+            
+            par = GetCommandOutputParameter();
+            par.ParameterName = "LOADING_APPLICATION_ID";
+            cmd.Parameters.Add(par);
+            
+            par = GetCommandOutputParameter();
+            par.ParameterName = "METHOD_ID";
+            cmd.Parameters.Add(par);
+            
+            par = GetCommandOutputParameter();
+            par.ParameterName = "COMPUTATION_ID";
+            cmd.Parameters.Add(par);
 
 
             m_server.RunStoredProc(cmd);
@@ -235,29 +298,30 @@ static UniDbType GetNumberType()
           DateTime t,
           string validationFlag, string timeZone)
         {
-            //status = "";
-            UniCommand cmd = new UniCommand("hdb_utilities.set_validation");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "hdb_utilities.set_validation";
+            //UniCommand cmd = new UniCommand("hdb_utilities.set_validation");
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add("SITE_DATATYPE_ID", UniDbType.Int);
+            cmd.Parameters.Add("SITE_DATATYPE_ID", GetIntegerType());
             cmd.Parameters["SITE_DATATYPE_ID"].Value = sdi;
 
-            cmd.Parameters.Add("INTERVAL", UniDbType.VarChar);
+            cmd.Parameters.Add("INTERVAL", GetVarCharType());
             cmd.Parameters["INTERVAL"].Value = interval;
 
-            cmd.Parameters.Add("START_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("START_DATE_TIME", GetDateTimeType());
             cmd.Parameters["START_DATE_TIME"].Value = t;
 
-            cmd.Parameters.Add("END_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("END_DATE_TIME", GetDateTimeType());
             cmd.Parameters["END_DATE_TIME"].Value = DBNull.Value;
 
-            cmd.Parameters.Add("VALIDATION_FLAG", UniDbType.VarChar);
+            cmd.Parameters.Add("VALIDATION_FLAG", GetVarCharType());
             if (validationFlag.Trim() == "")
             { cmd.Parameters["VALIDATION_FLAG"].Value = DBNull.Value; }
             else
             { cmd.Parameters["VALIDATION_FLAG"].Value = validationFlag; }
 
-            cmd.Parameters.Add("time_zone", UniDbType.VarChar);
+            cmd.Parameters.Add("time_zone", GetVarCharType());
             cmd.Parameters["time_zone"].Value = timeZone;
 
             int rval = 0;
@@ -280,29 +344,30 @@ static UniDbType GetNumberType()
           bool overwrite, string timeZone)
         //out string status) //   'O'  'null' 
         {
-            //            status = "";
-            UniCommand cmd = new UniCommand("hdb_utilities.set_overwrite_flag");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "hdb_utilities.set_overwrite_flag";
+            //UniCommand cmd = new UniCommand("hdb_utilities.set_overwrite_flag");
             cmd.CommandType = CommandType.StoredProcedure;
             
-            cmd.Parameters.Add("SITE_DATATYPE_ID", UniDbType.Int);
+            cmd.Parameters.Add("SITE_DATATYPE_ID", GetIntegerType());
             cmd.Parameters["SITE_DATATYPE_ID"].Value = sdi;
 
-            cmd.Parameters.Add("INTERVAL", UniDbType.VarChar);
+            cmd.Parameters.Add("INTERVAL", GetVarCharType());
             cmd.Parameters["INTERVAL"].Value = interval;
 
-            cmd.Parameters.Add("START_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("START_DATE_TIME", GetDateTimeType());
             cmd.Parameters["START_DATE_TIME"].Value = t;
 
-            cmd.Parameters.Add("END_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("END_DATE_TIME", GetDateTimeType());
             cmd.Parameters["END_DATE_TIME"].Value = DBNull.Value;
 
-            cmd.Parameters.Add("OVERWRITE_FLAG", UniDbType.VarChar);
+            cmd.Parameters.Add("OVERWRITE_FLAG", GetVarCharType());
             if (overwrite)
             { cmd.Parameters["OVERWRITE_FLAG"].Value = "O"; }
             else
             { cmd.Parameters["OVERWRITE_FLAG"].Value = DBNull.Value; }
 
-            cmd.Parameters.Add("time_zone", UniDbType.VarChar);
+            cmd.Parameters.Add("time_zone", GetVarCharType());
             cmd.Parameters["time_zone"].Value = timeZone;
 
             int rval = 0;
@@ -327,29 +392,30 @@ static UniDbType GetNumberType()
           char s_validation,
            string timeZone) // 'V' '-' 'Z'
         {
-
-            UniCommand cmd = new UniCommand("MODIFY_R_BASE_RAW");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "MODIFY_R_BASE_RAW";
+            //UniCommand cmd = new UniCommand("MODIFY_R_BASE_RAW");
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add("SITE_DATATYPE_ID", UniDbType.Int);
+            cmd.Parameters.Add("SITE_DATATYPE_ID", GetIntegerType());
             cmd.Parameters["SITE_DATATYPE_ID"].Value = sdi;
 
-            cmd.Parameters.Add("INTERVAL",UniDbType.VarChar);
+            cmd.Parameters.Add("INTERVAL", GetVarCharType());
             cmd.Parameters["INTERVAL"].Value = interval;
 
-            cmd.Parameters.Add("START_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("START_DATE_TIME", GetDateTimeType());
             cmd.Parameters["START_DATE_TIME"].Value = t;
 
-            cmd.Parameters.Add("END_DATE_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("END_DATE_TIME", GetDateTimeType());
             cmd.Parameters["END_DATE_TIME"].Value = DBNull.Value;
 
-            cmd.Parameters.Add("VALUE", UniDbType.Double);
+            cmd.Parameters.Add("VALUE", GetNumberType());
             cmd.Parameters["VALUE"].Value = value;
 
-            cmd.Parameters.Add("AGEN_ID", UniDbType.Double);
+            cmd.Parameters.Add("AGEN_ID", GetIntegerType());
             cmd.Parameters["AGEN_ID"].Value = s_AGEN_ID;
 
-            cmd.Parameters.Add("OVERWRITE_FLAG", UniDbType.VarChar);
+            cmd.Parameters.Add("OVERWRITE_FLAG", GetVarCharType());
             if (overwrite || GlobalVariables.overwriteOnWrite)
             { cmd.Parameters["OVERWRITE_FLAG"].Value = "O"; }
             else
@@ -357,31 +423,31 @@ static UniDbType GetNumberType()
 
             if (GlobalVariables.writeValidationFlag != 'Z')
             { s_validation = GlobalVariables.writeValidationFlag; }
-            cmd.Parameters.Add("VALIDATION", UniDbType.VarChar);
+            cmd.Parameters.Add("VALIDATION", GetVarCharType());
             cmd.Parameters["VALIDATION"].Value = s_validation;
 
-            cmd.Parameters.Add("COLLECTION_SYSTEM_ID", UniDbType.VarChar);
+            cmd.Parameters.Add("COLLECTION_SYSTEM_ID", GetVarCharType());
             cmd.Parameters["COLLECTION_SYSTEM_ID"].Value = s_COLLECTION_SYSTEM_ID;
 
-            cmd.Parameters.Add("LOADING_APPLICATION_ID", UniDbType.VarChar);
+            cmd.Parameters.Add("LOADING_APPLICATION_ID", GetVarCharType());
             cmd.Parameters["LOADING_APPLICATION_ID"].Value = s_LOADING_APPLICATION_ID;
 
-            cmd.Parameters.Add("METHOD_ID", UniDbType.VarChar);
+            cmd.Parameters.Add("METHOD_ID", GetVarCharType());
             cmd.Parameters["METHOD_ID"].Value = s_METHOD_ID;
 
-            cmd.Parameters.Add("COMPUTATION_ID", UniDbType.VarChar);
+            cmd.Parameters.Add("COMPUTATION_ID", GetVarCharType());
             cmd.Parameters["COMPUTATION_ID"].Value = s_COMPUTATION_ID;
 
-            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", UniDbType.VarChar);
+            cmd.Parameters.Add("DO_UPDATE_Y_OR_N", GetVarCharType());
             if (GlobalVariables.insertOnWrite)
             { cmd.Parameters["DO_UPDATE_Y_OR_N"].Value = "N"; }
             else
             { cmd.Parameters["DO_UPDATE_Y_OR_N"].Value = "Y"; }
 
-            cmd.Parameters.Add("DATA_FLAGS", UniDbType.VarChar);
+            cmd.Parameters.Add("DATA_FLAGS", GetVarCharType());
             cmd.Parameters["DATA_FLAGS"].Value = DBNull.Value;
 
-            cmd.Parameters.Add("time_zone", UniDbType.VarChar);
+            cmd.Parameters.Add("time_zone", GetVarCharType());
             cmd.Parameters["time_zone"].Value = timeZone;
 
             int rval = 0;
@@ -392,19 +458,21 @@ static UniDbType GetNumberType()
 
         internal int Calculate_Series(decimal sdi, string interval, DateTime t, string timeZone)
         {
-            UniCommand cmd = new UniCommand("HDB_POET.CALCULATE_SERIES");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "HDB_POET.CALCULATE_SERIES";
+            //UniCommand cmd = new UniCommand("HDB_POET.CALCULATE_SERIES");
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add("SITE_DATATYPE_ID", UniDbType.Int);
+            cmd.Parameters.Add("SITE_DATATYPE_ID", GetVarCharType());
             cmd.Parameters["SITE_DATATYPE_ID"].Value = sdi;
 
-            cmd.Parameters.Add("INTERVAL", UniDbType.VarChar);
+            cmd.Parameters.Add("INTERVAL", GetVarCharType());
             cmd.Parameters["INTERVAL"].Value = interval;
 
-            cmd.Parameters.Add("START_TIME", UniDbType.DateTime);
+            cmd.Parameters.Add("START_TIME", GetDateTimeType());
             cmd.Parameters["START_TIME"].Value = t;
 
-            cmd.Parameters.Add("time_zone", UniDbType.VarChar);
+            cmd.Parameters.Add("time_zone", GetVarCharType());
             cmd.Parameters["time_zone"].Value = timeZone;
 
             int rval = m_server.RunStoredProc(cmd);
@@ -441,22 +509,24 @@ static UniDbType GetNumberType()
 
         private int Modify_Acl(string user, string group, bool active, bool delete)
         {
-            UniCommand cmd = new UniCommand("hdb_utilities.modify_acl");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "hdb_utilities.modify_acl";
+            //UniCommand cmd = new UniCommand("hdb_utilities.modify_acl");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string p_active_flag = active ? "Y" : "N";
             string p_delete_flag = delete ? "Y" : "N";
 
-            cmd.Parameters.Add("p_user_name", UniDbType.VarChar);
+            cmd.Parameters.Add("p_user_name", GetVarCharType());
             cmd.Parameters["p_user_name"].Value = user.ToUpper();
 
-            cmd.Parameters.Add("p_group_name", UniDbType.VarChar);
+            cmd.Parameters.Add("p_group_name", GetVarCharType());
             cmd.Parameters["p_group_name"].Value = group.ToUpper();
 
-            cmd.Parameters.Add("p_active_flag", UniDbType.VarChar);
+            cmd.Parameters.Add("p_active_flag", GetVarCharType());
             cmd.Parameters["p_active_flag"].Value = p_active_flag;
 
-            cmd.Parameters.Add("p_delete_flag", UniDbType.VarChar);
+            cmd.Parameters.Add("p_delete_flag", GetVarCharType());
             cmd.Parameters["p_delete_flag"].Value = p_delete_flag;
 
             int rval = m_server.RunStoredProc(cmd);
@@ -477,18 +547,20 @@ static UniDbType GetNumberType()
         private int Modify_Site_Group_Name(decimal site_id, string group,
              bool delete)
         {
-            UniCommand cmd = new UniCommand("hdb_utilities.modify_site_group_name");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "hdb_utilities.modify_site_group_name";
+            //UniCommand cmd = new UniCommand("hdb_utilities.modify_site_group_name");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string p_delete_flag = delete ? "Y" : "N";
 
-            cmd.Parameters.Add("p_site_id", UniDbType.VarChar);
+            cmd.Parameters.Add("p_site_id", GetVarCharType());
             cmd.Parameters["p_site_id"].Value = site_id;
 
-            cmd.Parameters.Add("p_group_name", UniDbType.VarChar);
+            cmd.Parameters.Add("p_group_name", GetVarCharType());
             cmd.Parameters["p_group_name"].Value = group.ToUpper();
 
-            cmd.Parameters.Add("p_delete_flag", UniDbType.VarChar);
+            cmd.Parameters.Add("p_delete_flag", GetVarCharType());
             cmd.Parameters["p_delete_flag"].Value = p_delete_flag;
             
             int rval = m_server.RunStoredProc(cmd);
@@ -499,16 +571,22 @@ static UniDbType GetNumberType()
 
         internal bool AclReadonly(int sdi)
         {
-            UniCommand cmd = new UniCommand("hdb_utilities.is_sdi_in_acl");
+            var cmd = GetCommandProvider();
+            cmd.CommandText = "hdb_utilities.is_sdi_in_acl";
+            //UniCommand cmd = new UniCommand("hdb_utilities.is_sdi_in_acl");
             cmd.CommandType = CommandType.StoredProcedure;
 
             //cmd.Parameters.Add("RS", GetVarCharType(), 10, null, ParameterDirection.ReturnValue);
-            UniParameter parameter = new UniParameter("RS", GetVarCharType(), 10);
-            parameter.Value = null;
-            parameter.Direction = ParameterDirection.ReturnValue;
-            cmd.Parameters.Add(parameter);
+            //var par = GetParame
+            var par = GetCommandReturnParameter();
+            par.ParameterName = "RS";
+            par.Size = 10;
+            //var parameter = new OracleParameter("RS", GetVarCharType(), 10);
+            par.Value = null;
+            //parameter.Direction = ParameterDirection.ReturnValue;
+            cmd.Parameters.Add(par);
 
-            cmd.Parameters.Add("P_SITE_DATATYPE_ID", UniDbType.Int);
+            cmd.Parameters.Add("P_SITE_DATATYPE_ID", GetIntegerType());
             cmd.Parameters["P_SITE_DATATYPE_ID"].Value = sdi;
 
             int rval = m_server.RunStoredProc(cmd);
