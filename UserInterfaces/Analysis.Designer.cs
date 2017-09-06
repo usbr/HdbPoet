@@ -53,7 +53,7 @@
             this.graphExplorerView1.Location = new System.Drawing.Point(3, 3);
             this.graphExplorerView1.Messages = ((System.Collections.Generic.List<string>)(resources.GetObject("graphExplorerView1.Messages")));
             this.graphExplorerView1.Name = "graphExplorerView1";
-            this.graphExplorerView1.Size = new System.Drawing.Size(628, 584);
+            this.graphExplorerView1.Size = new System.Drawing.Size(628, 587);
             this.graphExplorerView1.TabIndex = 1;
             this.graphExplorerView1.UndoZoom = false;
             // 
@@ -66,11 +66,11 @@
             // 
             this.selectAnalysisButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectAnalysisButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.selectAnalysisButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.selectAnalysisButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selectAnalysisButton.Location = new System.Drawing.Point(6, 3);
             this.selectAnalysisButton.Name = "selectAnalysisButton";
-            this.selectAnalysisButton.Size = new System.Drawing.Size(301, 26);
+            this.selectAnalysisButton.Size = new System.Drawing.Size(306, 36);
             this.selectAnalysisButton.TabIndex = 2;
             this.selectAnalysisButton.Text = "Select Analysis";
             this.selectAnalysisButton.UseVisualStyleBackColor = false;
@@ -79,7 +79,7 @@
             // selectedAnalysisLabel
             // 
             this.selectedAnalysisLabel.AutoSize = true;
-            this.selectedAnalysisLabel.Location = new System.Drawing.Point(3, 32);
+            this.selectedAnalysisLabel.Location = new System.Drawing.Point(3, 42);
             this.selectedAnalysisLabel.Name = "selectedAnalysisLabel";
             this.selectedAnalysisLabel.Size = new System.Drawing.Size(156, 13);
             this.selectedAnalysisLabel.TabIndex = 4;
@@ -127,9 +127,9 @@
             this.selectedAnalysisTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.selectedAnalysisTextBox.Enabled = false;
-            this.selectedAnalysisTextBox.Location = new System.Drawing.Point(6, 51);
+            this.selectedAnalysisTextBox.Location = new System.Drawing.Point(6, 59);
             this.selectedAnalysisTextBox.Name = "selectedAnalysisTextBox";
-            this.selectedAnalysisTextBox.Size = new System.Drawing.Size(306, 83);
+            this.selectedAnalysisTextBox.Size = new System.Drawing.Size(306, 75);
             this.selectedAnalysisTextBox.TabIndex = 2;
             this.selectedAnalysisTextBox.Text = "";
             // 
@@ -141,7 +141,7 @@
             this.selectedSeriesListBox1.Location = new System.Drawing.Point(6, 155);
             this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
             this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
-            this.selectedSeriesListBox1.Size = new System.Drawing.Size(342, 432);
+            this.selectedSeriesListBox1.Size = new System.Drawing.Size(342, 435);
             this.selectedSeriesListBox1.TabIndex = 0;
             // 
             // DataAnalysis
@@ -164,7 +164,7 @@
         #endregion
 
         public SelectedSeriesListBox selectedSeriesListBox1;
-        private Reclamation.TimeSeries.Graphing.GraphExplorerView graphExplorerView1;
+        public Reclamation.TimeSeries.Graphing.GraphExplorerView graphExplorerView1;
         private Reclamation.TimeSeries.AgriMet.CropDatesDataSet cropDatesDataSet1;
         private System.Windows.Forms.Button selectAnalysisButton;
         private System.Windows.Forms.Label selectedAnalysisLabel;

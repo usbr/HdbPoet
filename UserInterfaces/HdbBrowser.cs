@@ -1361,7 +1361,7 @@ namespace HdbPoet
 
         public void setAnalysisTab(object sender, EventArgs e)
         {
-            var analysisControl = new DataAnalysis();
+            var analysisControl = new DataAnalysis(oracle, graphData);
             analysisControl.selectedSeriesListBox1.SetDataSource(graphData);
             TabPage myTabPage = this.tabPageAnalysis;
             myTabPage.Controls.Clear();

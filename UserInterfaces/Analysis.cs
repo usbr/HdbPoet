@@ -22,10 +22,14 @@ namespace HdbPoet
         private static string filename = AppDomain.CurrentDomain.BaseDirectory + @"hdb-poet-analysis.pdb";
         private static SQLiteServer server = new SQLiteServer(filename); // Create the Pisces database
         private static TimeSeriesDatabase db = new TimeSeriesDatabase(server); // Set a variable to invoke for working with the database
+        Hdb hdb;
+        GraphData gData;
 
-        public DataAnalysis()
+        public DataAnalysis(OracleServer oracle, GraphData graphData)
         {
             InitializeComponent();
+            hdb = new Hdb(oracle);
+            gData = graphData;
         }
         
         private static GraphExplorerView graphView1;
@@ -41,25 +45,46 @@ namespace HdbPoet
             {
                 var a = 1;
                 this.selectedAnalysisTextBox.Text = engine1.SelectedAnalysisType.ToString();
+                hdb.Fill(gData);
+
+                //rval.Columns["SourceColor"].DefaultValue = "LightGray";
+                //rval.Columns["ValidationColor"].DefaultValue = "LightGray";
+
+                var sList = new SeriesList();
+                foreach (var s in gData.SeriesRows)
+                {
+                    var sNew = new Series();
+                    var tempTable = gData.GetTable(s.TableName);
+                    tempTable.Columns.Remove("SourceColor");
+                    tempTable.Columns.Remove("ValidationColor");
+                    tempTable.Columns.Add("flag");
+                    sNew.Table = tempTable;
+                    //[JR] build method to get Series TimeInterval from POET Interval
+                    sNew.TimeInterval = TimeInterval.Monthly;
+
+                    sList.Add(sNew);
+                }
+
+                DatabaseChanged(sList);
             }
             
         }
 
-        void DatabaseChanged()
+        void DatabaseChanged(SeriesList sList)
         {
             //tree1.SetModel(new TimeSeriesTreeModel(engine1.Database));
 
             this.Text = engine1.Database.DataSource + " - Pisces";
 
             ReadSettingsFromDatabase();
-            engine1.View = graphView1;
-            displayOptionsDialog1 = new DisplayOptionsDialog(engine1);
+            engine1.View = graphExplorerView1;// graphView1;
+            //displayOptionsDialog1 = new DisplayOptionsDialog(engine1);
             //SetupScenarioSelector();
 
-            engine1.SelectedSeries = new Series[] { };
+            engine1.SelectedSeries = sList.ToArray();
 
-            engine1.View.SeriesList.Clear();
-            engine1.View.Clear();
+            //engine1.View.SeriesList.Clear();
+            //engine1.View.Clear();
             engine1.Run();
         }
 
