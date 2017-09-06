@@ -74,18 +74,21 @@ namespace HdbPoet
         {
             //tree1.SetModel(new TimeSeriesTreeModel(engine1.Database));
 
+            engine1.SelectedSeries = sList.ToArray();
             this.Text = engine1.Database.DataSource + " - Pisces";
 
             ReadSettingsFromDatabase();
-            engine1.View = graphExplorerView1;// graphView1;
+            engine1.View = graphExplorerView1;
+
+            Reclamation.TimeSeries.Analysis.TimeSeriesAnalysis tAnalysis = new Reclamation.TimeSeries.Analysis.TimeSeriesAnalysis(engine1);
+            tAnalysis.Run();
+
             //displayOptionsDialog1 = new DisplayOptionsDialog(engine1);
             //SetupScenarioSelector();
 
-            engine1.SelectedSeries = sList.ToArray();
-
             //engine1.View.SeriesList.Clear();
             //engine1.View.Clear();
-            engine1.Run();
+            //engine1.Run();
         }
 
         private void ReadSettingsFromDatabase()
