@@ -125,6 +125,61 @@ namespace HdbPoet
         }
 
 #if HDB_OPEN
+        static string GetConnectionPrefix()
+        {
+            return "";
+        }
+        static OracleConnection GetConnectionProvider()
+        {
+            return new OracleConnection();
+        }
+        static OracleCommand GetCommandProvider()
+        {
+            return new OracleCommand();
+        }
+        static OracleDataAdapter GetDataAdapterProvider()
+        {
+            return new OracleDataAdapter();
+        }
+        static OracleCommandBuilder GetCommandBuilderProvider()
+        {
+            return new OracleCommandBuilder();
+        }
+
+        public int RunStoredProc(OracleCommand cmd)
+        {
+            int rval = 0;
+            OracleConnection conn = GetConnectionProvider();
+            conn.ConnectionString = GetConnectionPrefix() + this.ConnectionString;
+            Debug.Assert(cmd.CommandType == CommandType.StoredProcedure);
+            cmd.Connection = conn;
+
+            rval = -1;
+            try
+            {
+                conn.Open();
+                rval = cmd.ExecuteNonQuery();
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine(exc.ToString());
+                throw exc;
+                //rval = -1;
+            }
+
+            conn.Close();
+            
+
+            string msg = cmd.CommandText + " ";
+            for (int i = 0; i < cmd.Parameters.Count; i++)
+            {
+                msg += "," + cmd.Parameters[i].Value.ToString();
+            
+            }
+            this.lastSqlCommand = msg;
+            this.sqlCommands.Add(msg);
+            return rval;
+        }
         void MakeConnectionString(string username, string password)
         {
             //strAccessConn = "Provider="+provider+";User ID="+username+";"
@@ -138,7 +193,59 @@ namespace HdbPoet
         }
 
 #else
+        static string GetConnectionPrefix()
+        {
+            return "Provider=Oracle;";
+        }
+        static UniConnection GetConnectionProvider()
+        {
+            return new UniConnection();
+        }
+        static UniCommand GetCommandProvider()
+        {
+            return new UniCommand();
+        }
+        static UniDataAdapter GetDataAdapterProvider()
+        {
+            return new UniDataAdapter();
+        }
+        static UniCommandBuilder GetCommandBuilderProvider()
+        {
+            return new UniCommandBuilder();
+        }
+        public int RunStoredProc(UniCommand cmd)
+        {
+            int rval = 0;
+            UniConnection conn = new UniConnection("Provider=Oracle;" + this.ConnectionString);
+            Debug.Assert(cmd.CommandType == CommandType.StoredProcedure);
+            cmd.Connection = conn;
 
+            rval = -1;
+            try
+            {
+                conn.Open();
+                rval = cmd.ExecuteNonQuery();
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine(exc.ToString());
+                throw exc;
+                //rval = -1;
+            }
+
+            conn.Close();
+
+
+            string msg = cmd.CommandText + " ";
+            for (int i = 0; i < cmd.Parameters.Count; i++)
+            {
+                msg += "," + cmd.Parameters[i].Value.ToString();
+
+            }
+            this.lastSqlCommand = msg;
+            this.sqlCommands.Add(msg);
+            return rval;
+        }
         void MakeConnectionString(string username, string password)
         {
             //strAccessConn = "Data Source=(DESCRIPTION="
@@ -232,119 +339,6 @@ namespace HdbPoet
         {
             return this.RunSqlCommand(sql, this.ConnectionString);
         }
-
-#if HDB_OPEN
-        static string GetConnectionPrefix()
-        {
-            return "";
-        }
-        static OracleConnection GetConnectionProvider()
-        {
-            return new OracleConnection();
-        }
-        static OracleCommand GetCommandProvider()
-        {
-            return new OracleCommand();
-        }
-        static OracleDataAdapter GetDataAdapterProvider()
-        {
-            return new OracleDataAdapter();
-        }
-        static OracleCommandBuilder GetCommandBuilderProvider()
-        {
-            return new OracleCommandBuilder();
-        }
-
-        public int RunStoredProc(OracleCommand cmd)
-        {
-            int rval = 0;
-            OracleConnection conn = GetConnectionProvider();
-            conn.ConnectionString = GetConnectionPrefix() + this.ConnectionString;
-            Debug.Assert(cmd.CommandType == CommandType.StoredProcedure);
-            cmd.Connection = conn;
-
-            rval = -1;
-            try
-            {
-                conn.Open();
-                rval = cmd.ExecuteNonQuery();
-            }
-            catch (Exception exc)
-            {
-                Console.WriteLine(exc.ToString());
-                throw exc;
-                //rval = -1;
-            }
-
-            conn.Close();
-            
-
-            string msg = cmd.CommandText + " ";
-            for (int i = 0; i < cmd.Parameters.Count; i++)
-            {
-                msg += "," + cmd.Parameters[i].Value.ToString();
-            
-            }
-            this.lastSqlCommand = msg;
-            this.sqlCommands.Add(msg);
-            return rval;
-        }
-#else
-        static string GetConnectionPrefix()
-        {   
-            return "Provider=Oracle;";
-        }
-        static UniConnection GetConnectionProvider()
-        {
-            return new UniConnection();
-        }
-        static UniCommand GetCommandProvider()
-        {
-            return new UniCommand();
-        }
-        static UniDataAdapter GetDataAdapterProvider()
-        {
-            return new UniDataAdapter();
-        }
-        static UniCommandBuilder GetCommandBuilderProvider()
-        {
-            return new UniCommandBuilder();
-        }
-        public int RunStoredProc(UniCommand cmd)
-        {
-            int rval = 0;
-            UniConnection conn = new UniConnection("Provider=Oracle;" + this.ConnectionString);
-            Debug.Assert(cmd.CommandType == CommandType.StoredProcedure);
-            cmd.Connection = conn;
-
-            rval = -1;
-            try
-            {
-                conn.Open();
-                rval = cmd.ExecuteNonQuery();
-            }
-            catch (Exception exc)
-            {
-                Console.WriteLine(exc.ToString());
-                throw exc;
-                //rval = -1;
-            }
-
-            conn.Close();
-            
-
-            string msg = cmd.CommandText + " ";
-            for (int i = 0; i < cmd.Parameters.Count; i++)
-            {
-                msg += "," + cmd.Parameters[i].Value.ToString();
-            
-            }
-            this.lastSqlCommand = msg;
-            this.sqlCommands.Add(msg);
-            return rval;
-        }
-#endif
-
 
         /// <summary>
         /// runs sql command.

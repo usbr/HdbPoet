@@ -102,7 +102,6 @@ namespace HdbPoet
         {
             var cmd = GetCommandProvider();
             cmd.CommandText = "DELETE_M_TABLE";
-            //UniCommand cmd = new UniCommand("DELETE_M_TABLE");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("MODEL_RUN_ID", GetIntegerType());
@@ -131,7 +130,6 @@ namespace HdbPoet
         {
             var cmd = GetCommandProvider();
             cmd.CommandText = "MODIFY_M_TABLE";
-            //UniCommand cmd = new UniCommand("MODIFY_M_TABLE");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string doUpdateYorN;
@@ -171,7 +169,6 @@ namespace HdbPoet
         {
             var cmd = GetCommandProvider();
             cmd.CommandText = "DELETE_FROM_HDB";
-            //UniCommand cmd = new UniCommand("DELETE_FROM_HDB");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("SAMPLE_SDI", GetIntegerType());
@@ -231,7 +228,6 @@ namespace HdbPoet
 
             var cmd = GetCommandProvider();
             cmd.CommandText = "LOOKUP_APPLICATION";
-            //UniCommand cmd = new UniCommand("LOOKUP_APPLICATION");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string agen_id_name = System.Configuration.ConfigurationManager.AppSettings["AGEN_ID_NAME"];
@@ -295,12 +291,10 @@ namespace HdbPoet
 
         internal void SetValidationFlag(decimal sdi,
           string interval, // 'instant', 'other', 'hour', 'day', 'month', 'year', 'wy', 'table interval'
-          DateTime t,
-          string validationFlag, string timeZone)
+          DateTime t, string validationFlag, string timeZone)
         {
             var cmd = GetCommandProvider();
             cmd.CommandText = "hdb_utilities.set_validation";
-            //UniCommand cmd = new UniCommand("hdb_utilities.set_validation");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("SITE_DATATYPE_ID", GetIntegerType());
@@ -342,11 +336,9 @@ namespace HdbPoet
           string interval, // 'instant', 'other', 'hour', 'day', 'month', 'year', 'wy', 'table interval'
           DateTime t,
           bool overwrite, string timeZone)
-        //out string status) //   'O'  'null' 
         {
             var cmd = GetCommandProvider();
             cmd.CommandText = "hdb_utilities.set_overwrite_flag";
-            //UniCommand cmd = new UniCommand("hdb_utilities.set_overwrite_flag");
             cmd.CommandType = CommandType.StoredProcedure;
             
             cmd.Parameters.Add("SITE_DATATYPE_ID", GetIntegerType());
@@ -372,8 +364,6 @@ namespace HdbPoet
 
             int rval = 0;
             rval = m_server.RunStoredProc(cmd);
-
-            // status = cmd.Parameters["Status"].Value.ToString();
         }
 
 
@@ -394,7 +384,6 @@ namespace HdbPoet
         {
             var cmd = GetCommandProvider();
             cmd.CommandText = "MODIFY_R_BASE_RAW";
-            //UniCommand cmd = new UniCommand("MODIFY_R_BASE_RAW");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("SITE_DATATYPE_ID", GetIntegerType());
@@ -460,7 +449,6 @@ namespace HdbPoet
         {
             var cmd = GetCommandProvider();
             cmd.CommandText = "HDB_POET.CALCULATE_SERIES";
-            //UniCommand cmd = new UniCommand("HDB_POET.CALCULATE_SERIES");
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add("SITE_DATATYPE_ID", GetVarCharType());
@@ -492,7 +480,6 @@ namespace HdbPoet
             {
                 Modify_Acl(row["user_name"].ToString(), group, true, true);
             }
-            //  Modify_Acl(user, group,true, true);
         }
 
         internal void AclDeleteUser(string user)
@@ -511,7 +498,6 @@ namespace HdbPoet
         {
             var cmd = GetCommandProvider();
             cmd.CommandText = "hdb_utilities.modify_acl";
-            //UniCommand cmd = new UniCommand("hdb_utilities.modify_acl");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string p_active_flag = active ? "Y" : "N";
@@ -549,7 +535,6 @@ namespace HdbPoet
         {
             var cmd = GetCommandProvider();
             cmd.CommandText = "hdb_utilities.modify_site_group_name";
-            //UniCommand cmd = new UniCommand("hdb_utilities.modify_site_group_name");
             cmd.CommandType = CommandType.StoredProcedure;
 
             string p_delete_flag = delete ? "Y" : "N";
@@ -575,15 +560,11 @@ namespace HdbPoet
             cmd.CommandText = "hdb_utilities.is_sdi_in_acl";
             //UniCommand cmd = new UniCommand("hdb_utilities.is_sdi_in_acl");
             cmd.CommandType = CommandType.StoredProcedure;
-
-            //cmd.Parameters.Add("RS", GetVarCharType(), 10, null, ParameterDirection.ReturnValue);
-            //var par = GetParame
+            
             var par = GetCommandReturnParameter();
             par.ParameterName = "RS";
             par.Size = 10;
-            //var parameter = new OracleParameter("RS", GetVarCharType(), 10);
             par.Value = null;
-            //parameter.Direction = ParameterDirection.ReturnValue;
             cmd.Parameters.Add(par);
 
             cmd.Parameters.Add("P_SITE_DATATYPE_ID", GetIntegerType());
