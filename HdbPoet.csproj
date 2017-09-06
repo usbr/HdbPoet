@@ -271,6 +271,7 @@
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalVariables.cs" />
+    <Compile Include="Pisces\HDBSeries.cs" />
     <Compile Include="LicensedDependency\GraphControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

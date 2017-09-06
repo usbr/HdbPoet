@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataAnalysis));
-            this.graphExplorerView1 = new Reclamation.TimeSeries.Graphing.GraphExplorerView();
             this.cropDatesDataSet1 = new Reclamation.TimeSeries.AgriMet.CropDatesDataSet();
             this.selectAnalysisButton = new System.Windows.Forms.Button();
             this.selectedAnalysisLabel = new System.Windows.Forms.Label();
@@ -40,22 +38,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.cropDatesDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // graphExplorerView1
-            // 
-            this.graphExplorerView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.graphExplorerView1.DataTable = null;
-            this.graphExplorerView1.Location = new System.Drawing.Point(3, 3);
-            this.graphExplorerView1.Messages = ((System.Collections.Generic.List<string>)(resources.GetObject("graphExplorerView1.Messages")));
-            this.graphExplorerView1.Name = "graphExplorerView1";
-            this.graphExplorerView1.Size = new System.Drawing.Size(628, 587);
-            this.graphExplorerView1.TabIndex = 1;
-            this.graphExplorerView1.UndoZoom = false;
             // 
             // cropDatesDataSet1
             // 
@@ -115,7 +99,6 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.graphExplorerView1);
             this.splitContainer1.Panel2.Margin = new System.Windows.Forms.Padding(1);
             this.splitContainer1.Panel2MinSize = 250;
             this.splitContainer1.Size = new System.Drawing.Size(961, 597);
@@ -154,7 +137,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.cropDatesDataSet1)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -164,7 +146,6 @@
         #endregion
 
         public SelectedSeriesListBox selectedSeriesListBox1;
-        public Reclamation.TimeSeries.Graphing.GraphExplorerView graphExplorerView1;
         private Reclamation.TimeSeries.AgriMet.CropDatesDataSet cropDatesDataSet1;
         private System.Windows.Forms.Button selectAnalysisButton;
         private System.Windows.Forms.Label selectedAnalysisLabel;

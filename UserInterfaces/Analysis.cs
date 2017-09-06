@@ -17,108 +17,58 @@ namespace HdbPoet
 {
     public partial class DataAnalysis : UserControl
     {
+        public PiscesEngine engine1;
 
-        // create Pisces DB
-        private static string filename = AppDomain.CurrentDomain.BaseDirectory + @"hdb-poet-analysis.pdb";
-        private static SQLiteServer server = new SQLiteServer(filename); // Create the Pisces database
-        private static TimeSeriesDatabase db = new TimeSeriesDatabase(server); // Set a variable to invoke for working with the database
-        Hdb hdb;
-        GraphData gData;
-
-        public DataAnalysis(OracleServer oracle, GraphData graphData)
+        public DataAnalysis()
         {
             InitializeComponent();
-            hdb = new Hdb(oracle);
-            gData = graphData;
+        }
+
+        public DataAnalysis(TimeSeriesDataSet ds)
+        {
+            InitializeComponent();
+            this.ds = ds;
+            var filename = AppDomain.CurrentDomain.BaseDirectory + @"hdb-poet-analysis.pdb";
+
+            var g = new TimeSeriesZedGraph();
+            var view = new GraphExplorerView(g); 
+            view.Parent = this.splitContainer1.Panel2;
+            view.BringToFront();
+            view.Dock = DockStyle.Fill;
+
+            engine1 = new PiscesEngine(view, filename);
         }
         
-        private static GraphExplorerView graphView1;
-        private static PiscesEngine engine1 = new PiscesEngine(graphView1, filename);
+
         DisplayOptionsDialog displayOptionsDialog1;
+        private TimeSeriesDataSet ds;
 
         void DisplayAnalysisOptions(object sender, EventArgs e)
         {
             displayOptionsDialog1 = new DisplayOptionsDialog(engine1);
-            displayOptionsDialog1.ShowDialog();
 
-            if (displayOptionsDialog1.DialogResult == System.Windows.Forms.DialogResult.OK)
+            if( displayOptionsDialog1.ShowDialog() == DialogResult.OK)
             {
-                var a = 1;
                 this.selectedAnalysisTextBox.Text = engine1.SelectedAnalysisType.ToString();
-                hdb.Fill(gData);
-
-                //rval.Columns["SourceColor"].DefaultValue = "LightGray";
-                //rval.Columns["ValidationColor"].DefaultValue = "LightGray";
 
                 var sList = new SeriesList();
-                foreach (var s in gData.SeriesRows)
+                foreach (TimeSeriesDataSet.SeriesRow sr in ds.Series)
                 {
-                    var sNew = new Series();
-                    var tempTable = gData.GetTable(s.TableName);
-                    tempTable.Columns.Remove("SourceColor");
-                    tempTable.Columns.Remove("ValidationColor");
-                    tempTable.Columns.Add("flag");
-                    sNew.Table = tempTable;
-                    //[JR] build method to get Series TimeInterval from POET Interval
-                    sNew.TimeInterval = TimeInterval.Monthly;
-
-                    sList.Add(sNew);
+                    HDBSeries s = new HDBSeries(this.ds, sr.SeriesNumber);
+                    sList.Add(s);
                 }
-
-                DatabaseChanged(sList);
+                Run(sList);
             }
             
         }
 
-        void DatabaseChanged(SeriesList sList)
+        void Run(SeriesList sList)
         {
-            //tree1.SetModel(new TimeSeriesTreeModel(engine1.Database));
-
-            engine1.SelectedSeries = sList.ToArray();
             this.Text = engine1.Database.DataSource + " - Pisces";
+            engine1.SelectedSeries = sList.ToArray();
+            engine1.Run();
+            engine1.View.Draw();
 
-            ReadSettingsFromDatabase();
-            engine1.View = graphExplorerView1;
-
-            Reclamation.TimeSeries.Analysis.TimeSeriesAnalysis tAnalysis = new Reclamation.TimeSeries.Analysis.TimeSeriesAnalysis(engine1);
-            tAnalysis.Run();
-
-            //displayOptionsDialog1 = new DisplayOptionsDialog(engine1);
-            //SetupScenarioSelector();
-
-            //engine1.View.SeriesList.Clear();
-            //engine1.View.Clear();
-            //engine1.Run();
         }
-
-        private void ReadSettingsFromDatabase()
-        {
-            var m_settings = db.Settings;
-            //HydrometInfoUtility.WebCaching = m_settings.ReadBoolean("HydrometWebCaching", false);
-            //HydrometInfoUtility.AutoUpdate = m_settings.ReadBoolean("HydrometAutoUpdate", false);
-            //HydrometInstantSeries.KeepFlaggedData = m_settings.ReadBoolean("HydrometIncludeFlaggedData", false);
-            //HydrometInfoUtility.WebOnly = m_settings.ReadBoolean("HydrometWebOnly", false);
-            //Reclamation.TimeSeries.Usgs.Utility.AutoUpdate = m_settings.ReadBoolean("UsgsAutoUpdate", false);
-            ////  db.se
-
-            //Reclamation.TimeSeries.Modsim.ModsimSeries.DisplayFlowInCfs = m_settings.ReadBoolean("ModsimDisplayFlowInCfs", false);
-            //SpreadsheetGearSeries.AutoUpdate = m_settings.ReadBoolean("ExcelAutoUpdate", true);
-
-            var w = engine1.TimeWindow;
-            w.FromToDatesT1 = m_settings.ReadDateTime("FromToDatesT1", w.FromToDatesT1);
-            w.FromToDatesT2 = m_settings.ReadDateTime("FromToDatesT2", w.FromToDatesT2);
-            w.FromDateToTodayT1 = m_settings.ReadDateTime("FromDateToTodayT1", w.FromDateToTodayT1);
-            w.NumDaysFromToday = m_settings.ReadDecimal("NumDaysFromToday", w.NumDaysFromToday);
-
-            string s = m_settings.ReadString("TimeWindowType", "FromToDates");
-            w.WindowType = (TimeWindowType)System.Enum.Parse(typeof(TimeWindowType), s);
-            db.AutoRefresh = m_settings.ReadBoolean("AutoRefresh", true);
-        }
-
-
-
-
-
-
     }
 }
