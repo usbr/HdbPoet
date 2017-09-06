@@ -32,10 +32,10 @@
             this.graphExplorerView1 = new Reclamation.TimeSeries.Graphing.GraphExplorerView();
             this.cropDatesDataSet1 = new Reclamation.TimeSeries.AgriMet.CropDatesDataSet();
             this.selectAnalysisButton = new System.Windows.Forms.Button();
-            this.selectedAnalysisTextBox = new System.Windows.Forms.TextBox();
             this.selectedAnalysisLabel = new System.Windows.Forms.Label();
             this.availableSeriesLabel = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.selectedAnalysisTextBox = new System.Windows.Forms.RichTextBox();
             this.selectedSeriesListBox1 = new HdbPoet.SelectedSeriesListBox();
             ((System.ComponentModel.ISupportInitialize)(this.cropDatesDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -76,29 +76,19 @@
             this.selectAnalysisButton.UseVisualStyleBackColor = false;
             this.selectAnalysisButton.Click += new System.EventHandler(this.DisplayAnalysisOptions);
             // 
-            // selectedAnalysisTextBox
-            // 
-            this.selectedAnalysisTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectedAnalysisTextBox.Enabled = false;
-            this.selectedAnalysisTextBox.Location = new System.Drawing.Point(6, 50);
-            this.selectedAnalysisTextBox.Name = "selectedAnalysisTextBox";
-            this.selectedAnalysisTextBox.Size = new System.Drawing.Size(301, 20);
-            this.selectedAnalysisTextBox.TabIndex = 3;
-            // 
             // selectedAnalysisLabel
             // 
             this.selectedAnalysisLabel.AutoSize = true;
             this.selectedAnalysisLabel.Location = new System.Drawing.Point(3, 32);
             this.selectedAnalysisLabel.Name = "selectedAnalysisLabel";
-            this.selectedAnalysisLabel.Size = new System.Drawing.Size(96, 13);
+            this.selectedAnalysisLabel.Size = new System.Drawing.Size(156, 13);
             this.selectedAnalysisLabel.TabIndex = 4;
-            this.selectedAnalysisLabel.Text = "Selected Analysis: ";
+            this.selectedAnalysisLabel.Text = "Selected Analysis and Options: ";
             // 
             // availableSeriesLabel
             // 
             this.availableSeriesLabel.AutoSize = true;
-            this.availableSeriesLabel.Location = new System.Drawing.Point(3, 75);
+            this.availableSeriesLabel.Location = new System.Drawing.Point(3, 138);
             this.availableSeriesLabel.Name = "availableSeriesLabel";
             this.availableSeriesLabel.Size = new System.Drawing.Size(84, 13);
             this.availableSeriesLabel.TabIndex = 5;
@@ -115,11 +105,11 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.selectedAnalysisTextBox);
             this.splitContainer1.Panel1.Controls.Add(this.selectedSeriesListBox1);
             this.splitContainer1.Panel1.Controls.Add(this.selectAnalysisButton);
             this.splitContainer1.Panel1.Controls.Add(this.selectedAnalysisLabel);
             this.splitContainer1.Panel1.Controls.Add(this.availableSeriesLabel);
-            this.splitContainer1.Panel1.Controls.Add(this.selectedAnalysisTextBox);
             this.splitContainer1.Panel1.Margin = new System.Windows.Forms.Padding(1);
             this.splitContainer1.Panel1MinSize = 250;
             // 
@@ -132,15 +122,26 @@
             this.splitContainer1.SplitterDistance = 319;
             this.splitContainer1.TabIndex = 6;
             // 
+            // selectedAnalysisTextBox
+            // 
+            this.selectedAnalysisTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.selectedAnalysisTextBox.Enabled = false;
+            this.selectedAnalysisTextBox.Location = new System.Drawing.Point(6, 51);
+            this.selectedAnalysisTextBox.Name = "selectedAnalysisTextBox";
+            this.selectedAnalysisTextBox.Size = new System.Drawing.Size(306, 83);
+            this.selectedAnalysisTextBox.TabIndex = 2;
+            this.selectedAnalysisTextBox.Text = "";
+            // 
             // selectedSeriesListBox1
             // 
             this.selectedSeriesListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectedSeriesListBox1.Location = new System.Drawing.Point(6, 92);
+            this.selectedSeriesListBox1.Location = new System.Drawing.Point(6, 155);
             this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
             this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
-            this.selectedSeriesListBox1.Size = new System.Drawing.Size(342, 495);
+            this.selectedSeriesListBox1.Size = new System.Drawing.Size(342, 432);
             this.selectedSeriesListBox1.TabIndex = 0;
             // 
             // DataAnalysis
@@ -166,9 +167,9 @@
         private Reclamation.TimeSeries.Graphing.GraphExplorerView graphExplorerView1;
         private Reclamation.TimeSeries.AgriMet.CropDatesDataSet cropDatesDataSet1;
         private System.Windows.Forms.Button selectAnalysisButton;
-        private System.Windows.Forms.TextBox selectedAnalysisTextBox;
         private System.Windows.Forms.Label selectedAnalysisLabel;
         private System.Windows.Forms.Label availableSeriesLabel;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.RichTextBox selectedAnalysisTextBox;
     }
 }
