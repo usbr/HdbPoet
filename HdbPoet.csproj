@@ -61,7 +61,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;HDB_aOPEN1</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HDB_OPEN</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -517,7 +517,7 @@
     <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="licenses.licx" Condition="!$(DefineConstants.Contains('HDB_OPEN'))" />
     <EmbeddedResource Include="UserInterfaces\Analysis.resx">
       <DependentUpon>Analysis.cs</DependentUpon>
     </EmbeddedResource>
