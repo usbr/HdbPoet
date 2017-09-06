@@ -52,9 +52,11 @@ namespace HdbPoet
                 this.selectedAnalysisTextBox.Text = engine1.SelectedAnalysisType.ToString();
 
                 var sList = new SeriesList();
-                foreach (TimeSeriesDataSet.SeriesRow sr in ds.Series)
+
+                for (int i = 0; i < selectedSeriesListBox1.SelectedIndicies.Length; i++)
                 {
-                    HDBSeries s = new HDBSeries(this.ds, sr.SeriesNumber);
+                    int idx = selectedSeriesListBox1.SelectedIndicies[i];
+                    HDBSeries s = new HDBSeries(this.ds, ds.Series[idx].SeriesNumber);
                     sList.Add(s);
                 }
                 Run(sList);
