@@ -23,7 +23,9 @@ namespace HdbPoet
         {
             InitializeComponent();
             this.ds = ds;
-            var filename = AppDomain.CurrentDomain.BaseDirectory + @"hdb-poet-analysis.pdb";
+            var filename = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\hdb-poet-analysis.pdb";
+            CreatePiscesDB(filename);
+
 
             var g = new TimeSeriesZedGraph();
             var view = new GraphExplorerView(g);
@@ -34,6 +36,11 @@ namespace HdbPoet
 
         }
         
+
+        public void CreatePiscesDB(string fName)
+        {
+            var server = new SQLiteServer(fName); // Create the Pisces database
+        }
 
         DisplayOptionsDialog displayOptionsDialog1;
         private TimeSeriesDataSet ds;
