@@ -59,11 +59,18 @@ namespace HdbPoet
             PrintStatus("Reading HDB data...");
             this.statusStrip1.Update();
             var sList = getSeriesList();
-            engine1.SelectedSeries = sList.ToArray();
-            engine1.Run();
-            PrintStatus("Drawing graphs...");
-            engine1.View.Draw();
-            PrintStatus("OK!");
+            if (sList.Count == 0)
+            {
+                PrintStatus("No Series selected. Select at least 1 Series...");
+            }
+            else
+            {
+                engine1.SelectedSeries = sList.ToArray();
+                engine1.Run();
+                PrintStatus("Drawing graphs...");
+                engine1.View.Draw();
+                PrintStatus("OK!");
+            }
         }
 
         private SeriesList getSeriesList()

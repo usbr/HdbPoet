@@ -32,14 +32,35 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "{#bin}HDB-POET.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#bin}TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}HDB-POET.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Aga.Controls.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#bin}ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#bin}Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}BumpKit.dll"; DestDir: "{app}"; Flags: ignoreversion               
+Source: "{#bin}Excel.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}alglibnet2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}ICSharpCode.SharpZipLib.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}MathNet.Numerics.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}MySql.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Npgsql.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}NPOI.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}NPOI.OOXML.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}NPOI.OpenXml4Net.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}NPOI.OpenXmlFormats.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}nunit.framework.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Oracle.ManagedDataAccess.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}RestSharp.dll"; DestDir: "{app}"; Flags: ignoreversion        
+Source: "{#bin}System.Data.SQLite.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion    
+Source: "{#bin}Reclamation.TimeSeries.dll"; DestDir: "{app}"; Flags: ignoreversion    
+Source: "{#bin}Reclamation.TimeSeries.Forms.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}report.xls"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#bin}sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion    
+Source: "{#bin}hdb-poet-analysis.pdb"; DestDir: "{app}"; Flags: ignoreversion    
+;ThirdParty Core Components                                                               
+Source: "{#bin}ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Devart.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Devart.Data.Universal.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}Devart.Data.Universal.Oracle.dll"; DestDir: "{app}"; Flags: ignoreversion
