@@ -19,11 +19,6 @@ namespace HdbPoet
     {
         public PiscesEngine engine1;
 
-        public DataAnalysis()
-        {
-            InitializeComponent();
-        }
-
         public DataAnalysis(TimeSeriesDataSet ds)
         {
             InitializeComponent();
@@ -31,12 +26,12 @@ namespace HdbPoet
             var filename = AppDomain.CurrentDomain.BaseDirectory + @"hdb-poet-analysis.pdb";
 
             var g = new TimeSeriesZedGraph();
-            var view = new GraphExplorerView(g); 
+            var view = new GraphExplorerView(g);
             view.Parent = this.splitContainer1.Panel2;
             view.BringToFront();
             view.Dock = DockStyle.Fill;
-
             engine1 = new PiscesEngine(view, filename);
+
         }
         
 
@@ -50,27 +45,43 @@ namespace HdbPoet
             if( displayOptionsDialog1.ShowDialog() == DialogResult.OK)
             {
                 this.selectedAnalysisTextBox.Text = engine1.SelectedAnalysisType.ToString();
-
-                var sList = new SeriesList();
-
-                for (int i = 0; i < selectedSeriesListBox1.SelectedIndicies.Length; i++)
-                {
-                    int idx = selectedSeriesListBox1.SelectedIndicies[i];
-                    HDBSeries s = new HDBSeries(this.ds, ds.Series[idx].SeriesNumber);
-                    sList.Add(s);
-                }
-                Run(sList);
-            }
-            
+                Run(sender, e);
+            }            
         }
 
-        void Run(SeriesList sList)
+        void Run(object sender, EventArgs e)
         {
-            this.Text = engine1.Database.DataSource + " - Pisces";
+            ReRun(sender, e);
+        }
+
+        void ReRun(object sender, EventArgs e)
+        {
+            PrintStatus("Reading HDB data...");
+            this.statusStrip1.Update();
+            var sList = getSeriesList();
             engine1.SelectedSeries = sList.ToArray();
             engine1.Run();
+            PrintStatus("Drawing graphs...");
             engine1.View.Draw();
+            PrintStatus("OK!");
+        }
 
+        private SeriesList getSeriesList()
+        {
+            var sList = new SeriesList();
+            for (int i = 0; i < selectedSeriesListBox1.SelectedIndicies.Length; i++)
+            {
+                int idx = selectedSeriesListBox1.SelectedIndicies[i];
+                HDBSeries s = new HDBSeries(this.ds, ds.Series[idx].SeriesNumber);
+                sList.Add(s);
+            }
+            return sList;
+        }
+
+        void PrintStatus(string text)
+        {
+            this.toolStripStatusLabel1.Text = text;
+            this.statusStrip1.Update();
         }
     }
 }

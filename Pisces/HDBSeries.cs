@@ -19,16 +19,10 @@ namespace HdbPoet
 
         protected override void ReadCore(DateTime t1, DateTime t2)
         {
-
             var r = m_ds.Series.FindBySeriesNumber(m_seriesNumber);
             var timeZone = m_ds.Graph[0].TimeZone;
 
-            /// <param name="r_table">one of: r_instant, r_hour, r_day, r_month, r_year, r_wy, r_base</param>
-            // KT. TO DO.  figure out table name...
-            string tableName = "r_day";
-            
-            var tbl = Hdb.Instance.Table(r.hdb_site_datatype_id, tableName,
-                r.Interval,60,t1, t2, timeZone, false, 0);
+            var tbl = Hdb.Instance.Table(r.hdb_site_datatype_id, r.hdb_r_table, r.Interval, 60, t1, t2, timeZone, false, 0);
             tbl.Columns.Remove("SourceColor");
             tbl.Columns.Remove("ValidationColor");
             tbl.Columns.Add("flag");   
@@ -45,16 +39,35 @@ namespace HdbPoet
 
             this.TimeInterval = StringToInterval(r.Interval);
             this.Name = r.DisplayName;
+            this.Units = r.Units;
 
         }
 
         private Reclamation.TimeSeries.TimeInterval StringToInterval(string interval)
         {
             var rval = Reclamation.TimeSeries.TimeInterval.Daily;
-
-            if (interval == "daily")
-                rval = Reclamation.TimeSeries.TimeInterval.Daily;
-
+            
+            switch (interval)
+            {
+                case "hour":
+                    rval = Reclamation.TimeSeries.TimeInterval.Hourly;
+                    break;
+                case "day":
+                    rval = Reclamation.TimeSeries.TimeInterval.Daily;
+                    break;
+                case "month":
+                    rval = Reclamation.TimeSeries.TimeInterval.Monthly;
+                    break;
+                case "year":
+                    rval = Reclamation.TimeSeries.TimeInterval.Yearly;
+                    break;
+                case "wy":
+                    rval = Reclamation.TimeSeries.TimeInterval.Yearly;
+                    break;
+                default:
+                    rval = Reclamation.TimeSeries.TimeInterval.Irregular;
+                    break;
+            }
 
             return rval;
         }

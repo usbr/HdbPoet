@@ -37,6 +37,7 @@ namespace HdbPoet
                 return x.ToArray();
             }
         }
+
         private void FillListBox()
         {
             this.listBox.Items.Clear();
