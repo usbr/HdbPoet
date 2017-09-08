@@ -27,7 +27,8 @@ namespace HdbPoet
             CreatePiscesDB(filename);
 
 
-            var g = new TimeSeriesZedGraph();
+            //var g = new TimeSeriesZedGraph();
+            var g = new TimeSeriesTeeChartGraph();
             var view = new GraphExplorerView(g);
             view.Parent = this.splitContainer1.Panel2;
             view.BringToFront();
