@@ -185,6 +185,10 @@
     <Reference Include="DgvFilterPopup">
       <HintPath>ThirdParty\DgvFilterPopup.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <HintPath>..\Pisces\packages\Oracle.ManagedDataAccess.12.1.2400\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
       <Private>True</Private>
@@ -279,6 +283,8 @@
       <DependentUpon>GraphControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Hdb.ProcedureCommon.cs" />
+    <Compile Include="Tests\HdbPoetTestIO.cs" />
+    <Compile Include="Tests\HdbPoetTestConnections.cs" />
     <Compile Include="UserInterfaces\Analysis.cs">
       <SubType>UserControl</SubType>
     </Compile>
