@@ -61,7 +61,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;HDB_aOPEN1</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HDB_OPEN</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -134,7 +134,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'poet|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\poet\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;HDB2_OPEN</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HDB_OPEN2</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
     <NoWarn>1591</NoWarn>
@@ -163,6 +163,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ThirdParty\Aga.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="BumpKit">
+      <HintPath>..\Pisces\packages\Bumpkit.1.0.2\lib\BumpKit.dll</HintPath>
+    </Reference>
     <Reference Include="Devart.Data, Version=5.0.1586.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Universal\Devart.Data.dll</HintPath>
@@ -181,6 +184,10 @@
     </Reference>
     <Reference Include="DgvFilterPopup">
       <HintPath>ThirdParty\DgvFilterPopup.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <HintPath>..\Pisces\packages\Oracle.ManagedDataAccess.12.1.2400\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
@@ -206,6 +213,7 @@
       <Name>System.Drawing</Name>
     </Reference>
     <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Speech" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
@@ -267,6 +275,7 @@
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalVariables.cs" />
+    <Compile Include="Pisces\HDBSeries.cs" />
     <Compile Include="LicensedDependency\GraphControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -274,6 +283,14 @@
       <DependentUpon>GraphControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Hdb.ProcedureCommon.cs" />
+    <Compile Include="Tests\HdbPoetTestIO.cs" />
+    <Compile Include="Tests\HdbPoetTestConnections.cs" />
+    <Compile Include="UserInterfaces\Analysis.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserInterfaces\Analysis.Designer.cs">
+      <DependentUpon>Analysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserInterfaces\GraphControlZedGraph.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -507,7 +524,10 @@
     <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="licenses.licx" Condition="!$(DefineConstants.Contains('HDB_OPEN'))" />
+    <EmbeddedResource Include="UserInterfaces\Analysis.resx">
+      <DependentUpon>Analysis.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserInterfaces\GraphControlZedGraph.resx">
       <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
     </EmbeddedResource>
@@ -532,7 +552,9 @@
       <DependentUpon>Upgrade.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\licenses.licx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="MetaData\FormMetaData.resx">
       <DependentUpon>FormMetaData.cs</DependentUpon>
     </EmbeddedResource>
@@ -681,6 +703,14 @@
       <Project>{80c73d4c-43cf-42de-addc-7b0f06ecf086}</Project>
       <Name>Reclamation.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pisces\TimeSeries.Forms\Reclamation.TimeSeries.Forms.csproj">
+      <Project>{A7E73F2A-CA66-4BC8-934A-B5068C566F10}</Project>
+      <Name>Reclamation.TimeSeries.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pisces\TimeSeries.Graphing\Reclamation.TimeSeries.Graphing.csproj">
+      <Project>{862135b0-793a-4f06-b731-26c61b3ad068}</Project>
+      <Name>Reclamation.TimeSeries.Graphing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pisces\TimeSeries\Reclamation.TimeSeries.csproj">
       <Project>{5dd20a8a-4037-4885-ab91-2f5a3d1f48b4}</Project>
       <Name>Reclamation.TimeSeries</Name>
@@ -707,6 +737,9 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

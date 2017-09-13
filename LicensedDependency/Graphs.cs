@@ -116,33 +116,39 @@ namespace HdbPoet
 			}
 		}
 
-    /// <summary>
-    /// Used with Windows Forms
-    /// </summary>
-    /// <param name="tChart1"></param>
-    /// <param name="table"></param>
-    /// <param name="columnName"></param>
-    /// <param name="avg"></param>
-    /// <returns></returns>
-		static Steema.TeeChart.Styles.Line CreateSeries(TChart tChart1, DataTable table , string columnName, double avg)
-		{
-				Steema.TeeChart.Styles.Line series1 = new Steema.TeeChart.Styles.Line();
-				series1.XValues.DateTime = true;
-				series1.ShowInLegend = true;
-				series1.Pointer.Visible = true;
-				series1.Pointer.HorizSize = 2;
-				series1.Pointer.VertSize = 2;
-				Color[] colors = {Color.Red,Color.Green,Color.Blue,Color.Black,Color.Orange,Color.Orange,Color.AliceBlue,Color.Aquamarine,Color.Beige,Color.DarkGreen,Color.Purple};
+        /// <summary>
+        /// Used with Windows Forms
+        /// </summary>
+        /// <param name="tChart1"></param>
+        /// <param name="table"></param>
+        /// <param name="columnName"></param>
+        /// <param name="avg"></param>
+        /// <returns></returns>
+        static Steema.TeeChart.Styles.Line CreateSeries(TChart tChart1, DataTable table, string columnName, double avg)
+        {
+            Steema.TeeChart.Styles.Line series1 = new Steema.TeeChart.Styles.Line();
+            series1.XValues.DateTime = true;
+            series1.Legend.Visible = true;
+            series1.Pointer.Visible = true;
+            series1.Pointer.HorizSize = 2;
+            series1.Pointer.VertSize = 2;
+            series1.Dark3D = true;
+            Color[] colors =
+            {
+                Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Violet, Color.Goldenrod, Color.Salmon,
+                Color.DarkRed, Color.DarkBlue, Color.DarkGreen, Color.DarkOrange, Color.DarkViolet, Color.DarkGoldenrod, Color.DarkSalmon,
+                Color.LightPink, Color.LightBlue, Color.LightGreen, Color.Plum, Color.PaleVioletRed, Color.LightGoldenrodYellow, Color.LightSalmon
+            };
 
-				if( tChart1.Series.Count <colors.Length)
-				{
-					series1.Color = colors[tChart1.Series.Count]; 
-				}
+            if (tChart1.Series.Count < colors.Length)
+            {
+                series1.Color = colors[tChart1.Series.Count];
+            }
 
-            
-				return series1;
 
-		}
+            return series1;
+
+        }
 
         private static void LoadSeriesData(DataTable table, string columnName, double avg, Steema.TeeChart.Styles.Line series1)
         {
@@ -174,11 +180,16 @@ namespace HdbPoet
     {
       Steema.TeeChart.Styles.Line series1 = new Steema.TeeChart.Styles.Line();
       series1.XValues.DateTime = true;
-      series1.ShowInLegend = true;
+      series1.Legend.Visible = true;
       series1.Pointer.Visible = true;
       series1.Pointer.HorizSize = 2;
       series1.Pointer.VertSize = 2;
-      Color[] colors = {Color.Red,Color.Green,Color.Blue,Color.Black,Color.Orange,Color.Orange,Color.AliceBlue,Color.Aquamarine,Color.Beige,Color.DarkGreen,Color.Purple};
+      Color[] colors = 
+            {
+                Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Violet, Color.Goldenrod, Color.Salmon,
+                Color.DarkRed, Color.DarkBlue, Color.DarkGreen, Color.DarkOrange, Color.DarkViolet, Color.DarkGoldenrod, Color.DarkSalmon,
+                Color.LightPink, Color.LightBlue, Color.LightGreen, Color.Plum, Color.PaleVioletRed, Color.LightGoldenrodYellow, Color.LightSalmon
+            };
 
       if( tChart1.Series.Count <colors.Length)
       {

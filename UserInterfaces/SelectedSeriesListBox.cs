@@ -25,6 +25,19 @@ namespace HdbPoet
                 FillListBox();
         }
 
+        public int[] SelectedIndicies
+        {
+            get
+            {
+                var x = new List<int>();
+                foreach (int index in listBox.SelectedIndices)
+                {
+                    x.Add(index);
+                }
+                return x.ToArray();
+            }
+        }
+
         private void FillListBox()
         {
             this.listBox.Items.Clear();
