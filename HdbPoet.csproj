@@ -688,11 +688,11 @@
   <ItemGroup>
     <Content Include="license.txt" />
     <Content Include="LicensedDependency\Readme.txt" />
-    <Content Include="CodeFiles\sqlFunctions.xml">
+    <Content Include="sqlFunctions.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Images\warning.ico" />
-    <None Include="LicensedDependency\report.xls">
+    <None Include="report.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
