@@ -9,7 +9,7 @@ namespace HdbPoet
     public class HDBSeries:Reclamation.TimeSeries.Series
     {
         TimeSeriesDataSet m_ds;
-        Hdb m_hdb;
+        //Hdb m_hdb;
         int m_seriesNumber;
         public HDBSeries(TimeSeriesDataSet ds, int seriesNumber )
         {
