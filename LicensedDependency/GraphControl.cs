@@ -31,7 +31,10 @@ namespace HdbPoet
         }
         internal void Print()
         {
-            this.chart.Printer.Preview();
+            //this.chart.Printer.Preview();
+            this.chart.Export.ShowExportDialog(Steema.TeeChart.Editors.Export.ExportEditorTabs.Data, 
+                Steema.TeeChart.Editors.Export.ExportEditorTabs.Theme, 
+                Steema.TeeChart.Editors.Export.ExportEditorTabs.Native);
         }
 
         public void ChangeSeriesValue(TimeSeriesChangeEventArgs e)
@@ -105,28 +108,38 @@ namespace HdbPoet
                     chart.Tools.Add(dragPoint1);
                 }
             }
-            //// format nearest point
-            //for (int i = 0; i < graphDef.SeriesRows.Count(); i++)
-            //{
-            //    Steema.TeeChart.Tools.NearestPoint nearestPoint1 = new Steema.TeeChart.Tools.NearestPoint(chart[i]);
-            //    nearestPoint1.Pen.Color = Color.Blue;
-            //    nearestPoint1.Size = 25;
-            //    nearestPoint1.Style = Steema.TeeChart.Tools.NearestPointStyles.Circle;
-            //    chart.Tools.Add(nearestPoint1);
-            //}
+
+            // format nearest point
+            for (int i = 0; i < graphDef.SeriesRows.Count(); i++)
+            {
+                Steema.TeeChart.Tools.NearestPoint nearestPoint1 = new Steema.TeeChart.Tools.NearestPoint(chart[i]);
+                nearestPoint1.Pen.Color = chart[i].Color;
+                nearestPoint1.Size = 5;
+                nearestPoint1.Style = Steema.TeeChart.Tools.NearestPointStyles.Circle;
+                nearestPoint1.DrawLine = false;
+                chart.Tools.Add(nearestPoint1);
+
+                // set tool-tip text
+                chart[i].GetSeriesMark += Form1_GetSeriesMark;
+            }
 
             // Add point tooltips
             Steema.TeeChart.Tools.MarksTip marksTip1 = new Steema.TeeChart.Tools.MarksTip(chart.Chart);
             marksTip1.Style = Steema.TeeChart.Styles.MarksStyles.XY;
             marksTip1.Active = true;
-            marksTip1.MouseDelay = 250;
+            marksTip1.MouseDelay = 0;
             marksTip1.HideDelay = 9999;
             marksTip1.MouseAction = Steema.TeeChart.Tools.MarksTipMouseAction.Move;
             marksTip1.BackColor = Color.LightSteelBlue;
             marksTip1.ForeColor = Color.Black;
             chart.Tools.Add(marksTip1);
+
         }
 
+        void Form1_GetSeriesMark(Steema.TeeChart.Styles.Series series, Steema.TeeChart.Styles.GetSeriesMarkEventArgs e)
+        {
+            e.MarkText = "Date-Time: " + series.XValues[e.ValueIndex].ToString() + "\r\n" + series.Title + ": " + series.YValues[e.ValueIndex].ToString();
+        }
 
         bool m_SetActiveCellNeeded = false;
         DateTime dragDateTime = DateTime.MinValue;
@@ -190,44 +203,7 @@ namespace HdbPoet
             DragPoints = !DragPoints;
             toolStripButtonDragPoints.Checked = DragPoints;
         }
-
-        private void marksTip1_GetText(Steema.TeeChart.Tools.MarksTip sender, Steema.TeeChart.Tools.MarksTipGetTextEventArgs e)
-        {
-            e.Text = m_markTipText;
-        }
-
-        string m_markTipText = "";
-
-        private void chart_MouseMove(object sender, MouseEventArgs e)
-        {
-            m_markTipText = "";
-            int index = -1;
-            for (int i = 0; i < chart.Series.Count; i++)
-            {
-                Series s = chart[i];
-                index = s.Clicked(e.X, e.Y);
-
-                if (index != -1 && i < graphDef.SeriesRows.Count())
-                {
-                    DateTime t = Steema.TeeChart.Utils.DateTime(s[index].X);
-                    double val = s[index].Y;
-
-                    switch (graphDef.SeriesRows.Skip(i).First().Interval)
-                    {
-                        case "day": m_markTipText = t.ToString("MM/dd/yyyy") + ", " + val.ToString();
-                            break;
-                        case "hour": m_markTipText = t.ToString("MM/dd/yyyy HH:mm") + ", " + val.ToString();
-                            break;
-                        case "instant": m_markTipText = t.ToString("MM/dd/yyyy HH:mm") + ", " + val.ToString();
-                            break;
-                        default: m_markTipText = t.ToString("MM/dd/yyyy") + ", " + val.ToString();
-                            break;
-                    }
-                    break;
-                }
-            }
-        }
-
+        
         //private void GraphForm_FormClosing(object sender, FormClosingEventArgs e)
         //{
         //    if (e.CloseReason == CloseReason.UserClosing)
