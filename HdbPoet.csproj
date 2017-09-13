@@ -15,7 +15,8 @@
     </SccProvider>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>GraphTool.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>HDB-POET</AssemblyName>
@@ -246,23 +247,23 @@
     <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acl\AclManagement.cs">
+    <Compile Include="Forms\Acl\AclManagement.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acl\AclManagement.Designer.cs">
+    <Compile Include="Forms\Acl\AclManagement.Designer.cs">
       <DependentUpon>AclManagement.cs</DependentUpon>
     </Compile>
-    <Compile Include="Acl\AclNode.cs" />
-    <Compile Include="Acl\AddSitesToGroup.cs">
+    <Compile Include="Forms\Acl\AclNode.cs" />
+    <Compile Include="Forms\Acl\AddSitesToGroup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acl\AddSitesToGroup.Designer.cs">
+    <Compile Include="Forms\Acl\AddSitesToGroup.Designer.cs">
       <DependentUpon>AddSitesToGroup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Acl\AddUserAndGroup.cs">
+    <Compile Include="Forms\Acl\AddUserAndGroup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acl\AddUserAndGroup.Designer.cs">
+    <Compile Include="Forms\Acl\AddUserAndGroup.Designer.cs">
       <DependentUpon>AddUserAndGroup.cs</DependentUpon>
     </Compile>
     <Compile Include="AssemblyInfo.cs">
@@ -274,7 +275,7 @@
     <Compile Include="Forms\ColumnFormat.Designer.cs">
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </Compile>
-    <Compile Include="GlobalVariables.cs" />
+    <Compile Include="CodeFiles\GlobalVariables.cs" />
     <Compile Include="Pisces\HDBSeries.cs" />
     <Compile Include="LicensedDependency\GraphControl.cs">
       <SubType>UserControl</SubType>
@@ -282,7 +283,7 @@
     <Compile Include="LicensedDependency\GraphControl.Designer.cs">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Hdb.ProcedureCommon.cs" />
+    <Compile Include="OracleHdb\Hdb.ProcedureCommon.cs" />
     <Compile Include="Tests\HdbPoetTestIO.cs" />
     <Compile Include="Tests\HdbPoetTestConnections.cs" />
     <Compile Include="UserInterfaces\Analysis.cs">
@@ -297,7 +298,7 @@
     <Compile Include="UserInterfaces\GraphControlZedGraph.Designer.cs">
       <DependentUpon>GraphControlZedGraph.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExcelReportTemplate.cs" />
+    <Compile Include="CodeFiles\ExcelReportTemplate.cs" />
     <Compile Include="Forms\FormAddSeries.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -310,7 +311,7 @@
     <Compile Include="Forms\FormNewGraphName.Designer.cs">
       <DependentUpon>FormNewGraphName.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphData.cs" />
+    <Compile Include="CodeFiles\GraphData.cs" />
     <Compile Include="Forms\GraphForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -320,39 +321,39 @@
     <Compile Include="Forms\GraphListEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IExcelReportTool.cs" />
-    <Compile Include="MetaData\FormMetaData.cs">
+    <Compile Include="CodeFiles\IExcelReportTool.cs" />
+    <Compile Include="Forms\MetaData\FormMetaData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MetaData\FormMetaData.Designer.cs">
+    <Compile Include="Forms\MetaData\FormMetaData.Designer.cs">
       <DependentUpon>FormMetaData.cs</DependentUpon>
     </Compile>
-    <Compile Include="MetaData\RatingTableData.cs" />
-    <Compile Include="MetaData\RatingTableEditor.cs">
+    <Compile Include="Forms\MetaData\RatingTableData.cs" />
+    <Compile Include="Forms\MetaData\RatingTableEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MetaData\RatingTableEditor.Designer.cs">
+    <Compile Include="Forms\MetaData\RatingTableEditor.Designer.cs">
       <DependentUpon>RatingTableEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="MetaData\RatingTableGraphZ.cs">
+    <Compile Include="Forms\MetaData\RatingTableGraphZ.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MetaData\RatingTableGraphZ.Designer.cs">
+    <Compile Include="Forms\MetaData\RatingTableGraphZ.Designer.cs">
       <DependentUpon>RatingTableGraphZ.cs</DependentUpon>
     </Compile>
-    <Compile Include="MetaData\RatingTableMain.cs">
+    <Compile Include="Forms\MetaData\RatingTableMain.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MetaData\RatingTableMain.Designer.cs">
+    <Compile Include="Forms\MetaData\RatingTableMain.Designer.cs">
       <DependentUpon>RatingTableMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="MetaData\SqlViewEditor.cs">
+    <Compile Include="Forms\MetaData\SqlViewEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MetaData\SqlViewEditor.Designer.cs">
+    <Compile Include="Forms\MetaData\SqlViewEditor.Designer.cs">
       <DependentUpon>SqlViewEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="IGraphControl.cs" />
+    <Compile Include="CodeFiles\IGraphControl.cs" />
     <Compile Include="Forms\Options.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -384,8 +385,8 @@
     <Compile Include="LicensedDependency\FormTeeChartLicense.Designer.cs">
       <DependentUpon>FormTeeChartLicense.cs</DependentUpon>
     </Compile>
-    <Compile Include="Hdb.Model.cs" />
-    <Compile Include="HdbNode.cs" />
+    <Compile Include="OracleHdb\Hdb.Model.cs" />
+    <Compile Include="OracleHdb\HdbNode.cs" />
     <Compile Include="Forms\SelectHdbModel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -408,27 +409,26 @@
     <Compile Include="Forms\TimeZoneOptions.Designer.cs">
       <DependentUpon>TimeZoneOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="PointChangeEventArgs.cs" />
+    <Compile Include="CodeFiles\PointChangeEventArgs.cs" />
     <Compile Include="Forms\EditStringCollection.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\EditStringCollection.Designer.cs">
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </Compile>
-    <Compile Include="ZedGraphDataLoader.cs" />
+    <Compile Include="LicensedDependency\ZedGraphDataLoader.cs" />
     <None Include="UserInterfaces\GraphControl.cs">
       <SubType>UserControl</SubType>
     </None>
     <None Include="UserInterfaces\GraphControl.Designer.cs">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </None>
-    <Compile Include="OracleConnectionInfo.cs" />
+    <Compile Include="OracleHdb\OracleConnectionInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Test.cs" />
     <Compile Include="Forms\TimeSeriesCommitChanges.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -438,7 +438,7 @@
     <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Hdb.cs" />
+    <Compile Include="OracleHdb\Hdb.cs" />
     <Compile Include="UserInterfaces\HdbBrowser.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -455,7 +455,7 @@
     <Compile Include="Forms\Legend.Designer.cs">
       <DependentUpon>Legend.cs</DependentUpon>
     </Compile>
-    <Compile Include="MultipleSeriesDataTable.cs">
+    <Compile Include="CodeFiles\MultipleSeriesDataTable.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -469,11 +469,11 @@
     <Compile Include="Forms\TimeSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TimeSeriesConstants.cs" />
+    <Compile Include="CodeFiles\TimeSeriesConstants.cs" />
     <Compile Include="TimeSeriesDataSet.cs">
       <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="TimeSeriesChangeEventArgs.cs" />
+    <Compile Include="CodeFiles\TimeSeriesChangeEventArgs.cs" />
     <Compile Include="TimeSeriesDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -488,7 +488,7 @@
     <Compile Include="UserInterfaces\TimeSeriesTableView.Designer.cs">
       <DependentUpon>TimeSeriesTableView.cs</DependentUpon>
     </Compile>
-    <Compile Include="OracleServer.cs" />
+    <Compile Include="OracleHdb\OracleServer.cs" />
     <Compile Include="Forms\OracleLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -508,14 +508,14 @@
       <DependentUpon>About.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acl\AclManagement.resx">
+    <EmbeddedResource Include="Forms\Acl\AclManagement.resx">
       <DependentUpon>AclManagement.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acl\AddSitesToGroup.resx">
+    <EmbeddedResource Include="Forms\Acl\AddSitesToGroup.resx">
       <DependentUpon>AddSitesToGroup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acl\AddUserAndGroup.resx">
+    <EmbeddedResource Include="Forms\Acl\AddUserAndGroup.resx">
       <DependentUpon>AddUserAndGroup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ColumnFormat.resx">
@@ -555,19 +555,19 @@
     <EmbeddedResource Include="Properties\licenses.licx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="MetaData\FormMetaData.resx">
+    <EmbeddedResource Include="Forms\MetaData\FormMetaData.resx">
       <DependentUpon>FormMetaData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MetaData\RatingTableEditor.resx">
+    <EmbeddedResource Include="Forms\MetaData\RatingTableEditor.resx">
       <DependentUpon>RatingTableEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MetaData\RatingTableGraphZ.resx">
+    <EmbeddedResource Include="Forms\MetaData\RatingTableGraphZ.resx">
       <DependentUpon>RatingTableGraphZ.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MetaData\RatingTableMain.resx">
+    <EmbeddedResource Include="Forms\MetaData\RatingTableMain.resx">
       <DependentUpon>RatingTableMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MetaData\SqlViewEditor.resx">
+    <EmbeddedResource Include="Forms\MetaData\SqlViewEditor.resx">
       <DependentUpon>SqlViewEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterfaces\SelectedSeriesListBox.resx">
@@ -686,15 +686,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GraphTool.ico" />
-    <Content Include="License-LGPL.txt" />
     <Content Include="license.txt" />
     <Content Include="LicensedDependency\Readme.txt" />
-    <Content Include="sqlFunctions.xml">
+    <Content Include="CodeFiles\sqlFunctions.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Images\warning.ico" />
-    <None Include="report.xls">
+    <None Include="LicensedDependency\report.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

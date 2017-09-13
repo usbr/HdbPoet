@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="HdbPoet.Tests.HdbPoetTestIO.TestOverwriteFlagRemove" /><Add Test="HdbPoet.Tests.HdbPoetTestIO.TestRead" /><Add Test="HdbPoet.Tests.HdbPoetTestIO.TestWrite" /><Add Test="HdbPoet.Tests.HdbPoetTestIO.TestWriteOverwrite" /><Add Test="HdbPoet.Tests.HdbPoetTestIO.TestOverwriteFlagAdd" /><Add Test="HdbPoet.Tests.HdbPoetTestIO.TestDelete" /></Playlist>

@@ -67,7 +67,7 @@ namespace HdbPoet.Tests
             return gd;
         }
 
-        [Test]
+        [Test, Order(1)]
         public void TestRead()
         {
             Connect();
@@ -76,7 +76,7 @@ namespace HdbPoet.Tests
             Assert.AreEqual(Convert.ToDouble(tbl.Rows[0]["VALUE"]), 22.0);
         }
 
-        [Test]
+        [Test, Order(2)]
         public void TestWrite()
         {
             Connect();
@@ -89,7 +89,7 @@ namespace HdbPoet.Tests
             Assert.AreEqual(Convert.ToDouble(gd.Tables["table0"].Rows[14]["VALUE"]), 10.0);
         }
 
-        [Test]
+        [Test, Order(3)]
         public void TestOverwriteFlagAdd()
         {
             Connect();
@@ -98,7 +98,7 @@ namespace HdbPoet.Tests
             Assert.IsTrue(gd.Tables["table0"].Rows[14]["SOURCECOLOR"].ToString().ToLower() == "royalblue");
         }
 
-        [Test]
+        [Test, Order(4)]
         public void TestWriteOverwrite()
         {
             Connect();
@@ -111,7 +111,7 @@ namespace HdbPoet.Tests
             Assert.AreNotEqual(Convert.ToDouble(gd.Tables["table0"].Rows[14]["VALUE"]), 15.0);
         }
 
-        [Test]
+        [Test, Order(5)]
         public void TestOverwriteFlagRemove()
         {
             Connect();
@@ -120,7 +120,7 @@ namespace HdbPoet.Tests
             Assert.IsTrue(gd.Tables["table0"].Rows[14]["SOURCECOLOR"].ToString().ToLower() == "skyblue");            
         }
 
-        [Test]
+        [Test, Order(6)]
         public void TestDelete()
         {
             Connect();
