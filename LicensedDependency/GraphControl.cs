@@ -114,6 +114,7 @@ namespace HdbPoet
             {
                 Steema.TeeChart.Tools.NearestPoint nearestPoint1 = new Steema.TeeChart.Tools.NearestPoint(chart[i]);
                 nearestPoint1.Pen.Color = chart[i].Color;
+                nearestPoint1.Brush.Color = chart[i].Color;
                 nearestPoint1.Size = 5;
                 nearestPoint1.Style = Steema.TeeChart.Tools.NearestPointStyles.Circle;
                 nearestPoint1.DrawLine = false;
@@ -138,7 +139,9 @@ namespace HdbPoet
 
         void Form1_GetSeriesMark(Steema.TeeChart.Styles.Series series, Steema.TeeChart.Styles.GetSeriesMarkEventArgs e)
         {
-            e.MarkText = "Date-Time: " + series.XValues[e.ValueIndex].ToString() + "\r\n" + series.Title + ": " + series.YValues[e.ValueIndex].ToString();
+            var t = DateTime.FromOADate(Convert.ToInt64(series.XValues[e.ValueIndex].ToString()));
+            var val = Convert.ToDouble(series.YValues[e.ValueIndex].ToString()).ToString("#,###,###.##");
+            e.MarkText = "Date-Time: " + t.ToString("MM/dd/yyyy HH:mm") + "\r\n" + series.Title + ": " + val;
         }
 
         bool m_SetActiveCellNeeded = false;
