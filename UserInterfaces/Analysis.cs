@@ -98,6 +98,8 @@ namespace HdbPoet
                 backgroundWorker1.CancelAsync();
                 // Close the AlertForm
                 waitForm.Close();
+
+                PrintStatus("Canceled!");
             }
         }
 
@@ -121,12 +123,13 @@ namespace HdbPoet
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            // Perform a time consuming operation and report progress.
             engine1.Run();
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Cancelled == true)
+            if (this.toolStripStatusLabel1.Text == "Canceled!")
             {
                 PrintStatus("Canceled!");
             }
