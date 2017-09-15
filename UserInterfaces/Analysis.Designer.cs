@@ -37,6 +37,7 @@
             this.rerunAnalysisButton = new System.Windows.Forms.Button();
             this.selectedAnalysisTextBox = new System.Windows.Forms.RichTextBox();
             this.selectedSeriesListBox1 = new HdbPoet.SelectedSeriesListBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -156,6 +157,12 @@
             this.selectedSeriesListBox1.Size = new System.Drawing.Size(342, 415);
             this.selectedSeriesListBox1.TabIndex = 0;
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
             // DataAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -184,5 +191,6 @@
         private System.Windows.Forms.Button rerunAnalysisButton;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

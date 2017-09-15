@@ -276,6 +276,12 @@
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </Compile>
     <Compile Include="CodeFiles\GlobalVariables.cs" />
+    <Compile Include="Forms\WaitToComplete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WaitToComplete.Designer.cs">
+      <DependentUpon>WaitToComplete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pisces\HDBSeries.cs" />
     <Compile Include="LicensedDependency\GraphControl.cs">
       <SubType>UserControl</SubType>
@@ -520,6 +526,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ColumnFormat.resx">
       <DependentUpon>ColumnFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WaitToComplete.resx">
+      <DependentUpon>WaitToComplete.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>

@@ -18,6 +18,7 @@ namespace HdbPoet
     public partial class DataAnalysis : UserControl
     {
         public PiscesEngine engine1;
+        private WaitToCompleteForm waitForm;
 
         public DataAnalysis(TimeSeriesDataSet ds)
         {
@@ -37,7 +38,6 @@ namespace HdbPoet
 
         }
         
-
         public void CreatePiscesDB(string fName)
         {
             var server = new SQLiteServer(fName); // Create the Pisces database
@@ -64,7 +64,6 @@ namespace HdbPoet
 
         void ReRun(object sender, EventArgs e)
         {
-            PrintStatus("Reading HDB data...");
             this.statusStrip1.Update();
             var sList = getSeriesList();
             if (sList.Count == 0)
@@ -73,11 +72,32 @@ namespace HdbPoet
             }
             else
             {
+                PrintStatus("Reading HDB data...");
                 engine1.SelectedSeries = sList.ToArray();
-                engine1.Run();
-                PrintStatus("Drawing graphs...");
-                engine1.View.Draw();
-                PrintStatus("OK!");
+
+                // Background Worker code adapted from http://perschluter.com/show-progress-dialog-during-long-process-c-sharp/
+                if (backgroundWorker1.IsBusy != true)
+                {
+                    // create a new instance of the alert form
+                    waitForm = new WaitToCompleteForm();
+                    // event handler for the Cancel button in AlertForm
+                    waitForm.Canceled += new EventHandler<EventArgs>(buttonCancel_Click);
+                    waitForm.Show();
+                    // Start the asynchronous operation.
+                    backgroundWorker1.RunWorkerAsync();
+                }
+            }
+        }
+
+        // This event handler cancels the backgroundworker, fired from Cancel button in AlertForm.
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            if (backgroundWorker1.WorkerSupportsCancellation == true)
+            {
+                // Cancel the asynchronous operation.
+                backgroundWorker1.CancelAsync();
+                // Close the AlertForm
+                waitForm.Close();
             }
         }
 
@@ -97,6 +117,31 @@ namespace HdbPoet
         {
             this.toolStripStatusLabel1.Text = text;
             this.statusStrip1.Update();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            engine1.Run();
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                PrintStatus("Canceled!");
+            }
+            else if (e.Error != null)
+            {
+                PrintStatus("Error: " + e.Error.Message);
+            }
+            else
+            {
+                PrintStatus("Drawing graphs...");
+                engine1.View.Draw();
+                PrintStatus("Done!");
+            }
+            // Close the AlertForm
+            waitForm.Close();
         }
     }
 }
