@@ -82,9 +82,9 @@ namespace HdbPoet
                     waitForm = new WaitToCompleteForm();
                     // event handler for the Cancel button in AlertForm
                     waitForm.Canceled += new EventHandler<EventArgs>(buttonCancel_Click);
-                    waitForm.Show();
                     // Start the asynchronous operation.
                     backgroundWorker1.RunWorkerAsync();
+                    waitForm.ShowDialog();
                 }
             }
         }
