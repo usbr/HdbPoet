@@ -141,7 +141,9 @@ namespace HdbPoet
             {
                 PrintStatus("Drawing graphs...");
                 engine1.View.Draw();
-                PrintStatus("Done!");
+                var tElapsed = waitForm.tElapsed;
+                string formattedTimeSpan = string.Format("{0:D2} mins, {1:D2} secs", tElapsed.Minutes, tElapsed.Seconds);
+                PrintStatus("Done! Data queried in " + formattedTimeSpan);
             }
             // Close the AlertForm
             waitForm.Close();
