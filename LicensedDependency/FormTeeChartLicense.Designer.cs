@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.tChart1 = new Steema.TeeChart.TChart();
-            this.uniConnection1 = new Devart.Data.Universal.UniConnection();
-            ((System.ComponentModel.ISupportInitialize)(this.uniConnection1)).BeginInit();
             this.SuspendLayout();
             // 
             // tChart1
@@ -216,11 +214,6 @@
             this.tChart1.Walls.Back.Transparent = true;
             this.tChart1.Walls.Back.Visible = false;
             // 
-            // uniConnection1
-            // 
-            this.uniConnection1.Name = "uniConnection1";
-            this.uniConnection1.Owner = this;
-            // 
             // FormTeeChartLicense
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -229,13 +222,11 @@
             this.Controls.Add(this.tChart1);
             this.Name = "FormTeeChartLicense";
             this.Text = "FormTeeChartLicense";
-            ((System.ComponentModel.ISupportInitialize)(this.uniConnection1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         private Steema.TeeChart.TChart tChart1;
-        private Devart.Data.Universal.UniConnection uniConnection1;
 
         #endregion
 
