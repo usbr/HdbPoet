@@ -427,7 +427,7 @@ namespace HdbPoet
                 MultipleSeriesDataTable tbl = row.Table as MultipleSeriesDataTable;
                 DateTime t = Convert.ToDateTime(row[0]);
                 string interval = tbl.TableName;
-                HdbPoet.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
+                OracleHdb.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
                 var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, interval);
 
                 info = DataTableUtility.Transpose(info);

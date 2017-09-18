@@ -25,7 +25,7 @@ namespace HdbPoet.Tests
 
         private static GraphData CreateDataSet()
         {
-            TimeSeriesDataSet ds = new TimeSeriesDataSet();
+            OracleHdb.TimeSeriesDataSet ds = new OracleHdb.TimeSeriesDataSet();
             ds.Series.AddSeriesRow(0, 0, "BEAVER DIVIDE", "min air temp", "HDB", "table0", "", "min air temp",
                 "F", "month", false, 1187, false, "r_month", "", false, false, "N2", 0, "");
             /*

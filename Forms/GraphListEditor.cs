@@ -25,7 +25,7 @@ namespace HdbPoet
     private System.Windows.Forms.Button buttonMoveGraphDown;
     private IContainer components;
     private ToolTip toolTip1;
-    private TimeSeriesDataSet dataSet;
+    private OracleHdb.TimeSeriesDataSet dataSet;
 
 
 		public GraphListEditor()
@@ -33,7 +33,7 @@ namespace HdbPoet
 			InitializeComponent();
 		}
 
-        public GraphListEditor(TimeSeriesDataSet ds)
+        public GraphListEditor(OracleHdb.TimeSeriesDataSet ds)
         {
             InitializeComponent();
             this.dataSet = ds;

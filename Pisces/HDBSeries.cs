@@ -8,10 +8,10 @@ namespace HdbPoet
 {
     public class HDBSeries:Reclamation.TimeSeries.Series
     {
-        TimeSeriesDataSet m_ds;
+        OracleHdb.TimeSeriesDataSet m_ds;
         //Hdb m_hdb;
         int m_seriesNumber;
-        public HDBSeries(TimeSeriesDataSet ds, int seriesNumber )
+        public HDBSeries(OracleHdb.TimeSeriesDataSet ds, int seriesNumber )
         {
             m_ds = ds;
             m_seriesNumber = seriesNumber;

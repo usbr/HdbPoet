@@ -1135,7 +1135,7 @@ namespace HdbPoet
                     if (node.Nodes.Count == 0 && node.Parent != null && node.Parent.Parent != null)
                     {
                         DataRow r_tableRow = (DataRow)node.Tag;
-                        TimeSeriesDataSet.SeriesRow row = graphDef.NewSeriesRow();
+                        OracleHdb.TimeSeriesDataSet.SeriesRow row = graphDef.NewSeriesRow();
 
                         row.SiteName = (string)r_tableRow["site_name"];
                         row.SiteName = row.SiteName.Replace(","," ");

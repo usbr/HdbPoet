@@ -7,7 +7,7 @@ namespace Reclamation.TimeSeries.OracleHdb
 
         public static bool Import(string filename, TimeSeriesDatabase db, PiscesFolder folder)
         {
-            var ds = new TimeSeriesDataSet();
+            var ds = new HdbPoet.OracleHdb.TimeSeriesDataSet();
             ds.Clear();
             ds.ReadXmlFile(filename);
             for (int i = 0; i < ds.Graph.Count; i++)

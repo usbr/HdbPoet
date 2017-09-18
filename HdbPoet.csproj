@@ -475,11 +475,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CodeFiles\TimeSeriesConstants.cs" />
-    <Compile Include="TimeSeriesDataSet.cs">
+    <Compile Include="OracleHdb\TimeSeriesDataSet.cs">
       <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="CodeFiles\TimeSeriesChangeEventArgs.cs" />
-    <Compile Include="TimeSeriesDataSet.Designer.cs">
+    <Compile Include="OracleHdb\TimeSeriesDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
@@ -679,18 +679,18 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="TimeSeriesDataSet.xsc">
+    <None Include="OracleHdb\TimeSeriesDataSet.xsc">
       <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
     </None>
-    <None Include="TimeSeriesDataSet.xsd">
+    <None Include="OracleHdb\TimeSeriesDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>TimeSeriesDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="TimeSeriesDataSet.xss">
+    <None Include="OracleHdb\TimeSeriesDataSet.xss">
       <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
     </None>
-    <None Include="TimeSeriesDataSet.xsx">
+    <None Include="OracleHdb\TimeSeriesDataSet.xsx">
       <DependentUpon>TimeSeriesDataSet.xsd</DependentUpon>
     </None>
   </ItemGroup>

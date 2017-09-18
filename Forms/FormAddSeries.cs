@@ -26,7 +26,7 @@ namespace HdbPoet
         {
             InitializeComponent();
 
-            ss = new SeriesSelection(new GraphData(new TimeSeriesDataSet(),0));
+            ss = new SeriesSelection(new GraphData(new OracleHdb.TimeSeriesDataSet(),0));
             ss.Parent = this;
             ss.Dock = DockStyle.Fill;
         }

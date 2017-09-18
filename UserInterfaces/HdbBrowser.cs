@@ -21,7 +21,7 @@ namespace HdbPoet
     {
 
         OracleServer oracle = null;
-        TimeSeriesDataSet ds;
+        OracleHdb.TimeSeriesDataSet ds;
         GraphData graphData;
         
         bool graphListReady = false;
@@ -126,7 +126,7 @@ namespace HdbPoet
         }
         private void CreateNewDataSet()
         {
-            ds = new TimeSeriesDataSet();
+            ds = new OracleHdb.TimeSeriesDataSet();
             InitGraphData(0);
         }
 
@@ -812,9 +812,9 @@ namespace HdbPoet
         public class HDBPoetEventArgs : EventArgs
         {
             public string filename;
-            public TimeSeriesDataSet graphDef;
+            public OracleHdb.TimeSeriesDataSet graphDef;
 
-            public HDBPoetEventArgs(string filename, TimeSeriesDataSet graphDef)
+            public HDBPoetEventArgs(string filename, OracleHdb.TimeSeriesDataSet graphDef)
             {
                 this.filename = filename;
                 this.graphDef = graphDef;
@@ -1016,7 +1016,7 @@ namespace HdbPoet
 
             graphData.SetDefaults();
 
-            TimeSeriesDataSet.GraphRow r;
+            OracleHdb.TimeSeriesDataSet.GraphRow r;
             r = this.ds.Graph[0];
 
             f.BeginningTime = graphData.BeginingTime();

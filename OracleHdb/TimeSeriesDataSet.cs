@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace HdbPoet
+namespace HdbPoet.OracleHdb
 {
     /// <summary>
     /// TimeSeriesDataSet Contains information to create a graph and table.
@@ -227,7 +227,7 @@ namespace HdbPoet
         /// <param name="fileName"></param>
         public void AppendXmlFile(string fileName)
         {
-            var ds = new TimeSeriesDataSet();
+            var ds = new OracleHdb.TimeSeriesDataSet();
             ds.ReadXmlFile(fileName);
 
             int graphNum = this.Graph.GetMaxGraphNumber() + 1;

@@ -20,7 +20,7 @@ namespace HdbPoet
         public PiscesEngine engine1;
         private WaitToCompleteForm waitForm;
 
-        public DataAnalysis(TimeSeriesDataSet ds)
+        public DataAnalysis(OracleHdb.TimeSeriesDataSet ds)
         {
             InitializeComponent();
             this.ds = ds;
@@ -44,7 +44,7 @@ namespace HdbPoet
         }
 
         DisplayOptionsDialog displayOptionsDialog1;
-        private TimeSeriesDataSet ds;
+        private OracleHdb.TimeSeriesDataSet ds;
 
         void DisplayAnalysisOptions(object sender, EventArgs e)
         {

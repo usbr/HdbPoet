@@ -23,9 +23,9 @@ namespace HdbPoet
         }
 
 
-        TimeSeriesDataSet ds;
+        OracleHdb.TimeSeriesDataSet ds;
         int graphNumber = 0;
-        public GraphData(TimeSeriesDataSet ds, int graphNumber)
+        public GraphData(OracleHdb.TimeSeriesDataSet ds, int graphNumber)
         {
             dsTables = new DataSet();
             this.ds = ds;
@@ -108,13 +108,13 @@ namespace HdbPoet
             }
         }
 
-        public TimeSeriesDataSet.GraphRow GraphRow
+        public OracleHdb.TimeSeriesDataSet.GraphRow GraphRow
         {
             get { return ds.Graph.FindByGraphNumber(graphNumber); }
         }
 
 
-        public IEnumerable<TimeSeriesDataSet.SeriesRow> SeriesRows
+        public IEnumerable<OracleHdb.TimeSeriesDataSet.SeriesRow> SeriesRows
         {
             get { return ds.Series.Where(r => r.GraphNumber == graphNumber); }
         }
@@ -269,7 +269,7 @@ namespace HdbPoet
           {
               if (ds.Graph.Count == 0)
               {
-                  TimeSeriesDataSet.GraphRow graphsRow;
+                OracleHdb.TimeSeriesDataSet.GraphRow graphsRow;
                   ds.Graph.AddGraphRow(ds.Graph.NewGraphRow());
                   graphsRow = ds.Graph[0];
 
@@ -424,14 +424,14 @@ namespace HdbPoet
 
 
 
-          internal TimeSeriesDataSet.SeriesRow NewSeriesRow()
+          internal OracleHdb.TimeSeriesDataSet.SeriesRow NewSeriesRow()
           {
               var rval = ds.Series.NewSeriesRow();
               rval.SeriesNumber = ds.Series.GetMaxSeriesNumber() + 1;
               return rval;
           }
 
-          internal void AddSeriesRow(TimeSeriesDataSet.SeriesRow row)
+          internal void AddSeriesRow(OracleHdb.TimeSeriesDataSet.SeriesRow row)
           {
               ds.Series.AddSeriesRow(row);
           }

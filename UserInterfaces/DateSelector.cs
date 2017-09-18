@@ -39,7 +39,7 @@ namespace HdbPoet
         public void SaveToDataSet(GraphData dataSet)
         {
 
-            TimeSeriesDataSet.GraphRow graphsRow = dataSet.GraphRow;
+            OracleHdb.TimeSeriesDataSet.GraphRow graphsRow = dataSet.GraphRow;
 
             graphsRow.BeginningDate = this.dateTimePickerFrom.Value;
             graphsRow.BeginningDate2 = this.dateTimePickerFrom2.Value;

@@ -15,7 +15,7 @@ namespace HdbPoet
     public class MultipleSeriesDataTable : DataTable
     {
         List<DataTable> m_tblList;
-        List<TimeSeriesDataSet.SeriesRow> m_Series;
+        List<OracleHdb.TimeSeriesDataSet.SeriesRow> m_Series;
         List<string> m_columnTitle;
         static int s_instanceCounter=0;
         List<int> m_seriesIndexList;
@@ -39,13 +39,13 @@ namespace HdbPoet
 
             m_instanceNumber = s_instanceCounter;
             m_tblList = new List<DataTable>();
-            m_Series = new List<TimeSeriesDataSet.SeriesRow>();
+            m_Series = new List<OracleHdb.TimeSeriesDataSet.SeriesRow>();
             m_seriesIndexList = new List<int>();
             m_columnTitle = new List<string>();
 
             for (int i = 0; i < ds.SeriesRows.Count(); i++)
             {
-                TimeSeriesDataSet.SeriesRow s = ds.SeriesRows.Skip(i).First();
+                OracleHdb.TimeSeriesDataSet.SeriesRow s = ds.SeriesRows.Skip(i).First();
                 
                 DataTable tbl = ds.Tables[s.TableName];
                 if (String.Compare(s.Interval, interval, true) == 0)
@@ -112,7 +112,7 @@ namespace HdbPoet
                ds.SeriesRows.Skip(idx).First().DisplayFormat = format;
 
         }
-        internal HdbPoet.TimeSeriesDataSet.SeriesRow LookupSeries(int columnIndex)
+        internal OracleHdb.TimeSeriesDataSet.SeriesRow LookupSeries(int columnIndex)
         {
             if (columnIndex <= 0)
                 throw new ArgumentOutOfRangeException();

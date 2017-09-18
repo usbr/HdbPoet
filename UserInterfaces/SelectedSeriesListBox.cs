@@ -50,8 +50,8 @@ namespace HdbPoet
 
         public void RemoveSelected()
         {
-            var rows = new List<TimeSeriesDataSet.SeriesRow>();
-            TimeSeriesDataSet.SeriesRow[] x =  ds.SeriesRows.ToArray();
+            var rows = new List<OracleHdb.TimeSeriesDataSet.SeriesRow>();
+            OracleHdb.TimeSeriesDataSet.SeriesRow[] x =  ds.SeriesRows.ToArray();
 
             for (int i = 0; i < listBox.SelectedIndices.Count; i++)
             {
@@ -114,7 +114,7 @@ namespace HdbPoet
             var selected = Series[idx];
             var destination = Series[idxNew];
 
-            TimeSeriesDataSet.SeriesDataTable table = (TimeSeriesDataSet.SeriesDataTable)selected.Table;
+            OracleHdb.TimeSeriesDataSet.SeriesDataTable table = (OracleHdb.TimeSeriesDataSet.SeriesDataTable)selected.Table;
             int insertIndex = table.FindRowIndex(destination.SeriesNumber);
 
             object[] array = selected.ItemArray;

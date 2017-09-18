@@ -43,7 +43,7 @@ namespace HdbPoet
                         MultipleSeriesDataTable tbl = row.Table as MultipleSeriesDataTable;
                         DateTime t = Convert.ToDateTime(row[0]);
                         string interval = tbl.TableName;
-                        HdbPoet.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
+                        OracleHdb.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
                         if (s.IsComputed)
                         {
                             Hdb.Instance.Calculate_Series(s.hdb_site_datatype_id, interval, t,dataSet.GraphRow.TimeZone);
@@ -196,7 +196,7 @@ namespace HdbPoet
                         MultipleSeriesDataTable tbl = row.Table as MultipleSeriesDataTable;
                         DateTime t = Convert.ToDateTime(row[0]);
                         string interval = tbl.TableName;
-                        HdbPoet.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
+                        OracleHdb.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
                         Hdb.Instance.SetValidationFlag(s.hdb_site_datatype_id, interval, t, flag,dataSet.GraphRow.TimeZone);
                     }
                 }
@@ -231,7 +231,7 @@ namespace HdbPoet
                         MultipleSeriesDataTable tbl = row.Table as MultipleSeriesDataTable;
                         DateTime t = Convert.ToDateTime(row[0]);
                         string interval = tbl.TableName;
-                        HdbPoet.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
+                        OracleHdb.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
 
                         Hdb.Instance.SetOverwriteFlag(s.hdb_site_datatype_id, interval, t, overwrite, dataSet.GraphRow.TimeZone);
                     }
@@ -253,7 +253,7 @@ namespace HdbPoet
 
         internal void Cleanup()
         {
-            this.SetDataSource(new GraphData(new TimeSeriesDataSet(), 0), "", "");
+            this.SetDataSource(new GraphData(new OracleHdb.TimeSeriesDataSet(), 0), "", "");
         }
     }
 }

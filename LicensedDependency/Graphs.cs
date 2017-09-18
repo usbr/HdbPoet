@@ -229,7 +229,7 @@ namespace HdbPoet
     /// <param name="ds"></param>
     /// <param name="tChart1"></param>
     /// <returns></returns>
-     static Chart StandardTChart(TimeSeriesDataSet ds, Chart tChart1)
+     static Chart StandardTChart(OracleHdb.TimeSeriesDataSet ds, Chart tChart1)
     {
       if( tChart1 == null)
       {
