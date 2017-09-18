@@ -134,7 +134,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'poet|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\poet\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;HDB_OPEN</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HDB_OPEN2</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
     <NoWarn>1591</NoWarn>
@@ -532,6 +532,7 @@
     <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LicensedDependency\licenses.licx" />
     <EmbeddedResource Include="licenses.licx" Condition="!$(DefineConstants.Contains('HDB_OPEN'))" />
     <EmbeddedResource Include="UserInterfaces\Analysis.resx">
       <DependentUpon>Analysis.cs</DependentUpon>
@@ -560,7 +561,7 @@
       <DependentUpon>Upgrade.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" Condition="!$(DefineConstants.Contains('HDB_OPEN'))" >
+    <EmbeddedResource Include="Properties\licenses.licx" Condition="!$(DefineConstants.Contains('HDB_OPEN'))">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MetaData\FormMetaData.resx">
