@@ -533,7 +533,6 @@
       <DependentUpon>GraphControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LicensedDependency\licenses.licx" />
-    <EmbeddedResource Include="licenses.licx" Condition="!$(DefineConstants.Contains('HDB_OPEN'))" />
     <EmbeddedResource Include="UserInterfaces\Analysis.resx">
       <DependentUpon>Analysis.cs</DependentUpon>
     </EmbeddedResource>
@@ -710,6 +709,10 @@
     <ProjectReference Include="..\Pisces\Core\Reclamation.Core.csproj">
       <Project>{80c73d4c-43cf-42de-addc-7b0f06ecf086}</Project>
       <Name>Reclamation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pisces\Reclamation.Windows\Reclamation.Windows.csproj">
+      <Project>{c9278b32-7c94-4532-9f4c-92109a6b8e03}</Project>
+      <Name>Reclamation.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pisces\TimeSeries.Forms\Reclamation.TimeSeries.Forms.csproj">
       <Project>{A7E73F2A-CA66-4BC8-934A-B5068C566F10}</Project>
