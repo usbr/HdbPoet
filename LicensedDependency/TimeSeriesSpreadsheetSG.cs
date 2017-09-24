@@ -86,7 +86,7 @@ namespace HdbPoet
             SpreadsheetGear.IRange range = workSheet1.Cells["A1"];
             // Copy the DataTable to the worksheet range.
             range.CopyFromDataTable(msDataTable, SpreadsheetGear.Data.SetDataFlags.None);
-            // Auto size all worksheet columns which contain data
+            // Format SG worksheet
             FormatSpreadsheetView();
             workbookView1.ActiveWorkbook = workbook;
 
@@ -98,42 +98,65 @@ namespace HdbPoet
         internal void SetColorColumnName(string columnName)
         {
             m_colorColumnName = columnName;
-            this.dataGrid1.DataSource = null;
-            this.dataGrid1.DataSource = msDataTable;
-            FormatDataGridView();
+            //this.dataGrid1.DataSource = null;
+            //this.dataGrid1.DataSource = msDataTable;
+            //FormatDataGridView();
+
+            /////////////////////////////////////////////////
+            // Create a new workbook and worksheet.
+            SpreadsheetGear.IWorkbook workbook = SpreadsheetGear.Factory.GetWorkbook();
+            workSheet1 = workbook.Worksheets["Sheet1"];
+            workSheet1.Name = "DATA";
+            // Get the top left cell for the DataTable.
+            SpreadsheetGear.IRange range = workSheet1.Cells["A1"];
+            // Copy the DataTable to the worksheet range.
+            range.CopyFromDataTable(msDataTable, SpreadsheetGear.Data.SetDataFlags.None);
+            // Format SG worksheet
+            FormatSpreadsheetView();
         }
 
 
         private void FormatSpreadsheetView()
         {
-            workSheet1.UsedRange.WrapText = true;
-            workSheet1.Range["A:A"].Font.Bold = true;
-            workSheet1.Range["1:1"].Font.Bold = true;
 
             if (workSheet1.UsedRange.Columns.ColumnCount > 0)
             {
-                this.workSheet1.Range["A:A"].Locked = true;
-
                 for (int c = 1; c < workSheet1.UsedRange.Columns.ColumnCount; c++)
                 {
                     var s = msDataTable.LookupSeries(c);
                     dataGrid1.Columns[c].DefaultCellStyle.Format = msDataTable.LookupSeries(c).DisplayFormat;
-                    workSheet1.UsedRange.Columns[c, 0].HorizontalAlignment = SpreadsheetGear.HAlign.Right;
-                    //dataGrid1.Columns[c].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                    workSheet1.UsedRange.Columns[c, 0].Locked = msDataTable.LookupSeries(c).ReadOnly;
-                    //dataGrid1.Columns[c].ReadOnly = msDataTable.LookupSeries(c).ReadOnly;
+                    workSheet1.UsedRange.Columns[0, c].Locked = msDataTable.LookupSeries(c).ReadOnly;
                     // adjust column width to auto-fit longest header entry
                     var cName = dataGrid1.Columns[c].Name.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                     var sortedNames = cName.OrderBy(n => n.Length);
                     var longestName = sortedNames.LastOrDefault();
-                    workSheet1.Range.Columns[c, 0].EntireColumn.ColumnWidth = System.Math.Max(Convert.ToInt16(130),
-                        System.Math.Min(Convert.ToInt16(TextRenderer.MeasureText(longestName.ToUpper(), dataGrid1.Font).Width),
-                        Convert.ToInt16(260)));
-                    //dataGrid1.Columns[c].Width = System.Math.Max(Convert.ToInt16(130),
-                    //    System.Math.Min(Convert.ToInt16(TextRenderer.MeasureText(longestName.ToUpper(), dataGrid1.Font).Width),
-                    //    Convert.ToInt16(260)));
+                    var colWidth = System.Math.Max(Convert.ToInt16(10),
+                        System.Math.Min(Convert.ToInt16(TextRenderer.MeasureText(longestName.ToUpper(), this.Font).Width),
+                        Convert.ToInt16(20)));
+                    workSheet1.Range.Columns[0, c].EntireColumn.ColumnWidth = colWidth;
+
                 }
             }
+
+            // Set global spreadsheet formatting
+            workSheet1.UsedRange.WrapText = true;
+            workSheet1.UsedRange.HorizontalAlignment = SpreadsheetGear.HAlign.Right;
+            // Format row & col headers
+            workSheet1.Range["A1"].EntireColumn.AutoFit();
+            workSheet1.Range["A1"].EntireColumn.Font.Bold = true;
+            workSheet1.Range["A1"].EntireColumn.Locked = true;
+            workSheet1.Range["A1"].EntireRow.AutoFit();
+            workSheet1.Range["A1"].EntireRow.Font.Bold = true;
+            workSheet1.Range["A1"].EntireRow.Locked = true;
+            // Split col header 
+            workSheet1.WindowInfo.ScrollColumn = 0;
+            workSheet1.WindowInfo.SplitColumns = 1;
+            // Split row header 
+            workSheet1.WindowInfo.ScrollRow = 0;
+            workSheet1.WindowInfo.SplitRows = 1;
+            // Freeze headers 
+            workSheet1.WindowInfo.FreezePanes = true;
+
         }
 
 
