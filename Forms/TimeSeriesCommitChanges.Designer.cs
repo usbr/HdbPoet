@@ -37,7 +37,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+#if HDB_OPEN
             this.timeSeriesSpreadsheet1 = new HdbPoet.TimeSeriesSpreadsheet();
+#else
+            this.timeSeriesSpreadsheet1 = new HdbPoet.TimeSeriesSpreadsheetSG();
+#endif
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -153,7 +157,7 @@
 
         }
 
-        #endregion
+#endregion
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
@@ -162,7 +166,11 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonSave;
+#if HDB_OPEN
         private TimeSeriesSpreadsheet timeSeriesSpreadsheet1;
+#else
+        private TimeSeriesSpreadsheetSG timeSeriesSpreadsheet1;
+#endif
         private System.Windows.Forms.Label label2;
     }
 }

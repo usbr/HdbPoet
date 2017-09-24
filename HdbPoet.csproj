@@ -193,6 +193,7 @@
       <HintPath>..\Pisces\packages\Oracle.ManagedDataAccess.12.1.2400\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SpreadsheetGear2012, Version=7.0.6.138, Culture=neutral, PublicKeyToken=39c186f5904944ec, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -402,6 +403,9 @@
     <Compile Include="UserInterfaces\SqlBuilder.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="LicensedDependency\TimeSeriesSpreadsheetSG.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserInterfaces\TimeZoneComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -596,6 +600,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterfaces\SqlBuilder.resx">
       <DependentUpon>SqlBuilder.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicensedDependency\TimeSeriesSpreadsheetSG.resx">
+      <DependentUpon>TimeSeriesSpreadsheetSG.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterfaces\TimeZoneComboBox.resx">

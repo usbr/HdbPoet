@@ -28,7 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+#if HDB_OPEN
             this.timeSeriesSpreadsheet1 = new HdbPoet.TimeSeriesSpreadsheet();
+#else
+            this.timeSeriesSpreadsheet1 = new HdbPoet.TimeSeriesSpreadsheetSG();
+#endif
             this.SuspendLayout();
             // 
             // timeSeriesSpreadsheet1
@@ -52,6 +56,10 @@
 
         #endregion
 
+#if HDB_OPEN
         private TimeSeriesSpreadsheet timeSeriesSpreadsheet1;
+#else
+        private TimeSeriesSpreadsheetSG timeSeriesSpreadsheet1;
+#endif
     }
 }
