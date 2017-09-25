@@ -37,7 +37,6 @@ namespace HdbPoet
         private ToolStripStatusLabel toolStripStatusLabel1;
         MultipleSeriesDataTable msDataTable;
 
-
         public TimeSeriesSpreadsheetSG()
         {
             InitializeComponent();
@@ -137,7 +136,7 @@ namespace HdbPoet
                 {
                     var s = msDataTable.LookupSeries(c);
                     //dataGrid1.Columns[c].DefaultCellStyle.Format = msDataTable.LookupSeries(c).DisplayFormat;
-                    var a = msDataTable.LookupSeries(c).DisplayFormat;
+                    var dispFormat = msDataTable.LookupSeries(c).DisplayFormat;
                     workSheet1.UsedRange.Columns[0, c].Locked = msDataTable.LookupSeries(c).ReadOnly;
                     // adjust column width to auto-fit longest header entry
                     var cName = workSheet1.Range[0,c].Value.ToString().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -147,6 +146,15 @@ namespace HdbPoet
                         System.Math.Min(Convert.ToInt16(TextRenderer.MeasureText(longestName.ToUpper(), this.Font).Width),
                         Convert.ToInt16(20)));
                     workSheet1.Range.Columns[0, c].EntireColumn.ColumnWidth = colWidth;
+
+                    // color cells
+                    DataTable sTab = msDataTable.DataSet.Tables[msDataTable.LookupSeries(c).TableName];
+                    for (int r = 1; r < sTab.Rows.Count; r++)
+                    {
+                        DataRow row = sTab.Rows[r - 1];
+                        workSheet1.Cells[r, c].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(
+                            System.Drawing.ColorTranslator.FromHtml(row[m_colorColumnName].ToString()));
+                    }
 
                 }
             }
@@ -397,13 +405,9 @@ namespace HdbPoet
 
         private void dataGrid1_KeyDown(object sender, KeyEventArgs e)
         {
-            
-
             if (e.KeyCode == Keys.Delete && deleteToolStripMenuItem.Enabled )
             {
                 DeleteSelectedCells();
-               //e.Handled = true;      
-                
             }
         }
 
@@ -499,21 +503,25 @@ namespace HdbPoet
             var interpolate = new DataGridSelection(dataGrid1);
 
             this.toolStripMenuItemInterpolate.Enabled = interpolate.ValidInterpolationSelection;
-            this.menuDetails.Enabled = dataGrid1.SelectedCells.Count == 1;
+            this.menuDetails.Enabled = workbookView1.RangeSelection.CellCount == 1;
         }
 
         private void menuDetails_Click(object sender, EventArgs e)
         {
-            DataGridViewCell cell = dataGrid1.SelectedCells[0];
+            workbookView1.GetLock();
 
-            if (cell.ColumnIndex != 0 && cell.Value != DBNull.Value)
+            var sCell = workbookView1.RangeSelection.Cells;
+            if (sCell.Column != 0 && sCell.Value != DBNull.Value)
             {
-                DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
-                MultipleSeriesDataTable tbl = row.Table as MultipleSeriesDataTable;
-                DateTime t = Convert.ToDateTime(row[0]);
-                string interval = tbl.TableName;
-                OracleHdb.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
-                var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, interval);
+                var s = msDataTable.LookupSeries(sCell.Column);
+                DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)workbookView1.ActiveCell.Value);
+
+                //DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
+                //MultipleSeriesDataTable tbl = row.Table as MultipleSeriesDataTable;
+                //DateTime t = Convert.ToDateTime(row[0]);
+                //string interval = tbl.TableName;
+                //OracleHdb.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
+                var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, s.Interval);
 
                 info = DataTableUtility.Transpose(info);
 
@@ -577,14 +585,10 @@ namespace HdbPoet
                         info.Rows.Add(cpRow);
                     }
                 }
-
                 TableViewer tv = new TableViewer(info);
                 tv.Show();
-
-
-                //msDataTable
-                //row[cell.ColumnIndex] = DBNull.Value;
             }
+            workbookView1.ReleaseLock();
         }
 
 
