@@ -536,7 +536,9 @@
     <EmbeddedResource Include="LicensedDependency\GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LicensedDependency\licenses.licx" />
+    <EmbeddedResource Include="LicensedDependency\licenses.licx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserInterfaces\Analysis.resx">
       <DependentUpon>Analysis.cs</DependentUpon>
     </EmbeddedResource>
@@ -563,9 +565,6 @@
     <EmbeddedResource Include="Forms\Upgrade.resx">
       <DependentUpon>Upgrade.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" Condition="!$(DefineConstants.Contains('HDB_OPEN'))">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MetaData\FormMetaData.resx">
       <DependentUpon>FormMetaData.cs</DependentUpon>

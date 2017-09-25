@@ -21,7 +21,6 @@ namespace HdbPoet
     /// </summary>
     public class TimeSeriesSpreadsheetSG : System.Windows.Forms.UserControl
     {
-
         private System.Windows.Forms.DataGridView dataGrid1;
         private ContextMenuStrip contextMenuStrip1;
         private IContainer components;
@@ -34,30 +33,43 @@ namespace HdbPoet
         private ToolStripMenuItem menuDetails;
         private WorkbookView workbookView1;
         private SpreadsheetGear.IWorksheet workSheet1;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
         MultipleSeriesDataTable msDataTable;
 
 
         public TimeSeriesSpreadsheetSG()
         {
             InitializeComponent();
-            dataGrid1.CellFormatting += new DataGridViewCellFormattingEventHandler(dataGrid1_CellFormatting);
-            dataGrid1.CellValueChanged += new DataGridViewCellEventHandler(dataGrid1_CellValueChanged);
-            dataGrid1.SelectionChanged += new EventHandler(dataGrid1_SelectionChanged);
+            workbookView1.CellEndEdit += new CellEndEditEventHandler(workSheet1_CellFormatting);
+            workbookView1.RangeSelectionChanged += new RangeSelectionChangedEventHandler(workSheet1_SelectionChanged);
         }
 
-        void dataGrid1_SelectionChanged(object sender, EventArgs e)
+        void workSheet1_SelectionChanged(object sender, RangeSelectionChangedEventArgs e)
         {
-            var sel = new DataGridSelection(dataGrid1);
-
-            Logger.WriteLine(sel.ComputeSelectedStats(), "ui");
+            var valList = new List<double>();
+            var rval = "";
+            foreach (SpreadsheetGear.IRange item in e.RangeSelection)
+            {
+                if (item.Column != 0 && item.Row != 0)
+                {
+                    valList.Add((double)item.Value);
+                }
+            }
+            if (valList.Count > 0)
+            {
+                rval = "Selected Cells Statistics - Count: " + valList.Count +
+                    " Average: " + valList.ToArray().Average().ToString("F2") +
+                    " Min: " + valList.ToArray().Min().ToString("F2") +
+                    " Max: " + valList.ToArray().Max().ToString("F2") +
+                    " Sum: " + valList.ToArray().Sum().ToString("F2");
+            }
+            else
+            {
+                rval = "";
+            }
+            toolStripStatusLabel1.Text = rval;
         }
-
-        void dataGrid1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            //Console.WriteLine("Cell Changed "+e.RowIndex +", "+e.ColumnIndex);
-        }
-
-       
 
         internal DataViewRowState DataViewRowState
         {
@@ -72,10 +84,10 @@ namespace HdbPoet
         private string m_colorColumnName = "";
         internal void SetTable(MultipleSeriesDataTable table, string colorColumnName)
         {
-            this.dataGrid1.DataSource = null;
+            //this.dataGrid1.DataSource = null;
             m_colorColumnName = colorColumnName;
             this.msDataTable = table;
-            this.dataGrid1.DataSource = msDataTable;
+            //this.dataGrid1.DataSource = msDataTable;
 
             /////////////////////////////////////////////////
             // Create a new workbook and worksheet.
@@ -124,10 +136,11 @@ namespace HdbPoet
                 for (int c = 1; c < workSheet1.UsedRange.Columns.ColumnCount; c++)
                 {
                     var s = msDataTable.LookupSeries(c);
-                    dataGrid1.Columns[c].DefaultCellStyle.Format = msDataTable.LookupSeries(c).DisplayFormat;
+                    //dataGrid1.Columns[c].DefaultCellStyle.Format = msDataTable.LookupSeries(c).DisplayFormat;
+                    var a = msDataTable.LookupSeries(c).DisplayFormat;
                     workSheet1.UsedRange.Columns[0, c].Locked = msDataTable.LookupSeries(c).ReadOnly;
                     // adjust column width to auto-fit longest header entry
-                    var cName = dataGrid1.Columns[c].Name.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    var cName = workSheet1.Range[0,c].Value.ToString().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                     var sortedNames = cName.OrderBy(n => n.Length);
                     var longestName = sortedNames.LastOrDefault();
                     var colWidth = System.Math.Max(Convert.ToInt16(10),
@@ -148,6 +161,8 @@ namespace HdbPoet
             workSheet1.Range["A1"].EntireRow.AutoFit();
             workSheet1.Range["A1"].EntireRow.Font.Bold = true;
             workSheet1.Range["A1"].EntireRow.Locked = true;
+            if (workSheet1.Range["A1"].EntireColumn.ColumnWidth < 12.0)
+            { workSheet1.Range["A1"].EntireColumn.ColumnWidth = 12.0; }
             // Split col header 
             workSheet1.WindowInfo.ScrollColumn = 0;
             workSheet1.WindowInfo.SplitColumns = 1;
@@ -159,99 +174,48 @@ namespace HdbPoet
 
         }
 
-
-        private void FormatDataGridView()
-        {
-            this.dataGrid1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            if( dataGrid1.ColumnCount >0)
-              this.dataGrid1.Columns[0].ReadOnly = true;
-
-            for (int c = 1; c < dataGrid1.ColumnCount; c++)
-            {
-                var s = msDataTable.LookupSeries(c);
-                dataGrid1.Columns[c].DefaultCellStyle.Format = msDataTable.LookupSeries(c).DisplayFormat;
-                dataGrid1.Columns[c].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                dataGrid1.Columns[c].ReadOnly = msDataTable.LookupSeries(c).ReadOnly;
-                // adjust column width to auto-fit longest header entry
-                var cName = dataGrid1.Columns[c].Name.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                var sortedNames = cName.OrderBy(n => n.Length);
-                var longestName = sortedNames.LastOrDefault();
-                dataGrid1.Columns[c].Width = System.Math.Max(Convert.ToInt16(130),
-                    System.Math.Min(Convert.ToInt16(TextRenderer.MeasureText(longestName.ToUpper(), dataGrid1.Font).Width), 
-                    Convert.ToInt16(260)));
-            }
-
-        }
-
-        public void PasteFromClipBoard()
-        {
-            try
-            {
-                DataGridViewCell cell = this.dataGrid1.CurrentCell;
-
-                if (cell != null)
-                {
-                    if (cell.ColumnIndex == 0)
-                    {
-                        MessageBox.Show("Pasting in the Date column is not supported");
-                        return;
-                    }
-                }
-                DataGridSelection sel = new DataGridSelection(this.dataGrid1);
-                sel.Paste(ClipBoardUtility.GetDataTableFromClipboard());
-                //DataGridViewUtility u = new DataGridViewUtility(this.dataGrid1);
-                //u.PasteFromClipboard();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);   
-            }
-        }
-
         public void CopyToClipboard()
         {
-            if (dataGrid1.SelectedCells.Count > 0)
-            {
-                DataObject o = dataGrid1.GetClipboardContent();
-                if (o != null)
-                    Clipboard.SetDataObject(o);
-            }
+            workbookView1.GetLock();
+            workbookView1.Copy();
+            workbookView1.ReleaseLock();
         }
 
-        void dataGrid1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        void workSheet1_CellFormatting(object sender, SpreadsheetGear.Windows.Forms.CellEndEditEventArgs e)
         {
-            if (e.ColumnIndex == 0)
-                return;
+            workbookView1.GetLock();
 
-            object o = dataGrid1[0, e.RowIndex].Value;
-            if (o != null)
+            bool activeCellUsed = false;
+            foreach (SpreadsheetGear.IRange item in workSheet1.UsedRange)
             {
-                
-                DateTime t = (DateTime)o;
-                //Console.WriteLine(t.ToString());
-                System.Drawing.Color background;
-                bool bold;
-
-                if (e.ColumnIndex - 1 >= msDataTable.Columns.Count)
+                if (e.ActiveCell.Address == item.Cells.Address)
                 {
-                    MessageBox.Show("Internal error: formatting cell error");
-                    return;
+                    activeCellUsed = true;
+                    break;
                 }
-
-                msDataTable.GetColor(e.ColumnIndex - 1, t, out background, out bold,m_colorColumnName);
-
-                DataGridViewCellStyle s = e.CellStyle;
-               
-               
-               
-                if (bold)
-                {
-                    Font f = s.Font;
-                    Font f2 = new Font(f, FontStyle.Bold);
-                    e.CellStyle.Font = f2;
-                }
-                s.BackColor = background;
             }
+            if (activeCellUsed)
+            {
+                object o = workSheet1.Range[e.ActiveCell.Row, 0].Value;
+                if (o != null)
+                {
+                    DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)o);
+                    System.Drawing.Color background;
+                    bool bold;
+
+                    if (e.ActiveCell.Column - 1 >= msDataTable.Columns.Count)
+                    {
+                        MessageBox.Show("Internal error: formatting cell error");
+                    }
+                    else
+                    {
+                        msDataTable.GetColor(e.ActiveCell.Column - 1, t, out background, out bold, m_colorColumnName);
+                        e.ActiveCell.Font.Bold = bold;
+                        e.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(background);
+                    }
+                }
+            }
+            workbookView1.ReleaseLock();
         }
 
         /// <summary> 
@@ -288,8 +252,11 @@ namespace HdbPoet
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.workbookView1 = new SpreadsheetGear.Windows.Forms.WorkbookView();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGrid1
@@ -367,25 +334,51 @@ namespace HdbPoet
             // 
             // workbookView1
             // 
+            this.workbookView1.AllowChartExplorer = false;
+            this.workbookView1.AllowRangeExplorer = false;
+            this.workbookView1.AllowShapeExplorer = false;
+            this.workbookView1.AllowWorkbookDesigner = false;
+            this.workbookView1.AllowWorkbookExplorer = false;
             this.workbookView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.workbookView1.FormulaBar = null;
             this.workbookView1.Location = new System.Drawing.Point(0, 0);
             this.workbookView1.Name = "workbookView1";
-            this.workbookView1.Size = new System.Drawing.Size(320, 368);
+            this.workbookView1.Size = new System.Drawing.Size(320, 348);
             this.workbookView1.TabIndex = 34;
             this.workbookView1.WorkbookSetState = resources.GetString("workbookView1.WorkbookSetState");
+            this.workbookView1.ContextMenuStrip = this.contextMenuStrip1;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 346);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(320, 22);
+            this.statusStrip1.TabIndex = 35;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(77, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStats";
             // 
             // TimeSeriesSpreadsheetSG
             // 
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.workbookView1);
             this.Controls.Add(this.dataGrid1);
             this.Name = "TimeSeriesSpreadsheetSG";
             this.Size = new System.Drawing.Size(320, 368);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
         #endregion
@@ -397,7 +390,9 @@ namespace HdbPoet
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PasteFromClipBoard();
+            workbookView1.GetLock();
+            workbookView1.Paste();
+            workbookView1.ReleaseLock();
         }
 
         private void dataGrid1_KeyDown(object sender, KeyEventArgs e)

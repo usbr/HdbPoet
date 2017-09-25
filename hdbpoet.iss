@@ -56,7 +56,8 @@ Source: "{#bin}Reclamation.TimeSeries.dll"; DestDir: "{app}"; Flags: ignoreversi
 Source: "{#bin}Reclamation.TimeSeries.Forms.dll"; DestDir: "{app}"; Flags: ignoreversion    
 Source: "{#bin}Reclamation.TimeSeries.Graphing.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "{#bin}RestSharp.dll"; DestDir: "{app}"; Flags: ignoreversion        
-Source: "{#bin}System.Data.SQLite.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#bin}System.Data.SQLite.dll"; DestDir: "{app}"; Flags: ignoreversion   
+Source: "{#bin}SpreadsheetGear2012.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "{#bin}System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion    
 Source: "{#bin}TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion                                   
 ;Source: "{#bin}ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion                                   
