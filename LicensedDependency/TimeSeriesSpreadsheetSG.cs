@@ -50,18 +50,18 @@ namespace HdbPoet
             var rval = "";
             foreach (SpreadsheetGear.IRange item in e.RangeSelection)
             {
-                if (item.Column != 0 && item.Row != 0)
+                if (item.Column != 0 && item.Row != 0 && item.Value != null && item.Value != DBNull.Value)
                 {
                     valList.Add((double)item.Value);
                 }
             }
-            if (valList.Count > 0)
+            if (valList.Count > 1)
             {
-                rval = "Selected Cells Statistics - Count: " + valList.Count +
-                    " Average: " + valList.ToArray().Average().ToString("F2") +
-                    " Min: " + valList.ToArray().Min().ToString("F2") +
-                    " Max: " + valList.ToArray().Max().ToString("F2") +
-                    " Sum: " + valList.ToArray().Sum().ToString("F2");
+                rval = "Selected Cells Statistics | Count: " + valList.Count +
+                    " | Average: " + valList.ToArray().Average().ToString("F2") +
+                    " | Min: " + valList.ToArray().Min().ToString("F2") +
+                    " | Max: " + valList.ToArray().Max().ToString("F2") +
+                    " | Sum: " + valList.ToArray().Sum().ToString("F2");
             }
             else
             {
@@ -109,9 +109,6 @@ namespace HdbPoet
         internal void SetColorColumnName(string columnName)
         {
             m_colorColumnName = columnName;
-            //this.dataGrid1.DataSource = null;
-            //this.dataGrid1.DataSource = msDataTable;
-            //FormatDataGridView();
 
             /////////////////////////////////////////////////
             // Create a new workbook and worksheet.
@@ -129,7 +126,6 @@ namespace HdbPoet
 
         private void FormatSpreadsheetView()
         {
-
             if (workSheet1.UsedRange.Columns.ColumnCount > 0)
             {
                 for (int c = 1; c < workSheet1.UsedRange.Columns.ColumnCount; c++)
@@ -411,7 +407,7 @@ namespace HdbPoet
             }
         }
 
-        internal DataGridViewSelectedCellCollection  GetSelectedCells()
+        internal DataGridViewSelectedCellCollection GetSelectedCells()
         {
             return this.dataGrid1.SelectedCells;
         }
@@ -421,6 +417,7 @@ namespace HdbPoet
         /// </summary>
         private void DeleteSelectedCells()
         {
+            workbookView1.GetLock();
             for (int i = 0; i < dataGrid1.SelectedCells.Count; i++)
             {
                 DataGridViewCell cell = dataGrid1.SelectedCells[i];
@@ -430,18 +427,21 @@ namespace HdbPoet
                     row[cell.ColumnIndex] = DBNull.Value;
                 }
             }
+            workbookView1.ReleaseLock();
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteSelectedCells();
         }
-
-
+        
         internal void SelectCell(int rowIndex, int columnIndex)
         {
-            DataGridViewCell cell = dataGrid1[columnIndex, rowIndex];
-            dataGrid1.CurrentCell = cell;
+            workbookView1.GetLock();
+            workbookView1.RangeSelection[rowIndex, columnIndex].Select();
+            //DataGridViewCell cell = dataGrid1[columnIndex, rowIndex];
+            //dataGrid1.CurrentCell = cell;
+            workbookView1.ReleaseLock();
         }
 
         internal void AllowEdits(bool enable)
@@ -449,19 +449,6 @@ namespace HdbPoet
             this.pasteToolStripMenuItem.Enabled = enable;
             this.deleteToolStripMenuItem.Enabled = enable;
         }
-
-        //private void dataGrid1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        //{
-
-
-        //    if (e.Button == MouseButtons.Left)
-        //    {
-        //        //toolStripMenuItemFormat.Visible = true;
-        //        //  e.ColumnIndex 
-        //    }
-        //}
-
-
 
         private void toolStripMenuItemFormat_Click(object sender, EventArgs e)
         {
@@ -509,18 +496,13 @@ namespace HdbPoet
         private void menuDetails_Click(object sender, EventArgs e)
         {
             workbookView1.GetLock();
-
+            toolStripStatusLabel1.Text = "Fetching selected point details...";
             var sCell = workbookView1.RangeSelection.Cells;
-            if (sCell.Column != 0 && sCell.Value != DBNull.Value)
+            if (sCell.Column != 0 && sCell.Value != DBNull.Value && sCell.Value != null)
             {
                 var s = msDataTable.LookupSeries(sCell.Column);
-                DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)workbookView1.ActiveCell.Value);
-
-                //DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
-                //MultipleSeriesDataTable tbl = row.Table as MultipleSeriesDataTable;
-                //DateTime t = Convert.ToDateTime(row[0]);
-                //string interval = tbl.TableName;
-                //OracleHdb.TimeSeriesDataSet.SeriesRow s = tbl.LookupSeries(cell.ColumnIndex);
+                DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime(
+                    (double)workbookView1.ActiveCell.Offset(0, sCell.Column * -1).Value);
                 var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, s.Interval);
 
                 info = DataTableUtility.Transpose(info);
@@ -589,6 +571,7 @@ namespace HdbPoet
                 tv.Show();
             }
             workbookView1.ReleaseLock();
+            toolStripStatusLabel1.Text = "";
         }
 
 
