@@ -702,6 +702,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GraphTool.ico" />
+    <None Include="Images\GraphTool.ico" />
     <Content Include="license.txt" />
     <Content Include="LicensedDependency\Readme.txt" />
     <Content Include="sqlFunctions.xml">

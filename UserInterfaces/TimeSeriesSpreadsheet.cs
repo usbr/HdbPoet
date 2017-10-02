@@ -494,6 +494,8 @@ namespace HdbPoet
                 }
 
                 TableViewer tv = new TableViewer(info);
+                tv.Icon = HdbPoet.Properties.Resources.PoetIcon;
+                tv.Text = "Details";
                 tv.Show();
 
 

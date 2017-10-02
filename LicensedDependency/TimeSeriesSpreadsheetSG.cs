@@ -145,11 +145,17 @@ namespace HdbPoet
 
                     // color cells
                     DataTable sTab = msDataTable.DataSet.Tables[msDataTable.LookupSeries(c).TableName];
-                    for (int r = 1; r < sTab.Rows.Count; r++)
+                    for (int r = 1; r <= sTab.Rows.Count; r++)
                     {
                         DataRow row = sTab.Rows[r - 1];
+                        //get and set cell color
                         workSheet1.Cells[r, c].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(
                             System.Drawing.ColorTranslator.FromHtml(row[m_colorColumnName].ToString()));
+                        //get and set cell comment
+                        if (row["DATA_FLAGS"] != null && row["DATA_FLAGS"] != DBNull.Value)
+                        {
+                            workSheet1.Cells[r, c].AddComment("HDB Data Flag: " + row["DATA_FLAGS"].ToString());
+                        }
                     }
 
                 }
@@ -277,14 +283,16 @@ namespace HdbPoet
             // 
             // contextMenuStrip1
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToolStripMenuItem,
-            this.pasteToolStripMenuItem,
-            this.toolStripMenuItemFormat,
-            this.toolStripMenuItemInterpolate,
-            this.menuDetails,
-            this.toolStripMenuItem1,
-            this.deleteToolStripMenuItem});
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] 
+            {
+                this.copyToolStripMenuItem,
+                this.pasteToolStripMenuItem,
+                this.toolStripMenuItemFormat,
+                this.toolStripMenuItemInterpolate,
+                this.menuDetails,
+                this.toolStripMenuItem1,
+                this.deleteToolStripMenuItem
+            });
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(157, 142);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
@@ -487,10 +495,18 @@ namespace HdbPoet
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
+            workbookView1.GetLock();
             var interpolate = new DataGridSelection(dataGrid1);
 
             this.toolStripMenuItemInterpolate.Enabled = interpolate.ValidInterpolationSelection;
-            this.menuDetails.Enabled = workbookView1.RangeSelection.CellCount == 1;
+            //check if cell can have ts-point details
+            this.menuDetails.Enabled = workbookView1.RangeSelection.CellCount == 1 &&
+                workbookView1.RangeSelection.Column != 0 && 
+                workbookView1.RangeSelection.Row != 0 &&
+                workbookView1.RangeSelection.Value != null &&
+                workbookView1.RangeSelection.Value != DBNull.Value;
+
+            workbookView1.ReleaseLock();
         }
 
         private void menuDetails_Click(object sender, EventArgs e)
@@ -498,78 +514,78 @@ namespace HdbPoet
             workbookView1.GetLock();
             toolStripStatusLabel1.Text = "Fetching selected point details...";
             var sCell = workbookView1.RangeSelection.Cells;
-            if (sCell.Column != 0 && sCell.Value != DBNull.Value && sCell.Value != null)
+            var s = msDataTable.LookupSeries(sCell.Column);
+            DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime(
+                (double)workbookView1.ActiveCell.Offset(0, sCell.Column * -1).Value);
+            var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, s.Interval);
+
+            info = DataTableUtility.Transpose(info);
+
+            if (s.hdb_r_table.ToString().ToLower()[0] == 'm')
             {
-                var s = msDataTable.LookupSeries(sCell.Column);
-                DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime(
-                    (double)workbookView1.ActiveCell.Offset(0, sCell.Column * -1).Value);
-                var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, s.Interval);
-
-                info = DataTableUtility.Transpose(info);
-
-                if (s.hdb_r_table.ToString().ToLower()[0] == 'm')
+                info = new DataTable();
+                info.Columns.Add("Query Failure");
+                var infoRow = info.NewRow();
+                infoRow[0] = "HDB does not store metadata for data in the Modeled Tables...";
+                info.Rows.Add(infoRow);
+            }
+            else
+            {
+                // GET Computation Processor Information
+                try
                 {
-                    info = new DataTable();
-                    info.Columns.Add("Query Failure");
-                    var infoRow = info.NewRow();
-                    infoRow[0] = "HDB does not store metadata for data in the Modeled Tables...";
-                    info.Rows.Add(infoRow);
-                }
-                else
-                {
-                    // GET Computation Processor Information
-                    try
+                    if (info.Columns.Count > 1 && Convert.ToInt32(info.Rows[info.Rows.Count - 1][1]) > 99)
                     {
-                        if (info.Columns.Count > 1 && Convert.ToInt32(info.Rows[info.Rows.Count - 1][1]) > 99)
+                        var cpInfo = Hdb.Instance.CpInfo(info.Rows[info.Rows.Count - 1][1].ToString());
+
+                        // cp comment
+                        var cpRow = info.NewRow();
+                        cpRow[0] = "CP_COMMENT";
+                        cpRow[1] = cpInfo.Rows[0]["CMMNT"];
+                        info.Rows.Add(cpRow);
+
+                        // cp inputs
+                        if (cpInfo.Rows[0]["GRP"].ToString() != "")
                         {
-                            var cpInfo = Hdb.Instance.CpInfo(info.Rows[info.Rows.Count - 1][1].ToString());
-
-                            // cp comment
-                            var cpRow = info.NewRow();
-                            cpRow[0] = "CP_COMMENT";
-                            cpRow[1] = cpInfo.Rows[0]["CMMNT"];
+                            cpRow = info.NewRow();
+                            cpRow[0] = "CP_INPUT";
+                            cpRow[1] = "Group Comp - Input is self with a different time-step or ";
                             info.Rows.Add(cpRow);
-
-                            // cp inputs
-                            if (cpInfo.Rows[0]["GRP"].ToString() != "")
+                            cpRow = info.NewRow();
+                            cpRow[0] = "";
+                            cpRow[1] = "a different SDI under the same site";
+                            info.Rows.Add(cpRow);
+                        }
+                        else
+                        {
+                            int inputCounter = 1;
+                            foreach (DataRow item in cpInfo.Rows)
                             {
                                 cpRow = info.NewRow();
-                                cpRow[0] = "CP_INPUT";
-                                cpRow[1] = "Group Comp - Input is self with a different time-step or ";
+                                cpRow[0] = "CP_INPUT_" + inputCounter;
+                                cpRow[1] = "SDI " + item["SDID"].ToString() +
+                                           " (" + item["SNAME"].ToString().ToUpper() +
+                                           "-" + item["DNAME"].ToString().ToUpper() +
+                                           ") from " + item["TABL"].ToString().ToUpper();
                                 info.Rows.Add(cpRow);
-                                cpRow = info.NewRow();
-                                cpRow[0] = "";
-                                cpRow[1] = "a different SDI under the same site";
-                                info.Rows.Add(cpRow);
-                            }
-                            else
-                            {
-                                int inputCounter = 1;
-                                foreach (DataRow item in cpInfo.Rows)
-                                {
-                                    cpRow = info.NewRow();
-                                    cpRow[0] = "CP_INPUT_" + inputCounter;
-                                    cpRow[1] = "SDI " + item["SDID"].ToString() +
-                                               " (" + item["SNAME"].ToString().ToUpper() +
-                                               "-" + item["DNAME"].ToString().ToUpper() +
-                                               ") from " + item["TABL"].ToString().ToUpper();
-                                    info.Rows.Add(cpRow);
-                                    inputCounter++;
-                                }
+                                inputCounter++;
                             }
                         }
                     }
-                    catch
-                    {
-                        var cpRow = info.NewRow();
-                        cpRow[0] = "CP COMMENT";
-                        cpRow[1] = "Unable to get CP Information from the DB...";
-                        info.Rows.Add(cpRow);
-                    }
                 }
-                TableViewer tv = new TableViewer(info);
-                tv.Show();
+                catch
+                {
+                    var cpRow = info.NewRow();
+                    cpRow[0] = "CP COMMENT";
+                    cpRow[1] = "Unable to get CP Information from the DB...";
+                    info.Rows.Add(cpRow);
+                }
             }
+            TableViewer tv = new TableViewer(info);
+            tv.Icon = HdbPoet.Properties.Resources.PoetIcon;
+            tv.Text = "Details";
+            tv.Show();
+
             workbookView1.ReleaseLock();
             toolStripStatusLabel1.Text = "";
         }
