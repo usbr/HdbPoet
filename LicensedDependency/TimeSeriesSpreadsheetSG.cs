@@ -151,10 +151,14 @@ namespace HdbPoet
                         //get and set cell color
                         workSheet1.Cells[r, c].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(
                             System.Drawing.ColorTranslator.FromHtml(row[m_colorColumnName].ToString()));
-                        //get and set cell comment
-                        if (row["DATA_FLAGS"] != null && row["DATA_FLAGS"] != DBNull.Value)
+                        // check if there is a data_flags column
+                        if (row.Table.Columns.Contains("DATA_FLAGS"))
                         {
-                            workSheet1.Cells[r, c].AddComment("HDB Data Flag: " + row["DATA_FLAGS"].ToString());
+                            //get and set cell comment
+                            if (row["DATA_FLAGS"] != null && row["DATA_FLAGS"] != DBNull.Value)
+                            {
+                                workSheet1.Cells[r, c].AddComment("HDB Data Flag: " + row["DATA_FLAGS"].ToString());
+                            }
                         }
                     }
 

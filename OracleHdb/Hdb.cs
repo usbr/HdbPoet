@@ -428,12 +428,16 @@ namespace HdbPoet
            + " from r_base C, " + tableName + " B , "
            + dateSubquery
            + wherePreamble
-           + " B.start_date_time(+) = A.date_time and B.site_datatype_id(+) = " + site_datatype_id
+           + " B.start_date_time(+) = A.date_time "
+           + " and B.site_datatype_id(+) = " + site_datatype_id
            + " and B.start_date_time(+) >= " + ToHdbTimeZone(t1, interval, timeZone) + "\n "
            + " and B.start_date_time(+) <= " + ToHdbTimeZone(t2, interval, timeZone) + "\n "
-           + " and B.start_date_time = C.start_date_time "
-           + " and B.site_datatype_id = C.site_datatype_id "
-           + " and B.date_time_loaded = C.date_time_loaded "
+           + " and C.site_datatype_id(+) = " + site_datatype_id
+           + " and C.start_date_time(+) >= " + ToHdbTimeZone(t1, interval, timeZone) + "\n "
+           + " and C.start_date_time(+) <= " + ToHdbTimeZone(t2, interval, timeZone) + "\n "
+           + " and C.start_date_time(+) = B.start_date_time "
+           + " and C.date_time_loaded(+) = B.date_time_loaded "
+           + " and C.interval(+) = '" + interval + "' "
            + " order by A.date_time";
 
             rval = m_server.Table(tableName, sql);
