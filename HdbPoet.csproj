@@ -134,7 +134,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'poet|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\poet\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;HDB_OPEN2</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HDB_OPENq</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
     <NoWarn>1591</NoWarn>
@@ -539,6 +539,7 @@
     <EmbeddedResource Include="LicensedDependency\licenses.licx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="UserInterfaces\Analysis.resx">
       <DependentUpon>Analysis.cs</DependentUpon>
     </EmbeddedResource>

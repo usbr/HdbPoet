@@ -35,12 +35,14 @@ namespace HdbPoet
         private SpreadsheetGear.IWorksheet workSheet1;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
+        private SpreadsheetGear.IRange initialUsedRange;
+        private string m_colorColumnName = "";
         MultipleSeriesDataTable msDataTable;
 
         public TimeSeriesSpreadsheetSG()
         {
             InitializeComponent();
-            workbookView1.CellEndEdit += new CellEndEditEventHandler(workSheet1_CellFormatting);
+            workbookView1.RangeChanged += new RangeChangedEventHandler(workSheet1_RangeChange);
             workbookView1.RangeSelectionChanged += new RangeSelectionChangedEventHandler(workSheet1_SelectionChanged);
         }
 
@@ -48,24 +50,23 @@ namespace HdbPoet
         {
             var valList = new List<double>();
             var rval = "";
-            foreach (SpreadsheetGear.IRange item in e.RangeSelection)
+            if (e.RangeSelection.CellCount > 1 && e.RangeSelection.CellCount < 1000)
             {
-                if (item.Column != 0 && item.Row != 0 && item.Value != null && item.Value != DBNull.Value)
+                foreach (SpreadsheetGear.IRange item in e.RangeSelection)
                 {
-                    valList.Add((double)item.Value);
+                    if (item.Column != 0 && item.Row != 0 && item.Value != null && item.Value != DBNull.Value)
+                    {
+                        valList.Add((double)item.Value);
+                    }
                 }
-            }
-            if (valList.Count > 1)
-            {
-                rval = "Selected Cells Statistics | Count: " + valList.Count +
-                    " | Average: " + valList.ToArray().Average().ToString("F2") +
-                    " | Min: " + valList.ToArray().Min().ToString("F2") +
-                    " | Max: " + valList.ToArray().Max().ToString("F2") +
-                    " | Sum: " + valList.ToArray().Sum().ToString("F2");
-            }
-            else
-            {
-                rval = "";
+                if (valList.Count > 1)
+                {
+                    rval = "Selected Cells Statistics | Count: " + valList.Count +
+                        " | Average: " + valList.ToArray().Average().ToString("F2") +
+                        " | Min: " + valList.ToArray().Min().ToString("F2") +
+                        " | Max: " + valList.ToArray().Max().ToString("F2") +
+                        " | Sum: " + valList.ToArray().Sum().ToString("F2");
+                }
             }
             toolStripStatusLabel1.Text = rval;
         }
@@ -76,17 +77,18 @@ namespace HdbPoet
             {
                 msDataTable.DefaultView.RowStateFilter = value;
             }
-            get { return msDataTable.DefaultView.RowStateFilter; }
+            get
+            {
+                return msDataTable.DefaultView.RowStateFilter;
+            }
         }
 
-
-        private string m_colorColumnName = "";
         internal void SetTable(MultipleSeriesDataTable table, string colorColumnName)
         {
-            //this.dataGrid1.DataSource = null;
+            this.dataGrid1.DataSource = null;
             m_colorColumnName = colorColumnName;
             this.msDataTable = table;
-            //this.dataGrid1.DataSource = msDataTable;
+            this.dataGrid1.DataSource = msDataTable;
 
             /////////////////////////////////////////////////
             // Create a new workbook and worksheet.
@@ -109,6 +111,8 @@ namespace HdbPoet
         internal void SetColorColumnName(string columnName)
         {
             m_colorColumnName = columnName;
+            this.dataGrid1.DataSource = null;
+            this.dataGrid1.DataSource = msDataTable;
 
             /////////////////////////////////////////////////
             // Create a new workbook and worksheet.
@@ -168,6 +172,7 @@ namespace HdbPoet
             // Set global spreadsheet formatting
             workSheet1.UsedRange.WrapText = true;
             workSheet1.UsedRange.HorizontalAlignment = SpreadsheetGear.HAlign.Right;
+            //workSheet1.Range.Style.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.AntiqueWhite);
             // Format row & col headers
             workSheet1.Range["A1"].EntireColumn.AutoFit();
             workSheet1.Range["A1"].EntireColumn.Font.Bold = true;
@@ -186,6 +191,7 @@ namespace HdbPoet
             // Freeze headers 
             workSheet1.WindowInfo.FreezePanes = true;
 
+            initialUsedRange = workSheet1.UsedRange;
         }
 
         public void CopyToClipboard()
@@ -195,41 +201,87 @@ namespace HdbPoet
             workbookView1.ReleaseLock();
         }
 
-        void workSheet1_CellFormatting(object sender, SpreadsheetGear.Windows.Forms.CellEndEditEventArgs e)
+        void workSheet1_RangeChange(object sender, SpreadsheetGear.Windows.Forms.RangeChangedEventArgs e)
         {
-            workbookView1.GetLock();
+            //workbookView1.GetLock();
+            workbookView1.BeginUpdate();
 
-            bool activeCellUsed = false;
-            foreach (SpreadsheetGear.IRange item in workSheet1.UsedRange)
+            //iterate through cells in edited range
+            foreach (SpreadsheetGear.IRange ithCell in e.Range.Cells)
             {
-                if (e.ActiveCell.Address == item.Cells.Address)
+                //iterate through SG used range to see if cell is a used data cell
+                ithCell.Cells.Activate();
+                bool activeCellUsed = false;
+                foreach (SpreadsheetGear.IRange item in initialUsedRange)
                 {
-                    activeCellUsed = true;
-                    break;
-                }
-            }
-            if (activeCellUsed)
-            {
-                object o = workSheet1.Range[e.ActiveCell.Row, 0].Value;
-                if (o != null)
-                {
-                    DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)o);
-                    System.Drawing.Color background;
-                    bool bold;
-
-                    if (e.ActiveCell.Column - 1 >= msDataTable.Columns.Count)
+                    if (workbookView1.ActiveCell.Address == item.Cells.Address)
                     {
-                        MessageBox.Show("Internal error: formatting cell error");
-                    }
-                    else
-                    {
-                        msDataTable.GetColor(e.ActiveCell.Column - 1, t, out background, out bold, m_colorColumnName);
-                        e.ActiveCell.Font.Bold = bold;
-                        e.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(background);
+                        activeCellUsed = true;
+                        break;
                     }
                 }
+                //process cell
+                if (activeCellUsed)
+                {
+                    // check of row has a date
+                    object o = workSheet1.Range[workbookView1.ActiveCell.Row, 0].Value;
+                    if (o != null)
+                    {
+                        DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)o);
+                        //System.Drawing.Color background;
+                        //bool bold;
+
+                        if (workbookView1.ActiveCell.Column - 1 >= msDataTable.Columns.Count)
+                        { MessageBox.Show("Internal error: formatting cell error"); }
+                        //process cell
+                        else
+                        {
+                            //msDataTable.GetColor(e.ActiveCell.Column - 1, t, out background, out bold, m_colorColumnName);
+                            //e.ActiveCell.Font.Bold = bold;
+                            //e.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(background);
+
+                            // check if cell value was changed
+                            int dGridRow = workbookView1.ActiveCell.Row - 1;//SG rows are 1-based since it has the header in row-0
+                            int sgRow = workbookView1.ActiveCell.Row;
+                            int dGridCol = workbookView1.ActiveCell.Column;
+                            int sgCol = dGridCol;
+                            var sgVal = workSheet1.Cells[sgRow, sgCol].Value;
+                            double origVal, editVal;
+                            if (!Double.TryParse(msDataTable.Rows[dGridRow][dGridCol].ToString(), out origVal))
+                            { origVal = double.NaN; }
+                            if (sgVal == null)
+                            { editVal = double.NaN; }
+                            else
+                            { editVal = Convert.ToDouble(sgVal.ToString()); }
+                            //origVal = Convert.ToDouble(msDataTable.Rows[dGridRow][dGridCol].ToString());
+                            //editVal = Convert.ToDouble(workbookView1.ActiveCell.Value);
+                            if (origVal != editVal)
+                            {
+                                // format cell
+                                workSheet1.Cells[sgRow, sgCol].Font.Bold = true;
+                                workSheet1.Cells[sgRow, sgCol].Font.Italic = true;
+                                workSheet1.Cells[sgRow, sgCol].HorizontalAlignment = SpreadsheetGear.HAlign.Left;
+                                workSheet1.Cells[sgRow, sgCol].Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Yellow);
+                                workSheet1.Cells[sgRow, sgCol].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
+                                // mirror change to datagrid
+                                dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGridCol];
+                                DataGridViewCell cell = dataGrid1.CurrentCell;
+                                if (cell.ColumnIndex != 0)
+                                {
+                                    DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
+                                    if (double.IsNaN(editVal))
+                                    { row[cell.ColumnIndex] = DBNull.Value; }
+                                    else
+                                    { row[cell.ColumnIndex] = editVal; }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            workbookView1.ReleaseLock();
+
+            workbookView1.EndUpdate();
+            //workbookView1.ReleaseLock();
         }
 
         /// <summary> 
@@ -247,158 +299,6 @@ namespace HdbPoet
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeSeriesSpreadsheetSG));
-            this.dataGrid1 = new System.Windows.Forms.DataGridView();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemFormat = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemInterpolate = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuDetails = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.workbookView1 = new SpreadsheetGear.Windows.Forms.WorkbookView();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // dataGrid1
-            // 
-            this.dataGrid1.AllowUserToAddRows = false;
-            this.dataGrid1.AllowUserToDeleteRows = false;
-            this.dataGrid1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGrid1.Location = new System.Drawing.Point(0, 0);
-            this.dataGrid1.Name = "dataGrid1";
-            this.dataGrid1.Size = new System.Drawing.Size(320, 368);
-            this.dataGrid1.TabIndex = 33;
-            this.dataGrid1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGrid1_KeyDown);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] 
-            {
-                this.copyToolStripMenuItem,
-                this.pasteToolStripMenuItem,
-                this.toolStripMenuItemFormat,
-                this.toolStripMenuItemInterpolate,
-                this.menuDetails,
-                this.toolStripMenuItem1,
-                this.deleteToolStripMenuItem
-            });
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(157, 142);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.copyToolStripMenuItem.Text = "&Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
-            // 
-            // pasteToolStripMenuItem
-            // 
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.pasteToolStripMenuItem.Text = "&Paste";
-            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItemFormat
-            // 
-            this.toolStripMenuItemFormat.Name = "toolStripMenuItemFormat";
-            this.toolStripMenuItemFormat.Size = new System.Drawing.Size(156, 22);
-            this.toolStripMenuItemFormat.Text = "&Format";
-            this.toolStripMenuItemFormat.Click += new System.EventHandler(this.toolStripMenuItemFormat_Click);
-            // 
-            // toolStripMenuItemInterpolate
-            // 
-            this.toolStripMenuItemInterpolate.Name = "toolStripMenuItemInterpolate";
-            this.toolStripMenuItemInterpolate.Size = new System.Drawing.Size(156, 22);
-            this.toolStripMenuItemInterpolate.Text = "Interpolated Fill";
-            this.toolStripMenuItemInterpolate.Click += new System.EventHandler(this.toolStripMenuItemInterpolate_Click);
-            // 
-            // menuDetails
-            // 
-            this.menuDetails.Name = "menuDetails";
-            this.menuDetails.Size = new System.Drawing.Size(156, 22);
-            this.menuDetails.Text = "Show Details...";
-            this.menuDetails.Click += new System.EventHandler(this.menuDetails_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(153, 6);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.deleteToolStripMenuItem.Text = "&Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
-            // workbookView1
-            // 
-            this.workbookView1.AllowChartExplorer = false;
-            this.workbookView1.AllowRangeExplorer = false;
-            this.workbookView1.AllowShapeExplorer = false;
-            this.workbookView1.AllowWorkbookDesigner = false;
-            this.workbookView1.AllowWorkbookExplorer = false;
-            this.workbookView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.workbookView1.FormulaBar = null;
-            this.workbookView1.Location = new System.Drawing.Point(0, 0);
-            this.workbookView1.Name = "workbookView1";
-            this.workbookView1.Size = new System.Drawing.Size(320, 348);
-            this.workbookView1.TabIndex = 34;
-            this.workbookView1.WorkbookSetState = resources.GetString("workbookView1.WorkbookSetState");
-            this.workbookView1.ContextMenuStrip = this.contextMenuStrip1;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 346);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(320, 22);
-            this.statusStrip1.TabIndex = 35;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(77, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStats";
-            // 
-            // TimeSeriesSpreadsheetSG
-            // 
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.workbookView1);
-            this.Controls.Add(this.dataGrid1);
-            this.Name = "TimeSeriesSpreadsheetSG";
-            this.Size = new System.Drawing.Size(320, 368);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
-        }
-        #endregion
-
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CopyToClipboard();
@@ -407,7 +307,7 @@ namespace HdbPoet
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             workbookView1.GetLock();
-            workbookView1.Paste();
+            workbookView1.PasteSpecial(SpreadsheetGear.PasteType.Values, SpreadsheetGear.PasteOperation.None, false, false);
             workbookView1.ReleaseLock();
         }
 
@@ -421,6 +321,15 @@ namespace HdbPoet
 
         internal DataGridViewSelectedCellCollection GetSelectedCells()
         {
+            workbookView1.GetLock();
+            SpreadsheetGear.IRange selectedCells = workbookView1.RangeSelection;
+            foreach (SpreadsheetGear.IRange cell in selectedCells)
+            {
+                int dGridRow = cell.Row - 1;
+                int dGrdCol = cell.Column;
+                this.dataGrid1[dGrdCol, dGridRow].Selected = true;
+            }
+            workbookView1.ReleaseLock();
             return this.dataGrid1.SelectedCells;
         }
 
@@ -430,13 +339,18 @@ namespace HdbPoet
         private void DeleteSelectedCells()
         {
             workbookView1.GetLock();
-            for (int i = 0; i < dataGrid1.SelectedCells.Count; i++)
-            {
-                DataGridViewCell cell = dataGrid1.SelectedCells[i];
-                if (cell.ColumnIndex != 0 && cell.Value != DBNull.Value)
+            SpreadsheetGear.IRange selectedCells = workbookView1.RangeSelection;
+            foreach (SpreadsheetGear.IRange sgCell in selectedCells)
+            {                              
+                int dGridRow = sgCell.Row - 1;
+                int dGrdCol = sgCell.Column;
+                this.dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGrdCol];
+                DataGridViewCell dgCell = dataGrid1.CurrentCell;
+                if (dgCell.ColumnIndex != 0 && dgCell.Value != DBNull.Value)
                 {
-                    DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
-                    row[cell.ColumnIndex] = DBNull.Value;
+                    DataRow row = ((DataRowView)dgCell.OwningRow.DataBoundItem).Row;
+                    row[dgCell.ColumnIndex] = DBNull.Value;
+                    workSheet1.Cells[sgCell.Row, sgCell.Column].Value = DBNull.Value;
                 }
             }
             workbookView1.ReleaseLock();
@@ -450,9 +364,9 @@ namespace HdbPoet
         internal void SelectCell(int rowIndex, int columnIndex)
         {
             workbookView1.GetLock();
-            workbookView1.RangeSelection[rowIndex, columnIndex].Select();
-            //DataGridViewCell cell = dataGrid1[columnIndex, rowIndex];
-            //dataGrid1.CurrentCell = cell;
+            workbookView1.RangeSelection[rowIndex + 1, columnIndex].Select();
+            DataGridViewCell cell = dataGrid1[columnIndex, rowIndex];
+            dataGrid1.CurrentCell = cell;
             workbookView1.ReleaseLock();
         }
 
@@ -594,8 +508,156 @@ namespace HdbPoet
             toolStripStatusLabel1.Text = "";
         }
 
+        #region Component Designer generated code
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeSeriesSpreadsheetSG));
+            this.dataGrid1 = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemFormat = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemInterpolate = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuDetails = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.workbookView1 = new SpreadsheetGear.Windows.Forms.WorkbookView();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // dataGrid1
+            // 
+            this.dataGrid1.AllowUserToAddRows = false;
+            this.dataGrid1.AllowUserToDeleteRows = false;
+            this.dataGrid1.ContextMenuStrip = this.contextMenuStrip1;
+            this.dataGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGrid1.Location = new System.Drawing.Point(0, 0);
+            this.dataGrid1.Name = "dataGrid1";
+            this.dataGrid1.Size = new System.Drawing.Size(320, 368);
+            this.dataGrid1.TabIndex = 33;
+            this.dataGrid1.Visible = false;
+            this.dataGrid1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGrid1_KeyDown);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem,
+            this.toolStripMenuItemFormat,
+            this.toolStripMenuItemInterpolate,
+            this.menuDetails,
+            this.toolStripMenuItem1,
+            this.deleteToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(157, 142);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.copyToolStripMenuItem.Text = "&Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.pasteToolStripMenuItem.Text = "&Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemFormat
+            // 
+            this.toolStripMenuItemFormat.Name = "toolStripMenuItemFormat";
+            this.toolStripMenuItemFormat.Size = new System.Drawing.Size(156, 22);
+            this.toolStripMenuItemFormat.Text = "&Format";
+            this.toolStripMenuItemFormat.Click += new System.EventHandler(this.toolStripMenuItemFormat_Click);
+            // 
+            // toolStripMenuItemInterpolate
+            // 
+            this.toolStripMenuItemInterpolate.Name = "toolStripMenuItemInterpolate";
+            this.toolStripMenuItemInterpolate.Size = new System.Drawing.Size(156, 22);
+            this.toolStripMenuItemInterpolate.Text = "Interpolated Fill";
+            this.toolStripMenuItemInterpolate.Click += new System.EventHandler(this.toolStripMenuItemInterpolate_Click);
+            // 
+            // menuDetails
+            // 
+            this.menuDetails.Name = "menuDetails";
+            this.menuDetails.Size = new System.Drawing.Size(156, 22);
+            this.menuDetails.Text = "Show Details...";
+            this.menuDetails.Click += new System.EventHandler(this.menuDetails_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(153, 6);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.deleteToolStripMenuItem.Text = "&Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // workbookView1
+            // 
+            this.workbookView1.AllowChartExplorer = false;
+            this.workbookView1.AllowRangeExplorer = false;
+            this.workbookView1.AllowShapeExplorer = false;
+            this.workbookView1.AllowWorkbookDesigner = false;
+            this.workbookView1.AllowWorkbookExplorer = false;
+            this.workbookView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.workbookView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.workbookView1.FormulaBar = null;
+            this.workbookView1.Location = new System.Drawing.Point(0, 0);
+            this.workbookView1.Name = "workbookView1";
+            this.workbookView1.Size = new System.Drawing.Size(320, 348);
+            this.workbookView1.TabIndex = 34;
+            this.workbookView1.WorkbookSetState = resources.GetString("workbookView1.WorkbookSetState");
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 346);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(320, 22);
+            this.statusStrip1.TabIndex = 35;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(77, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStats";
+            // 
+            // TimeSeriesSpreadsheetSG
+            // 
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.workbookView1);
+            this.Controls.Add(this.dataGrid1);
+            this.Name = "TimeSeriesSpreadsheetSG";
+            this.Size = new System.Drawing.Size(320, 368);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
-
+        }
+        #endregion
 
     }
 }
