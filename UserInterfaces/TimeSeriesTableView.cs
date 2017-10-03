@@ -222,7 +222,6 @@ namespace HdbPoet
             DataGridViewSelectedCellCollection x = timeSeriesSpreadsheet1.GetSelectedCells();
             try
             {
-
                 foreach (DataGridViewCell cell in x)
                 {
                     if (cell.ColumnIndex != 0) // no date column

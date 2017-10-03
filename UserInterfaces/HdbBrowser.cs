@@ -1092,7 +1092,10 @@ namespace HdbPoet
             int mrid = isModeledDataVars.Item2;
 
             if (timeSeriesTableView1.ValidState)
-            { timeSeriesTableView1.SaveToHdb(isModeledData, mrid); }
+            {
+                timeSeriesTableView1.SaveToHdb(isModeledData, mrid);
+                UpdateViews(true);
+            }
         }
 
         private void toolStripButtonExcel_Click(object sender, EventArgs e)
@@ -1188,26 +1191,31 @@ namespace HdbPoet
         private void toolStripButtonClearOverwriteFlag_Click(object sender, EventArgs e)
         {
             timeSeriesTableView1.SetFlagForSelectedCells(false);
+            UpdateViews(true);
         }
 
         private void toolStripButtonAddOverwriteFlag_Click(object sender, EventArgs e)
         {
             timeSeriesTableView1.SetFlagForSelectedCells(true);
+            UpdateViews(true);
         }
 
         private void toolStripButtonValidationNullClick(object sender, EventArgs e)
         {
             timeSeriesTableView1.SetValidationFlagForSelectedCells(" ");
+            UpdateViews(true);
         }
 
         private void toolStripButtonValidationV_Click(object sender, EventArgs e)
         {
             timeSeriesTableView1.SetValidationFlagForSelectedCells("V");
+            UpdateViews(true);
         }
 
         private void toolStripButtonValidationProvisional_Click(object sender, EventArgs e)
         {
             timeSeriesTableView1.SetValidationFlagForSelectedCells("P");
+            UpdateViews(true);
         }
 
         private void toolStripButtonPrint_Click(object sender, EventArgs e)
@@ -1217,9 +1225,9 @@ namespace HdbPoet
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedTab == tabPageTable )
+            if (tabControl1.SelectedTab == tabPageTable)
             {
-            UpdateViews(true);
+                UpdateViews(true);
             }
             else if (tabControl1.SelectedTab == tabPageHome)
             {

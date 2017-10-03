@@ -1025,9 +1025,7 @@ group by d.datatype_id, d.datatype_common_name
 
             DataTable rval = m_server.Table("SiteInfo", sql);
 
-
             return rval;
-
         }
 
         /// <summary>

@@ -161,6 +161,8 @@ namespace HdbPoet
 
                 DateTime t = Steema.TeeChart.Utils.DateTime(chart[seriesIndex].XValues[Index]);
                 graphDef.UpdateIntervalTable(seriesIndex, t, val);
+                //[JR] need to force an update to the TimeSeriesTableView!
+
                 dragDateTime = t;
                 dragSeriesIndex = seriesIndex;
                 m_SetActiveCellNeeded = true;
