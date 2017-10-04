@@ -83,6 +83,37 @@ namespace HdbPoet
             }
         }
 
+        void workSheet1_DataChanged(object sender, DataRowChangeEventArgs e)
+        {
+            int sgRow = msDataTable.Rows.IndexOf(e.Row) + 1;//SG has header row
+
+            workbookView1.BeginUpdate();
+            for (int i = 1; i < e.Row.ItemArray.Count(); i++)
+            {
+                SpreadsheetGear.IRange sgCell = workSheet1.Cells[sgRow, i];
+                if (sgCell.Value != null)
+                {
+                    double currentVal = Convert.ToDouble(sgCell.Value);
+                    double changedVal = Convert.ToDouble(e.Row.ItemArray[i]);
+                    if (currentVal != changedVal)
+                    {
+                        sgCell.Value = changedVal;
+
+                        var sgCol = i;
+                        // format cell
+                        workSheet1.Cells[sgRow, sgCol].Font.Bold = true;
+                        workSheet1.Cells[sgRow, sgCol].Font.Italic = true;
+                        workSheet1.Cells[sgRow, sgCol].HorizontalAlignment = SpreadsheetGear.HAlign.Left;
+                        workSheet1.Cells[sgRow, sgCol].Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Yellow);
+                        workSheet1.Cells[sgRow, sgCol].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
+                    }
+                }
+            }
+            workbookView1.EndUpdate();
+
+            //SetTable(msDataTable, m_colorColumnName);
+        }
+
         internal void SetTable(MultipleSeriesDataTable table, string colorColumnName)
         {
             this.dataGrid1.DataSource = null;
@@ -104,6 +135,8 @@ namespace HdbPoet
             workbookView1.ActiveWorkbook = workbook;
 
             /////////////////////////////////////////////////
+
+            msDataTable.RowChanged += new DataRowChangeEventHandler(workSheet1_DataChanged);
 
             //FormatDataGridView();
         }

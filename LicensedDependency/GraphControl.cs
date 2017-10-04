@@ -115,7 +115,7 @@ namespace HdbPoet
                 Steema.TeeChart.Tools.NearestPoint nearestPoint1 = new Steema.TeeChart.Tools.NearestPoint(chart[i]);
                 nearestPoint1.Pen.Color = chart[i].Color;
                 nearestPoint1.Brush.Color = chart[i].Color;
-                nearestPoint1.Size = 5;
+                nearestPoint1.Size = 0;
                 nearestPoint1.Style = Steema.TeeChart.Tools.NearestPointStyles.Circle;
                 nearestPoint1.DrawLine = false;
                 chart.Tools.Add(nearestPoint1);
@@ -161,7 +161,6 @@ namespace HdbPoet
 
                 DateTime t = Steema.TeeChart.Utils.DateTime(chart[seriesIndex].XValues[Index]);
                 graphDef.UpdateIntervalTable(seriesIndex, t, val);
-                //[JR] need to force an update to the TimeSeriesTableView!
 
                 dragDateTime = t;
                 dragSeriesIndex = seriesIndex;
