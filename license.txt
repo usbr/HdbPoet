@@ -2,9 +2,10 @@
 
 You can contribute to the development of this application on GitHub at https://github.com/usbr/HdbPoet. You may also view the Wiki, download the latest version, track historical development efforts, request new features, and submit bugs via the GitHub site.
 
-This application uses several licensed components for connecting to the database and for graphing the data. As such, you may not distribute HDB POET (the Software) as part of libraries, components, or frameworks. You may not use the Software components within a development environment without purchasing the appropirate licenses from:
+This application uses several licensed components for connecting to the database and for displaying data in a tabular and graphical format. As such, you may not distribute HDB POET (the Software) as part of libraries, components, or frameworks. You may not use the Software components within a development environment without purchasing the appropirate licenses from:
    Devart
    Steema
+   SpreadsheetGear
 
 Thanks,
 Jon & Karl

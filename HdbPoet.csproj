@@ -158,6 +158,15 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>945B9197F19D25BD45AD0324C8F7FEB5035E949B</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>HdbPoet_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aga.Controls, Version=1.7.0.1, Culture=neutral, PublicKeyToken=fcc90fbf924463a3, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -426,6 +435,7 @@
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </Compile>
     <Compile Include="LicensedDependency\ZedGraphDataLoader.cs" />
+    <None Include="HdbPoet_TemporaryKey.pfx" />
     <None Include="UserInterfaces\GraphControl.cs">
       <SubType>UserControl</SubType>
     </None>
