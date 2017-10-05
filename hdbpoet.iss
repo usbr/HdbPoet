@@ -5,6 +5,7 @@
 #define public StripBuild(str aVerStr) Copy(aVerStr, 1, RPos(".", aVerStr)-1)
 #define AppVerStr StripBuild(FileVerStr)
 [Setup]
+;SignTool=signtool
 AppId={{16D58642-80F4-4DB0-ABC4-3E40193CF82A}
 AppName={#AppName}
 AppVersion={#AppVerStr}

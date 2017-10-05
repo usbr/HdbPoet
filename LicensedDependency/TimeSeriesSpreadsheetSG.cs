@@ -1,15 +1,11 @@
 using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
-using System.IO;
 using System.Linq;
-using System.Diagnostics;
 using Reclamation.Core;
 using System.Collections.Generic;
-using System.Drawing.Printing;
 using SpreadsheetGear.Windows.Forms;
 
 namespace HdbPoet
@@ -44,21 +40,58 @@ namespace HdbPoet
             InitializeComponent();
             workbookView1.RangeChanged += new RangeChangedEventHandler(workSheet1_RangeChange);
             workbookView1.RangeSelectionChanged += new RangeSelectionChangedEventHandler(workSheet1_SelectionChanged);
+            workbookView1.KeyDown += new KeyEventHandler(workSheet1_KeyDown);
+            workbookView1.CellBeginEdit += new CellBeginEditEventHandler(workSheet1_CellBeginEdit);
         }
 
-        void workSheet1_SelectionChanged(object sender, RangeSelectionChangedEventArgs e)
+        /******************************************************************
+         * EVENT HANDLERS
+         ******************************************************************/
+        #region
+        /// <summary>
+        /// Handler for events that occur before edits are processed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void workSheet1_CellBeginEdit(object sender, CellBeginEditEventArgs e)
+        {
+            //workbookView1.GetLock();
+            //var a = workbookView1.RangeSelection;
+            //workbookView1.ReleaseLock();
+        }
+
+        /// <summary>
+        /// Handler for button presses while control is in focus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void workSheet1_KeyDown(object sender, KeyEventArgs e)
+        {
+            //if (e.Control && e.KeyValue == 86) //override ctrl-v
+            //{
+            //    e.Handled = true;
+            //    //e.SuppressKeyPress = true;
+            //    pasteToolStripMenuItem_Click(sender, e);
+            //}
+        }
+
+        /// <summary>
+        /// Handler for user-prompted changes in selected ranges
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void workSheet1_SelectionChanged(object sender, RangeSelectionChangedEventArgs e)
         {
             workbookView1.GetLock();
             var valList = new List<double>();
             var rval = "";
+            //crunch array stats
             if (e.RangeSelection.CellCount > 1 && e.RangeSelection.CellCount < 1000)
             {
                 foreach (SpreadsheetGear.IRange item in e.RangeSelection)
                 {
                     if (item.Column != 0 && item.Row != 0 && item.Value != null && item.Value != DBNull.Value)
-                    {
-                        valList.Add((double)item.Value);
-                    }
+                    { valList.Add((double)item.Value); }
                 }
                 if (valList.Count > 1)
                 {
@@ -69,23 +102,65 @@ namespace HdbPoet
                         " | Sum: " + valList.ToArray().Sum().ToString("F2");
                 }
             }
+            //crunch column stats
+            int missingCount = 0;
+            if (e.RangeSelection.CellCount == 1 && e.RangeSelection.Cells.Row == 0 && e.RangeSelection.Cells.Column != 0)
+            {
+                int processCol = e.RangeSelection.Cells.Column;
+                for (int i = 1; i < initialUsedRange.RowCount; i++)
+                {
+                    var ithVal = workSheet1.Cells[i, processCol].Value;
+                    if (ithVal != null && ithVal != DBNull.Value)
+                    { valList.Add((double)ithVal); }
+                    else
+                    { missingCount++; }
+                }
+                rval = "Selected Column Statistics | Count: " + (initialUsedRange.RowCount - 1) +
+                        " | Missing: " + missingCount;
+                if (valList.Count > 0)
+                {
+                    rval = rval +
+                        " | Average: " + valList.ToArray().Average().ToString("F2") +
+                        " | Min: " + valList.ToArray().Min().ToString("F2") +
+                        " | Max: " + valList.ToArray().Max().ToString("F2") +
+                        " | Sum: " + valList.ToArray().Sum().ToString("F2");
+                }
+            }
+            //crunch row stats
+            if (e.RangeSelection.CellCount == 1 && e.RangeSelection.Cells.Column == 0 && e.RangeSelection.Cells.Row != 0)
+            {
+                int processRow = e.RangeSelection.Cells.Row;
+                for (int i = 1; i < initialUsedRange.ColumnCount; i++)
+                {
+                    var ithVal = workSheet1.Cells[processRow, i].Value;
+                    if (ithVal != null && ithVal != DBNull.Value)
+                    { valList.Add((double)ithVal); }
+                    else
+                    { missingCount++; }
+                }
+                rval = "Selected Row Statistics | Count: " + (initialUsedRange.ColumnCount - 1) +
+                        " | Missing: " + missingCount;
+                if (valList.Count > 0)
+                {
+                    rval = rval +
+                        " | Average: " + valList.ToArray().Average().ToString("F2") +
+                        " | Min: " + valList.ToArray().Min().ToString("F2") +
+                        " | Max: " + valList.ToArray().Max().ToString("F2") +
+                        " | Sum: " + valList.ToArray().Sum().ToString("F2");
+                }
+
+            }
             toolStripStatusLabel1.Text = rval;
+            toolStripStatusLabel1.ForeColor = Color.Blue;
             workbookView1.ReleaseLock();
         }
 
-        internal DataViewRowState DataViewRowState
-        {
-            set
-            {
-                msDataTable.DefaultView.RowStateFilter = value;
-            }
-            get
-            {
-                return msDataTable.DefaultView.RowStateFilter;
-            }
-        }
-
-        void workSheet1_DataChanged(object sender, DataRowChangeEventArgs e)
+        /// <summary>
+        /// Handler for when data in the msDataTable object is updated
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void workSheet1_DataChanged(object sender, DataRowChangeEventArgs e)
         {
             workbookView1.GetLock();
             workbookView1.BeginUpdate();
@@ -118,10 +193,102 @@ namespace HdbPoet
             }
             workbookView1.EndUpdate();
             workbookView1.ReleaseLock();
-
-            //SetTable(msDataTable, m_colorColumnName);
         }
 
+        /// <summary>
+        /// Handler for when data and formatting in a SG range is modified
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void workSheet1_RangeChange(object sender, SpreadsheetGear.Windows.Forms.RangeChangedEventArgs e)
+        {
+            workbookView1.GetLock();
+            workbookView1.BeginUpdate();
+
+            //iterate through cells in edited range
+            foreach (SpreadsheetGear.IRange ithCell in e.Range.Cells)
+            {
+                //iterate through SG used range to see if cell is a used data cell
+                ithCell.Cells.Activate();
+                int dGridRow = workbookView1.ActiveCell.Row - 1;//SG rows are 1-based since it has the header in row-0
+                int sgRow = workbookView1.ActiveCell.Row;
+                int dGridCol = workbookView1.ActiveCell.Column;
+                int sgCol = dGridCol;
+
+                bool activeCellUsed = false;
+                foreach (SpreadsheetGear.IRange item in initialUsedRange)
+                {
+                    if (workbookView1.ActiveCell.Address == item.Cells.Address)
+                    {
+                        activeCellUsed = true;
+                        break;
+                    }
+                }
+                //process cell
+                if (activeCellUsed)
+                {
+                    // check if row has a date
+                    object o = workSheet1.Range[workbookView1.ActiveCell.Row, 0].Value;
+                    if (o != null)
+                    {
+                        DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)o);
+
+                        if (workbookView1.ActiveCell.Column - 1 >= msDataTable.Columns.Count)
+                        { MessageBox.Show("Internal error: formatting cell error"); }
+                        //process cell
+                        else
+                        {
+                            // check if cell value was changed
+                            var sgVal = workbookView1.ActiveCell.Value;//workSheet1.Cells[sgRow, sgCol].Value;
+                            double origVal, editVal;
+                            if (!Double.TryParse(msDataTable.Rows[dGridRow][dGridCol].ToString(), out origVal))
+                            { origVal = double.NaN; }
+                            if (sgVal == null)
+                            { editVal = double.NaN; }
+                            else
+                            { editVal = Convert.ToDouble(sgVal.ToString()); }
+                            //origVal = Convert.ToDouble(msDataTable.Rows[dGridRow][dGridCol].ToString());
+                            //editVal = Convert.ToDouble(workbookView1.ActiveCell.Value);
+                            if ((origVal != editVal && !double.IsNaN(origVal)) || (double.IsNaN(origVal) && !double.IsNaN(editVal)))
+                            {
+                                // format cell
+                                FormatEditedCell(sgRow, sgCol);
+                                // mirror change to datagrid
+                                dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGridCol];
+                                DataGridViewCell cell = dataGrid1.CurrentCell;
+                                if (cell.ColumnIndex != 0)
+                                {
+                                    DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
+                                    if (double.IsNaN(editVal))
+                                    { row[cell.ColumnIndex] = DBNull.Value; }
+                                    else
+                                    { row[cell.ColumnIndex] = editVal; }
+                                }
+                            }
+                        }
+                    }
+                }
+                //clear cell formatting
+                else
+                {
+                    ClearCellFormat(sgRow, sgCol);
+                }
+            }
+            workbookView1.EndUpdate();
+            workbookView1.ReleaseLock();
+        }
+
+        #endregion
+        
+        /******************************************************************
+         * CUSTOM SG METHODS
+         ******************************************************************/
+        
+        /// <summary>
+        /// Sets the msDataTable into SG
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="colorColumnName"></param>
         internal void SetTable(MultipleSeriesDataTable table, string colorColumnName)
         {
             this.dataGrid1.DataSource = null;
@@ -148,27 +315,10 @@ namespace HdbPoet
 
             //FormatDataGridView();
         }
-
-        internal void SetColorColumnName(string columnName)
-        {
-            m_colorColumnName = columnName;
-            this.dataGrid1.DataSource = null;
-            this.dataGrid1.DataSource = msDataTable;
-
-            /////////////////////////////////////////////////
-            // Create a new workbook and worksheet.
-            SpreadsheetGear.IWorkbook workbook = SpreadsheetGear.Factory.GetWorkbook();
-            workSheet1 = workbook.Worksheets["Sheet1"];
-            workSheet1.Name = "DATA";
-            // Get the top left cell for the DataTable.
-            SpreadsheetGear.IRange range = workSheet1.Cells["A1"];
-            // Copy the DataTable to the worksheet range.
-            range.CopyFromDataTable(msDataTable, SpreadsheetGear.Data.SetDataFlags.None);
-            // Format SG worksheet
-            FormatSpreadsheetView();
-        }
-
-
+        
+        /// <summary>
+        /// Formats SG Table
+        /// </summary>
         private void FormatSpreadsheetView()
         {
             workbookView1.GetLock();
@@ -226,6 +376,12 @@ namespace HdbPoet
             workSheet1.Range["A1"].EntireRow.Locked = true;
             if (workSheet1.Range["A1"].EntireColumn.ColumnWidth < 12.0)
             { workSheet1.Range["A1"].EntireColumn.ColumnWidth = 12.0; }
+            workSheet1.Range["A1"].EntireColumn.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
+            workSheet1.Range["A1"].EntireRow.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
+            workSheet1.Range["A1"].EntireColumn.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+            workSheet1.Range["A1"].EntireRow.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+            workSheet1.Range["A1"].EntireColumn.Font.Italic = true;
+            workSheet1.Range["A1"].EntireRow.Font.Italic = true;
             // Split col header 
             workSheet1.WindowInfo.ScrollColumn = 0;
             workSheet1.WindowInfo.SplitColumns = 1;
@@ -234,90 +390,16 @@ namespace HdbPoet
             workSheet1.WindowInfo.SplitRows = 1;
             // Freeze headers 
             workSheet1.WindowInfo.FreezePanes = true;
-
+            // Lock row and column headers, unlock everything else
             initialUsedRange = workSheet1.UsedRange;
+            workSheet1.Range.Locked = false;
+            workSheet1.Range["A1"].EntireRow.Locked = true;
+            workSheet1.Range["A1"].EntireColumn.Locked = true;
+            workSheet1.ProtectContents = true;
+
             workbookView1.ReleaseLock();
             workbookView1.EndUpdate();
-        }
-
-        public void CopyToClipboard()
-        {
-            workbookView1.GetLock();
-            workbookView1.Copy();
-            workbookView1.ReleaseLock();
-        }
-
-        void workSheet1_RangeChange(object sender, SpreadsheetGear.Windows.Forms.RangeChangedEventArgs e)
-        {
-            workbookView1.GetLock();
-            workbookView1.BeginUpdate();
-
-            //iterate through cells in edited range
-            foreach (SpreadsheetGear.IRange ithCell in e.Range.Cells)
-            {
-                //iterate through SG used range to see if cell is a used data cell
-                ithCell.Cells.Activate();
-                bool activeCellUsed = false;
-                foreach (SpreadsheetGear.IRange item in initialUsedRange)
-                {
-                    if (workbookView1.ActiveCell.Address == item.Cells.Address)
-                    {
-                        activeCellUsed = true;
-                        break;
-                    }
-                }
-                //process cell
-                if (activeCellUsed)
-                {
-                    // check if row has a date
-                    object o = workSheet1.Range[workbookView1.ActiveCell.Row, 0].Value;
-                    if (o != null)
-                    {
-                        DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)o);
-
-                        if (workbookView1.ActiveCell.Column - 1 >= msDataTable.Columns.Count)
-                        { MessageBox.Show("Internal error: formatting cell error"); }
-                        //process cell
-                        else
-                        {
-                            // check if cell value was changed
-                            int dGridRow = workbookView1.ActiveCell.Row - 1;//SG rows are 1-based since it has the header in row-0
-                            int sgRow = workbookView1.ActiveCell.Row;
-                            int dGridCol = workbookView1.ActiveCell.Column;
-                            int sgCol = dGridCol;
-                            var sgVal = workbookView1.ActiveCell.Value;//workSheet1.Cells[sgRow, sgCol].Value;
-                            double origVal, editVal;
-                            if (!Double.TryParse(msDataTable.Rows[dGridRow][dGridCol].ToString(), out origVal))
-                            { origVal = double.NaN; }
-                            if (sgVal == null)
-                            { editVal = double.NaN; }
-                            else
-                            { editVal = Convert.ToDouble(sgVal.ToString()); }
-                            //origVal = Convert.ToDouble(msDataTable.Rows[dGridRow][dGridCol].ToString());
-                            //editVal = Convert.ToDouble(workbookView1.ActiveCell.Value);
-                            if ((origVal != editVal && !double.IsNaN(origVal)) || (double.IsNaN(origVal) && !double.IsNaN(editVal)))
-                            {
-                                // format cell
-                                FormatEditedCell(sgRow, sgCol);
-                                // mirror change to datagrid
-                                dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGridCol];
-                                DataGridViewCell cell = dataGrid1.CurrentCell;
-                                if (cell.ColumnIndex != 0)
-                                {
-                                    DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
-                                    if (double.IsNaN(editVal))
-                                    { row[cell.ColumnIndex] = DBNull.Value; }
-                                    else
-                                    { row[cell.ColumnIndex] = editVal; }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            workbookView1.EndUpdate();
-            workbookView1.ReleaseLock();
-        }
+        }       
 
         private void FormatEditedCell(int sgRow, int sgCol)
         {
@@ -329,7 +411,59 @@ namespace HdbPoet
             workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
         }
 
+        private void ClearCellFormat(int sgRow, int sgCol)
+        {
+            workSheet1.Cells[sgRow, sgCol].Select();
+            workbookView1.ActiveCell.Font.Bold = false;// workSheet1.Cells[0, 0].Font.Bold;
+            workbookView1.ActiveCell.Font.Italic = false;// workSheet1.Cells[0, 0].Font.Italic;
+            workbookView1.ActiveCell.HorizontalAlignment = SpreadsheetGear.HAlign.Center;// workSheet1.Cells[0, 0].HorizontalAlignment;
+            workbookView1.ActiveCell.Font.Color = workSheet1.Cells[0, 0].Font.Color;
+            workbookView1.ActiveCell.Interior.Color = workSheet1.Cells[0, 0].Interior.Color;
+        }
 
+
+        /******************************************************************
+         * BASE TIMESERIESSPREADSHEET METHODS
+         ******************************************************************/
+        #region
+        internal void SetColorColumnName(string columnName)
+        {
+            m_colorColumnName = columnName;
+            this.dataGrid1.DataSource = null;
+            this.dataGrid1.DataSource = msDataTable;
+
+            /////////////////////////////////////////////////
+            // Create a new workbook and worksheet.
+            SpreadsheetGear.IWorkbook workbook = SpreadsheetGear.Factory.GetWorkbook();
+            workSheet1 = workbook.Worksheets["Sheet1"];
+            workSheet1.Name = "DATA";
+            // Get the top left cell for the DataTable.
+            SpreadsheetGear.IRange range = workSheet1.Cells["A1"];
+            // Copy the DataTable to the worksheet range.
+            range.CopyFromDataTable(msDataTable, SpreadsheetGear.Data.SetDataFlags.None);
+            // Format SG worksheet
+            FormatSpreadsheetView();
+        }
+
+        public void CopyToClipboard()
+        {
+            workbookView1.GetLock();
+            workbookView1.Copy();
+            workbookView1.ReleaseLock();
+        }
+
+        internal DataViewRowState DataViewRowState
+        {
+            set
+            {
+                msDataTable.DefaultView.RowStateFilter = value;
+            }
+            get
+            {
+                return msDataTable.DefaultView.RowStateFilter;
+            }
+        }
+        
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -558,6 +692,8 @@ namespace HdbPoet
             workbookView1.ReleaseLock();
             toolStripStatusLabel1.Text = "";
         }
+
+        #endregion
 
         #region Component Designer generated code
         /// <summary> 
