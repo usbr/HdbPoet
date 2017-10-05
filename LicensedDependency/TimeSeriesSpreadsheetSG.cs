@@ -48,6 +48,7 @@ namespace HdbPoet
 
         void workSheet1_SelectionChanged(object sender, RangeSelectionChangedEventArgs e)
         {
+            workbookView1.GetLock();
             var valList = new List<double>();
             var rval = "";
             if (e.RangeSelection.CellCount > 1 && e.RangeSelection.CellCount < 1000)
@@ -69,6 +70,7 @@ namespace HdbPoet
                 }
             }
             toolStripStatusLabel1.Text = rval;
+            workbookView1.ReleaseLock();
         }
 
         internal DataViewRowState DataViewRowState
@@ -85,31 +87,37 @@ namespace HdbPoet
 
         void workSheet1_DataChanged(object sender, DataRowChangeEventArgs e)
         {
+            workbookView1.GetLock();
+            workbookView1.BeginUpdate();
+
             int sgRow = msDataTable.Rows.IndexOf(e.Row) + 1;//SG has header row
 
-            workbookView1.BeginUpdate();
-            for (int i = 1; i < e.Row.ItemArray.Count(); i++)
+            for (int sgCol = 1; sgCol < e.Row.ItemArray.Count(); sgCol++)
             {
-                SpreadsheetGear.IRange sgCell = workSheet1.Cells[sgRow, i];
+                SpreadsheetGear.IRange sgCell = workSheet1.Cells[sgRow, sgCol];
+
                 if (sgCell.Value != null)
                 {
                     double currentVal = Convert.ToDouble(sgCell.Value);
-                    double changedVal = Convert.ToDouble(e.Row.ItemArray[i]);
-                    if (currentVal != changedVal)
+                    double changedVal;
+                    try
                     {
-                        sgCell.Value = changedVal;
+                        changedVal = Convert.ToDouble(e.Row.ItemArray[sgCol]);
+                        if (currentVal != changedVal)
+                        {
+                            sgCell.Value = changedVal;
+                            // format cell
+                            FormatEditedCell(sgRow, sgCol);
+                        }
+                    }
+                    catch
+                    {
 
-                        var sgCol = i;
-                        // format cell
-                        workSheet1.Cells[sgRow, sgCol].Font.Bold = true;
-                        workSheet1.Cells[sgRow, sgCol].Font.Italic = true;
-                        workSheet1.Cells[sgRow, sgCol].HorizontalAlignment = SpreadsheetGear.HAlign.Left;
-                        workSheet1.Cells[sgRow, sgCol].Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Yellow);
-                        workSheet1.Cells[sgRow, sgCol].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
                     }
                 }
             }
             workbookView1.EndUpdate();
+            workbookView1.ReleaseLock();
 
             //SetTable(msDataTable, m_colorColumnName);
         }
@@ -163,6 +171,9 @@ namespace HdbPoet
 
         private void FormatSpreadsheetView()
         {
+            workbookView1.GetLock();
+            workbookView1.BeginUpdate();
+
             if (workSheet1.UsedRange.Columns.ColumnCount > 0)
             {
                 for (int c = 1; c < workSheet1.UsedRange.Columns.ColumnCount; c++)
@@ -225,6 +236,8 @@ namespace HdbPoet
             workSheet1.WindowInfo.FreezePanes = true;
 
             initialUsedRange = workSheet1.UsedRange;
+            workbookView1.ReleaseLock();
+            workbookView1.EndUpdate();
         }
 
         public void CopyToClipboard()
@@ -236,7 +249,7 @@ namespace HdbPoet
 
         void workSheet1_RangeChange(object sender, SpreadsheetGear.Windows.Forms.RangeChangedEventArgs e)
         {
-            //workbookView1.GetLock();
+            workbookView1.GetLock();
             workbookView1.BeginUpdate();
 
             //iterate through cells in edited range
@@ -256,29 +269,23 @@ namespace HdbPoet
                 //process cell
                 if (activeCellUsed)
                 {
-                    // check of row has a date
+                    // check if row has a date
                     object o = workSheet1.Range[workbookView1.ActiveCell.Row, 0].Value;
                     if (o != null)
                     {
                         DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)o);
-                        //System.Drawing.Color background;
-                        //bool bold;
 
                         if (workbookView1.ActiveCell.Column - 1 >= msDataTable.Columns.Count)
                         { MessageBox.Show("Internal error: formatting cell error"); }
                         //process cell
                         else
                         {
-                            //msDataTable.GetColor(e.ActiveCell.Column - 1, t, out background, out bold, m_colorColumnName);
-                            //e.ActiveCell.Font.Bold = bold;
-                            //e.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(background);
-
                             // check if cell value was changed
                             int dGridRow = workbookView1.ActiveCell.Row - 1;//SG rows are 1-based since it has the header in row-0
                             int sgRow = workbookView1.ActiveCell.Row;
                             int dGridCol = workbookView1.ActiveCell.Column;
                             int sgCol = dGridCol;
-                            var sgVal = workSheet1.Cells[sgRow, sgCol].Value;
+                            var sgVal = workbookView1.ActiveCell.Value;//workSheet1.Cells[sgRow, sgCol].Value;
                             double origVal, editVal;
                             if (!Double.TryParse(msDataTable.Rows[dGridRow][dGridCol].ToString(), out origVal))
                             { origVal = double.NaN; }
@@ -288,14 +295,10 @@ namespace HdbPoet
                             { editVal = Convert.ToDouble(sgVal.ToString()); }
                             //origVal = Convert.ToDouble(msDataTable.Rows[dGridRow][dGridCol].ToString());
                             //editVal = Convert.ToDouble(workbookView1.ActiveCell.Value);
-                            if (origVal != editVal)
+                            if ((origVal != editVal && !double.IsNaN(origVal)) || (double.IsNaN(origVal) && !double.IsNaN(editVal)))
                             {
                                 // format cell
-                                workSheet1.Cells[sgRow, sgCol].Font.Bold = true;
-                                workSheet1.Cells[sgRow, sgCol].Font.Italic = true;
-                                workSheet1.Cells[sgRow, sgCol].HorizontalAlignment = SpreadsheetGear.HAlign.Left;
-                                workSheet1.Cells[sgRow, sgCol].Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Yellow);
-                                workSheet1.Cells[sgRow, sgCol].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
+                                FormatEditedCell(sgRow, sgCol);
                                 // mirror change to datagrid
                                 dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGridCol];
                                 DataGridViewCell cell = dataGrid1.CurrentCell;
@@ -312,10 +315,20 @@ namespace HdbPoet
                     }
                 }
             }
-
             workbookView1.EndUpdate();
-            //workbookView1.ReleaseLock();
+            workbookView1.ReleaseLock();
         }
+
+        private void FormatEditedCell(int sgRow, int sgCol)
+        {
+            workSheet1.Cells[sgRow, sgCol].Select();
+            workbookView1.ActiveCell.Font.Bold = true;// workSheet1.Cells[sgRow, sgCol].Font.Bold = true;
+            workbookView1.ActiveCell.Font.Italic = true;
+            workbookView1.ActiveCell.HorizontalAlignment = SpreadsheetGear.HAlign.Left;
+            workbookView1.ActiveCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Yellow);
+            workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
+        }
+
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -340,7 +353,9 @@ namespace HdbPoet
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             workbookView1.GetLock();
+            workbookView1.BeginUpdate();
             workbookView1.PasteSpecial(SpreadsheetGear.PasteType.Values, SpreadsheetGear.PasteOperation.None, false, false);
+            workbookView1.EndUpdate();
             workbookView1.ReleaseLock();
         }
 
@@ -372,6 +387,8 @@ namespace HdbPoet
         private void DeleteSelectedCells()
         {
             workbookView1.GetLock();
+            workbookView1.BeginUpdate();
+
             SpreadsheetGear.IRange selectedCells = workbookView1.RangeSelection;
             foreach (SpreadsheetGear.IRange sgCell in selectedCells)
             {                              
@@ -386,6 +403,7 @@ namespace HdbPoet
                     workSheet1.Cells[sgCell.Row, sgCell.Column].Value = DBNull.Value;
                 }
             }
+            workbookView1.EndUpdate();
             workbookView1.ReleaseLock();
         }
 
