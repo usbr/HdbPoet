@@ -5,7 +5,7 @@ This is the source code for HDB POET (Hydrologic Database - Perusal Or Editing T
 
 <img src="https://github.com/usbr/hdbpoet/wiki/images/DataDiscovery.Img4.png" width="75%" height="75%"/>
 
-HDB POET uses several licensed components for connecting to the database and for graphing the data. As such, you may not distribute HDB POET (the Software) as part of libraries, components, or frameworks. You may not use the Software components within a development environment without purchasing the appropriate licenses from [Devart](https://www.devart.com/dotconnect/universal/)(DB Connection Engine) and [Steema](https://www.steema.com/product/net)(Graphing Engine). You may help us develop HDB POET by compiling the source code using Open-Source libraries as stand-ins for the licensed components; a brief guide on how to do this can be found at [this Wiki page](https://github.com/usbr/HdbPoet/wiki/Compiling-Open-Source).
+HDB POET uses several licensed components for connecting to the database and for displaying data in a tabular and graphical format. As such, you may not distribute HDB POET (the Software) as part of libraries, components, or frameworks. You may not use the Software components within a development environment without purchasing the appropriate licenses from [Devart](https://www.devart.com/dotconnect/universal/)(DB Connection Engine), [Steema](https://www.steema.com/product/net)(Graphing Engine), and [SpreadsheetGear](http://www.spreadsheetgear.com/). You may help us develop HDB POET by compiling the source code using Open-Source libraries as stand-ins for the licensed components; a brief guide on how to do this can be found at [this Wiki page](https://github.com/usbr/HdbPoet/wiki/Compiling-Open-Source).
 
 Thanks,
 Jon & Karl

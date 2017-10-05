@@ -827,7 +827,7 @@ namespace HdbPoet
             this.selectedSeriesListBox1.Location = new System.Drawing.Point(55, 0);
             this.selectedSeriesListBox1.Margin = new System.Windows.Forms.Padding(0);
             this.selectedSeriesListBox1.Name = "selectedSeriesListBox1";
-            this.selectedSeriesListBox1.Size = new System.Drawing.Size(516, 447);
+            this.selectedSeriesListBox1.Size = new System.Drawing.Size(512, 447);
             this.selectedSeriesListBox1.TabIndex = 15;
             // 
             // timeZoneComboBox2
@@ -853,7 +853,7 @@ namespace HdbPoet
             // 
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.groupBox1);
-            this.MinimumSize = new System.Drawing.Size(1000, 700);
+            this.MinimumSize = new System.Drawing.Size(1000, 500);
             this.Name = "SeriesSelection";
             this.Size = new System.Drawing.Size(1100, 700);
             this.groupBox1.ResumeLayout(false);
