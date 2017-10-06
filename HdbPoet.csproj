@@ -435,7 +435,6 @@
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </Compile>
     <Compile Include="LicensedDependency\ZedGraphDataLoader.cs" />
-    <None Include="HdbPoet_TemporaryKey.pfx" />
     <None Include="UserInterfaces\GraphControl.cs">
       <SubType>UserControl</SubType>
     </None>

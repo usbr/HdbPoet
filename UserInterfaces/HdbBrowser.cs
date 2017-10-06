@@ -1143,7 +1143,7 @@ namespace HdbPoet
 
             this.toolStripButtonAddOverwriteFlag.Enabled = !validationMode;
             this.toolStripButtonClearOverwriteFlag.Enabled = !validationMode;
-
+            this.UpdateViews(true);
         }
 
         private void buttonRefresh_Click(object sender, EventArgs e)

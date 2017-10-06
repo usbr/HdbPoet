@@ -51,8 +51,19 @@
             // 
             // 
             // 
+            this.chart.Aspect.ColorPaletteIndex = 20;
             this.chart.Aspect.View3D = false;
-            this.chart.Aspect.ZOffset = 0D;
+            // 
+            // 
+            // 
+            this.chart.Axes.Automatic = true;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.chart.Axes.Bottom.Grid.Visible = false;
             // 
             // 
             // 
@@ -62,43 +73,88 @@
             // 
             // 
             // 
-            this.chart.Axes.Bottom.Title.Transparent = true;
+            this.chart.Axes.Bottom.Labels.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             // 
             // 
             // 
             // 
             // 
             // 
-            this.chart.Axes.Depth.Title.Transparent = true;
+            // 
+            // 
+            // 
+            this.chart.Axes.Bottom.Title.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             // 
             // 
             // 
             // 
             // 
             // 
-            this.chart.Axes.DepthTop.Title.Transparent = true;
+            this.chart.Axes.Left.AxisPen.Visible = false;
+            // 
+            // 
+            // 
+            this.chart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Solid;
             // 
             // 
             // 
             // 
             // 
             // 
-            this.chart.Axes.Left.Title.Transparent = true;
+            // 
+            // 
+            // 
+            this.chart.Axes.Left.Labels.Font.Brush.Color = System.Drawing.Color.Gray;
+            // 
+            // 
+            // 
+            this.chart.Axes.Left.MinorTicks.Visible = false;
+            // 
+            // 
+            // 
+            this.chart.Axes.Left.Ticks.Visible = false;
             // 
             // 
             // 
             // 
             // 
             // 
-            this.chart.Axes.Right.Title.Transparent = true;
+            // 
+            // 
+            // 
+            this.chart.Axes.Left.Title.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             // 
             // 
             // 
             // 
             // 
             // 
-            this.chart.Axes.Top.Title.Transparent = true;
+            this.chart.Axes.Right.AxisPen.Visible = false;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.chart.Axes.Right.Labels.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.chart.Axes.Top.Labels.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.chart.ContextMenuStrip = this.contextMenuStrip1;
+            this.chart.CurrentTheme = Steema.TeeChart.ThemeType.Report;
             this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // 
@@ -114,10 +170,52 @@
             this.chart.Header.Font.SizeFloat = 14F;
             this.chart.Header.Lines = new string[] {
         ""};
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.chart.Legend.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            // 
+            // 
+            // 
+            this.chart.Legend.Pen.Visible = false;
+            // 
+            // 
+            // 
+            this.chart.Legend.Shadow.Visible = false;
+            this.chart.Legend.Transparent = true;
             this.chart.Location = new System.Drawing.Point(0, 25);
             this.chart.Name = "chart";
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.chart.Panel.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            // 
+            // 
+            // 
+            this.chart.Panel.Brush.Gradient.Visible = false;
             this.chart.Size = new System.Drawing.Size(557, 357);
             this.chart.TabIndex = 1;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.chart.Walls.Back.Brush.Visible = false;
+            this.chart.Walls.Back.Transparent = true;
+            this.chart.Walls.Back.Visible = false;
             // 
             // contextMenuStrip1
             // 
@@ -127,33 +225,33 @@
             this.propertieschartToolStripMenuItem,
             this.editSeriesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(186, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 92);
             // 
             // toolStripMenuItemDates
             // 
             this.toolStripMenuItemDates.Name = "toolStripMenuItemDates";
-            this.toolStripMenuItemDates.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItemDates.Size = new System.Drawing.Size(177, 22);
             this.toolStripMenuItemDates.Text = "Dates...";
             this.toolStripMenuItemDates.Click += new System.EventHandler(this.toolStripMenuItemDates_Click);
             // 
             // undoZoomToolStripMenuItem
             // 
             this.undoZoomToolStripMenuItem.Name = "undoZoomToolStripMenuItem";
-            this.undoZoomToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.undoZoomToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.undoZoomToolStripMenuItem.Text = "Undo Zoom";
             this.undoZoomToolStripMenuItem.Click += new System.EventHandler(this.undoZoomToolStripMenuItem_Click);
             // 
             // propertieschartToolStripMenuItem
             // 
             this.propertieschartToolStripMenuItem.Name = "propertieschartToolStripMenuItem";
-            this.propertieschartToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.propertieschartToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.propertieschartToolStripMenuItem.Text = "Properties (chart) ...";
             this.propertieschartToolStripMenuItem.Click += new System.EventHandler(this.propertieschartToolStripMenuItem_Click);
             // 
             // editSeriesToolStripMenuItem
             // 
             this.editSeriesToolStripMenuItem.Name = "editSeriesToolStripMenuItem";
-            this.editSeriesToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.editSeriesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.editSeriesToolStripMenuItem.Text = "Edit Series ...";
             this.editSeriesToolStripMenuItem.Click += new System.EventHandler(this.editSeriesToolStripMenuItem_Click);
             // 
@@ -177,8 +275,8 @@
             this.toolStripButtonPrint.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPrint.Image")));
             this.toolStripButtonPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPrint.Name = "toolStripButtonPrint";
-            this.toolStripButtonPrint.Size = new System.Drawing.Size(33, 22);
-            this.toolStripButtonPrint.Text = "Print";
+            this.toolStripButtonPrint.Size = new System.Drawing.Size(44, 22);
+            this.toolStripButtonPrint.Text = "Export";
             this.toolStripButtonPrint.Click += new System.EventHandler(this.toolStripButtonPrint_Click);
             // 
             // toolStripButtonDragPoints
@@ -188,7 +286,7 @@
             this.toolStripButtonDragPoints.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDragPoints.Image")));
             this.toolStripButtonDragPoints.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDragPoints.Name = "toolStripButtonDragPoints";
-            this.toolStripButtonDragPoints.Size = new System.Drawing.Size(66, 22);
+            this.toolStripButtonDragPoints.Size = new System.Drawing.Size(72, 22);
             this.toolStripButtonDragPoints.Text = "Drag points";
             this.toolStripButtonDragPoints.Click += new System.EventHandler(this.toolStripButtonDragPoints_Click);
             // 
@@ -198,7 +296,7 @@
             this.toolStripButtonUndoZoom.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonUndoZoom.Image")));
             this.toolStripButtonUndoZoom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonUndoZoom.Name = "toolStripButtonUndoZoom";
-            this.toolStripButtonUndoZoom.Size = new System.Drawing.Size(65, 22);
+            this.toolStripButtonUndoZoom.Size = new System.Drawing.Size(75, 22);
             this.toolStripButtonUndoZoom.Text = "Undo Zoom";
             this.toolStripButtonUndoZoom.Click += new System.EventHandler(this.toolStripButtonUndoZoom_Click);
             // 
@@ -208,7 +306,7 @@
             this.toolStripButtonProperties.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonProperties.Image")));
             this.toolStripButtonProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonProperties.Name = "toolStripButtonProperties";
-            this.toolStripButtonProperties.Size = new System.Drawing.Size(60, 22);
+            this.toolStripButtonProperties.Size = new System.Drawing.Size(64, 22);
             this.toolStripButtonProperties.Text = "Properties";
             this.toolStripButtonProperties.Click += new System.EventHandler(this.toolStripButtonProperties_Click);
             // 
@@ -218,19 +316,18 @@
             this.toolStripButtonDates.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDates.Image")));
             this.toolStripButtonDates.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDates.Name = "toolStripButtonDates";
-            this.toolStripButtonDates.Size = new System.Drawing.Size(39, 22);
+            this.toolStripButtonDates.Size = new System.Drawing.Size(40, 22);
             this.toolStripButtonDates.Text = "Dates";
             this.toolStripButtonDates.Click += new System.EventHandler(this.toolStripButtonDates_Click);
             // 
-            // GraphForm
+            // GraphControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 382);
             this.Controls.Add(this.chart);
             this.Controls.Add(this.toolStrip1);
-            this.Name = "GraphForm";
-            this.Text = "Graph";
+            this.Name = "GraphControl";
+            this.Size = new System.Drawing.Size(557, 382);
             this.contextMenuStrip1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

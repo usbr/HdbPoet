@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using System.Linq;
 using Reclamation.Core;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace HdbPoet
         private SpreadsheetGear.IRange initialUsedRange;
         private string m_colorColumnName = "";
         MultipleSeriesDataTable msDataTable;
+        Regex IsValidNumber = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
 
         public TimeSeriesSpreadsheetSG()
         {
@@ -84,7 +86,10 @@ namespace HdbPoet
         {
             workbookView1.GetLock();
             var valList = new List<double>();
+            int missingCount = 0;
             var rval = "";
+            bool headerRowSelected = (e.RangeSelection.Cells.Row == 0 && e.RangeSelection.Cells.Column != 0);
+            bool headerColSelected = (e.RangeSelection.Cells.Column == 0 && e.RangeSelection.Cells.Row != 0);
             //crunch array stats
             if (e.RangeSelection.CellCount > 1 && e.RangeSelection.CellCount < 1000)
             {
@@ -92,19 +97,13 @@ namespace HdbPoet
                 {
                     if (item.Column != 0 && item.Row != 0 && item.Value != null && item.Value != DBNull.Value)
                     { valList.Add((double)item.Value); }
+                    else
+                    { missingCount++; }
                 }
-                if (valList.Count > 1)
-                {
-                    rval = "Selected Cells Statistics | Count: " + valList.Count +
-                        " | Average: " + valList.ToArray().Average().ToString("F2") +
-                        " | Min: " + valList.ToArray().Min().ToString("F2") +
-                        " | Max: " + valList.ToArray().Max().ToString("F2") +
-                        " | Sum: " + valList.ToArray().Sum().ToString("F2");
-                }
+                rval = "Selected Cells Statistics";
             }
             //crunch column stats
-            int missingCount = 0;
-            if (e.RangeSelection.CellCount == 1 && e.RangeSelection.Cells.Row == 0 && e.RangeSelection.Cells.Column != 0)
+            if (e.RangeSelection.CellCount == 1 && headerRowSelected && !headerColSelected)
             {
                 int processCol = e.RangeSelection.Cells.Column;
                 for (int i = 1; i < initialUsedRange.RowCount; i++)
@@ -115,19 +114,10 @@ namespace HdbPoet
                     else
                     { missingCount++; }
                 }
-                rval = "Selected Column Statistics | Count: " + (initialUsedRange.RowCount - 1) +
-                        " | Missing: " + missingCount;
-                if (valList.Count > 0)
-                {
-                    rval = rval +
-                        " | Average: " + valList.ToArray().Average().ToString("F2") +
-                        " | Min: " + valList.ToArray().Min().ToString("F2") +
-                        " | Max: " + valList.ToArray().Max().ToString("F2") +
-                        " | Sum: " + valList.ToArray().Sum().ToString("F2");
-                }
+                rval = "Selected Column Statistics";
             }
             //crunch row stats
-            if (e.RangeSelection.CellCount == 1 && e.RangeSelection.Cells.Column == 0 && e.RangeSelection.Cells.Row != 0)
+            if (e.RangeSelection.CellCount == 1 && headerColSelected && !headerRowSelected)
             {
                 int processRow = e.RangeSelection.Cells.Row;
                 for (int i = 1; i < initialUsedRange.ColumnCount; i++)
@@ -138,19 +128,21 @@ namespace HdbPoet
                     else
                     { missingCount++; }
                 }
-                rval = "Selected Row Statistics | Count: " + (initialUsedRange.ColumnCount - 1) +
-                        " | Missing: " + missingCount;
-                if (valList.Count > 0)
-                {
-                    rval = rval +
-                        " | Average: " + valList.ToArray().Average().ToString("F2") +
-                        " | Min: " + valList.ToArray().Min().ToString("F2") +
-                        " | Max: " + valList.ToArray().Max().ToString("F2") +
-                        " | Sum: " + valList.ToArray().Sum().ToString("F2");
-                }
-
+                rval = "Selected Row Statistics";
             }
-            toolStripStatusLabel1.Text = rval;
+            if (valList.Count > 1)
+            {
+                rval = rval + " | Count: " + valList.Count + " | Missing: " + missingCount +
+                    " | Average: " + valList.ToArray().Average().ToString("F2") +
+                    " | Min: " + valList.ToArray().Min().ToString("F2") +
+                    " | Max: " + valList.ToArray().Max().ToString("F2") +
+                    " | Sum: " + valList.ToArray().Sum().ToString("F2");
+                toolStripStatusLabel1.Text = rval;
+            }
+            else if (valList.Count != 0 || missingCount != 0)
+            { toolStripStatusLabel1.Text = rval + " | Count: " + valList.Count + " | Missing: " + missingCount; }
+            else
+            { toolStripStatusLabel1.Text = ""; }
             toolStripStatusLabel1.ForeColor = Color.Blue;
             workbookView1.ReleaseLock();
         }
@@ -225,6 +217,7 @@ namespace HdbPoet
                     }
                 }
                 //process cell
+
                 if (activeCellUsed)
                 {
                     // check if row has a date
@@ -240,15 +233,18 @@ namespace HdbPoet
                         {
                             // check if cell value was changed
                             var sgVal = workbookView1.ActiveCell.Value;//workSheet1.Cells[sgRow, sgCol].Value;
-                            double origVal, editVal;
+                            double origVal = 0, editVal = 0;
                             if (!Double.TryParse(msDataTable.Rows[dGridRow][dGridCol].ToString(), out origVal))
                             { origVal = double.NaN; }
                             if (sgVal == null)
                             { editVal = double.NaN; }
+                            else if (!IsValidNumber.IsMatch(sgVal.ToString())) //diallow not numbers in used data range
+                            {
+                                workSheet1.Range[sgRow, sgCol].Value = msDataTable.Rows[dGridRow][dGridCol].ToString();// origVal;
+                                break;
+                            }
                             else
-                            { editVal = Convert.ToDouble(sgVal.ToString()); }
-                            //origVal = Convert.ToDouble(msDataTable.Rows[dGridRow][dGridCol].ToString());
-                            //editVal = Convert.ToDouble(workbookView1.ActiveCell.Value);
+                            { editVal = Convert.ToDouble(sgVal); }
                             if ((origVal != editVal && !double.IsNaN(origVal)) || (double.IsNaN(origVal) && !double.IsNaN(editVal)))
                             {
                                 // format cell
@@ -295,7 +291,6 @@ namespace HdbPoet
             m_colorColumnName = colorColumnName;
             this.msDataTable = table;
             this.dataGrid1.DataSource = msDataTable;
-
             /////////////////////////////////////////////////
             // Create a new workbook and worksheet.
             SpreadsheetGear.IWorkbook workbook = SpreadsheetGear.Factory.GetWorkbook();
@@ -308,12 +303,9 @@ namespace HdbPoet
             // Format SG worksheet
             FormatSpreadsheetView();
             workbookView1.ActiveWorkbook = workbook;
-
             /////////////////////////////////////////////////
-
             msDataTable.RowChanged += new DataRowChangeEventHandler(workSheet1_DataChanged);
 
-            //FormatDataGridView();
         }
         
         /// <summary>
@@ -366,22 +358,22 @@ namespace HdbPoet
             // Set global spreadsheet formatting
             workSheet1.UsedRange.WrapText = true;
             workSheet1.UsedRange.HorizontalAlignment = SpreadsheetGear.HAlign.Right;
-            //workSheet1.Range.Style.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.AntiqueWhite);
             // Format row & col headers
-            workSheet1.Range["A1"].EntireColumn.AutoFit();
-            workSheet1.Range["A1"].EntireColumn.Font.Bold = true;
-            workSheet1.Range["A1"].EntireColumn.Locked = true;
-            workSheet1.Range["A1"].EntireRow.AutoFit();
-            workSheet1.Range["A1"].EntireRow.Font.Bold = true;
-            workSheet1.Range["A1"].EntireRow.Locked = true;
-            if (workSheet1.Range["A1"].EntireColumn.ColumnWidth < 12.0)
-            { workSheet1.Range["A1"].EntireColumn.ColumnWidth = 12.0; }
-            workSheet1.Range["A1"].EntireColumn.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
-            workSheet1.Range["A1"].EntireRow.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
-            workSheet1.Range["A1"].EntireColumn.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
-            workSheet1.Range["A1"].EntireRow.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
-            workSheet1.Range["A1"].EntireColumn.Font.Italic = true;
-            workSheet1.Range["A1"].EntireRow.Font.Italic = true;
+            var header = workSheet1.Range["A1"];             
+            header.EntireColumn.AutoFit();
+            header.EntireColumn.Font.Bold = true;
+            header.EntireColumn.Locked = true;
+            header.EntireRow.AutoFit();
+            header.EntireRow.Font.Bold = true;
+            header.EntireRow.Locked = true;
+            if (header.EntireColumn.ColumnWidth < 12.0) { header.EntireColumn.ColumnWidth = 12.0; }
+            header.EntireColumn.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
+            header.EntireRow.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
+            header.EntireColumn.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+            header.EntireRow.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+            header.EntireColumn.Font.Italic = true;
+            header.EntireRow.Font.Italic = true;
+            //workSheet1.Range.Font.Name = "Calibri";
             // Split col header 
             workSheet1.WindowInfo.ScrollColumn = 0;
             workSheet1.WindowInfo.SplitColumns = 1;
@@ -393,8 +385,8 @@ namespace HdbPoet
             // Lock row and column headers, unlock everything else
             initialUsedRange = workSheet1.UsedRange;
             workSheet1.Range.Locked = false;
-            workSheet1.Range["A1"].EntireRow.Locked = true;
-            workSheet1.Range["A1"].EntireColumn.Locked = true;
+            header.EntireRow.Locked = true;
+            header.EntireColumn.Locked = true;
             workSheet1.ProtectContents = true;
 
             workbookView1.ReleaseLock();
@@ -404,21 +396,21 @@ namespace HdbPoet
         private void FormatEditedCell(int sgRow, int sgCol)
         {
             workSheet1.Cells[sgRow, sgCol].Select();
-            workbookView1.ActiveCell.Font.Bold = true;// workSheet1.Cells[sgRow, sgCol].Font.Bold = true;
+            workbookView1.ActiveCell.Font.Bold = true;
             workbookView1.ActiveCell.Font.Italic = true;
             workbookView1.ActiveCell.HorizontalAlignment = SpreadsheetGear.HAlign.Left;
-            workbookView1.ActiveCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Yellow);
+            workbookView1.ActiveCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
             workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
         }
 
         private void ClearCellFormat(int sgRow, int sgCol)
         {
             workSheet1.Cells[sgRow, sgCol].Select();
-            workbookView1.ActiveCell.Font.Bold = false;// workSheet1.Cells[0, 0].Font.Bold;
-            workbookView1.ActiveCell.Font.Italic = false;// workSheet1.Cells[0, 0].Font.Italic;
-            workbookView1.ActiveCell.HorizontalAlignment = SpreadsheetGear.HAlign.Center;// workSheet1.Cells[0, 0].HorizontalAlignment;
-            workbookView1.ActiveCell.Font.Color = workSheet1.Cells[0, 0].Font.Color;
-            workbookView1.ActiveCell.Interior.Color = workSheet1.Cells[0, 0].Interior.Color;
+            workbookView1.ActiveCell.Font.Bold = false;
+            workbookView1.ActiveCell.Font.Italic = false;
+            workbookView1.ActiveCell.HorizontalAlignment = SpreadsheetGear.HAlign.Center;
+            workbookView1.ActiveCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.SlateGray);
+            workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Transparent);
         }
 
 
