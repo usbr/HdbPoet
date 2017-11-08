@@ -44,6 +44,7 @@ namespace HdbPoet
             workbookView1.RangeSelectionChanged += new RangeSelectionChangedEventHandler(workSheet1_SelectionChanged);
             workbookView1.KeyDown += new KeyEventHandler(workSheet1_KeyDown);
             workbookView1.CellBeginEdit += new CellBeginEditEventHandler(workSheet1_CellBeginEdit);
+            workbookView1.CellEndEdit += new CellEndEditEventHandler(workSheet1_CellEndEdit);
         }
 
         /******************************************************************
@@ -57,9 +58,21 @@ namespace HdbPoet
         /// <param name="e"></param>
         private void workSheet1_CellBeginEdit(object sender, CellBeginEditEventArgs e)
         {
-            //workbookView1.GetLock();
-            //var a = workbookView1.RangeSelection;
-            //workbookView1.ReleaseLock();
+            var activeCell = workbookView1.ActiveCell;
+            // Diasble edits to header row and column
+            if (activeCell.Row == 0 || activeCell.Column == 0)
+            { e.Cancel = true; }
+
+        }
+
+        /// <summary>
+        /// Handler for events that occur after edits are processed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void workSheet1_CellEndEdit(object sender, CellEndEditEventArgs e)
+        {
+            
         }
 
         /// <summary>
@@ -90,6 +103,9 @@ namespace HdbPoet
             var rval = "";
             bool headerRowSelected = (e.RangeSelection.Cells.Row == 0 && e.RangeSelection.Cells.Column != 0);
             bool headerColSelected = (e.RangeSelection.Cells.Column == 0 && e.RangeSelection.Cells.Row != 0);
+            bool rowInUsedRange = (e.RangeSelection.Cells.Row < initialUsedRange.RowCount);
+            bool colInUsedRange = (e.RangeSelection.Cells.Column < initialUsedRange.ColumnCount);
+
             //crunch array stats
             if (e.RangeSelection.CellCount > 1 && e.RangeSelection.CellCount < 1000)
             {
@@ -103,7 +119,7 @@ namespace HdbPoet
                 rval = "Selected Cells Statistics";
             }
             //crunch column stats
-            if (e.RangeSelection.CellCount == 1 && headerRowSelected && !headerColSelected)
+            if (e.RangeSelection.CellCount == 1 && colInUsedRange && headerRowSelected && !headerColSelected)
             {
                 int processCol = e.RangeSelection.Cells.Column;
                 for (int i = 1; i < initialUsedRange.RowCount; i++)
@@ -117,7 +133,7 @@ namespace HdbPoet
                 rval = "Selected Column Statistics";
             }
             //crunch row stats
-            if (e.RangeSelection.CellCount == 1 && headerColSelected && !headerRowSelected)
+            if (e.RangeSelection.CellCount == 1 && rowInUsedRange && headerColSelected && !headerRowSelected)
             {
                 int processRow = e.RangeSelection.Cells.Row;
                 for (int i = 1; i < initialUsedRange.ColumnCount; i++)
@@ -311,7 +327,49 @@ namespace HdbPoet
             msDataTable.RowChanged += new DataRowChangeEventHandler(workSheet1_DataChanged);
 
         }
-        
+
+        /// <summary>
+        /// Sets the msDataTable into SG - Overload for the TimeSeriesCommitChanges UI
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="colorColumnName"></param>
+        internal void SetTable(MultipleSeriesDataTable table, string colorColumnName, bool onlyShowModified)
+        {
+            SetTable(table, colorColumnName);
+            if (onlyShowModified)
+            {
+                workbookView1.GetLock();
+                workbookView1.BeginUpdate();
+
+                foreach (DataRow dr in table.Rows)
+                {
+                    if (dr.RowState == DataRowState.Modified)
+                    {
+                        foreach (DataColumn dc in table.Columns)
+                        {
+                            if (!dr[dc, DataRowVersion.Original].Equals(dr[dc, DataRowVersion.Current]) && table.Columns.IndexOf(dc) != 0)
+                            {
+                                //workSheet1.Cells.Range[table.Rows.IndexOf(dr) + 1, table.Columns.IndexOf(dc)].EntireColumn.Hidden = true;
+                                var editedCell = workSheet1.Cells.Range[table.Rows.IndexOf(dr) + 1, table.Columns.IndexOf(dc)];
+                                editedCell.Font.Bold = true;
+                                editedCell.HorizontalAlignment = SpreadsheetGear.HAlign.Center;
+                                editedCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+                                editedCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Red);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        workSheet1.Cells.Range[table.Rows.IndexOf(dr) + 1, 0].EntireRow.Hidden = true;
+                    }
+                }
+
+                workbookView1.ReleaseLock();
+                workbookView1.EndUpdate();
+            }
+
+        }
+
         /// <summary>
         /// Formats SG Table
         /// </summary>
@@ -360,11 +418,12 @@ namespace HdbPoet
                 }
             }
 
-            // Set global spreadsheet formatting
+            // Set global spreadsheet formatting and variables
             workSheet1.UsedRange.WrapText = true;
             workSheet1.UsedRange.HorizontalAlignment = SpreadsheetGear.HAlign.Right;
             workSheet1.UsedRange.Borders.LineStyle = SpreadsheetGear.LineStyle.Dot;
             workSheet1.UsedRange.Borders.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
+            initialUsedRange = workSheet1.UsedRange;
             // Format row & col headers
             var header = workSheet1.Range["A1"];             
             header.EntireColumn.AutoFit();
@@ -390,11 +449,10 @@ namespace HdbPoet
             // Freeze headers 
             workSheet1.WindowInfo.FreezePanes = true;
             // Lock row and column headers, unlock everything else
-            initialUsedRange = workSheet1.UsedRange;
             workSheet1.Range.Locked = false;
             header.EntireRow.Locked = true;
             header.EntireColumn.Locked = true;
-            workSheet1.ProtectContents = true;
+            workSheet1.ProtectContents = false;
 
             workbookView1.ReleaseLock();
             workbookView1.EndUpdate();
@@ -611,17 +669,20 @@ namespace HdbPoet
 
         private void toolStripMenuItemInterpolate_Click(object sender, EventArgs e)
         {
-            var interpolate = new DataGridSelection(dataGrid1);
+            workbookView1.GetLock();
 
-            interpolate.Interpolate();
+            Interpolate();
+
+            workbookView1.ReleaseLock();
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             workbookView1.GetLock();
-            var interpolate = new DataGridSelection(dataGrid1);
 
-            this.toolStripMenuItemInterpolate.Enabled = interpolate.ValidInterpolationSelection;
+            // check if selected range can be interpolated
+            this.toolStripMenuItemInterpolate.Enabled = CheckInterpolateAvailable();
+
             //check if cell can have ts-point details
             this.menuDetails.Enabled = workbookView1.RangeSelection.CellCount == 1 &&
                 workbookView1.RangeSelection.Column != 0 && 
@@ -711,6 +772,42 @@ namespace HdbPoet
 
             workbookView1.ReleaseLock();
             toolStripStatusLabel1.Text = "";
+        }
+
+        private bool CheckInterpolateAvailable()
+        {
+            var selRange = workbookView1.RangeSelection;
+            bool interpolateAvailable = (
+                // check selection in used range
+                selRange.Column > 0 
+                && selRange.Column < initialUsedRange.ColumnCount
+                && selRange.Rows[0, 0].Row > 0
+                && selRange.Rows[selRange.RowCount, 0].Row < initialUsedRange.RowCount
+                // check selection is single col
+                && selRange.ColumnCount == 1
+                //check selection has at least 3 rows
+                && selRange.CellCount >= 3
+                // check end points values are not missing
+                && selRange.Rows[0, 0].Value != DBNull.Value
+                && selRange.Rows[0, 0].Value != null
+                && selRange.Rows[selRange.RowCount - 1, 0].Value != DBNull.Value
+                && selRange.Rows[selRange.RowCount - 1, 0].Value != null
+            );
+            return interpolateAvailable;
+        }
+
+        public void Interpolate()
+        {
+            var selRange = workbookView1.RangeSelection;
+            double d1 = Convert.ToDouble(selRange.Rows[0, 0].Value);
+            double d2 = Convert.ToDouble(selRange.Rows[selRange.RowCount - 1, 0].Value);
+
+            double increment = (d2 - d1) / (selRange.Rows[selRange.RowCount, 0].Row - selRange.Rows[0, 0].Row - 1);
+
+            for (int rowIndex = 0; rowIndex < selRange.Rows.RowCount; rowIndex++)
+            {
+                selRange.Rows[0, 0].Offset(rowIndex, 0).Value = d1 + (increment * rowIndex);
+            }
         }
 
         #endregion

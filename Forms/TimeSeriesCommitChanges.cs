@@ -14,8 +14,14 @@ namespace HdbPoet
             string[] validationList, string colorColumnName)
         {
             InitializeComponent();
+
+#if HDB_OPEN
             this.timeSeriesSpreadsheet1.SetTable(table,colorColumnName);
-            this.timeSeriesSpreadsheet1.DataViewRowState = DataViewRowState.ModifiedCurrent;
+            this.timeSeriesSpreadsheet1.DataViewRowState = DataViewRowState.ModifiedCurrent;            
+#else
+            this.timeSeriesSpreadsheet1.SetTable(table, colorColumnName, true);
+#endif
+
             SetupValidationList(validationList);
         }
 
