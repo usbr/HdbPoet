@@ -216,9 +216,10 @@ namespace HdbPoet
                         break;
                     }
                 }
+                bool headerCell = (workbookView1.ActiveCell.Row == 0 || workbookView1.ActiveCell.Column == 0);
                 //process cell
 
-                if (activeCellUsed)
+                if (activeCellUsed && !headerCell)
                 {
                     // check if row has a date
                     object o = workSheet1.Range[workbookView1.ActiveCell.Row, 0].Value;
@@ -264,10 +265,13 @@ namespace HdbPoet
                         }
                     }
                 }
-                //clear cell formatting
+                else if (!headerCell) // header cell
+                {
+                    ClearCellFormat(sgRow, sgCol);//clear cell formatting
+                }                
                 else
                 {
-                    ClearCellFormat(sgRow, sgCol);
+                    
                 }
             }
             workbookView1.EndUpdate();
@@ -323,6 +327,7 @@ namespace HdbPoet
                     var s = msDataTable.LookupSeries(c);
                     //dataGrid1.Columns[c].DefaultCellStyle.Format = msDataTable.LookupSeries(c).DisplayFormat;
                     var dispFormat = msDataTable.LookupSeries(c).DisplayFormat;
+                    workSheet1.Range.Columns[0, c].EntireColumn.NumberFormat = ResolveNumberFormat(dispFormat);
                     workSheet1.UsedRange.Columns[0, c].Locked = msDataTable.LookupSeries(c).ReadOnly;
                     // adjust column width to auto-fit longest header entry
                     var cName = workSheet1.Range[0,c].Value.ToString().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -358,6 +363,8 @@ namespace HdbPoet
             // Set global spreadsheet formatting
             workSheet1.UsedRange.WrapText = true;
             workSheet1.UsedRange.HorizontalAlignment = SpreadsheetGear.HAlign.Right;
+            workSheet1.UsedRange.Borders.LineStyle = SpreadsheetGear.LineStyle.Dot;
+            workSheet1.UsedRange.Borders.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
             // Format row & col headers
             var header = workSheet1.Range["A1"];             
             header.EntireColumn.AutoFit();
@@ -413,7 +420,28 @@ namespace HdbPoet
             workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Transparent);
         }
 
-
+        private string ResolveNumberFormat(string numFormat)
+        {
+            string numStr = "General";//default
+            if (numFormat != "")
+            {
+                if (numFormat.Contains("N"))
+                {
+                    numStr = "#,##0";
+                }
+                else
+                {
+                    numStr = "0";
+                }
+                int decimalCount = Convert.ToInt16(numFormat[numFormat.Length - 1].ToString());
+                for (int i = 0; i < decimalCount; i++)
+                {
+                    if (i == 0) { numStr += ".0"; }
+                    else { numStr += "0"; }
+                }
+            }
+            return numStr;
+        }
         /******************************************************************
          * BASE TIMESERIESSPREADSHEET METHODS
          ******************************************************************/

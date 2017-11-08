@@ -12,6 +12,7 @@ AppVersion={#AppVerStr}
 AppVerName={#AppName} {#AppVerStr}
 AppPublisher=Reclamation
 DefaultDirName={sd}\HDB-POET
+UsePreviousAppDir=no
 DefaultGroupName=HDB-POET
 OutputBaseFilename=setup_hdbpoet
 Compression=lzma
