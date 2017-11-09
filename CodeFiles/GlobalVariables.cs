@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace HdbPoet
 {
@@ -44,5 +45,23 @@ namespace HdbPoet
             set { validationFlag = value; }
         }
 
+        public static List<int> hdbObjectTypes
+        {
+            get
+            {
+                string s = ConfigurationManager.AppSettings["objectTypes"];
+                return s.Split(',').Select(x=>int.Parse(x)).ToList();
+            }
+            set
+            {
+                string s = "";
+                foreach (int item in value)
+                {
+                    s += item.ToString() + ",";
+                }
+                s = s.TrimEnd(',');
+                ConfigurationManager.AppSettings["objectTypes"] = s;
+            }
+        }
     }
 }

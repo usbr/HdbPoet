@@ -62,7 +62,6 @@ namespace HdbPoet
             // Diasble edits to header row and column
             if (activeCell.Row == 0 || activeCell.Column == 0)
             { e.Cancel = true; }
-
         }
 
         /// <summary>
@@ -88,6 +87,7 @@ namespace HdbPoet
             //    //e.SuppressKeyPress = true;
             //    pasteToolStripMenuItem_Click(sender, e);
             //}
+            CheckSecretCode(e);
         }
 
         /// <summary>
@@ -458,6 +458,11 @@ namespace HdbPoet
             workbookView1.EndUpdate();
         }       
 
+        /// <summary>
+        /// Format SG cell as edited
+        /// </summary>
+        /// <param name="sgRow"></param>
+        /// <param name="sgCol"></param>
         private void FormatEditedCell(int sgRow, int sgCol)
         {
             workSheet1.Cells[sgRow, sgCol].Select();
@@ -468,6 +473,11 @@ namespace HdbPoet
             workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
         }
 
+        /// <summary>
+        /// Clear SG cell format
+        /// </summary>
+        /// <param name="sgRow"></param>
+        /// <param name="sgCol"></param>
         private void ClearCellFormat(int sgRow, int sgCol)
         {
             workSheet1.Cells[sgRow, sgCol].Select();
@@ -478,6 +488,11 @@ namespace HdbPoet
             workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Transparent);
         }
 
+        /// <summary>
+        /// Converts the C# string number format (F0,F1..., N4) into an Excel custom number format
+        /// </summary>
+        /// <param name="numFormat"></param>
+        /// <returns></returns>
         private string ResolveNumberFormat(string numFormat)
         {
             string numStr = "General";//default
@@ -676,6 +691,11 @@ namespace HdbPoet
             workbookView1.ReleaseLock();
         }
 
+        /// <summary>
+        /// Determine which options should be available when user right-clicks
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             workbookView1.GetLock();
@@ -693,6 +713,11 @@ namespace HdbPoet
             workbookView1.ReleaseLock();
         }
 
+        /// <summary>
+        /// Build and show data point details window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuDetails_Click(object sender, EventArgs e)
         {
             workbookView1.GetLock();
@@ -774,6 +799,10 @@ namespace HdbPoet
             toolStripStatusLabel1.Text = "";
         }
 
+        /// <summary>
+        /// Check if interpolation is available for the selected range
+        /// </summary>
+        /// <returns></returns>
         private bool CheckInterpolateAvailable()
         {
             var selRange = workbookView1.RangeSelection;
@@ -796,6 +825,9 @@ namespace HdbPoet
             return interpolateAvailable;
         }
 
+        /// <summary>
+        /// Interpolate data points between selected range
+        /// </summary>
         public void Interpolate()
         {
             var selRange = workbookView1.RangeSelection;
@@ -960,6 +992,27 @@ namespace HdbPoet
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+        
+
+        private List<Keys> secretKeyLog = new List<Keys>();
+        private List<Keys> secretKeys = new List<Keys> { Keys.Up, Keys.Up, Keys.Down, Keys.Down, Keys.Left, Keys.Right, Keys.Left, Keys.Right, Keys.B, Keys.A, Keys.Enter };
+        private void CheckSecretCode(KeyEventArgs e)
+        {
+            if (secretKeyLog.Count > 100)
+            { secretKeyLog = new List<Keys>(); }
+            secretKeyLog.Add(e.KeyCode);
+
+            bool contra = secretKeyLog
+                .Where((item, index) => index <= secretKeyLog.Count - secretKeys.Count)
+                .Select((item, index) => secretKeyLog.Skip(index).Take(secretKeys.Count))
+                .Any(part => part.SequenceEqual(secretKeys));
+
+            if (contra)
+            {
+                MessageBox.Show("Congratulations! You're a nerd...\r\nhttps://en.wikipedia.org/wiki/Konami_Code", "OMGWTFCONTRA", MessageBoxButtons.OK);
+                secretKeyLog = new List<Keys>();
+            }
         }
         #endregion
 

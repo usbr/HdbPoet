@@ -571,9 +571,9 @@ namespace HdbPoet
                     string s = ConfigurationManager.AppSettings["objectTypes"];
                     string[] otypes = s.Split(',');
                     string sql = "select * from hdb_objecttype ";
-                    sql += "Where objecttype_name in ('"
+                    sql += "Where objecttype_id in ('"
                         + String.Join("','", otypes) + "') ";
-                    sql += "order by objecttype_name";
+                    sql += "order by objecttype_parent_order";
                     _object_types = m_server.Table("hdb_objecttype", sql);
                 }
                 return _object_types;
