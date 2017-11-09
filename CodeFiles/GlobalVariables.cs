@@ -60,7 +60,19 @@ namespace HdbPoet
                     s += item.ToString() + ",";
                 }
                 s = s.TrimEnd(',');
-                ConfigurationManager.AppSettings["objectTypes"] = s;
+
+                try
+                {
+                    var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    var settings = configFile.AppSettings.Settings;
+                    settings["objectTypes"].Value = s;
+                    configFile.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+                }
+                catch
+                {
+                    System.Windows.Forms.MessageBox.Show("Error editing application settings...", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                }
             }
         }
     }

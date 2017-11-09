@@ -242,6 +242,7 @@ namespace HdbPoet
             this.buttonObjectList.TabIndex = 11;
             this.buttonObjectList.Text = "Object List";
             this.buttonObjectList.UseVisualStyleBackColor = true;
+            this.buttonObjectList.Click += new System.EventHandler(this.openObjectTypeUI);
             // 
             // label3
             // 
@@ -341,6 +342,15 @@ namespace HdbPoet
         private void openNewPoetInstance(object sender, EventArgs e)
         {
             Application.Restart();
+        }
+
+        private void openObjectTypeUI(object sender, EventArgs e)
+        {
+            var dlg = new SelectObjectTypes();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show("Restart HDB POET for changes to take effect...", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void validationGroupBox_CheckedChanged(object sender, EventArgs e)

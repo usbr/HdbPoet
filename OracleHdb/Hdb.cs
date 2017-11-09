@@ -581,6 +581,17 @@ namespace HdbPoet
         }
 
 
+        public DataTable ObjectTypesTableAll
+        {
+            get
+            {
+                string sql = "select * from hdb_objecttype order by objecttype_id";
+                _object_types = m_server.Table("hdb_objecttype", sql);
+                return _object_types;
+            }
+        }
+
+
         public DataSet BuildSiteList()
         {
             string filename = "SiteList.xml";

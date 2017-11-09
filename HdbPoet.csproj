@@ -278,6 +278,12 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Forms\SelectObjectTypes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SelectObjectTypes.Designer.cs">
+      <DependentUpon>SelectObjectTypes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ColumnFormat.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -536,6 +542,9 @@
     <EmbeddedResource Include="Forms\Acl\AddUserAndGroup.resx">
       <DependentUpon>AddUserAndGroup.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SelectObjectTypes.resx">
+      <DependentUpon>SelectObjectTypes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ColumnFormat.resx">
       <DependentUpon>ColumnFormat.cs</DependentUpon>
     </EmbeddedResource>
@@ -689,6 +698,7 @@
     </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
