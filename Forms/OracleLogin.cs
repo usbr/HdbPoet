@@ -43,9 +43,6 @@ namespace HdbPoet
             this.comboBoxHostList.DisplayMember = "ServicePrefix";
             this.comboBoxHostList.ValueMember = "Host";
             this.comboBoxHostList.DataSource = Settings.GetConnectionInfoList();
-            //this.comboBoxHostList.Items.AddRange(Settings.GetServiceNames());
-
-
 
             if (comboBoxHostList.Items.Count > 0)
             {
@@ -54,6 +51,7 @@ namespace HdbPoet
                     this.comboBoxHostList.SelectedValue = defaultHostname;
                 }
                 else
+                {
                     if (Settings.Default.SelectedHdbHost.Trim() == "")
                     {
                         comboBoxHostList.SelectedIndex = 0;// select first as default
@@ -62,6 +60,7 @@ namespace HdbPoet
                     {
                         this.comboBoxHostList.SelectedValue = Settings.Default.SelectedHdbHost;
                     }
+                }
             }
         }
         /// <summary>
@@ -250,29 +249,19 @@ namespace HdbPoet
 
         private void buttonOk_Click(object sender, System.EventArgs e)
         {
-
-
-
-            string servicePrefix = "";
-            if (this.comboBoxHostList.SelectedValue != null)
-            {
-                servicePrefix = this.comboBoxHostList.SelectedValue.ToString();
-            }
-
-            ConnectionInfo = Settings.GetConnectionInfo(servicePrefix);
+            ConnectionInfo = (HdbPoet.OracleConnectionInfo)this.comboBoxHostList.SelectedItem;
             ConnectionInfo.Username = this.textBoxUser.Text;
             ConnectionInfo.Password = this.textBoxPass.Text;
 
-            Settings.Default.SelectedHdbHost = servicePrefix;
-            if(string.IsNullOrEmpty(this.txtPort.Text))
-                {
-                    MessageBox.Show("You must enter a port number - Default is 1521", "HDB Poet");
-                }
+            Settings.Default.SelectedHdbHost = ConnectionInfo.Host;
+            if (string.IsNullOrEmpty(this.txtPort.Text))
+            {
+                MessageBox.Show("You must enter a port number - Default is 1521", "HDB Poet");
+            }
             else
-                {
-                    ConnectionInfo.Port = this.txtPort.Text;
-                }
-            
+            {
+                ConnectionInfo.Port = this.txtPort.Text;
+            }
 
             Close();
         }

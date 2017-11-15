@@ -151,6 +151,7 @@ namespace HdbPoet.Properties {
   <string>host:ibr3rwatr.lc.usbr.gov service:lctest  timezone:MST</string>
   <string>host:www.troa.net service:troahdb timezone:PDT</string>
   <string>host:ibr3yaohdb.bor.doi.net service:yaohdb  timezone:MST</string>
+  <string>host:ibr3yaohdb.bor.doi.net service:yaotest  timezone:MST</string>
   <string>host:uchdbdev.uc.usbr.gov service:uchdbdev.uc.usbr.gov  timezone:MST</string>
   <string>host:ibr4ucraplx003.bor.doi.net service:uchdb2.bor.doi.net  timezone:MST</string>
   <string>host:gphyd1.bor.doi.net service:hydro.bor.doi.net  timezone:MDT</string>
