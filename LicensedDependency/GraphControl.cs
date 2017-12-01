@@ -139,7 +139,7 @@ namespace HdbPoet
 
         void Form1_GetSeriesMark(Steema.TeeChart.Styles.Series series, Steema.TeeChart.Styles.GetSeriesMarkEventArgs e)
         {
-            var t = DateTime.FromOADate(Convert.ToInt64(series.XValues[e.ValueIndex].ToString()));
+            var t = DateTime.FromOADate(Convert.ToDouble(series.XValues[e.ValueIndex].ToString()));
             var val = Convert.ToDouble(series.YValues[e.ValueIndex].ToString()).ToString("#,###,###.##");
             e.MarkText = "Date-Time: " + t.ToString("MM/dd/yyyy HH:mm") + "\r\n" + series.Title + ": " + val;
         }

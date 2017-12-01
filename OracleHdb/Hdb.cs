@@ -413,12 +413,13 @@ namespace HdbPoet
                 timeZone = "MST";
 
             t1 = AdjustDateToMatchInterval(interval, t1);
+            t2 = AdjustDateToMatchInterval(interval, t2);
 
             string dateSubquery = datesQuery(interval, instantInterval, t1, t2, timeZone);
 
             string wherePreamble = " where ";
             if (tableName == "r_base")
-                wherePreamble += " C.interval(+) = '" + interval + "' and ";
+                wherePreamble += " B.interval(+) = '" + interval + "' and ";
 
             string sql =
              "select " + ToLocalTimeZone("A.date_time", interval, timeZone) + ", B.value, "
@@ -1035,6 +1036,75 @@ group by d.datatype_id, d.datatype_common_name
             }
 
             DataTable rval = m_server.Table("SiteInfo", sql);
+
+            return rval;
+        }
+
+
+        public bool CheckDataQaQcTables()
+        {
+            string sql = "SELECT * FROM all_tables WHERE lower(table_name) IN ('ref_interval_copy_limits','ref_ext_site_data_map','ref_ext_site_data_map_keyval')";
+            DataTable rval = m_server.Table("QaQcTablesExist", sql);
+            bool tablesExist = rval.Rows.Count >= 3;
+            return tablesExist;
+        }
+
+
+        /// <summary>
+        /// Method to get data value QA/QC thresholds from REF_INTERVAL_COPY_LIMITS
+        /// </summary>
+        /// <param name="sdi"></param>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        public DataTable GetDataQaQcAlarms(string sdi, string interval)
+        {
+            string sql = string.Format(
+                "select " +
+                "  d.site_datatype_id as SDI, " + 
+                "  d.min_value_expected as EXMIN, " +
+                "  d.max_value_expected as EXMAX, " +
+                "  d.min_value_cutoff as CUTMIN, " +
+                "  d.max_value_cutoff as CUTMAX " +
+                "from " +
+                "  ref_interval_copy_limits d " +
+                "where " +
+                "  d.site_datatype_id in ({0}) " +
+                "  and d.interval = 'hour'",
+                sdi, interval);
+
+            DataTable rval = m_server.Table("SdiAlarms", sql);
+
+            return rval;
+        }
+
+
+        /// <summary>
+        /// Method to get data value QA/QC thresholds from REF_EXT_SITE_DATA_MAP & REF_EXT_SITE_DATA_MAP_KEYVAL
+        /// </summary>
+        /// <param name="sdi"></param>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        public DataTable GetDataQaQcLimits(string sdi, string interval)
+        {
+            string sql = string.Format(
+                "select " +
+                "  e.hdb_site_datatype_id as SDI, " + 
+                "  f.key_value as ROC, " +
+                "  g.key_value as RPT " +
+                "from " +
+                "  ref_ext_site_data_map e, " +
+                "  ref_ext_site_data_map_keyval f, " +
+                "  ref_ext_site_data_map_keyval g " +
+                "where " +
+                "  e.hdb_site_datatype_id in ({0}) " +
+                "  and e.hdb_interval_name = '{1}' " +
+                "  and e.mapping_id = f.mapping_id " +
+                "  and e.mapping_id = g.mapping_id " +
+                "  and f.key_name = 'rate of change limit' " +
+                "  and g.key_name = 'repeat limit'",
+                sdi, interval);
+
+            DataTable rval = m_server.Table("SdiLimits", sql);
 
             return rval;
         }

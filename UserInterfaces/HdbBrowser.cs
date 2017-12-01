@@ -78,6 +78,7 @@ namespace HdbPoet
         private Panel panelGraph;
         IGraphControl graphControlPopup;
         private TabPage tabPageAnalysis;
+        private ToolStripButton toolStripButtonQaQc;
         IGraphControl graphControlRight;
         
 
@@ -113,6 +114,7 @@ namespace HdbPoet
             tabControl1.Selected += new TabControlEventHandler(selectedTabIndexChanged);
 
             ValidationButtonEnabling();
+            QaQcButtonEnabling();
             Logger.OnLogEvent += new StatusEventHandler(Logger_OnLogEvent);
         }
 
@@ -207,6 +209,7 @@ namespace HdbPoet
             this.buttonRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonDates = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonValidation = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonQaQc = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPrint = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonExcel = new System.Windows.Forms.ToolStripButton();
@@ -286,6 +289,7 @@ namespace HdbPoet
             this.buttonRefresh,
             this.toolStripButtonDates,
             this.toolStripButtonValidation,
+            this.toolStripButtonQaQc,
             this.toolStripButtonCopyToClipboard,
             this.toolStripButtonPrint,
             this.toolStripButtonExcel,
@@ -356,6 +360,18 @@ namespace HdbPoet
             this.toolStripButtonValidation.Size = new System.Drawing.Size(64, 29);
             this.toolStripButtonValidation.Text = "Validation";
             this.toolStripButtonValidation.Click += new System.EventHandler(this.toolStripButtonValidation_Click);
+            // 
+            // toolStripButtonQaQc
+            // 
+            this.toolStripButtonQaQc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonQaQc.Enabled = false;
+            this.toolStripButtonQaQc.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQaQc.Image")));
+            this.toolStripButtonQaQc.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonQaQc.Name = "toolStripButtonQaQc";
+            this.toolStripButtonQaQc.Size = new System.Drawing.Size(50, 29);
+            this.toolStripButtonQaQc.Text = "QA/QC";
+            this.toolStripButtonQaQc.ToolTipText = "Table Data QA/QC";
+            this.toolStripButtonQaQc.Click += new System.EventHandler(this.toolStripButtonQaQc_Click);
             // 
             // toolStripButtonCopyToClipboard
             // 
@@ -1146,6 +1162,18 @@ namespace HdbPoet
             this.UpdateViews(true);
         }
 
+        private void toolStripButtonQaQc_Click(object sender, EventArgs e)
+        {
+            this.timeSeriesTableView1.SetQaQcColors();
+        }
+
+        private void QaQcButtonEnabling()
+        {
+            bool qaQcMode = Hdb.Instance.CheckDataQaQcTables();
+            this.toolStripButtonQaQc.Enabled = qaQcMode;
+            this.UpdateViews(true);
+        }
+
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             UpdateViews(true);
@@ -1397,6 +1425,5 @@ namespace HdbPoet
             statusBar1.Invalidate();
             statusBar1.Refresh();
         }
-
     }
 }

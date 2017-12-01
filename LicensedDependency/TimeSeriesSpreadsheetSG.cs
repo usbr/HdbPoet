@@ -540,6 +540,76 @@ namespace HdbPoet
             FormatSpreadsheetView();
         }
 
+
+        internal void ProcessQaQcColors()
+        {
+            //m_colorColumnName = "ValidationColor";
+            //this.dataGrid1.DataSource = null;
+            //this.dataGrid1.DataSource = msDataTable;
+
+            ///////////////////////////////////////////////////
+            //// Create a new workbook and worksheet.
+            //SpreadsheetGear.IWorkbook workbook = SpreadsheetGear.Factory.GetWorkbook();
+            //workSheet1 = workbook.Worksheets["Sheet1"];
+            //workSheet1.Name = "DATA";
+            //// Get the top left cell for the DataTable.
+            //SpreadsheetGear.IRange range = workSheet1.Cells["A1"];
+            //// Copy the DataTable to the worksheet range.
+            //range.CopyFromDataTable(msDataTable, SpreadsheetGear.Data.SetDataFlags.None);
+            //// Format SG worksheet
+            //FormatSpreadsheetView();
+
+            /////////////////////////////////////////////////
+            // Get QA/QC thresholds from HDB
+            string sdis = "";
+            for (int i = 1; i < msDataTable.DataSet.Tables.Count; i++)
+            {
+                sdis += msDataTable.LookupSeries(i).hdb_site_datatype_id + ",";
+            }
+            sdis = sdis.TrimEnd(',');
+            string interval = msDataTable.TableName;
+            var alrms = Hdb.Instance.GetDataQaQcAlarms(sdis, interval);
+            var limts = Hdb.Instance.GetDataQaQcLimits(sdis, interval);
+
+            // Process each column-row in Table tab
+            for (int i = 1; i < msDataTable.DataSet.Tables.Count; i++)
+            {
+                var sdi = msDataTable.LookupSeries(i).hdb_site_datatype_id;
+                var threshholds = new Dictionary<string, double>
+                {
+                    //"CUTMIN:SkyBlue,EXMIN:PowderBlue,EXMAX:LightPink,CUTMAX:LightCoral,ROC:Red,RPT:Gold,MISSING:Cyan"
+                    { "CUTMIN", double.NaN},
+                    { "EXMIN", double.NaN},
+                    { "EXMAX", double.NaN},
+                    { "CUTMAX", double.NaN},
+                    { "ROC", double.NaN},
+                    { "RPT", double.NaN}
+                };
+                // Get alarms
+                DataRow[] sdiAlrms = alrms.Select(string.Format("[SDI]={0}", sdi));
+                if (sdiAlrms.Count() != 0)
+                {
+                    threshholds["CUTMIN"] = Convert.ToDouble(sdiAlrms[0]["CUTMIN"].ToString());
+                    threshholds["EXMIN"] = Convert.ToDouble(sdiAlrms[0]["EXMIN"].ToString());
+                    threshholds["EXMAX"] = Convert.ToDouble(sdiAlrms[0]["EXMAX"].ToString());
+                    threshholds["CUTMAX"] = Convert.ToDouble(sdiAlrms[0]["CUTMAX"].ToString());
+                }
+                // Get limits
+                DataRow[] sdiLimts = limts.Select(string.Format("[SDI]={0}", sdi));
+                if (sdiLimts.Count() != 0)
+                {
+                    threshholds["ROC"] = Convert.ToDouble(sdiLimts[0]["ROC"].ToString());
+                    threshholds["RPT"] = Convert.ToDouble(sdiLimts[0]["RPT"].ToString());
+                }
+                // Process Rows
+                int thresholdCount = threshholds.Count(kv => !double.IsNaN(kv.Value));
+                if (thresholdCount > 0)
+                {
+
+                }
+            }
+        }
+
         public void CopyToClipboard()
         {
             workbookView1.GetLock();
