@@ -418,7 +418,7 @@ namespace HdbPoet
 
             string wherePreamble = " where ";
             if (tableName == "r_base")
-                wherePreamble += " interval(+) = '" + interval + "' and ";
+                wherePreamble += " C.interval(+) = '" + interval + "' and ";
 
             string sql =
              "select " + ToLocalTimeZone("A.date_time", interval, timeZone) + ", B.value, "

@@ -201,6 +201,8 @@ namespace HdbPoet
             }
             workbookView1.EndUpdate();
             workbookView1.ReleaseLock();
+
+            // [JR] NEED TO REDRAW GRAPH WHEN TABLE DATA IS CHANGED...
         }
 
         /// <summary>
