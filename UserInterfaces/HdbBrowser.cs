@@ -114,7 +114,7 @@ namespace HdbPoet
             tabControl1.Selected += new TabControlEventHandler(selectedTabIndexChanged);
 
             ValidationButtonEnabling();
-            QaQcButtonEnabling();
+            QaQcButtonEnabled();
             Logger.OnLogEvent += new StatusEventHandler(Logger_OnLogEvent);
         }
 
@@ -363,6 +363,7 @@ namespace HdbPoet
             // 
             // toolStripButtonQaQc
             // 
+            this.toolStripButtonQaQc.CheckOnClick = true;
             this.toolStripButtonQaQc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripButtonQaQc.Enabled = false;
             this.toolStripButtonQaQc.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQaQc.Image")));
@@ -842,12 +843,19 @@ namespace HdbPoet
             get { return this.toolStripButtonValidation.Checked; }
         }
 
+        public bool QaQcEnabled
+        {
+            get { return this.toolStripButtonQaQc.Checked; }
+        }
+
         private string GetColorColumnName()
         {
             if (this.toolStripButtonValidation.Checked)
+            {
                 return "ValidationColor";
+            }
 
-             return "SourceColor";
+            return "SourceColor";
         }
 
 
@@ -1145,6 +1153,10 @@ namespace HdbPoet
 
         private void toolStripButtonValidation_Click(object sender, EventArgs e)
         {
+            if (this.toolStripButtonValidation.Checked && this.toolStripButtonQaQc.Checked)
+            {
+                this.toolStripButtonQaQc.Checked = false;
+            }
             ValidationButtonEnabling();
             this.timeSeriesTableView1.SetColorColumnName(GetColorColumnName());
         }
@@ -1159,18 +1171,29 @@ namespace HdbPoet
 
             this.toolStripButtonAddOverwriteFlag.Enabled = !validationMode;
             this.toolStripButtonClearOverwriteFlag.Enabled = !validationMode;
+            
             this.UpdateViews(true);
         }
 
         private void toolStripButtonQaQc_Click(object sender, EventArgs e)
         {
-            this.timeSeriesTableView1.SetQaQcColors();
+            if (this.toolStripButtonQaQc.Checked)
+            {
+                this.toolStripButtonValidation.Checked = false;
+                this.timeSeriesTableView1.SetQaQcColors();
+            }
+            else
+            {
+                this.timeSeriesTableView1.SetColorColumnName(GetColorColumnName());
+                this.UpdateViews(true);
+            }
         }
 
-        private void QaQcButtonEnabling()
+        private void QaQcButtonEnabled()
         {
             bool qaQcMode = Hdb.Instance.CheckDataQaQcTables();
             this.toolStripButtonQaQc.Enabled = qaQcMode;
+            this.toolStripButtonQaQc.Checked = false;
             this.UpdateViews(true);
         }
 

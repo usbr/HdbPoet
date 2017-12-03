@@ -439,7 +439,15 @@ namespace HdbPoet
 
         private void menuItemLegend_Click(object sender, EventArgs e)
         {
-            Legend l = new Legend(browser.ValidationEnabled);
+            Legend l = new Legend(false);
+            if (browser.ValidationEnabled)
+            {
+                l = new Legend("validation");
+            }
+            else if (browser.QaQcEnabled)
+            {
+                l = new Legend("qaqc");
+            }
             l.Show();
         }
 

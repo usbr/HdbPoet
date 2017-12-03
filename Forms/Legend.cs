@@ -17,15 +17,33 @@ namespace HdbPoet
 
             try
             {
-
                 BuildLegend(validation);
-
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
-            
+        }
+
+        public Legend(string type)
+        {
+            InitializeComponent();
+
+            try
+            {
+                if (type == "validation")
+                {
+                    BuildLegend(true);
+                }
+                if (type == "qaqc")
+                {
+                    BuildQaQcLegend();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private  void BuildLegend(bool validation)
@@ -49,6 +67,26 @@ namespace HdbPoet
 
                 
                 Console.WriteLine(Color.FromName(color).Name);
+            }
+            dataGridView1.Rows.Add("");
+            dataGridView1.CurrentCell = dataGridView1[0, pairs.Length];
+            button1.Select();
+        }
+
+
+        private void BuildQaQcLegend()
+        {
+            string s = ConfigurationManager.AppSettings["QaQcLegend"];
+            
+            string[] pairs = s.Split(',');
+
+            for (int i = 0; i < pairs.Length; i++)
+            {
+                string color = pairs[i].Split(':')[1];
+                Console.WriteLine(color);
+                string text = pairs[i].Split(':')[2];
+                dataGridView1.Rows.Add(text);
+                dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.FromName(color);
             }
             dataGridView1.Rows.Add("");
             dataGridView1.CurrentCell = dataGridView1[0, pairs.Length];

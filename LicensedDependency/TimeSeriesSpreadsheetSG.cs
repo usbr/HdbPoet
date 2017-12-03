@@ -571,10 +571,17 @@ namespace HdbPoet
             var alrms = Hdb.Instance.GetDataQaQcAlarms(sdis, interval);
             var limts = Hdb.Instance.GetDataQaQcLimits(sdis, interval);
 
-            // Process each column-row in Table tab
-            for (int i = 1; i < msDataTable.DataSet.Tables.Count; i++)
+            // Get QA/QC colors
+            string colorSettings = System.Configuration.ConfigurationManager.AppSettings["QaQcLegend"];
+            string[] colorPairs = colorSettings.Split(',');
+            var colors = new Dictionary<string, Color>();
+            for (int i = 0; i < colorPairs.Length; i++)
+            { colors.Add(colorPairs[i].Split(':')[0], System.Drawing.Color.FromName(colorPairs[i].Split(':')[1])); }
+
+                // Process each column-row in Table tab
+                for (int tabCol = 1; tabCol < msDataTable.DataSet.Tables.Count; tabCol++)
             {
-                var sdi = msDataTable.LookupSeries(i).hdb_site_datatype_id;
+                var sdi = msDataTable.LookupSeries(tabCol).hdb_site_datatype_id;
                 var threshholds = new Dictionary<string, double>
                 {
                     //"CUTMIN:SkyBlue,EXMIN:PowderBlue,EXMAX:LightPink,CUTMAX:LightCoral,ROC:Red,RPT:Gold,MISSING:Cyan"
@@ -603,9 +610,46 @@ namespace HdbPoet
                 }
                 // Process Rows
                 int thresholdCount = threshholds.Count(kv => !double.IsNaN(kv.Value));
-                if (thresholdCount > 0)
+                if (thresholdCount >= 0)
                 {
+                    workbookView1.GetLock();
+                    workbookView1.BeginUpdate();
+                    int repeatCount = 0;
+                    double prevVal = 0;
+                    // Loop through data rows in UsedRange
+                    for (int tabRow = 1; tabRow < initialUsedRange.RowCount; tabRow++)
+                    {
+                        Color cellColor = Color.Transparent;
+                        double cellVal = Convert.ToDouble(workbookView1.ActiveWorksheet.Cells[tabRow, tabCol].Value);
+                        if (workbookView1.ActiveWorksheet.Cells[tabRow, tabCol].Value == null)
+                        { cellVal = double.NaN; }                        
+                        if (cellVal < threshholds["EXMIN"])
+                        { cellColor = colors["EXMIN"]; }
+                        if (cellVal < threshholds["CUTMIN"])
+                        { cellColor = colors["CUTMIN"]; }
+                        if (cellVal < threshholds["EXMAX"])
+                        { cellColor = colors["EXMAX"]; }
+                        if (cellVal < threshholds["CUTMAX"])
+                        { cellColor = colors["CUTMAX"]; }
+                        if (tabRow > 1)
+                        {
+                            if (!double.IsNaN(threshholds["ROC"]) && Math.Abs(cellVal - prevVal) > threshholds["ROC"])
+                            { cellColor = colors["ROC"]; }
+                            if (cellVal == prevVal)
+                            {
+                                repeatCount++;
+                                if (!double.IsNaN(threshholds["RPT"]) && repeatCount > threshholds["RPT"])
+                                { cellColor = colors["RPT"]; }
+                            }
+                            prevVal = cellVal;
 
+                        }
+                        if (double.IsNaN(cellVal))
+                        { cellColor = colors["MISSING"]; }
+                        workbookView1.ActiveWorksheet.Cells[tabRow, tabCol].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(cellColor);
+                    }
+                    workbookView1.EndUpdate();
+                    workbookView1.ReleaseLock();
                 }
             }
         }
