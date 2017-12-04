@@ -495,21 +495,21 @@ namespace HdbPoet
             DataRow[] sdiAlrms = alrms.Select(string.Format("[SDI]={0}", sdi));
             if (sdiAlrms.Count() != 0)
             {
-                threshholds["CUTMIN"] = Convert.ToDouble(sdiAlrms[0]["CUTMIN"].ToString());
-                threshholds["EXMIN"] = Convert.ToDouble(sdiAlrms[0]["EXMIN"].ToString());
-                threshholds["EXMAX"] = Convert.ToDouble(sdiAlrms[0]["EXMAX"].ToString());
-                threshholds["CUTMAX"] = Convert.ToDouble(sdiAlrms[0]["CUTMAX"].ToString());
+                threshholds["CUTMIN"] = GetThresholdValue(sdiAlrms,"CUTMIN");
+                threshholds["EXMIN"] = GetThresholdValue(sdiAlrms, "EXMIN");
+                threshholds["EXMAX"] = GetThresholdValue(sdiAlrms, "EXMAX");
+                threshholds["CUTMAX"] = GetThresholdValue(sdiAlrms, "CUTMAX");
             }
             // Get limits
             DataRow[] sdiLimts = limts.Select(string.Format("[SDI]={0}", sdi));
             if (sdiLimts.Count() != 0)
             {
-                threshholds["ROC"] = Convert.ToDouble(sdiLimts[0]["ROC"].ToString());
-                threshholds["RPT"] = Convert.ToDouble(sdiLimts[0]["RPT"].ToString());
+                threshholds["ROC"] = GetThresholdValue(sdiLimts, "ROC");
+                threshholds["RPT"] = GetThresholdValue(sdiLimts, "RPT");
             }
             
             int thresholdCount = threshholds.Count(kv => !double.IsNaN(kv.Value));
-            int repeatCount = 0;
+            int repeatCount = 1;
             double prevVal = 0;
             int rowCounter = 1;
             // Loop through data rows in dTab
@@ -539,11 +539,15 @@ namespace HdbPoet
                         if (cellVal == prevVal)
                         {
                             repeatCount++;
-                            if (!double.IsNaN(threshholds["RPT"]) && repeatCount > threshholds["RPT"])
+                            if (!double.IsNaN(threshholds["RPT"]) && repeatCount >= threshholds["RPT"])
                             { cellColor = colors["RPT"]; }
                         }
-                        prevVal = cellVal;
+                        else
+                        {
+                            repeatCount = 1;
+                        }
                     }
+                    prevVal = cellVal;
                 }
                 if (double.IsNaN(cellVal))
                 { cellColor = colors["MISSING"]; }
@@ -551,6 +555,17 @@ namespace HdbPoet
                 row["QaQcColor"] = cellColor.Name;
             }
             return dTab;
+        }
+
+        private double GetThresholdValue(DataRow[] dRow, string colName)
+        {
+            double val = double.NaN;
+            if (dRow[0][colName] != DBNull.Value)
+            {
+                val = Convert.ToDouble(dRow[0][colName].ToString());
+            }
+            return val;
+
         }
 
 
@@ -1190,6 +1205,7 @@ group by d.datatype_id, d.datatype_common_name
                 "where " +
                 "  e.hdb_site_datatype_id in ({0}) " +
                 "  and e.hdb_interval_name = '{1}' " +
+                "  and e.ext_data_source_id = 40 " + 
                 "  and e.mapping_id = f.mapping_id " +
                 "  and e.mapping_id = g.mapping_id " +
                 "  and f.key_name = 'rate of change limit' " +
