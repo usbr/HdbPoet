@@ -507,23 +507,23 @@ namespace HdbPoet
                 threshholds["ROC"] = Convert.ToDouble(sdiLimts[0]["ROC"].ToString());
                 threshholds["RPT"] = Convert.ToDouble(sdiLimts[0]["RPT"].ToString());
             }
-
-            // Process Rows
+            
             int thresholdCount = threshholds.Count(kv => !double.IsNaN(kv.Value));
-            if (thresholdCount >= 0)
+            int repeatCount = 0;
+            double prevVal = 0;
+            int rowCounter = 1;
+            // Loop through data rows in dTab
+            foreach (DataRow row in dTab.Rows)
             {
-                int repeatCount = 0;
-                double prevVal = 0;
-                int rowCounter = 1;
-                // Loop through data rows in dTab
-                foreach (DataRow row in dTab.Rows)
+                System.Drawing.Color cellColor = System.Drawing.Color.Transparent;
+                double cellVal;
+                if (row["VALUE"] == DBNull.Value)
+                { cellVal = double.NaN; }
+                else
+                { cellVal = Convert.ToDouble(row["VALUE"].ToString()); }
+
+                if (thresholdCount > 0)
                 {
-                    System.Drawing.Color cellColor = System.Drawing.Color.Transparent;
-                    double cellVal;
-                    try
-                    { cellVal = Convert.ToDouble(row["VALUE"].ToString()); }
-                    catch
-                    { cellVal = double.NaN; }
                     if (cellVal < threshholds["EXMIN"])
                     { cellColor = colors["EXMIN"]; }
                     if (cellVal < threshholds["CUTMIN"])
@@ -543,16 +543,13 @@ namespace HdbPoet
                             { cellColor = colors["RPT"]; }
                         }
                         prevVal = cellVal;
-
                     }
-                    if (double.IsNaN(cellVal))
-                    { cellColor = colors["MISSING"]; }
-                    rowCounter = rowCounter + 1;
-                    row["QaQcColor"] = cellColor.Name;
-                    //workbookView1.ActiveWorksheet.Cells[tabRow, tabCol].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(cellColor);
                 }
+                if (double.IsNaN(cellVal))
+                { cellColor = colors["MISSING"]; }
+                rowCounter = rowCounter + 1;
+                row["QaQcColor"] = cellColor.Name;
             }
-
             return dTab;
         }
 
