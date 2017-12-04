@@ -425,6 +425,7 @@ namespace HdbPoet
              "select " + ToLocalTimeZone("A.date_time", interval, timeZone) + ", B.value, "
            + "colorize_with_rbase(" + site_datatype_id.ToString() + ", '" + interval + "', B.start_date_time,B.value ) as SourceColor, "
            + "colorize_with_validation(" + site_datatype_id.ToString() + ", '" + interval + "', A.date_time, B.value ) as ValidationColor, "
+           + "'Transparent' as QaQcColor, "
            + "C.data_flags "
            + " from r_base C, " + tableName + " B , "
            + dateSubquery
@@ -457,11 +458,105 @@ namespace HdbPoet
             rval.Columns["SourceColor"].DefaultValue = "LightGray";
             rval.Columns["ValidationColor"].DefaultValue = "LightGray";
 
-
+            // Process QaQc Colors
+            rval = ProcessQaQcColors(rval, site_datatype_id, interval);
 
             Logger.WriteLine("read " + rval.Rows.Count + " rows ");
             return rval;
         }
+
+
+        internal DataTable ProcessQaQcColors(DataTable dTab, decimal sdi, string interval)
+        {
+            /////////////////////////////////////////////////
+            // Get QA/QC thresholds from HDB
+            var alrms = Hdb.Instance.GetDataQaQcAlarms(sdi.ToString(), interval);
+            var limts = Hdb.Instance.GetDataQaQcLimits(sdi.ToString(), interval);
+
+            // Get QA/QC colors
+            string colorSettings = System.Configuration.ConfigurationManager.AppSettings["QaQcLegend"];
+            string[] colorPairs = colorSettings.Split(',');
+            var colors = new Dictionary<string, System.Drawing.Color>();
+            for (int i = 0; i < colorPairs.Length; i++)
+            { colors.Add(colorPairs[i].Split(':')[0], System.Drawing.Color.FromName(colorPairs[i].Split(':')[1])); }
+
+            //var sdi = msDataTable.LookupSeries(tabCol).hdb_site_datatype_id;
+            var threshholds = new Dictionary<string, double>
+                {
+                    //"CUTMIN:SkyBlue,EXMIN:PowderBlue,EXMAX:LightPink,CUTMAX:LightCoral,ROC:Red,RPT:Gold,MISSING:Cyan"
+                    { "CUTMIN", double.NaN},
+                    { "EXMIN", double.NaN},
+                    { "EXMAX", double.NaN},
+                    { "CUTMAX", double.NaN},
+                    { "ROC", double.NaN},
+                    { "RPT", double.NaN}
+                };
+            // Get alarms
+            DataRow[] sdiAlrms = alrms.Select(string.Format("[SDI]={0}", sdi));
+            if (sdiAlrms.Count() != 0)
+            {
+                threshholds["CUTMIN"] = Convert.ToDouble(sdiAlrms[0]["CUTMIN"].ToString());
+                threshholds["EXMIN"] = Convert.ToDouble(sdiAlrms[0]["EXMIN"].ToString());
+                threshholds["EXMAX"] = Convert.ToDouble(sdiAlrms[0]["EXMAX"].ToString());
+                threshholds["CUTMAX"] = Convert.ToDouble(sdiAlrms[0]["CUTMAX"].ToString());
+            }
+            // Get limits
+            DataRow[] sdiLimts = limts.Select(string.Format("[SDI]={0}", sdi));
+            if (sdiLimts.Count() != 0)
+            {
+                threshholds["ROC"] = Convert.ToDouble(sdiLimts[0]["ROC"].ToString());
+                threshholds["RPT"] = Convert.ToDouble(sdiLimts[0]["RPT"].ToString());
+            }
+
+            // Process Rows
+            int thresholdCount = threshholds.Count(kv => !double.IsNaN(kv.Value));
+            if (thresholdCount >= 0)
+            {
+                int repeatCount = 0;
+                double prevVal = 0;
+                int rowCounter = 1;
+                // Loop through data rows in dTab
+                foreach (DataRow row in dTab.Rows)
+                {
+                    System.Drawing.Color cellColor = System.Drawing.Color.Transparent;
+                    double cellVal;
+                    try
+                    { cellVal = Convert.ToDouble(row["VALUE"].ToString()); }
+                    catch
+                    { cellVal = double.NaN; }
+                    if (cellVal < threshholds["EXMIN"])
+                    { cellColor = colors["EXMIN"]; }
+                    if (cellVal < threshholds["CUTMIN"])
+                    { cellColor = colors["CUTMIN"]; }
+                    if (cellVal > threshholds["EXMAX"])
+                    { cellColor = colors["EXMAX"]; }
+                    if (cellVal > threshholds["CUTMAX"])
+                    { cellColor = colors["CUTMAX"]; }
+                    if (rowCounter > 1)
+                    {
+                        if (!double.IsNaN(threshholds["ROC"]) && Math.Abs(cellVal - prevVal) > threshholds["ROC"])
+                        { cellColor = colors["ROC"]; }
+                        if (cellVal == prevVal)
+                        {
+                            repeatCount++;
+                            if (!double.IsNaN(threshholds["RPT"]) && repeatCount > threshholds["RPT"])
+                            { cellColor = colors["RPT"]; }
+                        }
+                        prevVal = cellVal;
+
+                    }
+                    if (double.IsNaN(cellVal))
+                    { cellColor = colors["MISSING"]; }
+                    rowCounter = rowCounter + 1;
+                    row["QaQcColor"] = cellColor.Name;
+                    //workbookView1.ActiveWorksheet.Cells[tabRow, tabCol].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(cellColor);
+                }
+            }
+
+            return dTab;
+        }
+
+
 
         private string datesQuery(string interval, int instantInterval, DateTime t1, DateTime t2, string timeZone)
         {

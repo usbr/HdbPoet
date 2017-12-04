@@ -854,6 +854,10 @@ namespace HdbPoet
             {
                 return "ValidationColor";
             }
+            if (this.toolStripButtonQaQc.Checked)
+            {
+                return "QaQcColor";
+            }
 
             return "SourceColor";
         }
@@ -1177,16 +1181,8 @@ namespace HdbPoet
 
         private void toolStripButtonQaQc_Click(object sender, EventArgs e)
         {
-            if (this.toolStripButtonQaQc.Checked)
-            {
-                this.toolStripButtonValidation.Checked = false;
-                this.timeSeriesTableView1.SetQaQcColors();
-            }
-            else
-            {
-                this.timeSeriesTableView1.SetColorColumnName(GetColorColumnName());
-                this.UpdateViews(true);
-            }
+            this.timeSeriesTableView1.SetColorColumnName(GetColorColumnName());
+            this.UpdateViews(true);
         }
 
         private void QaQcButtonEnabled()

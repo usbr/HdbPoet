@@ -133,11 +133,6 @@ namespace HdbPoet
             timeSeriesSpreadsheet1.SetColorColumnName(m_colorColumnName);
         }
 
-        public void SetQaQcColors()
-        {
-            timeSeriesSpreadsheet1.ProcessQaQcColors();
-        }
-
         string m_colorColumnName = "";
         public void SetDataSource(GraphData ds, string interval, string colorColumnName)
         {
