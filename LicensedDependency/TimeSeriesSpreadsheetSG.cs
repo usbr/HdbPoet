@@ -59,8 +59,11 @@ namespace HdbPoet
         private void workSheet1_CellBeginEdit(object sender, CellBeginEditEventArgs e)
         {
             var activeCell = workbookView1.ActiveCell;
+
+            var readOnly = ColumnReadOnly();
+
             // Diasble edits to header row and column
-            if (activeCell.Row == 0 || activeCell.Column == 0)
+            if (activeCell.Row == 0 || activeCell.Column == 0 || readOnly)
             { e.Cancel = true; }
         }
 
@@ -517,6 +520,18 @@ namespace HdbPoet
             }
             return numStr;
         }
+
+        private bool ColumnReadOnly()
+        {
+            // check if Series is editable by user
+            var s = msDataTable.LookupSeries(workbookView1.ActiveCell.Column);
+            var readOnly = Hdb.Instance.ReadOnly(Convert.ToInt32(s.hdb_site_datatype_id));
+            if (readOnly)
+            {
+                MessageBox.Show("Logged in user is not authorizerd to edit the data for " + s.SiteName + ". Contact your DBA to request authorization...", "Unauthorized Edit", MessageBoxButtons.OK);
+            }
+            return readOnly;
+        }
         /******************************************************************
          * BASE TIMESERIESSPREADSHEET METHODS
          ******************************************************************/
@@ -688,7 +703,11 @@ namespace HdbPoet
         {
             workbookView1.GetLock();
 
-            Interpolate();
+            var readOnly = ColumnReadOnly();
+            if (!readOnly)
+            {
+                Interpolate();
+            }
 
             workbookView1.ReleaseLock();
         }
@@ -823,6 +842,7 @@ namespace HdbPoet
                 && selRange.Rows[0, 0].Value != null
                 && selRange.Rows[selRange.RowCount - 1, 0].Value != DBNull.Value
                 && selRange.Rows[selRange.RowCount - 1, 0].Value != null
+                && !ColumnReadOnly()
             );
             return interpolateAvailable;
         }
