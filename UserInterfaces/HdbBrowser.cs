@@ -856,6 +856,7 @@ namespace HdbPoet
             }
             if (this.toolStripButtonQaQc.Checked)
             {
+                GlobalVariables.qaqcValidationToggled = true;
                 return "QaQcColor";
             }
 
@@ -1181,6 +1182,10 @@ namespace HdbPoet
 
         private void toolStripButtonQaQc_Click(object sender, EventArgs e)
         {
+            if (this.toolStripButtonValidation.Checked && this.toolStripButtonQaQc.Checked)
+            {
+                this.toolStripButtonValidation.Checked = false;
+            }
             this.timeSeriesTableView1.SetColorColumnName(GetColorColumnName());
             this.UpdateViews(true);
         }
@@ -1190,6 +1195,7 @@ namespace HdbPoet
             bool qaQcMode = Hdb.Instance.CheckDataQaQcTables();
             this.toolStripButtonQaQc.Enabled = qaQcMode;
             this.toolStripButtonQaQc.Checked = false;
+            GlobalVariables.qaqcValidationToggled = false;
             this.UpdateViews(true);
         }
 

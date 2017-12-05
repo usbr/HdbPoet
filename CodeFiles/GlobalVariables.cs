@@ -14,6 +14,7 @@ namespace HdbPoet
         private static bool insertOnWriteCheck = false;
         private static bool overwriteFlagOnWriteCheck = false;
         private static char validationFlag = 'Z';
+        private static bool qaqcValidationCheck = false;
 
         public static bool showEmptySdids
         {
@@ -43,6 +44,12 @@ namespace HdbPoet
         {
             get { return validationFlag; }
             set { validationFlag = value; }
+        }
+
+        public static bool qaqcValidationToggled
+        {
+            get { return qaqcValidationCheck; }
+            set { qaqcValidationCheck = value; }
         }
 
         public static List<int> hdbObjectTypes

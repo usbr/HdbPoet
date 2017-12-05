@@ -459,7 +459,10 @@ namespace HdbPoet
             rval.Columns["ValidationColor"].DefaultValue = "LightGray";
 
             // Process QaQc Colors
-            rval = ProcessQaQcColors(rval, site_datatype_id, interval);
+            if (GlobalVariables.qaqcValidationToggled)
+            {
+                rval = ProcessQaQcColors(rval, site_datatype_id, interval);
+            }
 
             Logger.WriteLine("read " + rval.Rows.Count + " rows ");
             return rval;
