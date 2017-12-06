@@ -59,11 +59,9 @@ namespace HdbPoet
         private void workSheet1_CellBeginEdit(object sender, CellBeginEditEventArgs e)
         {
             var activeCell = workbookView1.ActiveCell;
-
-            var readOnly = ColumnReadOnly();
-
-            // Diasble edits to header row and column
-            if (activeCell.Row == 0 || activeCell.Column == 0 || readOnly)
+            
+            // Diasble edits to header row, header column, and read only cells in used range
+            if (activeCell.Row == 0 || activeCell.Column == 0 || CellReadOnly())
             { e.Cancel = true; }
         }
 
@@ -84,12 +82,12 @@ namespace HdbPoet
         /// <param name="e"></param>
         private void workSheet1_KeyDown(object sender, KeyEventArgs e)
         {
-            //if (e.Control && e.KeyValue == 86) //override ctrl-v
-            //{
-            //    e.Handled = true;
-            //    //e.SuppressKeyPress = true;
-            //    pasteToolStripMenuItem_Click(sender, e);
-            //}
+            if (e.Control && e.KeyValue == 86 && CellReadOnly()) //override ctrl-v and check if column is read only
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                //pasteToolStripMenuItem_Click(sender, e);
+            }
             CheckSecretCode(e);
         }
 
@@ -228,19 +226,12 @@ namespace HdbPoet
                 int dGridCol = workbookView1.ActiveCell.Column;
                 int sgCol = dGridCol;
 
-                bool activeCellUsed = false;
-                foreach (SpreadsheetGear.IRange item in initialUsedRange)
-                {
-                    if (workbookView1.ActiveCell.Address == item.Cells.Address)
-                    {
-                        activeCellUsed = true;
-                        break;
-                    }
-                }
+                bool activeCellUsed = ActiveCellInUsedRange(ithCell);
                 bool headerCell = (workbookView1.ActiveCell.Row == 0 || workbookView1.ActiveCell.Column == 0);
+                bool columnReadOnly = CellReadOnly(false);
                 //process cell
 
-                if (activeCellUsed && !headerCell)
+                if (activeCellUsed && !headerCell && !columnReadOnly)
                 {
                     // check if row has a date
                     object o = workSheet1.Range[workbookView1.ActiveCell.Row, 0].Value;
@@ -286,13 +277,13 @@ namespace HdbPoet
                         }
                     }
                 }
-                else if (!headerCell) // header cell
+                else if (!activeCellUsed && !headerCell) // cells outside of used range and not a header
                 {
                     ClearCellFormat(sgRow, sgCol);//clear cell formatting
                 }                
                 else
                 {
-                    
+
                 }
             }
             workbookView1.EndUpdate();
@@ -471,11 +462,14 @@ namespace HdbPoet
         private void FormatEditedCell(int sgRow, int sgCol)
         {
             workSheet1.Cells[sgRow, sgCol].Select();
-            workbookView1.ActiveCell.Font.Bold = true;
-            workbookView1.ActiveCell.Font.Italic = true;
-            workbookView1.ActiveCell.HorizontalAlignment = SpreadsheetGear.HAlign.Left;
-            workbookView1.ActiveCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
-            workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
+            if (ActiveCellInUsedRange(workSheet1.Cells[sgRow, sgCol]) && !CellReadOnly(false))
+            {
+                workbookView1.ActiveCell.Font.Bold = true;
+                workbookView1.ActiveCell.Font.Italic = true;
+                workbookView1.ActiveCell.HorizontalAlignment = SpreadsheetGear.HAlign.Left;
+                workbookView1.ActiveCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+                workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
+            }
         }
 
         /// <summary>
@@ -521,17 +515,29 @@ namespace HdbPoet
             return numStr;
         }
 
-        private bool ColumnReadOnly()
+        private bool CellReadOnly(bool popup = true)
         {
-            // check if Series is editable by user
-            var s = msDataTable.LookupSeries(workbookView1.ActiveCell.Column);
-            var readOnly = Hdb.Instance.ReadOnly(Convert.ToInt32(s.hdb_site_datatype_id));
-            if (readOnly)
+            bool readOnly = false;
+            if (ActiveCellInUsedRange(workbookView1.ActiveCell))
             {
-                MessageBox.Show("Logged in user is not authorizerd to edit the data for " + s.SiteName + ". Contact your DBA to request authorization...", "Unauthorized Edit", MessageBoxButtons.OK);
+                // check if Series is editable by user
+                var s = msDataTable.LookupSeries(workbookView1.ActiveCell.Column);
+                readOnly = Hdb.Instance.ReadOnly(Convert.ToInt32(s.hdb_site_datatype_id));
+                if (readOnly && popup)
+                {
+                    MessageBox.Show("Logged in user is not authorizerd to edit the data for " + s.SiteName + ". Contact your DBA to request authorization...", "Unauthorized Edit", MessageBoxButtons.OK);
+                }
             }
             return readOnly;
         }
+
+        private bool ActiveCellInUsedRange(SpreadsheetGear.IRange activeCell)
+        {
+            bool rowInUsedRange = (activeCell.Row < initialUsedRange.RowCount);
+            bool colInUsedRange = (activeCell.Column < initialUsedRange.ColumnCount);
+            return rowInUsedRange && colInUsedRange;
+        }
+
         /******************************************************************
          * BASE TIMESERIESSPREADSHEET METHODS
          ******************************************************************/
@@ -703,11 +709,8 @@ namespace HdbPoet
         {
             workbookView1.GetLock();
 
-            var readOnly = ColumnReadOnly();
-            if (!readOnly)
-            {
-                Interpolate();
-            }
+            if (!CellReadOnly())
+            { Interpolate(); }
 
             workbookView1.ReleaseLock();
         }
@@ -842,7 +845,6 @@ namespace HdbPoet
                 && selRange.Rows[0, 0].Value != null
                 && selRange.Rows[selRange.RowCount - 1, 0].Value != DBNull.Value
                 && selRange.Rows[selRange.RowCount - 1, 0].Value != null
-                && !ColumnReadOnly()
             );
             return interpolateAvailable;
         }
