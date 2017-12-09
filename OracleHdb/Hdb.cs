@@ -266,7 +266,7 @@ namespace HdbPoet
         /// <param name="t2"></param>
         /// <param name="mrid"></param>
         /// <returns></returns>
-        private DataTable modelData(decimal site_datatype_id, string tableName, string interval, DateTime t1, DateTime t2, int mrid)
+        private DataTable TableModeledData(decimal site_datatype_id, string tableName, string interval, DateTime t1, DateTime t2, int mrid)
         {
             string sql = "Select start_date_time as date_time,value " + "from " + tableName + " where model_run_id = " + mrid
                + " and site_datatype_id = " + site_datatype_id + " and start_date_time >= " + Hdb.ToHdbDate(t1.Date)
@@ -405,15 +405,16 @@ namespace HdbPoet
           DateTime t1, DateTime t2, string timeZone, bool isModeledData = false, int mrid = 0)
         {
             DataTable rval;
-            bool isModel = tableName.IndexOf("m") == 0;
-            if (isModeledData || mrid != 0)
-            { return modelData(site_datatype_id, tableName, interval, t1, t2, mrid); }
 
             if (timeZone == "")
                 timeZone = "MST";
 
             t1 = AdjustDateToMatchInterval(interval, t1);
             t2 = AdjustDateToMatchInterval(interval, t2);
+
+            bool isModel = tableName.IndexOf("m") == 0;
+            if (isModeledData || mrid != 0)
+            { return TableModeledData(site_datatype_id, tableName, interval, t1, t2, mrid); }
 
             string dateSubquery = datesQuery(interval, instantInterval, t1, t2, timeZone);
 
