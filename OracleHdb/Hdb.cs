@@ -113,7 +113,7 @@ namespace HdbPoet
         }
         public static string ToHdbDate(DateTime date)
         {
-            return "TO_Date('" + date.ToString("MM/dd/yyyy HH:mm:ss") + "', 'MM/dd/yyyy HH24:MI:SS') ";
+            return "to_date('" + date.ToString("MM/dd/yyyy HH:mm:ss") + "', 'MM/dd/yyyy HH24:MI:SS') ";
         }
 
 
@@ -129,9 +129,9 @@ namespace HdbPoet
             bool adjustTimeZone = IsTimeZoneAdjustmentNeeded(interval);
 
             if (adjustTimeZone && timeZone != Server.TimeZone)
-                return "new_time(" + dateColumnName + ","
-         + "'" + m_server.TimeZone + "', '" + timeZone + "') as date_time ";
-
+            {
+                return "new_time(" + dateColumnName + "," + "'" + m_server.TimeZone + "', '" + timeZone + "') as date_time ";
+            }
             return dateColumnName;
         }
 
@@ -227,16 +227,14 @@ namespace HdbPoet
             //  + " and algo_role_name = 'output'";
 
             string sql = "select distinct ccts.site_datatype_id,ccts.interval "
-     + "from  cp_computation cc, cp_comp_ts_parm ccts, cp_algo_ts_parm catp "
-    + " where "
-    + " cc.enabled = 'Y' "
-    + " and  cc.loading_application_id is not null "
-    + "and  cc.computation_id = ccts.computation_id "
-    + " and  cc.algorithm_id = catp.algorithm_id "
-    + " and  ccts.algo_role_name = catp.algo_role_name "
-    + " and  catp.parm_type like 'o%' "
-    + "	and  ccts.site_datatype_id = " + sdi;
-
+                + "from  cp_computation cc, cp_comp_ts_parm ccts, cp_algo_ts_parm catp "
+                + "where cc.enabled = 'Y' "
+                + "and  cc.loading_application_id is not null "
+                + "and  cc.computation_id = ccts.computation_id "
+                + "and  cc.algorithm_id = catp.algorithm_id "
+                + "and  ccts.algo_role_name = catp.algo_role_name "
+                + "and  catp.parm_type like 'o%' "
+                + "and  ccts.site_datatype_id = " + sdi;
 
             var tbl = Server.Table("iscomputed", sql);
 
@@ -268,90 +266,22 @@ namespace HdbPoet
         /// <returns></returns>
         private DataTable TableModeledData(decimal site_datatype_id, string tableName, string interval, DateTime t1, DateTime t2, int mrid)
         {
-            string sql = "Select start_date_time as date_time,value " + "from " + tableName + " where model_run_id = " + mrid
-               + " and site_datatype_id = " + site_datatype_id + " and start_date_time >= " + Hdb.ToHdbDate(t1.Date)
-               + " and start_date_time <= " + Hdb.ToHdbDate(t2.Date) + " order by start_date_time asc";
+            /*
+             * SELECT t.DATE_TIME AS date_time, CAST(NVL(VALUE,NULL) AS VARCHAR(10)) AS value 
+             *  FROM M_MONTH v
+             *      PARTITION BY (v.SITE_DATATYPE_ID,v.MODEL_RUN_ID)
+             *  RIGHT OUTER JOIN TABLE(DATES_BETWEEN('1-JAN-2017 00:00','31-DEC-2018 00:00',LOWER('MONTH'))) t 
+             *      ON v.START_DATE_TIME = t.DATE_TIME
+             *  WHERE v.SITE_DATATYPE_ID IN (1930)
+             *  AND v.MODEL_RUN_ID = 3048;
+             */
+            string sqlNew = string.Format("select t.date_time as date_time, cast(nvl(value,null) as varchar(10)) as value "
+                + "from m_{0} v partition by (v.site_datatype_id, v.model_run_id) "
+                + "right outer join table(dates_between({1},{2},lower('{0}'))) t "
+                + "on v.start_date_time = t.date_time where v.site_datatype_id in ({3}) and "
+                + "v.model_run_id = {4} order by date_time ASC", interval, ToHdbDate(t1), ToHdbDate(t2), site_datatype_id, mrid);
 
-            DataTable rval = m_server.Table(tableName, sql);
-
-            var tDataMax = rval.AsEnumerable().Select(cols => cols.Field<DateTime>("DATE_TIME")).OrderBy(p => p.Ticks).LastOrDefault();
-            var tDataMin = rval.AsEnumerable().Select(cols => cols.Field<DateTime>("DATE_TIME")).OrderBy(p => p.Ticks).FirstOrDefault();
-
-            // Fill missing values in between the specified date range.
-            DateTime ithT = t1;
-            switch (interval)
-            {
-                case "hour":
-                    ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, ithT.Hour, 0, 0);
-                    break;
-                case "day":
-                    ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, 0, 0, 0);
-                    break;
-                case "month":
-                    ithT = new DateTime(ithT.Year, ithT.Month, 1, 0, 0, 0);
-                    break;
-                case "year":
-                    ithT = new DateTime(ithT.Year, 1, 1, ithT.Hour, 0, 0);
-                    break;
-                case "wy":
-                    ithT = new DateTime(ithT.Year, 10, 1, ithT.Hour, 0, 0);
-                    break;
-                default:
-                    break;
-            }
-
-            int pastDatetimeCounter = 0;
-
-            while (ithT <= t2)
-            {
-                // Fill in missing dates in the data table
-                if (!rval.AsEnumerable().Any(row => ithT == row.Field<DateTime>("DATE_TIME")))
-                {
-                    // Build an empty row
-                    DataRow newRow = rval.NewRow();
-                    newRow["DATE_TIME"] = ithT;
-                    newRow["VALUE"] = DBNull.Value;
-                    // Insert the row at the correct location
-                    if (ithT < tDataMin) // Add to beginning
-                    {
-                        rval.Rows.InsertAt(newRow, pastDatetimeCounter);
-                        pastDatetimeCounter++;
-                    }
-                    else if (ithT > tDataMax) // Add to end
-                    {
-                        rval.Rows.Add(newRow);
-                    }
-                    else // Add missing in between
-                    {
-                        var closest = rval.Select()
-                                        .OrderBy(dr => Math.Abs((ithT - (DateTime)dr["DATE_TIME"]).Ticks))
-                                        .Where(t => (DateTime)t["DATE_TIME"] >= ithT).FirstOrDefault();//.ElementAt(1);
-                        rval.Rows.InsertAt(newRow, rval.Rows.IndexOf(closest));
-                    }
-                }
-
-                // Increment ithT
-                switch (interval)
-                {
-                    case "hour":
-                        ithT = ithT.AddHours(1);
-                        break;
-                    case "day":
-                        ithT = ithT.AddDays(1);
-                        break;
-                    case "month":
-                        ithT = ithT.AddMonths(1);
-                        break;
-                    case "year":
-                        ithT = ithT.AddYears(1);
-                        break;
-                    case "wy":
-                        ithT = ithT.AddYears(1);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            DataTable rval = m_server.Table(tableName, sqlNew);
 
             if (rval == null)
             {
@@ -422,26 +352,25 @@ namespace HdbPoet
             if (tableName == "r_base")
                 wherePreamble += " B.interval(+) = '" + interval + "' and ";
 
-            string sql =
-             "select " + ToLocalTimeZone("A.date_time", interval, timeZone) + ", B.value, "
-           + "colorize_with_rbase(" + site_datatype_id.ToString() + ", '" + interval + "', B.start_date_time,B.value ) as SourceColor, "
-           + "colorize_with_validation(" + site_datatype_id.ToString() + ", '" + interval + "', A.date_time, B.value ) as ValidationColor, "
-           + "'Transparent' as QaQcColor, "
-           + "C.data_flags "
-           + " from r_base C, " + tableName + " B , "
-           + dateSubquery
-           + wherePreamble
-           + " B.start_date_time(+) = A.date_time "
-           + " and B.site_datatype_id(+) = " + site_datatype_id
-           + " and B.start_date_time(+) >= " + ToHdbTimeZone(t1, interval, timeZone) + "\n "
-           + " and B.start_date_time(+) <= " + ToHdbTimeZone(t2, interval, timeZone) + "\n "
-           + " and C.site_datatype_id(+) = " + site_datatype_id
-           + " and C.start_date_time(+) >= " + ToHdbTimeZone(t1, interval, timeZone) + "\n "
-           + " and C.start_date_time(+) <= " + ToHdbTimeZone(t2, interval, timeZone) + "\n "
-           + " and C.start_date_time(+) = B.start_date_time "
-           + " and C.date_time_loaded(+) = B.date_time_loaded "
-           + " and C.interval(+) = '" + interval + "' "
-           + " order by A.date_time";
+            string sql = "select " + ToLocalTimeZone("A.date_time", interval, timeZone) + ", B.value, "
+                + "colorize_with_rbase(" + site_datatype_id.ToString() + ", '" + interval + "', B.start_date_time,B.value ) as SourceColor, "
+                + "colorize_with_validation(" + site_datatype_id.ToString() + ", '" + interval + "', A.date_time, B.value ) as ValidationColor, "
+                + "'Transparent' as QaQcColor, "
+                + "C.data_flags "
+                + " from r_base C, " + tableName + " B , "
+                + dateSubquery
+                + wherePreamble
+                + " B.start_date_time(+) = A.date_time "
+                + " and B.site_datatype_id(+) = " + site_datatype_id
+                + " and B.start_date_time(+) >= " + ToHdbTimeZone(t1, interval, timeZone) + "\n "
+                + " and B.start_date_time(+) <= " + ToHdbTimeZone(t2, interval, timeZone) + "\n "
+                + " and C.site_datatype_id(+) = " + site_datatype_id
+                + " and C.start_date_time(+) >= " + ToHdbTimeZone(t1, interval, timeZone) + "\n "
+                + " and C.start_date_time(+) <= " + ToHdbTimeZone(t2, interval, timeZone) + "\n "
+                + " and C.start_date_time(+) = B.start_date_time "
+                + " and C.date_time_loaded(+) = B.date_time_loaded "
+                + " and C.interval(+) = '" + interval + "' "
+                + " order by A.date_time";
 
             rval = m_server.Table(tableName, sql);
             if (rval == null)
@@ -577,12 +506,11 @@ namespace HdbPoet
         private string datesQuery(string interval, int instantInterval, DateTime t1, DateTime t2, string timeZone)
         {
             string dateSubquery = " table(dates_between( " + ToHdbTimeZone(t1, interval, timeZone) + ", "
-                                      + ToHdbTimeZone(t2, interval, timeZone) + ",'" + interval + "')) A ";
+                + ToHdbTimeZone(t2, interval, timeZone) + ",'" + interval + "')) A ";
             if (interval == "instant")
             {
-
                 dateSubquery = " table(instants_between( " + ToHdbTimeZone(t1, interval, timeZone) + ", "
-                                             + ToHdbTimeZone(t2, interval, timeZone) + "," + instantInterval + ")) A ";
+                    + ToHdbTimeZone(t2, interval, timeZone) + "," + instantInterval + ")) A ";
             }
             return dateSubquery;
         }
@@ -617,6 +545,7 @@ namespace HdbPoet
             }
             return t1;
         }
+
 
         /// <summary>
         /// Read time series data from Oracle 
@@ -735,7 +664,6 @@ namespace HdbPoet
             }
             //ds.WriteXml(filename,XmlWriteMode.WriteSchema);
             return ds;
-
         }
 
 
@@ -743,9 +671,9 @@ namespace HdbPoet
         {
             siteSearchString = SafeSqlLikeClauseLiteral(siteSearchString);
             string sql = "select c.site_id, c.site_name, c.objecttype_id,d.objecttype_name,e.state_name from "
-              + " hdb_site c, hdb_objecttype d, hdb_state e "
-              + "where c.state_id = e.state_id (+)  and "
-              + " d.objecttype_id = c.objecttype_id";
+                + " hdb_site c, hdb_objecttype d, hdb_state e "
+                + "where c.state_id = e.state_id (+)  and "
+                + " d.objecttype_id = c.objecttype_id";
 
             if (siteSearchString.Trim() != "")
             {
@@ -782,15 +710,15 @@ namespace HdbPoet
             if (showEmptySdid)
             {
                 sql_template = "select c.site_id, c.site_name, c.objecttype_id from "
-                                            + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
-                                            + "where b.site_id = c.site_id and d.objecttype_id = c.objecttype_id ";
+                    + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
+                    + "where b.site_id = c.site_id and d.objecttype_id = c.objecttype_id ";
             }
             else
             {
                 sql_template = "select c.site_id, c.site_name, c.objecttype_id from #TABLE_NAME# a, "
-                                            + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
-                                            + "where a.site_datatype_id = b.site_datatype_id  and "
-                                            + "b.site_id = c.site_id and d.objecttype_id = c.objecttype_id";
+                    + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
+                    + "where a.site_datatype_id = b.site_datatype_id  and "
+                    + "b.site_id = c.site_id and d.objecttype_id = c.objecttype_id";
             }
 
             if (!getSdidInfo)
@@ -908,19 +836,19 @@ namespace HdbPoet
         {
             DataTable dTabOut = new DataTable();
             mridSearchString = SafeSqlLikeClauseLiteral(mridSearchString);
-            string sql = "SELECT  REF_MODEL_RUN.MODEL_RUN_ID as mrid, " +
-                                    "REF_MODEL_RUN.MODEL_RUN_NAME as mridName, " +
-                                    "REF_MODEL_RUN.CMMNT as mridComment, " +
-                                    "HDB_MODEL.MODEL_NAME as modelName, " +
-                                    "HDB_MODEL.CMMNT as modelComment, " +
-                                    "REF_MODEL_RUN.START_DATE as startDate, " +
-                                    "REF_MODEL_RUN.END_DATE as endDate, " +
-                                    "REF_MODEL_RUN.USER_NAME as creatorName " +
-                                    "FROM REF_MODEL_RUN " +
-                                    "INNER JOIN HDB_MODEL " +
-                                    "ON HDB_MODEL.MODEL_ID=REF_MODEL_RUN.MODEL_ID " +
-                                    "WHERE LOWER(MODEL_RUN_NAME) LIKE '%" + mridSearchString + "%' " +
-                                    "ORDER BY mrid";
+            string sql = "SELECT  REF_MODEL_RUN.MODEL_RUN_ID as mrid, " 
+                + "REF_MODEL_RUN.MODEL_RUN_NAME as mridName, " 
+                + "REF_MODEL_RUN.CMMNT as mridComment, " 
+                + "HDB_MODEL.MODEL_NAME as modelName, " 
+                + "HDB_MODEL.CMMNT as modelComment, " 
+                + "REF_MODEL_RUN.START_DATE as startDate, " 
+                + "REF_MODEL_RUN.END_DATE as endDate, " 
+                + "REF_MODEL_RUN.USER_NAME as creatorName " 
+                + "FROM REF_MODEL_RUN " 
+                + "INNER JOIN HDB_MODEL " 
+                + "ON HDB_MODEL.MODEL_ID=REF_MODEL_RUN.MODEL_ID " 
+                + "WHERE LOWER(MODEL_RUN_NAME) LIKE '%" + mridSearchString + "%' " 
+                + "ORDER BY mrid";
 
             dTabOut = m_server.Table("MridSearchList", sql);
             return dTabOut;
@@ -933,11 +861,11 @@ namespace HdbPoet
         public DataTable getModelIds()
         {
             DataTable dTabOut = new DataTable();
-            string sql = "SELECT  MODEL_ID as ModelId, " +
-                                    "MODEL_NAME as ModelName, " +
-                                    "CMMNT as ModelComment " +
-                                    "FROM HDB_MODEL " +
-                                    "ORDER BY MODEL_ID";
+            string sql = "SELECT  MODEL_ID as ModelId, "
+                + "MODEL_NAME as ModelName, "
+                + "CMMNT as ModelComment "
+                + "FROM HDB_MODEL "
+                + "ORDER BY MODEL_ID";
 
             dTabOut = m_server.Table("ModelIdList", sql);
 
@@ -957,23 +885,23 @@ namespace HdbPoet
         public DataTable getModelRunIds(int modelId)
         {
             DataTable dTabOut = new DataTable();
-            string sql = "SELECT  MODEL_RUN_ID as Mrid, " +
-                                    "MODEL_ID as ModelId, " +
-                                    "MODEL_RUN_NAME as ModelName, " +
-                                    "CMMNT as ModelComment, " +
-                                    "DATE_TIME_LOADED as LastUpdateDate, " +
-                                    "USER_NAME as LastUser " +
-                                    "FROM REF_MODEL_RUN " +
-                                    "WHERE MODEL_ID =  " + modelId + " " +
-                                    "ORDER BY DATE_TIME_LOADED DESC";
+            string sql = "SELECT  MODEL_RUN_ID as Mrid, "
+                + "MODEL_ID as ModelId, "
+                + "MODEL_RUN_NAME as ModelName, "
+                + "CMMNT as ModelComment, "
+                + "DATE_TIME_LOADED as LastUpdateDate, "
+                + "USER_NAME as LastUser "
+                + "FROM REF_MODEL_RUN "
+                + "WHERE MODEL_ID =  " + modelId + " "
+                + "ORDER BY DATE_TIME_LOADED DESC";
 
             dTabOut = m_server.Table("MridList", sql);
 
             dTabOut.Columns.Add(new DataColumn("comboBoxCaption", typeof(string)));
             foreach (DataRow row in dTabOut.Rows)
             {
-                row["comboBoxCaption"] = row["Mrid"] + " - " + DateTime.Parse(row["LastUpdateDate"].ToString()).ToString("ddMMMyyyy") +
-                                        " - " + row["ModelName"];
+                row["comboBoxCaption"] = row["Mrid"] + " - " + DateTime.Parse(row["LastUpdateDate"].ToString()).ToString("ddMMMyyyy") 
+                    + " - " + row["ModelName"];
             }
 
             return dTabOut;
@@ -1065,38 +993,38 @@ group by d.datatype_id, d.datatype_common_name
             if (showEmptySdid)
             {
                 sql_template = " select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
-                             + " count(a.value),'#TABLE_NAME#' \"rtable\", "
-                             + " max(b.site_datatype_id) "
-                             + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
-                             + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\","
-                             + " nvl(max(f.cmmnt),null) \"sdid_descriptor\" "
-                             + " from hdb_site c"
-                             + " left join hdb_site_datatype b on c.site_id = b.site_id  "
-                             + " left join hdb_datatype d on d.datatype_id=b.datatype_id "
-                             + " left join hdb_unit e on e.unit_id=d.unit_id "
-                             + " left join (select * from ref_ext_site_data_map where ext_data_source_id = 68) f "
-                             + " on f.hdb_site_datatype_id=b.site_datatype_id "
-                             + " left join #TABLE_NAME# a on a.site_datatype_id=b.site_datatype_id ";
+                    + " count(a.value),'#TABLE_NAME#' \"rtable\", "
+                    + " max(b.site_datatype_id) "
+                    + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
+                    + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\","
+                    + " nvl(max(f.cmmnt),null) \"sdid_descriptor\" "
+                    + " from hdb_site c"
+                    + " left join hdb_site_datatype b on c.site_id = b.site_id  "
+                    + " left join hdb_datatype d on d.datatype_id=b.datatype_id "
+                    + " left join hdb_unit e on e.unit_id=d.unit_id "
+                    + " left join (select * from ref_ext_site_data_map where ext_data_source_id = 68) f "
+                    + " on f.hdb_site_datatype_id=b.site_datatype_id "
+                    + " left join #TABLE_NAME# a on a.site_datatype_id=b.site_datatype_id ";
             }
             else
             {
                 sql_template = " select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
-                            + " count(a.value),'#TABLE_NAME#' \"rtable\", max(a.site_datatype_id) "
-                            + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
-                            + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\","
-                            + " nvl(max(f.cmmnt),null) \"sdid_descriptor\" "
-                            + " from #TABLE_NAME# a "
-                            + " left join hdb_site_datatype b on a.site_datatype_id = b.site_datatype_id "
-                            + " left join hdb_site c on b.site_id=c.site_id "
-                            + " left join hdb_datatype d on b.datatype_id=d.datatype_id "
-                            + " left join hdb_unit e on d.unit_id=e.unit_id "
-                            + " left join (select * from ref_ext_site_data_map where ext_data_source_id = 68) f "
-                            + " on a.site_datatype_id=f.hdb_site_datatype_id";
+                    + " count(a.value),'#TABLE_NAME#' \"rtable\", max(a.site_datatype_id) "
+                    + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", min(start_date_time), "
+                    + " max(start_date_time), max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\","
+                    + " nvl(max(f.cmmnt),null) \"sdid_descriptor\" "
+                    + " from #TABLE_NAME# a "
+                    + " left join hdb_site_datatype b on a.site_datatype_id = b.site_datatype_id "
+                    + " left join hdb_site c on b.site_id=c.site_id "
+                    + " left join hdb_datatype d on b.datatype_id=d.datatype_id "
+                    + " left join hdb_unit e on d.unit_id=e.unit_id "
+                    + " left join (select * from ref_ext_site_data_map where ext_data_source_id = 68) f "
+                    + " on a.site_datatype_id=f.hdb_site_datatype_id";
             }
 
             sql_template += " where c.site_id = " + site_id.ToString()
-                             + " and b.site_id = " + site_id.ToString()
-                             + " group by d.datatype_id, d.datatype_common_name ";
+                    + " and b.site_id = " + site_id.ToString()
+                    + " group by d.datatype_id, d.datatype_common_name ";
 
             string sql = "";
             for (int i = 0; i < r_names.Length; i++)
@@ -1172,17 +1100,17 @@ group by d.datatype_id, d.datatype_common_name
         public DataTable GetDataQaQcAlarms(string sdi, string interval)
         {
             string sql = string.Format(
-                "select " +
-                "  d.site_datatype_id as SDI, " + 
-                "  d.min_value_expected as EXMIN, " +
-                "  d.max_value_expected as EXMAX, " +
-                "  d.min_value_cutoff as CUTMIN, " +
-                "  d.max_value_cutoff as CUTMAX " +
-                "from " +
-                "  ref_interval_copy_limits d " +
-                "where " +
-                "  d.site_datatype_id in ({0}) " +
-                "  and d.interval = 'hour'",
+                "select "
+                + "  d.site_datatype_id as SDI, "
+                + "  d.min_value_expected as EXMIN, "
+                + "  d.max_value_expected as EXMAX, "
+                + "  d.min_value_cutoff as CUTMIN, "
+                + "  d.max_value_cutoff as CUTMAX "
+                + "from "
+                + "  ref_interval_copy_limits d "
+                + "where "
+                + "  d.site_datatype_id in ({0}) "
+                + "  and d.interval = 'hour'",
                 sdi, interval);
 
             DataTable rval = m_server.Table("SdiAlarms", sql);
@@ -1200,22 +1128,22 @@ group by d.datatype_id, d.datatype_common_name
         public DataTable GetDataQaQcLimits(string sdi, string interval)
         {
             string sql = string.Format(
-                "select " +
-                "  e.hdb_site_datatype_id as SDI, " + 
-                "  f.key_value as ROC, " +
-                "  g.key_value as RPT " +
-                "from " +
-                "  ref_ext_site_data_map e, " +
-                "  ref_ext_site_data_map_keyval f, " +
-                "  ref_ext_site_data_map_keyval g " +
-                "where " +
-                "  e.hdb_site_datatype_id in ({0}) " +
-                "  and e.hdb_interval_name = '{1}' " +
-                "  and e.ext_data_source_id = 40 " + 
-                "  and e.mapping_id = f.mapping_id " +
-                "  and e.mapping_id = g.mapping_id " +
-                "  and f.key_name = 'rate of change limit' " +
-                "  and g.key_name = 'repeat limit'",
+                "select " 
+                + "  e.hdb_site_datatype_id as SDI, " 
+                + "  f.key_value as ROC, " 
+                + "  g.key_value as RPT " 
+                + "from " 
+                + "  ref_ext_site_data_map e, " 
+                + "  ref_ext_site_data_map_keyval f, " 
+                + "  ref_ext_site_data_map_keyval g " 
+                + "where " 
+                + "  e.hdb_site_datatype_id in ({0}) " 
+                + "  and e.hdb_interval_name = '{1}' " 
+                + "  and e.ext_data_source_id = 40 " 
+                + "  and e.mapping_id = f.mapping_id " 
+                + "  and e.mapping_id = g.mapping_id " 
+                + "  and f.key_name = 'rate of change limit' " 
+                + "  and g.key_name = 'repeat limit'",
                 sdi, interval);
 
             DataTable rval = m_server.Table("SdiLimits", sql);
@@ -1259,11 +1187,11 @@ group by d.datatype_id, d.datatype_common_name
         {
             //   string sql = "select site_name,site_id from hdb_site where objecttype_id = 1 order by site_name ";
             string sql = " select hs.site_name,site_id "
-                             + " from hdb_site hs, ref_db_list rdl "
-                             + " where hs.objecttype_id = 1 "
-                             + " and hs.db_site_code = rdl.db_site_code "
-                             + " and rdl.session_no = 1 "
-                             + " order by site_name ";
+                + " from hdb_site hs, ref_db_list rdl "
+                + " where hs.objecttype_id = 1 "
+                + " and hs.db_site_code = rdl.db_site_code "
+                + " and rdl.session_no = 1 "
+                + " order by site_name ";
 
             var rval = Server.Table("a", sql);
 
@@ -1273,11 +1201,6 @@ group by d.datatype_id, d.datatype_common_name
             rval.Rows.InsertAt(r, 0);
 
             return rval;
-            //var basins = from row in tbl.AsEnumerable()
-            //                select row.Field<string>("site_name")
-            //                 ).ToArray();
-            //return basins;
-
         }
 
         /// <summary>
@@ -1290,36 +1213,36 @@ group by d.datatype_id, d.datatype_common_name
         internal DataTable BaseInfo(DateTime t, decimal site_datatype_id, string interval)
         {
             string sql = "select site_datatype_id, interval, start_date_time,end_date_time, value, agen_name, overwrite_flag, "
-                        + "  r_base.date_time_loaded, validation, collection_system_name, "
-                        + " loading_application_name, method_name, computation_name, data_flags, cp_computation.computation_id from "
-                        + " r_base, hdb_agen, hdb_collection_system, hdb_loading_application, hdb_method, cp_computation where "
-                        + " site_datatype_id = " + site_datatype_id + "and "
-                        + " start_date_time = " + ToHdbDate(t) + " and "
-                        + " interval = '" + interval + "' and "
-                        + " hdb_agen.agen_id = r_base.agen_id and "
-                        + " hdb_collection_system.collection_system_id = r_base.collection_system_id and "
-                        + " hdb_loading_application.loading_application_id = r_base.loading_application_id and "
-                        + " hdb_method.method_id = r_base.method_id and "
-                        + " cp_computation.computation_id = r_base.computation_id ";
+                + "  r_base.date_time_loaded, validation, collection_system_name, "
+                + " loading_application_name, method_name, computation_name, data_flags, cp_computation.computation_id from "
+                + " r_base, hdb_agen, hdb_collection_system, hdb_loading_application, hdb_method, cp_computation where "
+                + " site_datatype_id = " + site_datatype_id + "and "
+                + " start_date_time = " + ToHdbDate(t) + " and "
+                + " interval = '" + interval + "' and "
+                + " hdb_agen.agen_id = r_base.agen_id and "
+                + " hdb_collection_system.collection_system_id = r_base.collection_system_id and "
+                + " hdb_loading_application.loading_application_id = r_base.loading_application_id and "
+                + " hdb_method.method_id = r_base.method_id and "
+                + " cp_computation.computation_id = r_base.computation_id ";
 
             return Server.Table("info", sql);
         }
 
         internal DataTable CpInfo(string cpID)
         {
-            string sql = "select a.CMMNT," +
-                            " a.GROUP_ID as grp," +
-                            " lower(c.TABLE_SELECTOR || c.INTERVAL) as tabl," +
-                            " c.SITE_DATATYPE_ID as sdid," +
-                            " e.SITE_COMMON_NAME as sname," +
-                            " f.DATATYPE_COMMON_NAME as dname" +
-                            " from CP_COMPUTATION a" +
-                            " join CP_COMP_DEPENDS b on a.computation_id = b.computation_id" +
-                            " join cp_ts_id c on b.TS_ID = c.ts_ID" +
-                            " join HDB_SITE_DATATYPE d on c.SITE_DATATYPE_ID = d.site_datatype_id" +
-                            " join HDB_SITE e on d.SITE_ID = e.SITE_ID" +
-                            " join HDB_DATATYPE f on d.DATATYPE_ID = f.DATATYPE_ID" +
-                            " where a.COMPUTATION_ID = " + cpID;
+            string sql = "select a.CMMNT,"
+                + " a.GROUP_ID as grp,"
+                + " lower(c.TABLE_SELECTOR || c.INTERVAL) as tabl,"
+                + " c.SITE_DATATYPE_ID as sdid,"
+                + " e.SITE_COMMON_NAME as sname,"
+                + " f.DATATYPE_COMMON_NAME as dname"
+                + " from CP_COMPUTATION a"
+                + " join CP_COMP_DEPENDS b on a.computation_id = b.computation_id"
+                + " join cp_ts_id c on b.TS_ID = c.ts_ID"
+                + " join HDB_SITE_DATATYPE d on c.SITE_DATATYPE_ID = d.site_datatype_id"
+                + " join HDB_SITE e on d.SITE_ID = e.SITE_ID"
+                + " join HDB_DATATYPE f on d.DATATYPE_ID = f.DATATYPE_ID"
+                + " where a.COMPUTATION_ID = " + cpID;
 
             return Server.Table("cpInfo", sql);
 
