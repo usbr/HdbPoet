@@ -55,10 +55,8 @@ namespace HdbPoet
 				tChart1.Axes.Right.Title.Text="";
 				tChart1.Axes.Left.Title.Text="";
 
-				string unitsOfFirstSeries = ds.SeriesRows.First().Units.Trim();
-                //for(int i=0; i<sz; i++)
-                int leftCount = 0;
-                int rightCount = 0;
+                var leftAxisUnits = new List<string>();
+                var rightAxisUnits = new List<string>();
                 int i = 0;
                 foreach (var s in ds.SeriesRows)
                 {
@@ -81,29 +79,31 @@ namespace HdbPoet
 
 					series.Title = s.Title;
 
-                    if ( i > 0) // check units to determine what yaxis to use(left,or right)
+                    // check units to determine what yaxis to use(left,or right)
+                    string units = s.Units.Trim();
+                    if ( i > 0) 
 					{
-						string units = s.Units.Trim();
-						if( units != unitsOfFirstSeries && rightCount < leftCount)
-						{ // right axis
-							series.VertAxis =Steema.TeeChart.Styles.VerticalAxis.Right;
-							if( tChart1.Axes.Right.Title.Text.IndexOf(s.Units) < 0)
-							{
+                        if ((!leftAxisUnits.Contains(units) && rightAxisUnits.Count < leftAxisUnits.Count) || rightAxisUnits.Contains(units))
+                        { // right axis
+                            series.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Right;
+                            if (tChart1.Axes.Right.Title.Text.IndexOf(s.Units) < 0)
+                            {
                                 tChart1.Axes.Right.Title.Text += s.Units + ", ";
-							}
-                            rightCount++;
-						}
-						else
-						{ // left axis
-							if( tChart1.Axes.Left.Title.Text.IndexOf(s.Units) < 0)
-							{
-								tChart1.Axes.Left.Title.Text += s.Units + ", ";
                             }
-                            leftCount++;
-						}
+                            rightAxisUnits.Add(units);
+                        }
+                        else
+                        { // left axis
+                            if (tChart1.Axes.Left.Title.Text.IndexOf(s.Units) < 0)
+                            {
+                                tChart1.Axes.Left.Title.Text += s.Units + ", ";
+                            }
+                            leftAxisUnits.Add(units);
+                        }
 					}
 					else
 					{
+                        leftAxisUnits.Add(units);
 						tChart1.Axes.Left.Title.Text = s.Units +", ";
 					}
                     series.Dark3D = true;
@@ -115,8 +115,6 @@ namespace HdbPoet
                 {
                     tChart1.Axes.Right.Title.Text = tChart1.Axes.Right.Title.Text.Remove(tChart1.Axes.Right.Title.Text.Length - 2);
                 }
-                //tChart1.Zoom.Undo();
-                //tChart1.Zoom.ZoomPercent(97);
             }
 			catch(Exception exc)
 			{

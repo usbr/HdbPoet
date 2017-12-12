@@ -441,12 +441,6 @@
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </Compile>
     <Compile Include="LicensedDependency\ZedGraphDataLoader.cs" />
-    <None Include="UserInterfaces\GraphControl.cs">
-      <SubType>UserControl</SubType>
-    </None>
-    <None Include="UserInterfaces\GraphControl.Designer.cs">
-      <DependentUpon>GraphControl.cs</DependentUpon>
-    </None>
     <Compile Include="OracleHdb\OracleConnectionInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -633,9 +627,6 @@
     <EmbeddedResource Include="Forms\EditStringCollection.resx">
       <DependentUpon>EditStringCollection.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="UserInterfaces\GraphControl.resx">
-      <DependentUpon>GraphControl.cs</DependentUpon>
-    </None>
     <EmbeddedResource Include="Forms\TimeSeriesCommitChanges.resx">
       <DependentUpon>TimeSeriesCommitChanges.cs</DependentUpon>
       <SubType>Designer</SubType>
