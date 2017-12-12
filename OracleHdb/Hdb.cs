@@ -268,90 +268,105 @@ namespace HdbPoet
         /// <returns></returns>
         private DataTable TableModeledData(decimal site_datatype_id, string tableName, string interval, DateTime t1, DateTime t2, int mrid)
         {
-            string sql = "Select start_date_time as date_time,value " + "from " + tableName + " where model_run_id = " + mrid
-               + " and site_datatype_id = " + site_datatype_id + " and start_date_time >= " + Hdb.ToHdbDate(t1.Date)
-               + " and start_date_time <= " + Hdb.ToHdbDate(t2.Date) + " order by start_date_time asc";
+            //string sql = "select start_date_time as date_time,value " + "from " + tableName + " where model_run_id = " + mrid
+            //   + " and site_datatype_id = " + site_datatype_id + " and start_date_time >= " + Hdb.ToHdbDate(t1.Date)
+            //   + " and start_date_time <= " + Hdb.ToHdbDate(t2.Date) + " order by start_date_time asc";
 
-            DataTable rval = m_server.Table(tableName, sql);
+            /*
+             * SELECT t.DATE_TIME AS date_time, CAST(NVL(VALUE,NULL) AS VARCHAR(10)) AS value 
+             *  FROM M_MONTH v
+             *      PARTITION BY (v.SITE_DATATYPE_ID,v.MODEL_RUN_ID)
+             *  RIGHT OUTER JOIN TABLE(DATES_BETWEEN('1-JAN-2017 00:00','31-DEC-2018 00:00',LOWER('MONTH'))) t 
+             *      ON v.START_DATE_TIME = t.DATE_TIME
+             *  WHERE v.SITE_DATATYPE_ID IN (1930)
+             *  AND v.MODEL_RUN_ID = 3048;
+             */
+            string sqlNew = string.Format("select t.date_time as date_time, cast(nvl(value,null) as varchar(10)) as value " +
+                    "from m_{0} v partition by (v.site_datatype_id, v.model_run_id) " +
+                    "right outer join table(dates_between({1},{2},lower('{0}'))) t " +
+                    "on v.start_date_time = t.date_time where v.site_datatype_id in ({3}) and " +
+                    "v.model_run_id = {4} order by date_time ASC", interval, ToHdbDate(t1), ToHdbDate(t2), site_datatype_id, mrid);
 
-            var tDataMax = rval.AsEnumerable().Select(cols => cols.Field<DateTime>("DATE_TIME")).OrderBy(p => p.Ticks).LastOrDefault();
-            var tDataMin = rval.AsEnumerable().Select(cols => cols.Field<DateTime>("DATE_TIME")).OrderBy(p => p.Ticks).FirstOrDefault();
+            DataTable rval = m_server.Table(tableName, sqlNew);
 
-            // Fill missing values in between the specified date range.
-            DateTime ithT = t1;
-            switch (interval)
-            {
-                case "hour":
-                    ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, ithT.Hour, 0, 0);
-                    break;
-                case "day":
-                    ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, 0, 0, 0);
-                    break;
-                case "month":
-                    ithT = new DateTime(ithT.Year, ithT.Month, 1, 0, 0, 0);
-                    break;
-                case "year":
-                    ithT = new DateTime(ithT.Year, 1, 1, ithT.Hour, 0, 0);
-                    break;
-                case "wy":
-                    ithT = new DateTime(ithT.Year, 10, 1, ithT.Hour, 0, 0);
-                    break;
-                default:
-                    break;
-            }
+            //var tDataMax = rval.AsEnumerable().Select(cols => cols.Field<DateTime>("DATE_TIME")).OrderBy(p => p.Ticks).LastOrDefault();
+            //var tDataMin = rval.AsEnumerable().Select(cols => cols.Field<DateTime>("DATE_TIME")).OrderBy(p => p.Ticks).FirstOrDefault();
 
-            int pastDatetimeCounter = 0;
+            //// Fill missing values in between the specified date range.
+            //DateTime ithT = t1;
+            //switch (interval)
+            //{
+            //    case "hour":
+            //        ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, ithT.Hour, 0, 0);
+            //        break;
+            //    case "day":
+            //        ithT = new DateTime(ithT.Year, ithT.Month, ithT.Day, 0, 0, 0);
+            //        break;
+            //    case "month":
+            //        ithT = new DateTime(ithT.Year, ithT.Month, 1, 0, 0, 0);
+            //        break;
+            //    case "year":
+            //        ithT = new DateTime(ithT.Year, 1, 1, ithT.Hour, 0, 0);
+            //        break;
+            //    case "wy":
+            //        ithT = new DateTime(ithT.Year, 10, 1, ithT.Hour, 0, 0);
+            //        break;
+            //    default:
+            //        break;
+            //}
 
-            while (ithT <= t2)
-            {
-                // Fill in missing dates in the data table
-                if (!rval.AsEnumerable().Any(row => ithT == row.Field<DateTime>("DATE_TIME")))
-                {
-                    // Build an empty row
-                    DataRow newRow = rval.NewRow();
-                    newRow["DATE_TIME"] = ithT;
-                    newRow["VALUE"] = DBNull.Value;
-                    // Insert the row at the correct location
-                    if (ithT < tDataMin) // Add to beginning
-                    {
-                        rval.Rows.InsertAt(newRow, pastDatetimeCounter);
-                        pastDatetimeCounter++;
-                    }
-                    else if (ithT > tDataMax) // Add to end
-                    {
-                        rval.Rows.Add(newRow);
-                    }
-                    else // Add missing in between
-                    {
-                        var closest = rval.Select()
-                                        .OrderBy(dr => Math.Abs((ithT - (DateTime)dr["DATE_TIME"]).Ticks))
-                                        .Where(t => (DateTime)t["DATE_TIME"] >= ithT).FirstOrDefault();//.ElementAt(1);
-                        rval.Rows.InsertAt(newRow, rval.Rows.IndexOf(closest));
-                    }
-                }
+            //int pastDatetimeCounter = 0;
 
-                // Increment ithT
-                switch (interval)
-                {
-                    case "hour":
-                        ithT = ithT.AddHours(1);
-                        break;
-                    case "day":
-                        ithT = ithT.AddDays(1);
-                        break;
-                    case "month":
-                        ithT = ithT.AddMonths(1);
-                        break;
-                    case "year":
-                        ithT = ithT.AddYears(1);
-                        break;
-                    case "wy":
-                        ithT = ithT.AddYears(1);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //while (ithT <= t2)
+            //{
+            //    // Fill in missing dates in the data table
+            //    if (!rval.AsEnumerable().Any(row => ithT == row.Field<DateTime>("DATE_TIME")))
+            //    {
+            //        // Build an empty row
+            //        DataRow newRow = rval.NewRow();
+            //        newRow["DATE_TIME"] = ithT;
+            //        newRow["VALUE"] = DBNull.Value;
+            //        // Insert the row at the correct location
+            //        if (ithT < tDataMin) // Add to beginning
+            //        {
+            //            rval.Rows.InsertAt(newRow, pastDatetimeCounter);
+            //            pastDatetimeCounter++;
+            //        }
+            //        else if (ithT > tDataMax) // Add to end
+            //        {
+            //            rval.Rows.Add(newRow);
+            //        }
+            //        else // Add missing in between
+            //        {
+            //            var closest = rval.Select()
+            //                            .OrderBy(dr => Math.Abs((ithT - (DateTime)dr["DATE_TIME"]).Ticks))
+            //                            .Where(t => (DateTime)t["DATE_TIME"] >= ithT).FirstOrDefault();//.ElementAt(1);
+            //            rval.Rows.InsertAt(newRow, rval.Rows.IndexOf(closest));
+            //        }
+            //    }
+
+            //    // Increment ithT
+            //    switch (interval)
+            //    {
+            //        case "hour":
+            //            ithT = ithT.AddHours(1);
+            //            break;
+            //        case "day":
+            //            ithT = ithT.AddDays(1);
+            //            break;
+            //        case "month":
+            //            ithT = ithT.AddMonths(1);
+            //            break;
+            //        case "year":
+            //            ithT = ithT.AddYears(1);
+            //            break;
+            //        case "wy":
+            //            ithT = ithT.AddYears(1);
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
 
             if (rval == null)
             {
