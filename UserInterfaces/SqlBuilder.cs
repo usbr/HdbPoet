@@ -123,16 +123,7 @@ namespace HdbPoet
             sqlName = "";
             sqlDesc = "";
 
-            if (sqlStmt.Length == 0 ||
-                    sqlStmt.ToLower().IndexOf("update") >= 0 || sqlStmt.ToLower().IndexOf("insert") >= 0 ||
-                    sqlStmt.ToLower().IndexOf("drop") >= 0 || sqlStmt.ToLower().IndexOf("create") >= 0 ||
-                    sqlStmt.ToLower().IndexOf("alter") >= 0 || sqlStmt.ToLower().IndexOf("truncate") >= 0 ||
-                    sqlStmt.ToLower().IndexOf("rename") >= 0 || sqlStmt.ToLower().IndexOf("delete") >= 0 ||
-                    sqlStmt.ToLower().IndexOf("merge") >= 0 || sqlStmt.ToLower().IndexOf("grant") >= 0 ||
-                    sqlStmt.ToLower().IndexOf("revoke") >= 0 || sqlStmt.ToLower().IndexOf("analyze") >= 0 ||
-                    sqlStmt.ToLower().IndexOf("audit") >= 0 || sqlStmt.ToLower().IndexOf("comment") >= 0 ||
-                    sqlStmt.ToLower().IndexOf("commit") >= 0 || sqlStmt.ToLower().IndexOf("rollback") >= 0 ||
-                    sqlStmt.ToLower().IndexOf("savepoint") >= 0 || sqlStmt.ToLower().IndexOf("set") >= 0)
+            if (checkSqlStatement(sqlStmt))
             {
                 MessageBox.Show("Check your SQL statement. It is either blank or uses non-SELECT statements.");
             }
@@ -195,15 +186,7 @@ namespace HdbPoet
                     //oracle.SetDateFormat();
                     DataTable tbl;
                     string sql = this.richTextBoxSql.Text;
-                    if (sql.ToLower().IndexOf("update") >= 0 || sql.ToLower().IndexOf("insert") >= 0 ||
-                        sql.ToLower().IndexOf("drop") >= 0 || sql.ToLower().IndexOf("create") >= 0 ||
-                        sql.ToLower().IndexOf("alter") >= 0 || sql.ToLower().IndexOf("truncate") >= 0 ||
-                        sql.ToLower().IndexOf("rename") >= 0 || sql.ToLower().IndexOf("delete") >= 0 ||
-                        sql.ToLower().IndexOf("merge") >= 0 || sql.ToLower().IndexOf("grant") >= 0 ||
-                        sql.ToLower().IndexOf("revoke") >= 0 || sql.ToLower().IndexOf("analyze") >= 0 ||
-                        sql.ToLower().IndexOf("audit") >= 0 || sql.ToLower().IndexOf("comment") >= 0 ||
-                        sql.ToLower().IndexOf("commit") >= 0 || sql.ToLower().IndexOf("rollback") >= 0 ||
-                        sql.ToLower().IndexOf("savepoint") >= 0 || sql.ToLower().IndexOf("set") >= 0)
+                    if (checkSqlStatement(sql))
                     {
                         tbl = new DataTable("queryerror");
                         tbl.Columns.Add("ERROR");
@@ -211,7 +194,11 @@ namespace HdbPoet
                         tbl.Rows.Add("may");
                         tbl.Rows.Add("only");
                         tbl.Rows.Add("execute");
-                        tbl.Rows.Add("SELECT");
+                        tbl.Rows.Add("  SELECT");
+                        tbl.Rows.Add("  UPDATE");
+                        tbl.Rows.Add("  ALTER");
+                        tbl.Rows.Add("  INSERT");
+                        tbl.Rows.Add("  DELETE");
                         tbl.Rows.Add("statements");
                         tbl.Rows.Add("using");
                         tbl.Rows.Add("this");
@@ -224,7 +211,14 @@ namespace HdbPoet
                     }
                     else
                     {
-                        tbl = oracle.Table("queryreturn", this.richTextBoxSql.Text);
+                        if (sql.ToLower().Contains("select"))
+                        {
+                            tbl = oracle.Table("queryreturn", sql);
+                        }
+                        else
+                        {
+                            tbl = oracle.TableNonSelect("executereturn", sql, true);
+                        }
                     }
                     this.dataGrid1.DataSource = tbl;
                 }
@@ -238,8 +232,42 @@ namespace HdbPoet
                 {
                     Cursor = Cursors.Default;
                 }
-
             }
+        }
+
+        private bool checkSqlStatement(string sql)
+        {
+            bool invalidSql = false;
+
+            if (GlobalVariables.userIsDba)
+            {
+                invalidSql = false;
+            }
+            else
+            {
+                invalidSql = (
+                    sql.Length == 0 ||
+                    //sql.ToLower().IndexOf("update") >= 0 || 
+                    //sql.ToLower().IndexOf("insert") >= 0 ||
+                    sql.ToLower().IndexOf("drop") >= 0 || 
+                    sql.ToLower().IndexOf("create") >= 0 ||
+                    //sql.ToLower().IndexOf("alter") >= 0 || 
+                    sql.ToLower().IndexOf("truncate") >= 0 ||
+                    sql.ToLower().IndexOf("rename") >= 0 || 
+                    //sql.ToLower().IndexOf("delete") >= 0 ||
+                    sql.ToLower().IndexOf("merge") >= 0 || 
+                    sql.ToLower().IndexOf("grant") >= 0 ||
+                    sql.ToLower().IndexOf("revoke") >= 0 || 
+                    sql.ToLower().IndexOf("analyze") >= 0 ||
+                    sql.ToLower().IndexOf("audit") >= 0 || 
+                    sql.ToLower().IndexOf("comment") >= 0 ||
+                    sql.ToLower().IndexOf("commit") >= 0 || 
+                    sql.ToLower().IndexOf("rollback") >= 0 ||
+                    sql.ToLower().IndexOf("savepoint") >= 0
+                    //sql.ToLower().IndexOf("set") >= 0
+                );
+            }
+            return invalidSql;
         }
 
         /// <summary>

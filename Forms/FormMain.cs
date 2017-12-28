@@ -418,7 +418,7 @@ namespace HdbPoet
             browser.OnGraph += new EventHandler(browser_OnGraph);
 
             menuAdmin.Visible = Hdb.Instance.IsAclAdministrator;
-
+            GlobalVariables.userIsDba = Hdb.Instance.IsAclAdministrator;
         }
 
         void browser_OnGraph(object sender, EventArgs e)

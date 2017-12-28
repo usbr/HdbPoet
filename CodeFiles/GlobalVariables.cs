@@ -15,6 +15,13 @@ namespace HdbPoet
         private static bool overwriteFlagOnWriteCheck = false;
         private static char validationFlag = 'Z';
         private static bool qaqcValidationCheck = false;
+        private static bool userDba = false;
+        
+        public static bool userIsDba
+        {
+            get { return userDba; }
+            set { userDba = value; }
+        }
 
         public static bool showEmptySdids
         {

@@ -154,4 +154,16 @@ ORDER BY t
 </sql>
     <desc>Get summary statistics (min, max, avg, IQR) on a per-timestep basis given an SDI. Example: To get summary stats for Lake Mead elevation for CY2000 - CY2010 on a daily time-step, use $X=ddd, $Y=1930, $T1=01-JAN-2000, and $T2=31-DEC-2010. You may also set $Y=mm to get the same stats on a monthly time-step.</desc>
   </function>
+  <function>
+    <id>8</id>
+    <name>Update Password</name>
+    <sql>alter user 
+$UserName 
+identified by 
+"$NewPassword" 
+replace 
+"$OldPassword"
+</sql>
+    <desc>This will update a password for an HDB user. Note that you may update the password for the current logged-in user but you would have to log-in as the DB owner to update a different user's password.</desc>
+  </function>
 </SqlFunctions>

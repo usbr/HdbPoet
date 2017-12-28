@@ -335,6 +335,49 @@ namespace HdbPoet
         }
 
 
+        public DataTable TableNonSelect(string tableName, string sql, bool throwErrors)
+        {
+            string strAccessSelect = sql;
+            var myAccessConn = GetConnectionProvider();
+            myAccessConn.ConnectionString = GetConnectionPrefix() + ConnectionString;
+            var myAccessCommand = GetCommandProvider();
+            myAccessCommand.CommandText = strAccessSelect;
+            myAccessCommand.Connection = myAccessConn;
+
+            //Console.WriteLine(sql);
+            this.lastSqlCommand = sql;
+            this.sqlCommands.Add(sql);
+            try
+            {
+                myAccessConn.Open();
+                myAccessCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                string msg = "Error processing database request\n" + sql + "\n Exception " + e.ToString();
+                Console.WriteLine(msg);
+
+                if (throwErrors)
+                {
+                    throw e;
+                }
+
+                System.Windows.Forms.MessageBox.Show(msg, "Error",
+                  System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                //throw e; 
+            }
+            finally
+            {
+                myAccessConn.Close();
+            }
+            DataTable tbl = new DataTable(tableName);
+            tbl.Columns.Add("RESULT");
+            tbl.Rows.Add("Sql statement ");
+            tbl.Rows.Add("   " + sql);
+            tbl.Rows.Add("executed. Verify your results.");
+            return tbl;
+        }
+
         public override int RunSqlCommand(string sql)
         {
             return this.RunSqlCommand(sql, this.ConnectionString);
