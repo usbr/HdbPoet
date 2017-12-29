@@ -370,6 +370,7 @@ namespace HdbPoet
             {
                 myAccessConn.Close();
             }
+            sql = sql.Replace("\n", "");
             DataTable tbl = new DataTable(tableName);
             tbl.Columns.Add("RESULT");
             tbl.Rows.Add("Sql statement ");

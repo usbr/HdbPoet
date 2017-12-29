@@ -28,7 +28,7 @@ namespace HdbPoet.MetaData
             RefRes();
             HdbAttr();
             RefSiteAttributes();
-
+            RefSiteCoefficients();
         }
 
         private void RefSiteAttributes()
@@ -41,6 +41,17 @@ namespace HdbPoet.MetaData
 + " WHERE r.site_id = s.site_id ");
             ViewRefSiteAttributes.AddDropDownColumn("hdb_attr", "attr_id", "attr_common_name", 2, true);
 
+        }
+
+        private void RefSiteCoefficients()
+        {
+            ViewRefSiteCoefficients.SetQueries("ref_site_coef", "select * from ref_site_coef ",
+                "select r.site_id, s.site_name, r.attr_id, h.attr_common_name, h.attr_value_type, r.coef_idx, "
+                + "r.effective_start_date_time, r.effective_end_date_time, r.coef, u.unit_common_name "
+                + "FROM ref_site_coef r,  hdb_attr h, hdb_site s, hdb_unit u "
+                + "WHERE r.site_id = s.site_id AND r.attr_id = h.attr_id AND h.unit_id = u.unit_id "
+                + "ORDER BY r.site_id, r.attr_id, r.effective_start_date_time DESC ");
+            //ViewRefSiteAttributes.AddDropDownColumn("hdb_attr", "attr_id", "attr_common_name", 2, true);
         }
 
         private void HdbAttr()

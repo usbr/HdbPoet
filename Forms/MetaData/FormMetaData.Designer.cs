@@ -46,6 +46,8 @@
             this.tabPageRefSiteAttributes = new System.Windows.Forms.TabPage();
             this.ViewRefSiteAttributes = new HdbPoet.MetaData.SqlViewEditor();
             this.tabPageRatingTables = new System.Windows.Forms.TabPage();
+            this.tabPageRefSiteCoefficients = new System.Windows.Forms.TabPage();
+            this.ViewRefSiteCoefficients = new HdbPoet.MetaData.SqlViewEditor();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -54,6 +56,7 @@
             this.ref_res.SuspendLayout();
             this.tabPageHdbAttr.SuspendLayout();
             this.tabPageRefSiteAttributes.SuspendLayout();
+            this.tabPageRefSiteCoefficients.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -65,6 +68,7 @@
             this.tabControl1.Controls.Add(this.ref_res);
             this.tabControl1.Controls.Add(this.tabPageHdbAttr);
             this.tabControl1.Controls.Add(this.tabPageRefSiteAttributes);
+            this.tabControl1.Controls.Add(this.tabPageRefSiteCoefficients);
             this.tabControl1.Controls.Add(this.tabPageRatingTables);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -226,6 +230,25 @@
             this.tabPageRatingTables.Text = "rating tables";
             this.tabPageRatingTables.UseVisualStyleBackColor = true;
             // 
+            // tabPageRefSiteCoefficients
+            // 
+            this.tabPageRefSiteCoefficients.Controls.Add(this.ViewRefSiteCoefficients);
+            this.tabPageRefSiteCoefficients.Location = new System.Drawing.Point(4, 22);
+            this.tabPageRefSiteCoefficients.Name = "tabPageRefSiteCoefficients";
+            this.tabPageRefSiteCoefficients.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageRefSiteCoefficients.Size = new System.Drawing.Size(749, 597);
+            this.tabPageRefSiteCoefficients.TabIndex = 8;
+            this.tabPageRefSiteCoefficients.Text = "ref_site_coef";
+            this.tabPageRefSiteCoefficients.UseVisualStyleBackColor = true;
+            // 
+            // ViewRefSiteCoefficients
+            // 
+            this.ViewRefSiteCoefficients.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ViewRefSiteCoefficients.Location = new System.Drawing.Point(3, 3);
+            this.ViewRefSiteCoefficients.Name = "ViewRefSiteCoefficients";
+            this.ViewRefSiteCoefficients.Size = new System.Drawing.Size(743, 591);
+            this.ViewRefSiteCoefficients.TabIndex = 2;
+            // 
             // FormMetaData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -243,6 +266,7 @@
             this.ref_res.ResumeLayout(false);
             this.tabPageHdbAttr.ResumeLayout(false);
             this.tabPageRefSiteAttributes.ResumeLayout(false);
+            this.tabPageRefSiteCoefficients.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -266,5 +290,7 @@
         private SqlViewEditor ViewRefSiteAttributes;
         private SqlViewEditor ViewKeyVal;
         private System.Windows.Forms.TabPage tabPageRatingTables;
+        private System.Windows.Forms.TabPage tabPageRefSiteCoefficients;
+        private SqlViewEditor ViewRefSiteCoefficients;
     }
 }
