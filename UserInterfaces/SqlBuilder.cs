@@ -237,7 +237,7 @@ namespace HdbPoet
 
         private bool checkSqlStatement(string sql)
         {
-            bool invalidSql = false;
+            bool invalidSql = true;
 
             if (GlobalVariables.userIsDba)
             {

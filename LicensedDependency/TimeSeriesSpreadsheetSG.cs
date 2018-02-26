@@ -35,7 +35,7 @@ namespace HdbPoet
         private SpreadsheetGear.IRange initialUsedRange;
         private string m_colorColumnName = "";
         MultipleSeriesDataTable msDataTable;
-        Regex IsValidNumber = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
+        Regex IsValidNumber = new Regex(@"^-?[0-9]*(?:\.[0-9]*)?$");
 
         public TimeSeriesSpreadsheetSG()
         {
@@ -164,6 +164,8 @@ namespace HdbPoet
             workbookView1.ReleaseLock();
         }
 
+        private bool bypassDataChangeEvent = false;
+
         /// <summary>
         /// Handler for when data in the msDataTable object is updated
         /// </summary>
@@ -180,7 +182,7 @@ namespace HdbPoet
             {
                 SpreadsheetGear.IRange sgCell = workSheet1.Cells[sgRow, sgCol];
 
-                if (sgCell.Value != null)
+                if (sgCell.Value != null && !bypassDataChangeEvent)
                 {
                     double currentVal = Convert.ToDouble(sgCell.Value);
                     double changedVal;
@@ -215,77 +217,85 @@ namespace HdbPoet
         {
             workbookView1.GetLock();
             workbookView1.BeginUpdate();
-
-            //iterate through cells in edited range
-            foreach (SpreadsheetGear.IRange ithCell in e.Range.Cells)
+            bypassDataChangeEvent = true;
+            
+            //iterate through columns in edited range
+            foreach (SpreadsheetGear.IRange col in e.Range.Columns)
             {
-                //iterate through SG used range to see if cell is a used data cell
-                ithCell.Cells.Activate();
-                int dGridRow = workbookView1.ActiveCell.Row - 1;//SG rows are 1-based since it has the header in row-0
-                int sgRow = workbookView1.ActiveCell.Row;
-                int dGridCol = workbookView1.ActiveCell.Column;
-                int sgCol = dGridCol;
-
-                bool activeCellUsed = ActiveCellInUsedRange(ithCell);
-                bool headerCell = (workbookView1.ActiveCell.Row == 0 || workbookView1.ActiveCell.Column == 0);
+                col.Rows[0, 0].Activate();
                 bool columnReadOnly = CellReadOnly(false);
-                //process cell
 
-                if (activeCellUsed && !headerCell && !columnReadOnly)
+                //iterate through rows in edited range
+                foreach (SpreadsheetGear.IRange ithCell in col.Rows)// e.Range.Cells)
                 {
-                    // check if row has a date
-                    object o = workSheet1.Range[workbookView1.ActiveCell.Row, 0].Value;
-                    if (o != null)
-                    {
-                        DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)o);
+                    //iterate through SG used range to see if cell is a used data cell
+                    ithCell.Cells.Activate();
+                    int dGridRow = workbookView1.ActiveCell.Row - 1;//SG rows are 1-based since it has the header in row-0
+                    int sgRow = workbookView1.ActiveCell.Row;
+                    int dGridCol = workbookView1.ActiveCell.Column;
+                    int sgCol = dGridCol;
 
-                        if (workbookView1.ActiveCell.Column - 1 >= msDataTable.Columns.Count)
-                        { MessageBox.Show("Internal error: formatting cell error"); }
-                        //process cell
-                        else
+                    bool activeCellUsed = ActiveCellInUsedRange(ithCell);
+                    bool headerCell = (workbookView1.ActiveCell.Row == 0 || workbookView1.ActiveCell.Column == 0);
+                    //process cell
+
+                    if (activeCellUsed && !headerCell && !columnReadOnly)
+                    {
+                        // check if row has a date
+                        object o = workSheet1.Range[workbookView1.ActiveCell.Row, 0].Value;
+                        if (o != null)
                         {
-                            // check if cell value was changed
-                            var sgVal = workbookView1.ActiveCell.Value;//workSheet1.Cells[sgRow, sgCol].Value;
-                            double origVal = 0, editVal = 0;
-                            if (!Double.TryParse(msDataTable.Rows[dGridRow][dGridCol].ToString(), out origVal))
-                            { origVal = double.NaN; }
-                            if (sgVal == null)
-                            { editVal = double.NaN; }
-                            else if (!IsValidNumber.IsMatch(sgVal.ToString())) //diallow not numbers in used data range
-                            {
-                                workSheet1.Range[sgRow, sgCol].Value = msDataTable.Rows[dGridRow][dGridCol].ToString();// origVal;
-                                break;
-                            }
+                            DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)o);
+
+                            if (workbookView1.ActiveCell.Column - 1 >= msDataTable.Columns.Count)
+                            { MessageBox.Show("Internal error: formatting cell error"); }
+                            //process cell
                             else
-                            { editVal = Convert.ToDouble(sgVal); }
-                            if ((origVal != editVal && !double.IsNaN(origVal)) || (double.IsNaN(origVal) && !double.IsNaN(editVal)))
                             {
-                                // format cell
-                                FormatEditedCell(sgRow, sgCol);
-                                // mirror change to datagrid
-                                dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGridCol];
-                                DataGridViewCell cell = dataGrid1.CurrentCell;
-                                if (cell.ColumnIndex != 0)
+                                // check if cell value was changed
+                                var sgVal = workbookView1.ActiveCell.Value;//workSheet1.Cells[sgRow, sgCol].Value;
+                                double origVal = 0, editVal = 0;
+                                if (!Double.TryParse(msDataTable.Rows[dGridRow][dGridCol].ToString(), out origVal))
+                                { origVal = double.NaN; }
+                                if (sgVal == null)
+                                { editVal = double.NaN; }
+                                else if (!IsValidNumber.IsMatch(sgVal.ToString())) //diallow not numbers in used data range
                                 {
-                                    DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
-                                    if (double.IsNaN(editVal))
-                                    { row[cell.ColumnIndex] = DBNull.Value; }
-                                    else
-                                    { row[cell.ColumnIndex] = editVal; }
+                                    workSheet1.Range[sgRow, sgCol].Value = msDataTable.Rows[dGridRow][dGridCol].ToString();// origVal;
+                                    break;
+                                }
+                                else
+                                { editVal = Convert.ToDouble(sgVal); }
+                                if ((origVal != editVal && !double.IsNaN(origVal)) || (double.IsNaN(origVal) && !double.IsNaN(editVal)))
+                                {
+                                    // format cell
+                                    FormatEditedCell(sgRow, sgCol);
+                                    // mirror change to datagrid
+                                    dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGridCol];
+                                    DataGridViewCell cell = dataGrid1.CurrentCell;
+                                    if (cell.ColumnIndex != 0)
+                                    {
+                                        DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
+                                        if (double.IsNaN(editVal))
+                                        { row[cell.ColumnIndex] = DBNull.Value; }
+                                        else
+                                        { row[cell.ColumnIndex] = editVal; }
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                else if (!activeCellUsed && !headerCell) // cells outside of used range and not a header
-                {
-                    ClearCellFormat(sgRow, sgCol);//clear cell formatting
-                }                
-                else
-                {
+                    else if (!activeCellUsed && !headerCell) // cells outside of used range and not a header
+                    {
+                        ClearCellFormat(sgRow, sgCol);//clear cell formatting
+                    }
+                    else
+                    {
 
+                    }
                 }
             }
+            bypassDataChangeEvent = false;
             workbookView1.EndUpdate();
             workbookView1.ReleaseLock();
         }
