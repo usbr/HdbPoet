@@ -115,6 +115,8 @@ namespace HdbPoet
 
             ValidationButtonEnabling();
             QaQcButtonEnabled();
+            hideGraph();
+
             Logger.OnLogEvent += new StatusEventHandler(Logger_OnLogEvent);
         }
 
@@ -1292,8 +1294,20 @@ namespace HdbPoet
        
         private void buttonHideGraph_Click(object sender, EventArgs e)
         {
+            hideGraph();
+        }
+
+        private void hideGraph()
+        {
             // make table full size
-            timeSeriesTableView1.Width = tabPageTable.Width - buttonShowGraph.Width;
+            try
+            {
+                timeSeriesTableView1.Width = this.Parent.Width - (buttonShowGraph.Width * 2);
+            }
+            catch
+            {
+                timeSeriesTableView1.Width = tabPageTable.Width - (buttonShowGraph.Width * 2);
+            }
             buttonHideGraph.Visible = false;
             buttonShowGraph.Visible = true;
         }
