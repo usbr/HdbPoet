@@ -19,7 +19,6 @@ namespace HdbPoet
             InitializeComponent();
             //graphDef = new GraphData(0);
             //graphDef.GraphRow.AddGraphRow(graphDef.Graph.NewGraphRow());
-         
         }
 
         /// <summary>

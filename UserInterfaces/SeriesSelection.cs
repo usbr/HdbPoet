@@ -152,36 +152,36 @@ namespace HdbPoet
             SaveSelections();
         }
 
-        
-
         private void SetupInstantInterval()
         {
-           this.comboBoxInstantIncrement.Items.Clear();
-           string s = ConfigurationManager.AppSettings["instantIntervals"];
-           s = "1," + s;
-           string[] intervals = s.Split(',');
-           comboBoxInstantIncrement.Items.AddRange(intervals);
-           if (Array.IndexOf(intervals,"15")>=0)
-               comboBoxInstantIncrement.SelectedItem = "15";
-           else
-               comboBoxInstantIncrement.SelectedIndex = 0;
-
+            this.comboBoxInstantIncrement.Items.Clear();
+            string s = ConfigurationManager.AppSettings["instantIntervals"];
+            s = "1," + s;
+            string[] intervals = s.Split(',');
+            comboBoxInstantIncrement.Items.AddRange(intervals);
+            if (Array.IndexOf(intervals, "15") >= 0)
+            {
+                comboBoxInstantIncrement.SelectedItem = "15";
+            }
+            else
+            {
+                comboBoxInstantIncrement.SelectedIndex = 0;
+            }
         }
 
         internal GraphData DataSet
         {
+            get
+            {
+                graphDef.GraphRow.TimeZone = timeZoneComboBox2.TimeZone;
+                return this.graphDef;
+            }
             set
             {
                this.graphDef = value;
                this.dateSelector1.ReadFromDataSet(this.graphDef);
 
                this.timeZoneComboBox2.TimeZone = value.GraphRow.TimeZone;
-
-            }
-            get {
-
-                graphDef.GraphRow.TimeZone = timeZoneComboBox2.TimeZone;
-                return this.graphDef;
             }
         }
 
@@ -909,7 +909,7 @@ namespace HdbPoet
             {
                 var isModeledData = GetModeledDataVars();
                 bool m_getModeledData = isModeledData.Item1;
-               
+
                 string[] intervalDescriptions = new string[listBoxInterval.SelectedItems.Count];
                 listBoxInterval.SelectedItems.CopyTo(intervalDescriptions, 0);
 
@@ -921,21 +921,10 @@ namespace HdbPoet
                     categories[i] = Convert.ToInt32(tbl.Rows[categories[i]]["objecttype_id"]);
                 }
                 this.dateSelector1.SaveToDataSet(this.graphDef);
-                if (m_getModeledData)
-                {
-                    siteTableFiltered = Hdb.Instance.FilteredSiteList(this.textBoxKeyWords.Text,
-                                       intervalDescriptions, categories, comboBoxBasin.SelectedValue.ToString(), 
-                                       this.sdidSearchCheckBox.Checked, m_getModeledData, isModeledData.Item2,
-                                       GlobalVariables.showEmptySdids);
-                }
-                else
-                {
-                    siteTableFiltered = Hdb.Instance.FilteredSiteList(this.textBoxKeyWords.Text,
-                                       intervalDescriptions, categories, comboBoxBasin.SelectedValue.ToString(),
-                                       this.sdidSearchCheckBox.Checked, m_getModeledData, isModeledData.Item2,
-                                       GlobalVariables.showEmptySdids);
-                }
-              //  CsvFile.Write( siteTableFiltered,@"c:\temp\site.csv");
+                siteTableFiltered = Hdb.Instance.FilteredSiteList(this.textBoxKeyWords.Text,
+                                   intervalDescriptions, categories, comboBoxBasin.SelectedValue.ToString(),
+                                   this.sdidSearchCheckBox.Checked, m_getModeledData, isModeledData.Item2,
+                                   GlobalVariables.showEmptySdids);
                 LoadTree();
             }
             finally
@@ -1116,7 +1105,6 @@ namespace HdbPoet
                 }
 
             }
-            //return imageList1.Images[8];
         }
 
         /// <summary>
@@ -1166,9 +1154,7 @@ namespace HdbPoet
             }
 
             this.selectedSeriesListBox1.SetDataSource(graphDef);
-        //    this.statusBar1.Text = graphDef.Series.Rows.Count + " selected";
         }
-       
 
         private void SaveSelections()
         {
@@ -1204,9 +1190,6 @@ namespace HdbPoet
                 //MessageBox.Show("Error: Ending date must be larger than start date");
             }
         }
-
-        
-
 
         private void listBoxInterval_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1289,7 +1272,7 @@ namespace HdbPoet
                         break;
                     case "day": t2 = t1.AddMonths(1);
                         break;
-                    case "month": t2 = t1.AddYears(2);
+                    case "month": t2 = t1.AddMonths(12);
                         break;
                     case "year": t2 = t1.AddYears(5);
                         break;
@@ -1301,9 +1284,7 @@ namespace HdbPoet
             }
             this.dateSelector1.dateTimePickerFrom.Value = t1;
             this.dateSelector1.dateTimePickerTo.Value = t2;
-        }
-
-       
+        }       
 
         private void buttonAddSelected_Click(object sender, EventArgs e)
         {

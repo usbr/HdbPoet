@@ -611,7 +611,7 @@ namespace HdbPoet
             this.tabPageHome.Location = new System.Drawing.Point(4, 22);
             this.tabPageHome.Name = "tabPageHome";
             this.tabPageHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHome.Size = new System.Drawing.Size(1092, 584);
+            this.tabPageHome.Size = new System.Drawing.Size(1100, 610);
             this.tabPageHome.TabIndex = 0;
             this.tabPageHome.Text = "Home";
             this.tabPageHome.UseVisualStyleBackColor = true;
@@ -626,7 +626,7 @@ namespace HdbPoet
             this.tabPageTable.Location = new System.Drawing.Point(4, 22);
             this.tabPageTable.Name = "tabPageTable";
             this.tabPageTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTable.Size = new System.Drawing.Size(1092, 584);
+            this.tabPageTable.Size = new System.Drawing.Size(1200, 610);
             this.tabPageTable.TabIndex = 1;
             this.tabPageTable.Text = "Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
@@ -636,7 +636,7 @@ namespace HdbPoet
             this.panelGraph.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGraph.Location = new System.Drawing.Point(460, 3);
             this.panelGraph.Name = "panelGraph";
-            this.panelGraph.Size = new System.Drawing.Size(603, 555);
+            this.panelGraph.Size = new System.Drawing.Size(500, 610);
             this.panelGraph.TabIndex = 5;
             // 
             // buttonShowGraph

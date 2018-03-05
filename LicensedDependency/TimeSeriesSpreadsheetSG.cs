@@ -173,37 +173,40 @@ namespace HdbPoet
         /// <param name="e"></param>
         private void workSheet1_DataChanged(object sender, DataRowChangeEventArgs e)
         {
-            workbookView1.GetLock();
-            workbookView1.BeginUpdate();
-
-            int sgRow = msDataTable.Rows.IndexOf(e.Row) + 1;//SG has header row
-
-            for (int sgCol = 1; sgCol < e.Row.ItemArray.Count(); sgCol++)
+            if (!bypassDataChangeEvent)
             {
-                SpreadsheetGear.IRange sgCell = workSheet1.Cells[sgRow, sgCol];
+                workbookView1.GetLock();
+                workbookView1.BeginUpdate();
 
-                if (sgCell.Value != null && !bypassDataChangeEvent)
+                int sgRow = msDataTable.Rows.IndexOf(e.Row) + 1;//SG has header row
+
+                for (int sgCol = 1; sgCol < e.Row.ItemArray.Count(); sgCol++)
                 {
-                    double currentVal = Convert.ToDouble(sgCell.Value);
-                    double changedVal;
-                    try
+                    SpreadsheetGear.IRange sgCell = workSheet1.Cells[sgRow, sgCol];
+
+                    if (sgCell.Value != null)
                     {
-                        changedVal = Convert.ToDouble(e.Row.ItemArray[sgCol]);
-                        if (currentVal != changedVal)
+                        double currentVal = Convert.ToDouble(sgCell.Value);
+                        double changedVal;
+                        try
                         {
-                            sgCell.Value = changedVal;
-                            // format cell
-                            FormatEditedCell(sgRow, sgCol);
+                            changedVal = Convert.ToDouble(e.Row.ItemArray[sgCol]);
+                            if (currentVal != changedVal)
+                            {
+                                sgCell.Value = changedVal;
+                                // format cell
+                                FormatEditedCell(sgRow, sgCol);
+                            }
+                        }
+                        catch
+                        {
+
                         }
                     }
-                    catch
-                    {
-
-                    }
                 }
+                workbookView1.EndUpdate();
+                workbookView1.ReleaseLock();
             }
-            workbookView1.EndUpdate();
-            workbookView1.ReleaseLock();
 
             // [JR] NEED TO REDRAW GRAPH WHEN TABLE DATA IS CHANGED...
         }
