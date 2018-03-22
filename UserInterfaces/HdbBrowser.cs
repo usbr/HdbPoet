@@ -114,7 +114,7 @@ namespace HdbPoet
 
             ValidationButtonEnabling();
             QaQcButtonEnabled();
-            this.splitContainer1.Panel2Collapsed = true;
+            this.splitContainer1.Panel2Collapsed = GlobalVariables.tableGraphHide;
 
             Logger.OnLogEvent += new StatusEventHandler(Logger_OnLogEvent);
         }

@@ -28,6 +28,7 @@ namespace HdbPoet
         public CheckBox checkBoxSendOverwrite;
         private Button buttonObjectList;
         private Label label3;
+        private CheckBox checkBoxHideGraph;
 
         /// <summary>
         /// Required designer variable.
@@ -79,6 +80,7 @@ namespace HdbPoet
             this.checkBoxSendOverwrite = new System.Windows.Forms.CheckBox();
             this.buttonObjectList = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.checkBoxHideGraph = new System.Windows.Forms.CheckBox();
             this.validationGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -159,7 +161,7 @@ namespace HdbPoet
             this.validationGroupBox.Controls.Add(this.zValidationRadioButton);
             this.validationGroupBox.Controls.Add(this.pValidationRadioButton);
             this.validationGroupBox.Controls.Add(this.vValidationRadioButton);
-            this.validationGroupBox.Location = new System.Drawing.Point(11, 119);
+            this.validationGroupBox.Location = new System.Drawing.Point(12, 146);
             this.validationGroupBox.Name = "validationGroupBox";
             this.validationGroupBox.Size = new System.Drawing.Size(324, 73);
             this.validationGroupBox.TabIndex = 9;
@@ -253,10 +255,23 @@ namespace HdbPoet
             this.label3.TabIndex = 12;
             this.label3.Text = "Edit available HDB Objects";
             // 
+            // checkBoxHideGraph
+            // 
+            this.checkBoxHideGraph.AutoSize = true;
+            this.checkBoxHideGraph.Location = new System.Drawing.Point(13, 121);
+            this.checkBoxHideGraph.Name = "checkBoxHideGraph";
+            this.checkBoxHideGraph.Size = new System.Drawing.Size(190, 17);
+            this.checkBoxHideGraph.TabIndex = 13;
+            this.checkBoxHideGraph.Text = "Hide graph on Table tab by default";
+            this.checkBoxHideGraph.UseVisualStyleBackColor = true;
+            this.checkBoxHideGraph.Checked = GlobalVariables.tableGraphHide;
+            this.checkBoxHideGraph.CheckedChanged += new System.EventHandler(this.checkBoxHideGraph_CheckedChanged);
+            // 
             // Options
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(348, 296);
+            this.Controls.Add(this.checkBoxHideGraph);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonObjectList);
             this.Controls.Add(this.checkBoxSendOverwrite);
@@ -337,6 +352,11 @@ namespace HdbPoet
         private void checkBoxSendOverwrite_CheckedChanged(object sender, EventArgs e)
         {
             GlobalVariables.overwriteOnWrite = this.checkBoxSendOverwrite.Checked;
+        }
+
+        private void checkBoxHideGraph_CheckedChanged(object sender, EventArgs e)
+        {
+            GlobalVariables.tableGraphHide = this.checkBoxHideGraph.Checked;
         }
 
         private void openNewPoetInstance(object sender, EventArgs e)

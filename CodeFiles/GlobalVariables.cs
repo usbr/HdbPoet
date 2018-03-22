@@ -89,5 +89,11 @@ namespace HdbPoet
                 }
             }
         }
+
+        public static bool tableGraphHide
+        {
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["hideGraph"]); }
+            set { ConfigurationManager.AppSettings["hideGraph"] = value.ToString().ToLower(); }
+        }
     }
 }
