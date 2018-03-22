@@ -64,8 +64,6 @@ namespace HdbPoet
         private TabPage tabPageTable;
         private TabPage tabPageSql;
         Form graphForm1;
-        private Splitter splitter1;
-        private Button buttonHideGraph;
         private Button buttonShowGraph;
         private OpenFileDialog openFileDialog1;
         private ToolStripComboBox comboBoxGraphList;
@@ -79,6 +77,7 @@ namespace HdbPoet
         IGraphControl graphControlPopup;
         private TabPage tabPageAnalysis;
         private ToolStripButton toolStripButtonQaQc;
+        private SplitContainer splitContainer1;
         IGraphControl graphControlRight;
         
 
@@ -115,7 +114,7 @@ namespace HdbPoet
 
             ValidationButtonEnabling();
             QaQcButtonEnabled();
-            hideGraph();
+            this.splitContainer1.Panel2Collapsed = true;
 
             Logger.OnLogEvent += new StatusEventHandler(Logger_OnLogEvent);
         }
@@ -237,11 +236,9 @@ namespace HdbPoet
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageHome = new System.Windows.Forms.TabPage();
             this.tabPageTable = new System.Windows.Forms.TabPage();
-            this.panelGraph = new System.Windows.Forms.Panel();
             this.buttonShowGraph = new System.Windows.Forms.Button();
-            this.buttonHideGraph = new System.Windows.Forms.Button();
-            this.splitter1 = new System.Windows.Forms.Splitter();
-            this.timeSeriesTableView1 = new HdbPoet.TimeSeriesTableView();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panelGraph = new System.Windows.Forms.Panel();
             this.tabPageAnalysis = new System.Windows.Forms.TabPage();
             this.tabPageSql = new System.Windows.Forms.TabPage();
             this.textBoxSQL = new System.Windows.Forms.TextBox();
@@ -250,12 +247,17 @@ namespace HdbPoet
             this.menuItemDates = new System.Windows.Forms.MenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.timeSeriesTableView1 = new HdbPoet.TimeSeriesTableView();
             ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.panelGraphTable.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageTable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusBar1
@@ -613,73 +615,63 @@ namespace HdbPoet
             this.tabPageHome.Location = new System.Drawing.Point(4, 22);
             this.tabPageHome.Name = "tabPageHome";
             this.tabPageHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHome.Size = new System.Drawing.Size(1100, 610);
+            this.tabPageHome.Size = new System.Drawing.Size(1092, 584);
             this.tabPageHome.TabIndex = 0;
             this.tabPageHome.Text = "Home";
             this.tabPageHome.UseVisualStyleBackColor = true;
             // 
             // tabPageTable
             // 
-            this.tabPageTable.Controls.Add(this.panelGraph);
             this.tabPageTable.Controls.Add(this.buttonShowGraph);
-            this.tabPageTable.Controls.Add(this.buttonHideGraph);
-            this.tabPageTable.Controls.Add(this.splitter1);
-            this.tabPageTable.Controls.Add(this.timeSeriesTableView1);
+            this.tabPageTable.Controls.Add(this.splitContainer1);
             this.tabPageTable.Location = new System.Drawing.Point(4, 22);
             this.tabPageTable.Name = "tabPageTable";
             this.tabPageTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTable.Size = new System.Drawing.Size(1200, 610);
+            this.tabPageTable.Size = new System.Drawing.Size(1092, 584);
             this.tabPageTable.TabIndex = 1;
             this.tabPageTable.Text = "Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
             // 
+            // buttonShowGraph
+            // 
+            this.buttonShowGraph.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonShowGraph.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonShowGraph.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.buttonShowGraph.Location = new System.Drawing.Point(1065, 0);
+            this.buttonShowGraph.Name = "buttonShowGraph";
+            this.buttonShowGraph.Size = new System.Drawing.Size(27, 584);
+            this.buttonShowGraph.TabIndex = 4;
+            this.buttonShowGraph.Text = "S\r\nh\r\no\r\nw\r\n\r\nG\r\nr\r\na\r\np\r\nh";
+            this.buttonShowGraph.UseVisualStyleBackColor = true;
+            this.buttonShowGraph.Click += new System.EventHandler(this.buttonShowGraph_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.timeSeriesTableView1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.panelGraph);
+            this.splitContainer1.Size = new System.Drawing.Size(1056, 578);
+            this.splitContainer1.SplitterDistance = 352;
+            this.splitContainer1.TabIndex = 6;
+            // 
             // panelGraph
             // 
             this.panelGraph.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelGraph.Location = new System.Drawing.Point(460, 3);
+            this.panelGraph.Location = new System.Drawing.Point(0, 0);
             this.panelGraph.Name = "panelGraph";
-            this.panelGraph.Size = new System.Drawing.Size(500, 610);
+            this.panelGraph.Size = new System.Drawing.Size(700, 578);
             this.panelGraph.TabIndex = 5;
-            // 
-            // buttonShowGraph
-            // 
-            this.buttonShowGraph.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonShowGraph.Location = new System.Drawing.Point(1063, 3);
-            this.buttonShowGraph.Name = "buttonShowGraph";
-            this.buttonShowGraph.Size = new System.Drawing.Size(26, 555);
-            this.buttonShowGraph.TabIndex = 4;
-            this.buttonShowGraph.Text = "<";
-            this.buttonShowGraph.UseVisualStyleBackColor = true;
-            this.buttonShowGraph.Visible = false;
-            this.buttonShowGraph.Click += new System.EventHandler(this.buttonShowGraph_Click);
-            // 
-            // buttonHideGraph
-            // 
-            this.buttonHideGraph.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonHideGraph.Location = new System.Drawing.Point(460, 558);
-            this.buttonHideGraph.Name = "buttonHideGraph";
-            this.buttonHideGraph.Size = new System.Drawing.Size(629, 23);
-            this.buttonHideGraph.TabIndex = 3;
-            this.buttonHideGraph.Text = "hide >>";
-            this.buttonHideGraph.UseVisualStyleBackColor = true;
-            this.buttonHideGraph.Click += new System.EventHandler(this.buttonHideGraph_Click);
-            // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(453, 3);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(7, 578);
-            this.splitter1.TabIndex = 1;
-            this.splitter1.TabStop = false;
-            // 
-            // timeSeriesTableView1
-            // 
-            this.timeSeriesTableView1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.timeSeriesTableView1.Location = new System.Drawing.Point(3, 3);
-            this.timeSeriesTableView1.Name = "timeSeriesTableView1";
-            this.timeSeriesTableView1.Size = new System.Drawing.Size(450, 578);
-            this.timeSeriesTableView1.TabIndex = 0;
-            this.timeSeriesTableView1.ValidState = false;
             // 
             // tabPageAnalysis
             // 
@@ -738,6 +730,15 @@ namespace HdbPoet
             // 
             this.openFileDialog1.Filter = "HDB Files |*.hdb|AllFiles|*.*";
             // 
+            // timeSeriesTableView1
+            // 
+            this.timeSeriesTableView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.timeSeriesTableView1.Location = new System.Drawing.Point(0, 0);
+            this.timeSeriesTableView1.Name = "timeSeriesTableView1";
+            this.timeSeriesTableView1.Size = new System.Drawing.Size(352, 578);
+            this.timeSeriesTableView1.TabIndex = 0;
+            this.timeSeriesTableView1.ValidState = false;
+            // 
             // HdbBrowser
             // 
             this.AllowDrop = true;
@@ -755,6 +756,10 @@ namespace HdbPoet
             this.panelGraphTable.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPageTable.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1291,33 +1296,19 @@ namespace HdbPoet
             }
         }
 
-       
-        private void buttonHideGraph_Click(object sender, EventArgs e)
-        {
-            hideGraph();
-        }
-
-        private void hideGraph()
-        {
-            // make table full size
-            try
-            {
-                timeSeriesTableView1.Width = this.Parent.Width - (buttonShowGraph.Width * 2);
-            }
-            catch
-            {
-                timeSeriesTableView1.Width = tabPageTable.Width - (buttonShowGraph.Width * 2);
-            }
-            buttonHideGraph.Visible = false;
-            buttonShowGraph.Visible = true;
-        }
-
         private void buttonShowGraph_Click(object sender, EventArgs e)
         {
-            // let graph take about half of the screen.
-            timeSeriesTableView1.Width = tabPageTable.Width / 2; 
-            buttonHideGraph.Visible = true;
-            buttonShowGraph.Visible = false;
+            if (this.splitContainer1.Panel2Collapsed)
+            {
+                this.splitContainer1.Panel2Collapsed = false;
+                this.buttonShowGraph.Text = "H\r\ni\r\nd\r\ne\r\n\r\nG\r\nr\r\na\r\np\r\nh";
+            }
+            else
+            {
+                this.splitContainer1.Panel2Collapsed = true;
+                this.buttonShowGraph.Text = "S\r\nh\r\no\r\nw\r\n\r\nG\r\nr\r\na\r\np\r\nh";
+            }
+            
         }
 
         /// <summary>
