@@ -615,11 +615,7 @@ namespace HdbPoet
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            workbookView1.GetLock();
-            workbookView1.BeginUpdate();
-            workbookView1.PasteSpecial(SpreadsheetGear.PasteType.Values, SpreadsheetGear.PasteOperation.None, false, false);
-            workbookView1.EndUpdate();
-            workbookView1.ReleaseLock();
+            workbookView1.Paste();            
         }
 
         private void dataGrid1_KeyDown(object sender, KeyEventArgs e)
@@ -709,6 +705,7 @@ namespace HdbPoet
                 {
                     dataGrid1.Columns[i].DefaultCellStyle.Format = f.DisplayFormat[i-1];
                 }
+                SetTable(msDataTable, m_colorColumnName);
             }
         }
 

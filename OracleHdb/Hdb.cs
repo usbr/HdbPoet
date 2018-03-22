@@ -356,20 +356,20 @@ namespace HdbPoet
                 + "colorize_with_validation(" + site_datatype_id.ToString() + ", '" + interval + "', A.date_time, B.value ) as ValidationColor, "
                 + "'Transparent' as QaQcColor, "
                 + "C.data_flags "
-                + "from r_base C, " + tableName + " B , "
+                + "from r_base C, " + tableName + " B, "
                 + dateSubquery
                 + wherePreamble
                 + "B.start_date_time(+) = A.date_time "
-                + "and B.site_datatype_id(+) = " + site_datatype_id
+                + "and B.site_datatype_id(+) = " + site_datatype_id + " "
                 + "and B.start_date_time(+) >= " + ToHdbTimeZone(t1, interval, timeZone) + " "
                 + "and B.start_date_time(+) <= " + ToHdbTimeZone(t2, interval, timeZone) + " "
-                + "and C.site_datatype_id(+) = " + site_datatype_id
+                + "and C.site_datatype_id(+) = " + site_datatype_id + " "
                 + "and C.start_date_time(+) >= " + ToHdbTimeZone(t1, interval, timeZone) + " "
                 + "and C.start_date_time(+) <= " + ToHdbTimeZone(t2, interval, timeZone) + " "
                 + "and C.start_date_time(+) = B.start_date_time "
                 + "and C.date_time_loaded(+) = B.date_time_loaded "
                 + "and C.interval(+) = '" + interval + "' "
-                + "order by A.date_time";
+                + "order by A.date_time ";
 
             rval = m_server.Table(tableName, sql);
             if (rval == null)
