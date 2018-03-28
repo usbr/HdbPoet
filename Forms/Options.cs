@@ -86,7 +86,7 @@ namespace HdbPoet
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(268, 268);
+            this.buttonOk.Location = new System.Drawing.Point(268, 353);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 1;
@@ -126,7 +126,7 @@ namespace HdbPoet
             // 
             // buttonLogIn
             // 
-            this.buttonLogIn.Location = new System.Drawing.Point(13, 268);
+            this.buttonLogIn.Location = new System.Drawing.Point(13, 353);
             this.buttonLogIn.Name = "buttonLogIn";
             this.buttonLogIn.Size = new System.Drawing.Size(86, 23);
             this.buttonLogIn.TabIndex = 6;
@@ -137,7 +137,7 @@ namespace HdbPoet
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(100, 273);
+            this.label2.Location = new System.Drawing.Point(100, 358);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(125, 13);
             this.label2.TabIndex = 7;
@@ -161,7 +161,7 @@ namespace HdbPoet
             this.validationGroupBox.Controls.Add(this.zValidationRadioButton);
             this.validationGroupBox.Controls.Add(this.pValidationRadioButton);
             this.validationGroupBox.Controls.Add(this.vValidationRadioButton);
-            this.validationGroupBox.Location = new System.Drawing.Point(12, 146);
+            this.validationGroupBox.Location = new System.Drawing.Point(12, 144);
             this.validationGroupBox.Name = "validationGroupBox";
             this.validationGroupBox.Size = new System.Drawing.Size(324, 73);
             this.validationGroupBox.TabIndex = 9;
@@ -238,7 +238,7 @@ namespace HdbPoet
             // 
             // buttonObjectList
             // 
-            this.buttonObjectList.Location = new System.Drawing.Point(13, 239);
+            this.buttonObjectList.Location = new System.Drawing.Point(13, 324);
             this.buttonObjectList.Name = "buttonObjectList";
             this.buttonObjectList.Size = new System.Drawing.Size(86, 23);
             this.buttonObjectList.TabIndex = 11;
@@ -249,7 +249,7 @@ namespace HdbPoet
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(100, 244);
+            this.label3.Location = new System.Drawing.Point(100, 329);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(135, 13);
             this.label3.TabIndex = 12;
@@ -264,13 +264,12 @@ namespace HdbPoet
             this.checkBoxHideGraph.TabIndex = 13;
             this.checkBoxHideGraph.Text = "Hide graph on Table tab by default";
             this.checkBoxHideGraph.UseVisualStyleBackColor = true;
-            this.checkBoxHideGraph.Checked = GlobalVariables.tableGraphHide;
             this.checkBoxHideGraph.CheckedChanged += new System.EventHandler(this.checkBoxHideGraph_CheckedChanged);
             // 
             // Options
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(348, 296);
+            this.ClientSize = new System.Drawing.Size(348, 383);
             this.Controls.Add(this.checkBoxHideGraph);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonObjectList);

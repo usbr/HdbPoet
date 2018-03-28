@@ -178,7 +178,7 @@
   &lt;string&gt;host:albhdb.uc.usbr.gov service:albhdb   timezone: MDT&lt;/string&gt;
   &lt;string&gt;host:gphyd1.bor.doi.net service:hydro.bor.doi.net  timezone:MDT&lt;/string&gt;
   &lt;string&gt;host:www.troa.net service:troahdb timezone:PDT&lt;/string&gt;
-  &lt;string&gt;host:ibr4ccolbohdb.bor.doi.net service:lbohdb.bor.doi.net timezone:PST&lt;/string&gt;
+  &lt;string&gt;host:ibr4ccolbohdb.bor.doi.net service:lbohdb.bor.doi.net timezone:PDT&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>

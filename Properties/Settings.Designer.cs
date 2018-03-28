@@ -12,7 +12,7 @@ namespace HdbPoet.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -156,7 +156,7 @@ namespace HdbPoet.Properties {
   <string>host:albhdb.uc.usbr.gov service:albhdb   timezone: MDT</string>
   <string>host:gphyd1.bor.doi.net service:hydro.bor.doi.net  timezone:MDT</string>
   <string>host:www.troa.net service:troahdb timezone:PDT</string>
-  <string>host:ibr4ccolbohdb.bor.doi.net service:lbohdb.bor.doi.net timezone:PST</string>
+  <string>host:ibr4ccolbohdb.bor.doi.net service:lbohdb.bor.doi.net timezone:PDT</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection HdbServers {
             get {
