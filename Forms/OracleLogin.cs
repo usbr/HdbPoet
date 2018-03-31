@@ -251,6 +251,7 @@ namespace HdbPoet
         {
             ConnectionInfo = (HdbPoet.OracleConnectionInfo)this.comboBoxHostList.SelectedItem;
             ConnectionInfo.Username = this.textBoxUser.Text;
+            GlobalVariables.connectedUser = this.textBoxUser.Text;
             ConnectionInfo.Password = this.textBoxPass.Text;
 
             Settings.Default.SelectedHdbHost = ConnectionInfo.Host;

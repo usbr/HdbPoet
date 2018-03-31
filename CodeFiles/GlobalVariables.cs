@@ -16,7 +16,8 @@ namespace HdbPoet
         private static char validationFlag = 'Z';
         private static bool qaqcValidationCheck = false;
         private static bool userDba = false;
-        
+        private static string userName = "";
+
         public static bool userIsDba
         {
             get { return userDba; }
@@ -94,6 +95,12 @@ namespace HdbPoet
         {
             get { return Convert.ToBoolean(ConfigurationManager.AppSettings["hideGraph"]); }
             set { ConfigurationManager.AppSettings["hideGraph"] = value.ToString().ToLower(); }
+        }
+
+        public static string connectedUser
+        {
+            get { return userName; }
+            set { userName = value.ToString().ToLower(); }
         }
     }
 }

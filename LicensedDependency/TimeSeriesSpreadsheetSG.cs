@@ -334,7 +334,6 @@ namespace HdbPoet
             workbookView1.ActiveWorkbook = workbook;
             /////////////////////////////////////////////////
             msDataTable.RowChanged += new DataRowChangeEventHandler(workSheet1_DataChanged);
-
         }
 
         /// <summary>
@@ -465,6 +464,9 @@ namespace HdbPoet
 
             workbookView1.ReleaseLock();
             workbookView1.EndUpdate();
+
+            // Get SDIs in ACL
+            GetEditableColumns();
         }       
 
         /// <summary>
@@ -475,13 +477,16 @@ namespace HdbPoet
         private void FormatEditedCell(int sgRow, int sgCol)
         {
             workSheet1.Cells[sgRow, sgCol].Select();
+            var aCell = workbookView1.ActiveCell;
             if (ActiveCellInUsedRange(workSheet1.Cells[sgRow, sgCol]) && !CellReadOnly(false))
             {
+                workbookView1.BeginUpdate();
                 workbookView1.ActiveCell.Font.Bold = true;
                 workbookView1.ActiveCell.Font.Italic = true;
                 workbookView1.ActiveCell.HorizontalAlignment = SpreadsheetGear.HAlign.Left;
                 workbookView1.ActiveCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
                 workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
+                workbookView1.EndUpdate();
             }
         }
 
@@ -535,10 +540,10 @@ namespace HdbPoet
             {
                 // check if Series is editable by user
                 var s = msDataTable.LookupSeries(workbookView1.ActiveCell.Column);
-                readOnly = Hdb.Instance.ReadOnly(Convert.ToInt32(s.hdb_site_datatype_id));
+                readOnly = !editableSdis.Contains(s.hdb_site_datatype_id);// Hdb.Instance.ReadOnly(Convert.ToInt32(s.hdb_site_datatype_id));
                 if (readOnly && popup)
                 {
-                    MessageBox.Show("Logged in user is not authorizerd to edit the data for " + s.SiteName + ". Contact your DBA to request authorization...", "Unauthorized Edit", MessageBoxButtons.OK);
+                    MessageBox.Show(GlobalVariables.connectedUser + " is not authorizerd to edit the data for " + s.SiteName + ". Contact your DBA to request authorization...", "Unauthorized Edit", MessageBoxButtons.OK);
                 }
             }
             return readOnly;
@@ -549,6 +554,25 @@ namespace HdbPoet
             bool rowInUsedRange = (activeCell.Row < initialUsedRange.RowCount);
             bool colInUsedRange = (activeCell.Column < initialUsedRange.ColumnCount);
             return rowInUsedRange && colInUsedRange;
+        }
+
+        private List<decimal> editableSdis;
+        private void GetEditableColumns()
+        {
+            editableSdis = new List<decimal>();
+            for (int i = 1; i < initialUsedRange.ColumnCount; i++)//SG has 1 extra column (date) than the msDataTable
+            {
+                var s = msDataTable.LookupSeries(i); 
+                bool readOnly = Hdb.Instance.ReadOnly(Convert.ToInt32(s.hdb_site_datatype_id));
+                if (!readOnly)
+                {
+                    editableSdis.Add(s.hdb_site_datatype_id);
+                }
+                else
+                {
+                    workSheet1.Cells[0, i].AddComment(GlobalVariables.connectedUser + " does not have access to modify this SDI");
+                }
+            }
         }
 
         /******************************************************************
