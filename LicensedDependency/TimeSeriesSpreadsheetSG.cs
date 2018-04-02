@@ -57,11 +57,9 @@ namespace HdbPoet
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void workSheet1_CellBeginEdit(object sender, CellBeginEditEventArgs e)
-        {
-            var activeCell = workbookView1.ActiveCell;
-            
+        {            
             // Diasble edits to header row, header column, and read only cells in used range
-            if (activeCell.Row == 0 || activeCell.Column == 0 || CellReadOnly())
+            if (ActiveCellIsHeader() || CellReadOnly())
             { e.Cancel = true; }
         }
 
@@ -82,11 +80,10 @@ namespace HdbPoet
         /// <param name="e"></param>
         private void workSheet1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control && e.KeyValue == 86 && CellReadOnly()) //override ctrl-v and check if column is read only
+            if (e.Control && e.KeyValue == 86 && (CellReadOnly() || ActiveCellIsHeader())) //override header edits or ctrl-v for read only columns
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-                //pasteToolStripMenuItem_Click(sender, e);
             }
             CheckSecretCode(e);
         }
@@ -177,6 +174,7 @@ namespace HdbPoet
             {
                 workbookView1.GetLock();
                 workbookView1.BeginUpdate();
+                editedRange = new List<int[]>();
 
                 int sgRow = msDataTable.Rows.IndexOf(e.Row) + 1;//SG has header row
 
@@ -193,9 +191,11 @@ namespace HdbPoet
                             changedVal = Convert.ToDouble(e.Row.ItemArray[sgCol]);
                             if (currentVal != changedVal)
                             {
+                                sgCell.Activate();
+                                workbookView1.BeginEdit();
                                 sgCell.Value = changedVal;
-                                // format cell
-                                FormatEditedCell(sgRow, sgCol);
+                                workbookView1.EndEdit();
+                                AddEditedCell(sgRow, sgCol);
                             }
                         }
                         catch
@@ -204,6 +204,7 @@ namespace HdbPoet
                         }
                     }
                 }
+                FormatEditedCells();
                 workbookView1.EndUpdate();
                 workbookView1.ReleaseLock();
             }
@@ -221,35 +222,32 @@ namespace HdbPoet
             workbookView1.GetLock();
             workbookView1.BeginUpdate();
             bypassDataChangeEvent = true;
-            
-            //iterate through columns in edited range
-            foreach (SpreadsheetGear.IRange col in e.Range.Columns)
+            editedRange = new List<int[]>();
+
+            try
             {
-                col.Rows[0, 0].Activate();
-                bool columnReadOnly = CellReadOnly(false);
-
-                //iterate through rows in edited range
-                foreach (SpreadsheetGear.IRange ithCell in col.Rows)// e.Range.Cells)
+                //iterate through columns in edited range
+                foreach (SpreadsheetGear.IRange col in e.Range.Columns)
                 {
-                    //iterate through SG used range to see if cell is a used data cell
-                    ithCell.Cells.Activate();
-                    int dGridRow = workbookView1.ActiveCell.Row - 1;//SG rows are 1-based since it has the header in row-0
-                    int sgRow = workbookView1.ActiveCell.Row;
-                    int dGridCol = workbookView1.ActiveCell.Column;
-                    int sgCol = dGridCol;
+                    col.Rows[0, 0].Activate();
+                    bool columnReadOnly = CellReadOnly(false);
 
-                    bool activeCellUsed = ActiveCellInUsedRange(ithCell);
-                    bool headerCell = (workbookView1.ActiveCell.Row == 0 || workbookView1.ActiveCell.Column == 0);
-                    //process cell
-
-                    if (activeCellUsed && !headerCell && !columnReadOnly)
+                    //iterate through rows in edited range
+                    foreach (SpreadsheetGear.IRange ithCell in col.Rows)// e.Range.Cells)
                     {
-                        // check if row has a date
-                        object o = workSheet1.Range[workbookView1.ActiveCell.Row, 0].Value;
-                        if (o != null)
-                        {
-                            DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime((double)o);
+                        //iterate through SG used range to see if cell is a used data cell
+                        ithCell.Cells.Activate();
+                        int dGridRow = workbookView1.ActiveCell.Row - 1;//SG rows are 1-based since it has the header in row-0
+                        int sgRow = workbookView1.ActiveCell.Row;
+                        int dGridCol = workbookView1.ActiveCell.Column;
+                        int sgCol = dGridCol;
 
+                        bool activeCellUsed = CellInUsedRange(ithCell);
+                        bool headerCell = ActiveCellIsHeader();// (workbookView1.ActiveCell.Row == 0 || workbookView1.ActiveCell.Column == 0);
+
+                        //process cell
+                        if (activeCellUsed && !headerCell && !columnReadOnly)
+                        {
                             if (workbookView1.ActiveCell.Column - 1 >= msDataTable.Columns.Count)
                             { MessageBox.Show("Internal error: formatting cell error"); }
                             //process cell
@@ -262,7 +260,7 @@ namespace HdbPoet
                                 { origVal = double.NaN; }
                                 if (sgVal == null)
                                 { editVal = double.NaN; }
-                                else if (!IsValidNumber.IsMatch(sgVal.ToString())) //diallow not numbers in used data range
+                                else if (!IsValidNumber.IsMatch(sgVal.ToString())) //disallow not numbers in used data range
                                 {
                                     workSheet1.Range[sgRow, sgCol].Value = msDataTable.Rows[dGridRow][dGridCol].ToString();// origVal;
                                     break;
@@ -271,36 +269,45 @@ namespace HdbPoet
                                 { editVal = Convert.ToDouble(sgVal); }
                                 if ((origVal != editVal && !double.IsNaN(origVal)) || (double.IsNaN(origVal) && !double.IsNaN(editVal)))
                                 {
-                                    // format cell
-                                    FormatEditedCell(sgRow, sgCol);
+                                    // add cell to format list
+                                    AddEditedCell(sgRow, sgCol);
                                     // mirror change to datagrid
                                     dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGridCol];
                                     DataGridViewCell cell = dataGrid1.CurrentCell;
-                                    if (cell.ColumnIndex != 0)
+                                    if (dGridCol != 0)
                                     {
                                         DataRow row = ((DataRowView)cell.OwningRow.DataBoundItem).Row;
                                         if (double.IsNaN(editVal))
-                                        { row[cell.ColumnIndex] = DBNull.Value; }
+                                        {
+                                            row[cell.ColumnIndex] = DBNull.Value;
+                                        }
                                         else
-                                        { row[cell.ColumnIndex] = editVal; }
+                                        {
+                                            row[cell.ColumnIndex] = editVal;
+                                        }
                                     }
                                 }
                             }
+                            //}
                         }
-                    }
-                    else if (!activeCellUsed && !headerCell) // cells outside of used range and not a header
-                    {
-                        ClearCellFormat(sgRow, sgCol);//clear cell formatting
-                    }
-                    else
-                    {
+                        else if (!activeCellUsed && !headerCell) // cells outside of used range and not a header
+                        {
+                            ClearCellFormat(sgRow, sgCol);//clear cell formatting
+                        }
+                        else
+                        {
 
+                        }
                     }
                 }
             }
-            bypassDataChangeEvent = false;
-            workbookView1.EndUpdate();
-            workbookView1.ReleaseLock();
+            finally
+            {
+                bypassDataChangeEvent = false;
+                FormatEditedCells();
+                workbookView1.EndUpdate();
+                workbookView1.ReleaseLock();
+            }
         }
 
         #endregion
@@ -467,27 +474,38 @@ namespace HdbPoet
 
             // Get SDIs in ACL
             GetEditableColumns();
-        }       
+        }
+
+
+        private List<int[]> editedRange;
+        private void AddEditedCell(int sgRow, int sgCol)
+        {
+            editedRange.Add(new int[] { sgRow, sgCol });
+        }
 
         /// <summary>
         /// Format SG cell as edited
         /// </summary>
         /// <param name="sgRow"></param>
         /// <param name="sgCol"></param>
-        private void FormatEditedCell(int sgRow, int sgCol)
+        private void FormatEditedCells()//int sgRow, int sgCol)
         {
-            workSheet1.Cells[sgRow, sgCol].Select();
-            var aCell = workbookView1.ActiveCell;
-            if (ActiveCellInUsedRange(workSheet1.Cells[sgRow, sgCol]) && !CellReadOnly(false))
+            workbookView1.BeginUpdate();
+            foreach (var item in editedRange)
             {
-                workbookView1.BeginUpdate();
-                workbookView1.ActiveCell.Font.Bold = true;
-                workbookView1.ActiveCell.Font.Italic = true;
-                workbookView1.ActiveCell.HorizontalAlignment = SpreadsheetGear.HAlign.Left;
-                workbookView1.ActiveCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
-                workbookView1.ActiveCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
-                workbookView1.EndUpdate();
+                int sgRow = item[0];
+                int sgCol = item[1];
+                //workSheet1.Cells[sgRow, sgCol].Select();
+                if (CellInUsedRange(workSheet1.Cells[sgRow, sgCol]) && !CellReadOnly(false))
+                {
+                    workSheet1.Cells[sgRow, sgCol].Font.Bold = true;
+                    workSheet1.Cells[sgRow, sgCol].Font.Italic = true;
+                    workSheet1.Cells[sgRow, sgCol].HorizontalAlignment = SpreadsheetGear.HAlign.Left;
+                    workSheet1.Cells[sgRow, sgCol].Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+                    workSheet1.Cells[sgRow, sgCol].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Black);
+                }
             }
+            workbookView1.EndUpdate();
         }
 
         /// <summary>
@@ -536,7 +554,7 @@ namespace HdbPoet
         private bool CellReadOnly(bool popup = true)
         {
             bool readOnly = false;
-            if (ActiveCellInUsedRange(workbookView1.ActiveCell))
+            if (CellInUsedRange(workbookView1.ActiveCell))
             {
                 // check if Series is editable by user
                 var s = msDataTable.LookupSeries(workbookView1.ActiveCell.Column);
@@ -549,11 +567,18 @@ namespace HdbPoet
             return readOnly;
         }
 
-        private bool ActiveCellInUsedRange(SpreadsheetGear.IRange activeCell)
+        private bool CellInUsedRange(SpreadsheetGear.IRange activeCell)
         {
             bool rowInUsedRange = (activeCell.Row < initialUsedRange.RowCount);
             bool colInUsedRange = (activeCell.Column < initialUsedRange.ColumnCount);
             return rowInUsedRange && colInUsedRange;
+        }
+
+        private bool ActiveCellIsHeader()
+        {
+            bool rowHeader = (workbookView1.ActiveCell.Row == 0);
+            bool colHeader = (workbookView1.ActiveCell.Column == 0);
+            return rowHeader || colHeader;
         }
 
         private List<decimal> editableSdis;

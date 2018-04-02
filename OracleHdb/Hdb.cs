@@ -161,8 +161,7 @@ namespace HdbPoet
                     DataTable tbl = ds.GetTable(s.TableName);
                     DataTableUtility.PrintRowState(tbl);
                     DataRow[] rows = tbl.Select("", "", DataViewRowState.ModifiedCurrent);
-
-
+                    
                     foreach (DataRow row in rows)
                     {
                         DateTime t = Convert.ToDateTime(row[0]);
@@ -172,14 +171,12 @@ namespace HdbPoet
 
                             if (row[1, DataRowVersion.Current] == DBNull.Value && row[1, DataRowVersion.Original] != DBNull.Value)
                             {// Delete
-                                delete_from_hdb(s.hdb_site_datatype_id, t,
-                                     interval, ds.GraphRow.TimeZone);
+                                delete_from_hdb(s.hdb_site_datatype_id, t, interval, ds.GraphRow.TimeZone);
                             }
                             else
                             {// update
                                 double val = Convert.ToDouble(row[1]);
-                                ModifyRBase(s.hdb_site_datatype_id, interval, t, val, overWrite,
-                                    validationFlag, ds.GraphRow.TimeZone);
+                                ModifyRBase(s.hdb_site_datatype_id, interval, t, val, overWrite, validationFlag, ds.GraphRow.TimeZone);
                             }
                         }
                         // Code for M-table data
