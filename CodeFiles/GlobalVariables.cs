@@ -9,6 +9,9 @@ namespace HdbPoet
 {
     class GlobalVariables
     {
+        private static Configuration configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        private static KeyValueConfigurationCollection settings = configFile.AppSettings.Settings;
+
         private static bool showEmptySdidsCheck = false;
         private static bool showBaseDataCheck = false;
         private static bool insertOnWriteCheck = false;
@@ -78,8 +81,6 @@ namespace HdbPoet
 
                 try
                 {
-                    var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                    var settings = configFile.AppSettings.Settings;
                     settings["objectTypes"].Value = s;
                     configFile.Save(ConfigurationSaveMode.Modified);
                     ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
@@ -94,7 +95,19 @@ namespace HdbPoet
         public static bool tableGraphHide
         {
             get { return Convert.ToBoolean(ConfigurationManager.AppSettings["hideGraph"]); }
-            set { ConfigurationManager.AppSettings["hideGraph"] = value.ToString().ToLower(); }
+            set
+            {
+                try
+                {
+                    settings["hideGraph"].Value = value.ToString().ToLower();
+                    configFile.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+                }
+                catch
+                {
+                    System.Windows.Forms.MessageBox.Show("Error editing application settings...", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                }
+            }
         }
 
         public static string connectedUser

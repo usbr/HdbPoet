@@ -35,7 +35,9 @@ namespace HdbPoet
         private SpreadsheetGear.IRange initialUsedRange;
         private string m_colorColumnName = "";
         MultipleSeriesDataTable msDataTable;
-        Regex IsValidNumber = new Regex(@"^-?[0-9]*(?:\.[0-9]*)?$");
+        private Regex IsValidNumber = new Regex(@"^-?[0-9]*(?:\.[0-9]*)?$");
+        private List<decimal> editableSdis;
+        private List<int[]> editedRange;
 
         public TimeSeriesSpreadsheetSG()
         {
@@ -477,7 +479,6 @@ namespace HdbPoet
         }
 
 
-        private List<int[]> editedRange;
         private void AddEditedCell(int sgRow, int sgCol)
         {
             editedRange.Add(new int[] { sgRow, sgCol });
@@ -581,7 +582,6 @@ namespace HdbPoet
             return rowHeader || colHeader;
         }
 
-        private List<decimal> editableSdis;
         private void GetEditableColumns()
         {
             editableSdis = new List<decimal>();

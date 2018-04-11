@@ -303,6 +303,7 @@ namespace HdbPoet
             this.checkBoxShowBase.Checked = GlobalVariables.showBaseData;
             this.checkBoxInsertIntoRbase.Checked = GlobalVariables.insertOnWrite;
             this.checkBoxSendOverwrite.Checked = GlobalVariables.overwriteOnWrite;
+            this.checkBoxHideGraph.Checked = GlobalVariables.tableGraphHide;
             switch (GlobalVariables.writeValidationFlag)
             {
                 case 'V':
