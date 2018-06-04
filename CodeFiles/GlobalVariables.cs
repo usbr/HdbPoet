@@ -79,16 +79,8 @@ namespace HdbPoet
                 }
                 s = s.TrimEnd(',');
 
-                try
-                {
-                    settings["objectTypes"].Value = s;
-                    configFile.Save(ConfigurationSaveMode.Modified);
-                    ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
-                }
-                catch
-                {
-                    System.Windows.Forms.MessageBox.Show("Error editing application settings...", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                }
+                settings["objectTypes"].Value = s;
+                SaveConfigFile();
             }
         }
 
@@ -97,16 +89,8 @@ namespace HdbPoet
             get { return Convert.ToBoolean(ConfigurationManager.AppSettings["hideGraph"]); }
             set
             {
-                try
-                {
-                    settings["hideGraph"].Value = value.ToString().ToLower();
-                    configFile.Save(ConfigurationSaveMode.Modified);
-                    ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
-                }
-                catch
-                {
-                    System.Windows.Forms.MessageBox.Show("Error editing application settings...", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                }
+                settings["hideGraph"].Value = value.ToString().ToLower();
+                SaveConfigFile();
             }
         }
 
@@ -114,6 +98,20 @@ namespace HdbPoet
         {
             get { return userName; }
             set { userName = value.ToString().ToLower(); }
+        }
+
+        private static void SaveConfigFile()
+        {
+            try
+            {
+                configFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+            }
+            catch
+            {
+                System.Windows.Forms.MessageBox.Show("Error editing application settings...", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
+
         }
     }
 }

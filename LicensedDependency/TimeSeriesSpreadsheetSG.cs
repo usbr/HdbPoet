@@ -87,6 +87,12 @@ namespace HdbPoet
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
+            if (e.Control && e.KeyValue == 86)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                workbookView1.PasteSpecial(SpreadsheetGear.PasteType.Values, SpreadsheetGear.PasteOperation.None, false, false);//.Paste();
+            }
             CheckSecretCode(e);
         }
 
@@ -664,7 +670,7 @@ namespace HdbPoet
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            workbookView1.Paste();            
+            workbookView1.PasteSpecial(SpreadsheetGear.PasteType.Values, SpreadsheetGear.PasteOperation.None, false, false);//.Paste();            
         }
 
         private void dataGrid1_KeyDown(object sender, KeyEventArgs e)

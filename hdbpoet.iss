@@ -45,12 +45,7 @@ Source: "{#bin}DgvFilterPopup.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "{#bin}ICSharpCode.SharpZipLib.dll"; DestDir: "{app}"; Flags: ignoreversion      
 ;Source: "{#bin}MathNet.Numerics.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "{#bin}MySql.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "{#bin}Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion          
-;Source: "{#bin}Npgsql.dll"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "{#bin}NPOI.dll"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "{#bin}NPOI.OOXML.dll"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "{#bin}NPOI.OpenXml4Net.dll"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "{#bin}NPOI.OpenXmlFormats.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#bin}Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion       
 ;Source: "{#bin}nunit.framework.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "{#bin}Oracle.ManagedDataAccess.dll"; DestDir: "{app}"; Flags: ignoreversion  
 Source: "{#bin}Reclamation.Core.dll"; DestDir: "{app}"; Flags: ignoreversion    
@@ -68,7 +63,6 @@ Source: "{#bin}x86\SQLite.Interop.dll"; DestDir: "{app}\x86"; Flags: ignoreversi
 
 Source: "{#bin}HDB-POET.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}HDB-POET.exe.config"; DestDir: "{app}"; Flags: ignoreversion 
-Source: "{#bin}report.xls"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}sqlFunctions.xml"; DestDir: "{app}"; Flags: ignoreversion       
 ;Source: "*.*"; Excludes: "*.zip,*.sln,*.pdf,*.hdb"; DestDir: "{app}\src";
 ;Source: "Acl\*.*"; Excludes: "*.zip,*.sln"; DestDir: "{app}\src";
