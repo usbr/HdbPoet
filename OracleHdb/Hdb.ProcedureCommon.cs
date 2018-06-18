@@ -233,8 +233,8 @@ namespace HdbPoet
             string agen_id_name = System.Configuration.ConfigurationManager.AppSettings["AGEN_ID_NAME"];
 
             //inputs
-            cmd.Parameters.Add("AGEN_ID_NAME", GetVarCharType());
-            cmd.Parameters["AGEN_ID_NAME"].Value = agen_id_name;
+            cmd.Parameters.Add("AGEN_NAME", GetVarCharType());
+            cmd.Parameters["AGEN_NAME"].Value = agen_id_name;
 
             cmd.Parameters.Add("COLLECTION_SYSTEM_NAME", GetVarCharType());
             cmd.Parameters["COLLECTION_SYSTEM_NAME"].Value = "(see agency)";

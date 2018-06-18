@@ -87,7 +87,7 @@ namespace HdbPoet
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-            if (e.Control && e.KeyValue == 86)
+            if (e.Control && e.KeyValue == 86) //override ctrl-v
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
