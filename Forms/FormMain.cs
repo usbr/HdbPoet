@@ -367,6 +367,7 @@ namespace HdbPoet
                 browser.OpenFile(openFileDialog1.FileName);
                 filename = openFileDialog1.FileName;
                 UpdateTitle();
+                browser.selectHomeTab(sender, e);
             }
         }
 

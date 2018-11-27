@@ -1455,5 +1455,10 @@ namespace HdbPoet
             statusBar1.Invalidate();
             statusBar1.Refresh();
         }
+
+        public void selectHomeTab(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabControl1.TabPages["tabPageHome"];
+        }
     }
 }
