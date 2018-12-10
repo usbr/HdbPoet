@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
-[assembly: AssemblyVersion("3.6.9")]
+[assembly: AssemblyVersion("3.6.10")]
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]

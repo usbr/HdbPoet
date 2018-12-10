@@ -104,69 +104,75 @@ namespace HdbPoet
         private void workSheet1_SelectionChanged(object sender, RangeSelectionChangedEventArgs e)
         {
             workbookView1.GetLock();
-            var valList = new List<double>();
-            int missingCount = 0;
-            var rval = "";
-            bool headerRowSelected = (e.RangeSelection.Cells.Row == 0 && e.RangeSelection.Cells.Column != 0);
-            bool headerColSelected = (e.RangeSelection.Cells.Column == 0 && e.RangeSelection.Cells.Row != 0);
-            bool rowInUsedRange = (e.RangeSelection.Cells.Row < initialUsedRange.RowCount);
-            bool colInUsedRange = (e.RangeSelection.Cells.Column < initialUsedRange.ColumnCount);
+            try
+            {
+                var valList = new List<double>();
+                int missingCount = 0;
+                var rval = "";
+                bool headerRowSelected = (e.RangeSelection.Cells.Row == 0 && e.RangeSelection.Cells.Column != 0);
+                bool headerColSelected = (e.RangeSelection.Cells.Column == 0 && e.RangeSelection.Cells.Row != 0);
+                bool rowInUsedRange = (e.RangeSelection.Cells.Row < initialUsedRange.RowCount);
+                bool colInUsedRange = (e.RangeSelection.Cells.Column < initialUsedRange.ColumnCount);
 
-            //crunch array stats
-            if (e.RangeSelection.CellCount > 1 && e.RangeSelection.CellCount < 1000)
-            {
-                foreach (SpreadsheetGear.IRange item in e.RangeSelection)
+                //crunch array stats
+                if (e.RangeSelection.CellCount > 1 && e.RangeSelection.CellCount < 1000)
                 {
-                    if (item.Column != 0 && item.Row != 0 && item.Value != null && item.Value != DBNull.Value)
-                    { valList.Add((double)item.Value); }
-                    else
-                    { missingCount++; }
+                    foreach (SpreadsheetGear.IRange item in e.RangeSelection)
+                    {
+                        if (item.Column != 0 && item.Row != 0 && item.Value != null && item.Value != DBNull.Value)
+                        { valList.Add((double)item.Value); }
+                        else
+                        { missingCount++; }
+                    }
+                    rval = "Selected Cells Statistics";
                 }
-                rval = "Selected Cells Statistics";
-            }
-            //crunch column stats
-            if (e.RangeSelection.CellCount == 1 && colInUsedRange && headerRowSelected && !headerColSelected)
-            {
-                int processCol = e.RangeSelection.Cells.Column;
-                for (int i = 1; i < initialUsedRange.RowCount; i++)
+                //crunch column stats
+                if (e.RangeSelection.CellCount == 1 && colInUsedRange && headerRowSelected && !headerColSelected)
                 {
-                    var ithVal = workSheet1.Cells[i, processCol].Value;
-                    if (ithVal != null && ithVal != DBNull.Value)
-                    { valList.Add((double)ithVal); }
-                    else
-                    { missingCount++; }
+                    int processCol = e.RangeSelection.Cells.Column;
+                    for (int i = 1; i < initialUsedRange.RowCount; i++)
+                    {
+                        var ithVal = workSheet1.Cells[i, processCol].Value;
+                        if (ithVal != null && ithVal != DBNull.Value)
+                        { valList.Add((double)ithVal); }
+                        else
+                        { missingCount++; }
+                    }
+                    rval = "Selected Column Statistics";
                 }
-                rval = "Selected Column Statistics";
-            }
-            //crunch row stats
-            if (e.RangeSelection.CellCount == 1 && rowInUsedRange && headerColSelected && !headerRowSelected)
-            {
-                int processRow = e.RangeSelection.Cells.Row;
-                for (int i = 1; i < initialUsedRange.ColumnCount; i++)
+                //crunch row stats
+                if (e.RangeSelection.CellCount == 1 && rowInUsedRange && headerColSelected && !headerRowSelected)
                 {
-                    var ithVal = workSheet1.Cells[processRow, i].Value;
-                    if (ithVal != null && ithVal != DBNull.Value)
-                    { valList.Add((double)ithVal); }
-                    else
-                    { missingCount++; }
+                    int processRow = e.RangeSelection.Cells.Row;
+                    for (int i = 1; i < initialUsedRange.ColumnCount; i++)
+                    {
+                        var ithVal = workSheet1.Cells[processRow, i].Value;
+                        if (ithVal != null && ithVal != DBNull.Value)
+                        { valList.Add((double)ithVal); }
+                        else
+                        { missingCount++; }
+                    }
+                    rval = "Selected Row Statistics";
                 }
-                rval = "Selected Row Statistics";
+                if (valList.Count > 1)
+                {
+                    rval = rval + " | Count: " + valList.Count + " | Missing: " + missingCount +
+                        " | Average: " + valList.ToArray().Average().ToString("F2") +
+                        " | Min: " + valList.ToArray().Min().ToString("F2") +
+                        " | Max: " + valList.ToArray().Max().ToString("F2") +
+                        " | Sum: " + valList.ToArray().Sum().ToString("F2");
+                    toolStripStatusLabel1.Text = rval;
+                }
+                else if (valList.Count != 0 || missingCount != 0)
+                { toolStripStatusLabel1.Text = rval + " | Count: " + valList.Count + " | Missing: " + missingCount; }
+                else
+                { toolStripStatusLabel1.Text = ""; }
+                toolStripStatusLabel1.ForeColor = Color.Blue;
             }
-            if (valList.Count > 1)
+            finally
             {
-                rval = rval + " | Count: " + valList.Count + " | Missing: " + missingCount +
-                    " | Average: " + valList.ToArray().Average().ToString("F2") +
-                    " | Min: " + valList.ToArray().Min().ToString("F2") +
-                    " | Max: " + valList.ToArray().Max().ToString("F2") +
-                    " | Sum: " + valList.ToArray().Sum().ToString("F2");
-                toolStripStatusLabel1.Text = rval;
+                workbookView1.ReleaseLock();
             }
-            else if (valList.Count != 0 || missingCount != 0)
-            { toolStripStatusLabel1.Text = rval + " | Count: " + valList.Count + " | Missing: " + missingCount; }
-            else
-            { toolStripStatusLabel1.Text = ""; }
-            toolStripStatusLabel1.ForeColor = Color.Blue;
-            workbookView1.ReleaseLock();
         }
 
         private bool bypassDataChangeEvent = false;
@@ -182,39 +188,45 @@ namespace HdbPoet
             {
                 workbookView1.GetLock();
                 workbookView1.BeginUpdate();
-                editedRange = new List<int[]>();
-
-                int sgRow = msDataTable.Rows.IndexOf(e.Row) + 1;//SG has header row
-
-                for (int sgCol = 1; sgCol < e.Row.ItemArray.Count(); sgCol++)
+                try
                 {
-                    SpreadsheetGear.IRange sgCell = workSheet1.Cells[sgRow, sgCol];
+                    editedRange = new List<int[]>();
 
-                    if (sgCell.Value != null)
+                    int sgRow = msDataTable.Rows.IndexOf(e.Row) + 1;//SG has header row
+
+                    for (int sgCol = 1; sgCol < e.Row.ItemArray.Count(); sgCol++)
                     {
-                        double currentVal = Convert.ToDouble(sgCell.Value);
-                        double changedVal;
-                        try
+                        SpreadsheetGear.IRange sgCell = workSheet1.Cells[sgRow, sgCol];
+
+                        if (sgCell.Value != null)
                         {
-                            changedVal = Convert.ToDouble(e.Row.ItemArray[sgCol]);
-                            if (currentVal != changedVal)
+                            double currentVal = Convert.ToDouble(sgCell.Value);
+                            double changedVal;
+                            try
                             {
-                                sgCell.Activate();
-                                workbookView1.BeginEdit();
-                                sgCell.Value = changedVal;
-                                workbookView1.EndEdit();
-                                AddEditedCell(sgRow, sgCol);
+                                changedVal = Convert.ToDouble(e.Row.ItemArray[sgCol]);
+                                if (currentVal != changedVal)
+                                {
+                                    sgCell.Activate();
+                                    workbookView1.BeginEdit();
+                                    sgCell.Value = changedVal;
+                                    workbookView1.EndEdit();
+                                    AddEditedCell(sgRow, sgCol);
+                                }
+                            }
+                            catch
+                            {
+
                             }
                         }
-                        catch
-                        {
-
-                        }
                     }
+                    FormatEditedCells();
                 }
-                FormatEditedCells();
-                workbookView1.EndUpdate();
-                workbookView1.ReleaseLock();
+                finally
+                {
+                    workbookView1.EndUpdate();
+                    workbookView1.ReleaseLock();
+                }
             }
 
             // [JR] NEED TO REDRAW GRAPH WHEN TABLE DATA IS CHANGED...
@@ -364,31 +376,36 @@ namespace HdbPoet
                 workbookView1.GetLock();
                 workbookView1.BeginUpdate();
 
-                foreach (DataRow dr in table.Rows)
+                try
                 {
-                    if (dr.RowState == DataRowState.Modified)
+                    foreach (DataRow dr in table.Rows)
                     {
-                        foreach (DataColumn dc in table.Columns)
+                        if (dr.RowState == DataRowState.Modified)
                         {
-                            if (!dr[dc, DataRowVersion.Original].Equals(dr[dc, DataRowVersion.Current]) && table.Columns.IndexOf(dc) != 0)
+                            foreach (DataColumn dc in table.Columns)
                             {
-                                //workSheet1.Cells.Range[table.Rows.IndexOf(dr) + 1, table.Columns.IndexOf(dc)].EntireColumn.Hidden = true;
-                                var editedCell = workSheet1.Cells.Range[table.Rows.IndexOf(dr) + 1, table.Columns.IndexOf(dc)];
-                                editedCell.Font.Bold = true;
-                                editedCell.HorizontalAlignment = SpreadsheetGear.HAlign.Center;
-                                editedCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
-                                editedCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Red);
+                                if (!dr[dc, DataRowVersion.Original].Equals(dr[dc, DataRowVersion.Current]) && table.Columns.IndexOf(dc) != 0)
+                                {
+                                    //workSheet1.Cells.Range[table.Rows.IndexOf(dr) + 1, table.Columns.IndexOf(dc)].EntireColumn.Hidden = true;
+                                    var editedCell = workSheet1.Cells.Range[table.Rows.IndexOf(dr) + 1, table.Columns.IndexOf(dc)];
+                                    editedCell.Font.Bold = true;
+                                    editedCell.HorizontalAlignment = SpreadsheetGear.HAlign.Center;
+                                    editedCell.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+                                    editedCell.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Red);
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        workSheet1.Cells.Range[table.Rows.IndexOf(dr) + 1, 0].EntireRow.Hidden = true;
+                        else
+                        {
+                            workSheet1.Cells.Range[table.Rows.IndexOf(dr) + 1, 0].EntireRow.Hidden = true;
+                        }
                     }
                 }
-
-                workbookView1.ReleaseLock();
-                workbookView1.EndUpdate();
+                finally
+                {
+                    workbookView1.ReleaseLock();
+                    workbookView1.EndUpdate();
+                }
             }
 
         }
@@ -401,87 +418,91 @@ namespace HdbPoet
             workbookView1.GetLock();
             workbookView1.BeginUpdate();
 
-            if (workSheet1.UsedRange.Columns.ColumnCount > 0)
+            try
             {
-                for (int c = 1; c < workSheet1.UsedRange.Columns.ColumnCount; c++)
+                if (workSheet1.UsedRange.Columns.ColumnCount > 0)
                 {
-                    var s = msDataTable.LookupSeries(c);
-                    //dataGrid1.Columns[c].DefaultCellStyle.Format = msDataTable.LookupSeries(c).DisplayFormat;
-                    var dispFormat = msDataTable.LookupSeries(c).DisplayFormat;
-                    workSheet1.Range.Columns[0, c].EntireColumn.NumberFormat = ResolveNumberFormat(dispFormat);
-                    workSheet1.UsedRange.Columns[0, c].Locked = msDataTable.LookupSeries(c).ReadOnly;
-                    // adjust column width to auto-fit longest header entry
-                    var cName = workSheet1.Range[0,c].Value.ToString().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                    var sortedNames = cName.OrderBy(n => n.Length);
-                    var longestName = sortedNames.LastOrDefault();
-                    var colWidth = System.Math.Max(Convert.ToInt16(10),
-                        System.Math.Min(Convert.ToInt16(TextRenderer.MeasureText(longestName.ToUpper(), this.Font).Width),
-                        Convert.ToInt16(20)));
-                    workSheet1.Range.Columns[0, c].EntireColumn.ColumnWidth = colWidth;
-
-                    // color cells
-                    DataTable sTab = msDataTable.DataSet.Tables[msDataTable.LookupSeries(c).TableName];
-                    for (int r = 1; r <= sTab.Rows.Count; r++)
+                    for (int c = 1; c < workSheet1.UsedRange.Columns.ColumnCount; c++)
                     {
-                        DataRow row = sTab.Rows[r - 1];
-                        //get and set cell color
-                        workSheet1.Cells[r, c].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(
-                            System.Drawing.ColorTranslator.FromHtml(row[m_colorColumnName].ToString()));
-                        // check if there is a data_flags column
-                        if (row.Table.Columns.Contains("DATA_FLAGS"))
+                        var s = msDataTable.LookupSeries(c);
+                        //dataGrid1.Columns[c].DefaultCellStyle.Format = msDataTable.LookupSeries(c).DisplayFormat;
+                        var dispFormat = msDataTable.LookupSeries(c).DisplayFormat;
+                        workSheet1.Range.Columns[0, c].EntireColumn.NumberFormat = ResolveNumberFormat(dispFormat);
+                        workSheet1.UsedRange.Columns[0, c].Locked = msDataTable.LookupSeries(c).ReadOnly;
+                        // adjust column width to auto-fit longest header entry
+                        var cName = workSheet1.Range[0, c].Value.ToString().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                        var sortedNames = cName.OrderBy(n => n.Length);
+                        var longestName = sortedNames.LastOrDefault();
+                        var colWidth = System.Math.Max(Convert.ToInt16(10),
+                            System.Math.Min(Convert.ToInt16(TextRenderer.MeasureText(longestName.ToUpper(), this.Font).Width),
+                            Convert.ToInt16(20)));
+                        workSheet1.Range.Columns[0, c].EntireColumn.ColumnWidth = colWidth;
+
+                        // color cells
+                        DataTable sTab = msDataTable.DataSet.Tables[msDataTable.LookupSeries(c).TableName];
+                        for (int r = 1; r <= sTab.Rows.Count; r++)
                         {
-                            //get and set cell comment
-                            if (row["DATA_FLAGS"] != null && row["DATA_FLAGS"] != DBNull.Value)
+                            DataRow row = sTab.Rows[r - 1];
+                            //get and set cell color
+                            workSheet1.Cells[r, c].Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(
+                                System.Drawing.ColorTranslator.FromHtml(row[m_colorColumnName].ToString()));
+                            // check if there is a data_flags column
+                            if (row.Table.Columns.Contains("DATA_FLAGS"))
                             {
-                                workSheet1.Cells[r, c].AddComment("HDB Data Flag: " + row["DATA_FLAGS"].ToString());
+                                //get and set cell comment
+                                if (row["DATA_FLAGS"] != null && row["DATA_FLAGS"] != DBNull.Value)
+                                {
+                                    workSheet1.Cells[r, c].AddComment("HDB Data Flag: " + row["DATA_FLAGS"].ToString());
+                                }
                             }
                         }
+
                     }
-
                 }
+
+                // Set global spreadsheet formatting and variables
+                workSheet1.UsedRange.WrapText = true;
+                workSheet1.UsedRange.HorizontalAlignment = SpreadsheetGear.HAlign.Right;
+                workSheet1.UsedRange.Borders.LineStyle = SpreadsheetGear.LineStyle.Dot;
+                workSheet1.UsedRange.Borders.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
+                initialUsedRange = workSheet1.UsedRange;
+                // Format row & col headers
+                var header = workSheet1.Range["A1"];
+                header.EntireColumn.AutoFit();
+                header.EntireColumn.Font.Bold = true;
+                header.EntireColumn.Locked = true;
+                header.EntireRow.AutoFit();
+                header.EntireRow.Font.Bold = true;
+                header.EntireRow.Locked = true;
+                if (header.EntireColumn.ColumnWidth < 12.0) { header.EntireColumn.ColumnWidth = 12.0; }
+                header.EntireColumn.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
+                header.EntireRow.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
+                header.EntireColumn.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+                header.EntireRow.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
+                header.EntireColumn.Font.Italic = true;
+                header.EntireRow.Font.Italic = true;
+                //workSheet1.Range.Font.Name = "Calibri";
+                // Split col header 
+                workSheet1.WindowInfo.ScrollColumn = 0;
+                workSheet1.WindowInfo.SplitColumns = 1;
+                // Split row header 
+                workSheet1.WindowInfo.ScrollRow = 0;
+                workSheet1.WindowInfo.SplitRows = 1;
+                // Freeze headers 
+                workSheet1.WindowInfo.FreezePanes = true;
+                // Lock row and column headers, unlock everything else
+                workSheet1.Range.Locked = false;
+                header.EntireRow.Locked = true;
+                header.EntireColumn.Locked = true;
+                workSheet1.ProtectContents = false;
             }
-
-            // Set global spreadsheet formatting and variables
-            workSheet1.UsedRange.WrapText = true;
-            workSheet1.UsedRange.HorizontalAlignment = SpreadsheetGear.HAlign.Right;
-            workSheet1.UsedRange.Borders.LineStyle = SpreadsheetGear.LineStyle.Dot;
-            workSheet1.UsedRange.Borders.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
-            initialUsedRange = workSheet1.UsedRange;
-            // Format row & col headers
-            var header = workSheet1.Range["A1"];             
-            header.EntireColumn.AutoFit();
-            header.EntireColumn.Font.Bold = true;
-            header.EntireColumn.Locked = true;
-            header.EntireRow.AutoFit();
-            header.EntireRow.Font.Bold = true;
-            header.EntireRow.Locked = true;
-            if (header.EntireColumn.ColumnWidth < 12.0) { header.EntireColumn.ColumnWidth = 12.0; }
-            header.EntireColumn.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
-            header.EntireRow.Interior.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.Gray);
-            header.EntireColumn.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
-            header.EntireRow.Font.Color = SpreadsheetGear.Drawing.Color.GetSpreadsheetGearColor(Color.White);
-            header.EntireColumn.Font.Italic = true;
-            header.EntireRow.Font.Italic = true;
-            //workSheet1.Range.Font.Name = "Calibri";
-            // Split col header 
-            workSheet1.WindowInfo.ScrollColumn = 0;
-            workSheet1.WindowInfo.SplitColumns = 1;
-            // Split row header 
-            workSheet1.WindowInfo.ScrollRow = 0;
-            workSheet1.WindowInfo.SplitRows = 1;
-            // Freeze headers 
-            workSheet1.WindowInfo.FreezePanes = true;
-            // Lock row and column headers, unlock everything else
-            workSheet1.Range.Locked = false;
-            header.EntireRow.Locked = true;
-            header.EntireColumn.Locked = true;
-            workSheet1.ProtectContents = false;
-
-            workbookView1.ReleaseLock();
-            workbookView1.EndUpdate();
-
-            // Get SDIs in ACL
-            GetEditableColumns();
+            finally
+            {
+                workbookView1.ReleaseLock();
+                workbookView1.EndUpdate();
+                // Get SDIs in ACL
+                GetEditableColumns();
+            }
         }
 
 
@@ -632,8 +653,14 @@ namespace HdbPoet
         public void CopyToClipboard()
         {
             workbookView1.GetLock();
-            workbookView1.Copy();
-            workbookView1.ReleaseLock();
+            try
+            {
+                workbookView1.Copy();
+            }
+            finally
+            {
+                workbookView1.ReleaseLock();
+            }
         }
 
         internal DataViewRowState DataViewRowState
@@ -684,14 +711,20 @@ namespace HdbPoet
         internal DataGridViewSelectedCellCollection GetSelectedCells()
         {
             workbookView1.GetLock();
-            SpreadsheetGear.IRange selectedCells = workbookView1.RangeSelection;
-            foreach (SpreadsheetGear.IRange cell in selectedCells)
+            try
             {
-                int dGridRow = cell.Row - 1;
-                int dGrdCol = cell.Column;
-                this.dataGrid1[dGrdCol, dGridRow].Selected = true;
+                SpreadsheetGear.IRange selectedCells = workbookView1.RangeSelection;
+                foreach (SpreadsheetGear.IRange cell in selectedCells)
+                {
+                    int dGridRow = cell.Row - 1;
+                    int dGrdCol = cell.Column;
+                    this.dataGrid1[dGrdCol, dGridRow].Selected = true;
+                }
             }
-            workbookView1.ReleaseLock();
+            finally
+            {
+                workbookView1.ReleaseLock();
+            }
             return this.dataGrid1.SelectedCells;
         }
 
@@ -702,23 +735,28 @@ namespace HdbPoet
         {
             workbookView1.GetLock();
             workbookView1.BeginUpdate();
-
-            SpreadsheetGear.IRange selectedCells = workbookView1.RangeSelection;
-            foreach (SpreadsheetGear.IRange sgCell in selectedCells)
-            {                              
-                int dGridRow = sgCell.Row - 1;
-                int dGrdCol = sgCell.Column;
-                this.dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGrdCol];
-                DataGridViewCell dgCell = dataGrid1.CurrentCell;
-                if (dgCell.ColumnIndex != 0 && dgCell.Value != DBNull.Value)
+            try
+            {
+                SpreadsheetGear.IRange selectedCells = workbookView1.RangeSelection;
+                foreach (SpreadsheetGear.IRange sgCell in selectedCells)
                 {
-                    DataRow row = ((DataRowView)dgCell.OwningRow.DataBoundItem).Row;
-                    row[dgCell.ColumnIndex] = DBNull.Value;
-                    workSheet1.Cells[sgCell.Row, sgCell.Column].Value = DBNull.Value;
+                    int dGridRow = sgCell.Row - 1;
+                    int dGrdCol = sgCell.Column;
+                    this.dataGrid1.CurrentCell = dataGrid1.Rows[dGridRow].Cells[dGrdCol];
+                    DataGridViewCell dgCell = dataGrid1.CurrentCell;
+                    if (dgCell.ColumnIndex != 0 && dgCell.Value != DBNull.Value)
+                    {
+                        DataRow row = ((DataRowView)dgCell.OwningRow.DataBoundItem).Row;
+                        row[dgCell.ColumnIndex] = DBNull.Value;
+                        workSheet1.Cells[sgCell.Row, sgCell.Column].Value = DBNull.Value;
+                    }
                 }
             }
-            workbookView1.EndUpdate();
-            workbookView1.ReleaseLock();
+            finally
+            {
+                workbookView1.EndUpdate();
+                workbookView1.ReleaseLock();
+            }
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -729,10 +767,16 @@ namespace HdbPoet
         internal void SelectCell(int rowIndex, int columnIndex)
         {
             workbookView1.GetLock();
-            workbookView1.RangeSelection[rowIndex + 1, columnIndex].Select();
-            DataGridViewCell cell = dataGrid1[columnIndex, rowIndex];
-            dataGrid1.CurrentCell = cell;
-            workbookView1.ReleaseLock();
+            try
+            {
+                workbookView1.RangeSelection[rowIndex + 1, columnIndex].Select();
+                DataGridViewCell cell = dataGrid1[columnIndex, rowIndex];
+                dataGrid1.CurrentCell = cell;
+            }
+            finally
+            {
+                workbookView1.ReleaseLock();
+            }
         }
 
         internal void AllowEdits(bool enable)
@@ -773,11 +817,15 @@ namespace HdbPoet
         private void toolStripMenuItemInterpolate_Click(object sender, EventArgs e)
         {
             workbookView1.GetLock();
-
-            if (!CellReadOnly())
-            { Interpolate(); }
-
-            workbookView1.ReleaseLock();
+            try
+            {
+                if (!CellReadOnly())
+                { Interpolate(); }
+            }
+            finally
+            {
+                workbookView1.ReleaseLock();
+            }
         }
 
         /// <summary>
@@ -788,18 +836,22 @@ namespace HdbPoet
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             workbookView1.GetLock();
+            try
+            {
+                // check if selected range can be interpolated
+                this.toolStripMenuItemInterpolate.Enabled = CheckInterpolateAvailable();
 
-            // check if selected range can be interpolated
-            this.toolStripMenuItemInterpolate.Enabled = CheckInterpolateAvailable();
-
-            //check if cell can have ts-point details
-            this.menuDetails.Enabled = workbookView1.RangeSelection.CellCount == 1 &&
-                workbookView1.RangeSelection.Column != 0 && 
-                workbookView1.RangeSelection.Row != 0 &&
-                workbookView1.RangeSelection.Value != null &&
-                workbookView1.RangeSelection.Value != DBNull.Value;
-
-            workbookView1.ReleaseLock();
+                //check if cell can have ts-point details
+                this.menuDetails.Enabled = workbookView1.RangeSelection.CellCount == 1 &&
+                    workbookView1.RangeSelection.Column != 0 &&
+                    workbookView1.RangeSelection.Row != 0 &&
+                    workbookView1.RangeSelection.Value != null &&
+                    workbookView1.RangeSelection.Value != DBNull.Value;
+            }
+            finally
+            {
+                workbookView1.ReleaseLock();
+            }
         }
 
         /// <summary>
@@ -810,82 +862,87 @@ namespace HdbPoet
         private void menuDetails_Click(object sender, EventArgs e)
         {
             workbookView1.GetLock();
-            toolStripStatusLabel1.Text = "Fetching selected point details...";
-            var sCell = workbookView1.RangeSelection.Cells;
-            var s = msDataTable.LookupSeries(sCell.Column);
-            DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime(
-                (double)workbookView1.ActiveCell.Offset(0, sCell.Column * -1).Value);
-            var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, s.Interval);
-
-            info = DataTableUtility.Transpose(info);
-
-            if (s.hdb_r_table.ToString().ToLower()[0] == 'm')
+            try
             {
-                info = new DataTable();
-                info.Columns.Add("Query Failure");
-                var infoRow = info.NewRow();
-                infoRow[0] = "HDB does not store metadata for data in the Modeled Tables...";
-                info.Rows.Add(infoRow);
-            }
-            else
-            {
-                // GET Computation Processor Information
-                try
+                toolStripStatusLabel1.Text = "Fetching selected point details...";
+                var sCell = workbookView1.RangeSelection.Cells;
+                var s = msDataTable.LookupSeries(sCell.Column);
+                DateTime t = workbookView1.ActiveWorkbook.NumberToDateTime(
+                    (double)workbookView1.ActiveCell.Offset(0, sCell.Column * -1).Value);
+                var info = Hdb.Instance.BaseInfo(t, s.hdb_site_datatype_id, s.Interval);
+
+                info = DataTableUtility.Transpose(info);
+
+                if (s.hdb_r_table.ToString().ToLower()[0] == 'm')
                 {
-                    if (info.Columns.Count > 1 && Convert.ToInt32(info.Rows[info.Rows.Count - 1][1]) > 99)
+                    info = new DataTable();
+                    info.Columns.Add("Query Failure");
+                    var infoRow = info.NewRow();
+                    infoRow[0] = "HDB does not store metadata for data in the Modeled Tables...";
+                    info.Rows.Add(infoRow);
+                }
+                else
+                {
+                    // GET Computation Processor Information
+                    try
                     {
-                        var cpInfo = Hdb.Instance.CpInfo(info.Rows[info.Rows.Count - 1][1].ToString());
-
-                        // cp comment
-                        var cpRow = info.NewRow();
-                        cpRow[0] = "CP_COMMENT";
-                        cpRow[1] = cpInfo.Rows[0]["CMMNT"];
-                        info.Rows.Add(cpRow);
-
-                        // cp inputs
-                        if (cpInfo.Rows[0]["GRP"].ToString() != "")
+                        if (info.Columns.Count > 1 && Convert.ToInt32(info.Rows[info.Rows.Count - 1][1]) > 99)
                         {
-                            cpRow = info.NewRow();
-                            cpRow[0] = "CP_INPUT";
-                            cpRow[1] = "Group Comp - Input is self with a different time-step or ";
+                            var cpInfo = Hdb.Instance.CpInfo(info.Rows[info.Rows.Count - 1][1].ToString());
+
+                            // cp comment
+                            var cpRow = info.NewRow();
+                            cpRow[0] = "CP_COMMENT";
+                            cpRow[1] = cpInfo.Rows[0]["CMMNT"];
                             info.Rows.Add(cpRow);
-                            cpRow = info.NewRow();
-                            cpRow[0] = "";
-                            cpRow[1] = "a different SDI under the same site";
-                            info.Rows.Add(cpRow);
-                        }
-                        else
-                        {
-                            int inputCounter = 1;
-                            foreach (DataRow item in cpInfo.Rows)
+
+                            // cp inputs
+                            if (cpInfo.Rows[0]["GRP"].ToString() != "")
                             {
                                 cpRow = info.NewRow();
-                                cpRow[0] = "CP_INPUT_" + inputCounter;
-                                cpRow[1] = "SDI " + item["SDID"].ToString() +
-                                           " (" + item["SNAME"].ToString().ToUpper() +
-                                           "-" + item["DNAME"].ToString().ToUpper() +
-                                           ") from " + item["TABL"].ToString().ToUpper();
+                                cpRow[0] = "CP_INPUT";
+                                cpRow[1] = "Group Comp - Input is self with a different time-step or ";
                                 info.Rows.Add(cpRow);
-                                inputCounter++;
+                                cpRow = info.NewRow();
+                                cpRow[0] = "";
+                                cpRow[1] = "a different SDI under the same site";
+                                info.Rows.Add(cpRow);
+                            }
+                            else
+                            {
+                                int inputCounter = 1;
+                                foreach (DataRow item in cpInfo.Rows)
+                                {
+                                    cpRow = info.NewRow();
+                                    cpRow[0] = "CP_INPUT_" + inputCounter;
+                                    cpRow[1] = "SDI " + item["SDID"].ToString() +
+                                               " (" + item["SNAME"].ToString().ToUpper() +
+                                               "-" + item["DNAME"].ToString().ToUpper() +
+                                               ") from " + item["TABL"].ToString().ToUpper();
+                                    info.Rows.Add(cpRow);
+                                    inputCounter++;
+                                }
                             }
                         }
                     }
+                    catch
+                    {
+                        var cpRow = info.NewRow();
+                        cpRow[0] = "CP COMMENT";
+                        cpRow[1] = "Unable to get CP Information from the DB...";
+                        info.Rows.Add(cpRow);
+                    }
                 }
-                catch
-                {
-                    var cpRow = info.NewRow();
-                    cpRow[0] = "CP COMMENT";
-                    cpRow[1] = "Unable to get CP Information from the DB...";
-                    info.Rows.Add(cpRow);
-                }
+                TableViewer tv = new TableViewer(info);
+                tv.Icon = HdbPoet.Properties.Resources.PoetIcon;
+                tv.Text = "Details";
+                tv.Show();
             }
-            TableViewer tv = new TableViewer(info);
-            tv.Icon = HdbPoet.Properties.Resources.PoetIcon;
-            tv.Text = "Details";
-            tv.Show();
-
-            workbookView1.ReleaseLock();
-            toolStripStatusLabel1.Text = "";
+            finally
+            {
+                workbookView1.ReleaseLock();
+                toolStripStatusLabel1.Text = "";
+            }
         }
 
         /// <summary>
