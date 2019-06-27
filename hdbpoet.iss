@@ -57,7 +57,7 @@ Source: "{#bin}System.Data.SQLite.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#bin}SpreadsheetGear2012.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "{#bin}System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion    
 Source: "{#bin}TeeChart.dll"; DestDir: "{app}"; Flags: ignoreversion                                   
-;Source: "{#bin}ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion                                   
+Source: "{#bin}ZedGraph.dll"; DestDir: "{app}"; Flags: ignoreversion                                   
 Source: "{#bin}x64\SQLite.Interop.dll"; DestDir: "{app}\x64"; Flags: ignoreversion                        
 Source: "{#bin}x86\SQLite.Interop.dll"; DestDir: "{app}\x86"; Flags: ignoreversion      
 
