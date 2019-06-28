@@ -12,7 +12,8 @@ namespace HdbPoet
         private static Configuration configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         private static KeyValueConfigurationCollection settings = configFile.AppSettings.Settings;
 
-        private static bool showEmptySdidsCheck = false;
+        private static bool showEmptySdidsCheck = true;
+        private static bool showSimpleSdidInfoCheck = true;
         private static bool showBaseDataCheck = false;
         private static bool insertOnWriteCheck = false;
         private static bool overwriteFlagOnWriteCheck = false;
@@ -31,6 +32,12 @@ namespace HdbPoet
         {
             get { return showEmptySdidsCheck; }
             set { showEmptySdidsCheck = value; }
+        }
+
+        public static bool showSimpleSdiInfo
+        {
+            get { return showSimpleSdidInfoCheck; }
+            set { showSimpleSdidInfoCheck = value; }
         }
 
         public static bool showBaseData

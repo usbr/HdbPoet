@@ -975,7 +975,15 @@ namespace HdbPoet
 
             var isModeledData = GetModeledDataVars();
 
-            DataTable tblSiteInfo = Hdb.Instance.SiteInfo(site_id, intervalDescriptions, showBase, isModeledData.Item1, isModeledData.Item2, GlobalVariables.showEmptySdids);
+            DataTable tblSiteInfo;
+            if (GlobalVariables.showSimpleSdiInfo)
+            {
+                tblSiteInfo = Hdb.Instance.SiteInfoSimple(site_id, intervalDescriptions, showBase, isModeledData.Item1, isModeledData.Item2);
+            }
+            else
+            {
+                tblSiteInfo = Hdb.Instance.SiteInfo(site_id, intervalDescriptions, showBase, isModeledData.Item1, isModeledData.Item2);
+            }
             //  CsvFile.Write( tblSiteInfo,@"c:\temp\siteInfo.csv");
 
             DataTable tblUnique = DataTableUtility.SelectDistinct(tblSiteInfo, "interval_Text");
@@ -1013,10 +1021,13 @@ namespace HdbPoet
                     text += (string)tbl.Rows[i]["DATATYPE_COMMON_NAME"];
                     text += " (DatatypeID=" + tbl.Rows[i]["DATATYPE_ID"] + ")";
                     text += " " + tbl.Rows[i]["SDID_DESCRIPTOR"];
-                    text += " " + tbl.Rows[i]["COUNT(A.VALUE)"].ToString();
-                    text += " records";
-                    if (tbl.Rows[i]["min(start_date_time)"] != DBNull.Value || tbl.Rows[i]["max(start_date_time)"] != DBNull.Value)
+                    if (GlobalVariables.showSimpleSdiInfo)
                     {
+                        text += "";
+                    }
+                    else if (tbl.Rows[i]["min(start_date_time)"] != DBNull.Value || tbl.Rows[i]["max(start_date_time)"] != DBNull.Value)
+                    {
+                        text += " " + tbl.Rows[i]["COUNT(A.VALUE)"].ToString() + " records";
                         text += " from ";
                         text += ((DateTime)tbl.Rows[i]["min(start_date_time)"]).ToString("MMM-dd-yyyy")
                              + " to "

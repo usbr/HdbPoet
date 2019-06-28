@@ -981,8 +981,10 @@ group by d.datatype_id, d.datatype_common_name
         ///    monthly          17 reservoir storage, end of period reading used as value for per.             389 r_month             1730        932 01-OCT-70 01-FEB-03
         ///    monthly          49 reservoir WS elevation, end of per reading used as value for per            120 r_month             1937        932 01-OCT-70 01-JUL-86
         /// </summary>
-        public DataTable SiteInfo(int site_id, string[] r_names, bool showBase, bool getModeledData = false, int mrid = 0, bool showEmptySdid = false)
+        public DataTable SiteInfo(int site_id, string[] r_names, bool showBase, bool getModeledData = false, int mrid = 0)
         {
+            bool showEmptySdid = GlobalVariables.showEmptySdids;
+
             string sql_template = "";
             if (showEmptySdid)
             {
@@ -1016,6 +1018,79 @@ group by d.datatype_id, d.datatype_common_name
                     + " on a.site_datatype_id=f.hdb_site_datatype_id";
             }
 
+            sql_template += " where c.site_id = " + site_id.ToString()
+                             + " and b.site_id = " + site_id.ToString()
+                             + " group by d.datatype_id, d.datatype_common_name ";
+
+            string sql = "";
+            for (int i = 0; i < r_names.Length; i++)
+            {
+                int idx = Array.IndexOf(Hdb.r_names, r_names[i]);
+                Debug.Assert(idx >= 0);
+
+                string tableName;
+                string query = sql_template;
+                if (getModeledData)
+                {
+                    tableName = Hdb.m_tables[idx];
+                    query = query.Replace("where c.site_id = ", "where model_run_id = " + mrid + " and c.site_id = ");
+                }
+                else
+                {
+                    tableName = Hdb.r_tables[idx];
+                }
+
+                query = query.Replace("#TABLE_NAME#", tableName);
+                query = query.Replace("#RNAMES1#", Hdb.r_names[idx]);
+                query = query.Replace("#RNAMES2#", "'" + Hdb.r_names[idx] + "'");
+
+                if (i < r_names.Length - 1)
+                {// append union keyword
+                    query += " UNION \n";
+                }
+                sql += query;
+            }
+
+
+            if (showBase)
+            {
+
+                string query = sql_template;
+                query = query.Replace("#TABLE_NAME#", "r_base");
+                query = query.Replace("'#RNAMES1#'", "interval");
+                query = query.Replace("#RNAMES2#", "interval ||' - base' ");
+
+                string where = " and interval in ('" + String.Join("','", r_names) + "') ";
+                query = query.Replace("group by d.datatype_id,", where + "group by interval,d.datatype_id,");
+
+                sql += " UNION \n";
+                sql += query;
+            }
+
+            sql = "select * from (" + sql + ")  order by interval_text, datatype_common_name";
+
+            DataTable rval = m_server.Table("SiteInfo", sql);
+
+            return rval;
+        }
+
+        public DataTable SiteInfoSimple(int site_id, string[] r_names, bool showBase, bool getModeledData = false, int mrid = 0)
+        {
+            string sql_template = "";
+            sql_template = " select '#RNAMES1#' interval,#RNAMES2# interval_Text ,d.datatype_id, d.datatype_common_name, "
+                + " '0' \"count(a.value)\",'#TABLE_NAME#' \"rtable\", "
+                + " max(b.site_datatype_id) "
+                + " \"site_datatype_id\" ,max(b.site_id) \"site_id\", '01-JAN-1980' \"min(start_date_time)\", "
+                + "'01-JAN-1980' \"max(start_date_time)\", max(e.unit_common_name) \"unit_common_name\", max(c.site_name) \"site_name\","
+                + " nvl(max(f.cmmnt),null) \"sdid_descriptor\" "
+                + " from hdb_site c"
+                + " left join hdb_site_datatype b on c.site_id = b.site_id  "
+                + " left join hdb_datatype d on d.datatype_id=b.datatype_id "
+                + " left join hdb_unit e on e.unit_id=d.unit_id "
+                + " left join (select * from ref_ext_site_data_map where ext_data_source_id = 68) f "
+                + " on f.hdb_site_datatype_id=b.site_datatype_id ";
+                    //+ " left join #TABLE_NAME# a on a.site_datatype_id=b.site_datatype_id ";
+            
             sql_template += " where c.site_id = " + site_id.ToString()
                              + " and b.site_id = " + site_id.ToString()
                              + " group by d.datatype_id, d.datatype_common_name ";

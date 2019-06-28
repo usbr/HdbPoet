@@ -29,6 +29,7 @@ namespace HdbPoet
         private Button buttonObjectList;
         private Label label3;
         private CheckBox checkBoxHideGraph;
+        public CheckBox checkBoxShowSimpleSdiInfo;
 
         /// <summary>
         /// Required designer variable.
@@ -81,14 +82,15 @@ namespace HdbPoet
             this.buttonObjectList = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxHideGraph = new System.Windows.Forms.CheckBox();
+            this.checkBoxShowSimpleSdiInfo = new System.Windows.Forms.CheckBox();
             this.validationGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(268, 353);
+            this.buttonOk.Location = new System.Drawing.Point(322, 407);
             this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(75, 23);
+            this.buttonOk.Size = new System.Drawing.Size(90, 27);
             this.buttonOk.TabIndex = 1;
             this.buttonOk.Text = "OK";
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
@@ -96,9 +98,11 @@ namespace HdbPoet
             // checkBoxShowEmptySdids
             // 
             this.checkBoxShowEmptySdids.AutoSize = true;
-            this.checkBoxShowEmptySdids.Location = new System.Drawing.Point(13, 13);
+            this.checkBoxShowEmptySdids.Checked = true;
+            this.checkBoxShowEmptySdids.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxShowEmptySdids.Location = new System.Drawing.Point(16, 15);
             this.checkBoxShowEmptySdids.Name = "checkBoxShowEmptySdids";
-            this.checkBoxShowEmptySdids.Size = new System.Drawing.Size(156, 17);
+            this.checkBoxShowEmptySdids.Size = new System.Drawing.Size(201, 21);
             this.checkBoxShowEmptySdids.TabIndex = 3;
             this.checkBoxShowEmptySdids.Text = "Show empty SDIs in search";
             this.checkBoxShowEmptySdids.UseVisualStyleBackColor = true;
@@ -107,9 +111,9 @@ namespace HdbPoet
             // checkBoxInsertIntoRbase
             // 
             this.checkBoxInsertIntoRbase.AutoSize = true;
-            this.checkBoxInsertIntoRbase.Location = new System.Drawing.Point(13, 59);
+            this.checkBoxInsertIntoRbase.Location = new System.Drawing.Point(16, 95);
             this.checkBoxInsertIntoRbase.Name = "checkBoxInsertIntoRbase";
-            this.checkBoxInsertIntoRbase.Size = new System.Drawing.Size(150, 17);
+            this.checkBoxInsertIntoRbase.Size = new System.Drawing.Size(196, 21);
             this.checkBoxInsertIntoRbase.TabIndex = 4;
             this.checkBoxInsertIntoRbase.Text = "Insert into R-Base on write";
             this.checkBoxInsertIntoRbase.UseVisualStyleBackColor = true;
@@ -118,17 +122,17 @@ namespace HdbPoet
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(28, 79);
+            this.label1.Location = new System.Drawing.Point(34, 118);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(267, 13);
+            this.label1.Size = new System.Drawing.Size(355, 17);
             this.label1.TabIndex = 5;
             this.label1.Text = "This allows historical changes to be archived in R-Base";
             // 
             // buttonLogIn
             // 
-            this.buttonLogIn.Location = new System.Drawing.Point(13, 353);
+            this.buttonLogIn.Location = new System.Drawing.Point(16, 407);
             this.buttonLogIn.Name = "buttonLogIn";
-            this.buttonLogIn.Size = new System.Drawing.Size(86, 23);
+            this.buttonLogIn.Size = new System.Drawing.Size(103, 27);
             this.buttonLogIn.TabIndex = 6;
             this.buttonLogIn.Text = "HDB Log-In";
             this.buttonLogIn.UseVisualStyleBackColor = true;
@@ -137,18 +141,18 @@ namespace HdbPoet
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(100, 358);
+            this.label2.Location = new System.Drawing.Point(120, 413);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(125, 13);
+            this.label2.Size = new System.Drawing.Size(165, 17);
             this.label2.TabIndex = 7;
             this.label2.Text = "Log-In to a different HDB";
             // 
             // checkBoxShowBase
             // 
             this.checkBoxShowBase.AutoSize = true;
-            this.checkBoxShowBase.Location = new System.Drawing.Point(13, 36);
+            this.checkBoxShowBase.Location = new System.Drawing.Point(16, 69);
             this.checkBoxShowBase.Name = "checkBoxShowBase";
-            this.checkBoxShowBase.Size = new System.Drawing.Size(103, 17);
+            this.checkBoxShowBase.Size = new System.Drawing.Size(131, 21);
             this.checkBoxShowBase.TabIndex = 8;
             this.checkBoxShowBase.Text = "Show base data";
             this.checkBoxShowBase.UseVisualStyleBackColor = true;
@@ -161,9 +165,9 @@ namespace HdbPoet
             this.validationGroupBox.Controls.Add(this.zValidationRadioButton);
             this.validationGroupBox.Controls.Add(this.pValidationRadioButton);
             this.validationGroupBox.Controls.Add(this.vValidationRadioButton);
-            this.validationGroupBox.Location = new System.Drawing.Point(12, 144);
+            this.validationGroupBox.Location = new System.Drawing.Point(16, 194);
             this.validationGroupBox.Name = "validationGroupBox";
-            this.validationGroupBox.Size = new System.Drawing.Size(324, 73);
+            this.validationGroupBox.Size = new System.Drawing.Size(389, 84);
             this.validationGroupBox.TabIndex = 9;
             this.validationGroupBox.TabStop = false;
             this.validationGroupBox.Text = "Set Validation Flag on write";
@@ -171,9 +175,9 @@ namespace HdbPoet
             // eValidationRadioButton
             // 
             this.eValidationRadioButton.AutoSize = true;
-            this.eValidationRadioButton.Location = new System.Drawing.Point(111, 42);
+            this.eValidationRadioButton.Location = new System.Drawing.Point(133, 48);
             this.eValidationRadioButton.Name = "eValidationRadioButton";
-            this.eValidationRadioButton.Size = new System.Drawing.Size(70, 17);
+            this.eValidationRadioButton.Size = new System.Drawing.Size(91, 21);
             this.eValidationRadioButton.TabIndex = 4;
             this.eValidationRadioButton.Text = "Edited (e)";
             this.eValidationRadioButton.UseVisualStyleBackColor = true;
@@ -182,9 +186,9 @@ namespace HdbPoet
             // tValidationRadioButton
             // 
             this.tValidationRadioButton.AutoSize = true;
-            this.tValidationRadioButton.Location = new System.Drawing.Point(20, 42);
+            this.tValidationRadioButton.Location = new System.Drawing.Point(24, 48);
             this.tValidationRadioButton.Name = "tValidationRadioButton";
-            this.tValidationRadioButton.Size = new System.Drawing.Size(68, 17);
+            this.tValidationRadioButton.Size = new System.Drawing.Size(88, 21);
             this.tValidationRadioButton.TabIndex = 3;
             this.tValidationRadioButton.Text = "Temp (T)";
             this.tValidationRadioButton.UseVisualStyleBackColor = true;
@@ -194,9 +198,9 @@ namespace HdbPoet
             // 
             this.zValidationRadioButton.AutoSize = true;
             this.zValidationRadioButton.Checked = true;
-            this.zValidationRadioButton.Location = new System.Drawing.Point(209, 19);
+            this.zValidationRadioButton.Location = new System.Drawing.Point(251, 22);
             this.zValidationRadioButton.Name = "zValidationRadioButton";
-            this.zValidationRadioButton.Size = new System.Drawing.Size(75, 17);
+            this.zValidationRadioButton.Size = new System.Drawing.Size(97, 21);
             this.zValidationRadioButton.TabIndex = 2;
             this.zValidationRadioButton.TabStop = true;
             this.zValidationRadioButton.Text = "Default (Z)";
@@ -206,9 +210,9 @@ namespace HdbPoet
             // pValidationRadioButton
             // 
             this.pValidationRadioButton.AutoSize = true;
-            this.pValidationRadioButton.Location = new System.Drawing.Point(111, 19);
+            this.pValidationRadioButton.Location = new System.Drawing.Point(133, 22);
             this.pValidationRadioButton.Name = "pValidationRadioButton";
-            this.pValidationRadioButton.Size = new System.Drawing.Size(92, 17);
+            this.pValidationRadioButton.Size = new System.Drawing.Size(121, 21);
             this.pValidationRadioButton.TabIndex = 1;
             this.pValidationRadioButton.Text = "Provisional (P)";
             this.pValidationRadioButton.UseVisualStyleBackColor = true;
@@ -217,9 +221,9 @@ namespace HdbPoet
             // vValidationRadioButton
             // 
             this.vValidationRadioButton.AutoSize = true;
-            this.vValidationRadioButton.Location = new System.Drawing.Point(20, 19);
+            this.vValidationRadioButton.Location = new System.Drawing.Point(24, 22);
             this.vValidationRadioButton.Name = "vValidationRadioButton";
-            this.vValidationRadioButton.Size = new System.Drawing.Size(85, 17);
+            this.vValidationRadioButton.Size = new System.Drawing.Size(111, 21);
             this.vValidationRadioButton.TabIndex = 0;
             this.vValidationRadioButton.Text = "Validated (V)";
             this.vValidationRadioButton.UseVisualStyleBackColor = true;
@@ -228,9 +232,9 @@ namespace HdbPoet
             // checkBoxSendOverwrite
             // 
             this.checkBoxSendOverwrite.AutoSize = true;
-            this.checkBoxSendOverwrite.Location = new System.Drawing.Point(13, 97);
+            this.checkBoxSendOverwrite.Location = new System.Drawing.Point(16, 139);
             this.checkBoxSendOverwrite.Name = "checkBoxSendOverwrite";
-            this.checkBoxSendOverwrite.Size = new System.Drawing.Size(162, 17);
+            this.checkBoxSendOverwrite.Size = new System.Drawing.Size(211, 21);
             this.checkBoxSendOverwrite.TabIndex = 10;
             this.checkBoxSendOverwrite.Text = "Send Overwrite Flag on write";
             this.checkBoxSendOverwrite.UseVisualStyleBackColor = true;
@@ -238,9 +242,9 @@ namespace HdbPoet
             // 
             // buttonObjectList
             // 
-            this.buttonObjectList.Location = new System.Drawing.Point(13, 324);
+            this.buttonObjectList.Location = new System.Drawing.Point(16, 374);
             this.buttonObjectList.Name = "buttonObjectList";
-            this.buttonObjectList.Size = new System.Drawing.Size(86, 23);
+            this.buttonObjectList.Size = new System.Drawing.Size(103, 26);
             this.buttonObjectList.TabIndex = 11;
             this.buttonObjectList.Text = "Object List";
             this.buttonObjectList.UseVisualStyleBackColor = true;
@@ -249,27 +253,41 @@ namespace HdbPoet
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(100, 329);
+            this.label3.Location = new System.Drawing.Point(120, 380);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(135, 13);
+            this.label3.Size = new System.Drawing.Size(177, 17);
             this.label3.TabIndex = 12;
             this.label3.Text = "Edit available HDB Objects";
             // 
             // checkBoxHideGraph
             // 
             this.checkBoxHideGraph.AutoSize = true;
-            this.checkBoxHideGraph.Location = new System.Drawing.Point(13, 121);
+            this.checkBoxHideGraph.Location = new System.Drawing.Point(16, 167);
             this.checkBoxHideGraph.Name = "checkBoxHideGraph";
-            this.checkBoxHideGraph.Size = new System.Drawing.Size(190, 17);
+            this.checkBoxHideGraph.Size = new System.Drawing.Size(250, 21);
             this.checkBoxHideGraph.TabIndex = 13;
             this.checkBoxHideGraph.Text = "Hide graph on Table tab by default";
             this.checkBoxHideGraph.UseVisualStyleBackColor = true;
             this.checkBoxHideGraph.CheckedChanged += new System.EventHandler(this.checkBoxHideGraph_CheckedChanged);
             // 
+            // checkBoxShowSimpleSdiInfo
+            // 
+            this.checkBoxShowSimpleSdiInfo.AutoSize = true;
+            this.checkBoxShowSimpleSdiInfo.Checked = true;
+            this.checkBoxShowSimpleSdiInfo.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxShowSimpleSdiInfo.Location = new System.Drawing.Point(16, 42);
+            this.checkBoxShowSimpleSdiInfo.Name = "checkBoxShowSimpleSdiInfo";
+            this.checkBoxShowSimpleSdiInfo.Size = new System.Drawing.Size(154, 21);
+            this.checkBoxShowSimpleSdiInfo.TabIndex = 14;
+            this.checkBoxShowSimpleSdiInfo.Text = "Show basic SDI Info";
+            this.checkBoxShowSimpleSdiInfo.UseVisualStyleBackColor = true;
+            this.checkBoxShowSimpleSdiInfo.CheckedChanged += new System.EventHandler(this.checkBoxShowSimpleSdiInfo_CheckedChanged);
+            // 
             // Options
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(348, 383);
+            this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+            this.ClientSize = new System.Drawing.Size(432, 456);
+            this.Controls.Add(this.checkBoxShowSimpleSdiInfo);
             this.Controls.Add(this.checkBoxHideGraph);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonObjectList);
@@ -337,6 +355,11 @@ namespace HdbPoet
         private void showEmptySdid_CheckedChanged(object sender, EventArgs e)
         {
             GlobalVariables.showEmptySdids = this.checkBoxShowEmptySdids.Checked;
+        }
+
+        private void checkBoxShowSimpleSdiInfo_CheckedChanged(object sender, EventArgs e)
+        {
+            GlobalVariables.showSimpleSdiInfo = this.checkBoxShowSimpleSdiInfo.Checked;
         }
 
         private void showBaseData_CheckedChanged(object sender, EventArgs e)
