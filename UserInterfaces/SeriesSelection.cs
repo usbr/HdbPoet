@@ -923,8 +923,7 @@ namespace HdbPoet
                 this.dateSelector1.SaveToDataSet(this.graphDef);
                 siteTableFiltered = Hdb.Instance.FilteredSiteList(this.textBoxKeyWords.Text,
                                    intervalDescriptions, categories, comboBoxBasin.SelectedValue.ToString(),
-                                   this.sdidSearchCheckBox.Checked, m_getModeledData, isModeledData.Item2,
-                                   GlobalVariables.showEmptySdids);
+                                   this.sdidSearchCheckBox.Checked, m_getModeledData, isModeledData.Item2);
                 LoadTree();
             }
             finally

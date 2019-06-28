@@ -697,11 +697,11 @@ namespace HdbPoet
         /// Gets list of sites for the graph series editor (graph properties)
         /// </summary>
         public DataTable FilteredSiteList(string siteSearchString, string[] r_names, int[] objecttype_id, string basin_id,
-                                            bool getSdidInfo, bool getModeledData = false, int modelRunID = 0, bool showEmptySdid = false)
+                                            bool getSdidInfo, bool getModeledData = false, int modelRunID = 0)
         {
             siteSearchString = SafeSqlLikeClauseLiteral(siteSearchString);
             string sql_template = "";
-            if (showEmptySdid)
+            if (GlobalVariables.showEmptySdids)
             {
                 sql_template = "select c.site_id, c.site_name, c.objecttype_id from "
                     + "hdb_site_datatype b, hdb_site c, hdb_objecttype d "
@@ -717,7 +717,7 @@ namespace HdbPoet
 
             if (!getSdidInfo)
             {
-                if (showEmptySdid)
+                if (!GlobalVariables.showEmptySdids)
                 {
                     sql_template = sql_template.Replace("c.objecttype_id from hdb_site_datatype", "c.objecttype_id from #TABLE_NAME# a, hdb_site_datatype");
                     sql_template = sql_template.Replace("where b.site_id", "where a.site_datatype_id = b.site_datatype_id and b.site_id");
