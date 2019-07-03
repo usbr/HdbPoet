@@ -93,6 +93,7 @@ namespace HdbPoet
             treeView1.SelectionMode = TreeSelectionMode.Multi;
             treeView1.Expanding += new EventHandler<TreeViewAdvEventArgs>(treeView1_Expanding);
             treeView1.NodeMouseDoubleClick += new EventHandler<TreeNodeAdvMouseEventArgs>(treeView1_NodeMouseDoubleClick);
+            treeView1.NodeMouseClick += new EventHandler<TreeNodeAdvMouseEventArgs>(treeView1_NodeMouseClick);
 
             model = new TreeModel();
 
@@ -884,6 +885,47 @@ namespace HdbPoet
             }
         }
 
+        // If a node is clicked do something.
+        void treeView1_NodeMouseClick(object sender, TreeNodeAdvMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+
+            }
+            // Get SDID detailed info for the node
+            if (e.Button == MouseButtons.Right && e.Node.Level == 3)
+            {
+                var hdbNode = e.Node.Tag as HdbNode;
+                DataRow row = (DataRow)hdbNode.Tag;
+
+                var isModeledData = GetModeledDataVars();
+                var sdidInfo = Hdb.Instance.SiteInfo(Convert.ToInt32(row["site_id"]), new string[] { row["interval"].ToString() },
+                    GlobalVariables.showBaseData, isModeledData.Item1, isModeledData.Item2, Convert.ToInt32(row["site_datatype_id"]));
+                
+                string text = "";
+                text += (string)sdidInfo.Rows[0]["INTERVAL"] + " : ";
+                text += (string)sdidInfo.Rows[0]["DATATYPE_COMMON_NAME"];
+                text += " (DatatypeID=" + sdidInfo.Rows[0]["DATATYPE_ID"] + ")";
+                text += " " + sdidInfo.Rows[0]["SDID_DESCRIPTOR"];
+                if (sdidInfo.Rows[0]["min(start_date_time)"] != DBNull.Value || sdidInfo.Rows[0]["max(start_date_time)"] != DBNull.Value)
+                {
+                    text += " " + sdidInfo.Rows[0]["COUNT(A.VALUE)"].ToString() + " records";
+                    text += " from ";
+                    text += ((DateTime)sdidInfo.Rows[0]["min(start_date_time)"]).ToString("MMM-dd-yyyy")
+                         + " to "
+                         + ((DateTime)sdidInfo.Rows[0]["max(start_date_time)"]).ToString("MMM-dd-yyyy");
+                }
+                else
+                {
+                    text += " No data for selected interval";
+                }
+                text += " (SDI=" + sdidInfo.Rows[0]["site_datatype_id"] + ") ";
+                               
+                hdbNode.Text = text;
+            }
+        }
+
+
         public Tuple<bool,int> GetModeledDataVars()
         {
             bool rVal = false;
@@ -953,7 +995,6 @@ namespace HdbPoet
                 if (selectedNode.Nodes.Count == 1 && selectedNode.Tag != null
                     && selectedNode.Nodes[0].Text == "expand_this_site")
                 {
-
                     AddSiteInventoryToTree(intervalDescriptions.ToArray(), selectedNode, GlobalVariables.showBaseData);
                 }
                 if (n.Text != "HDB Sites")

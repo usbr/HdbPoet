@@ -16,17 +16,19 @@ namespace HdbPoet
     {
         OracleServer m_server;
         DataTable _object_types;
+        public static Hdb Instance;
+        private static Dictionary<string, Hdb> s_dict = new Dictionary<string, Hdb>();
+        static string[] r_tables = { "r_instant", "r_hour", "r_day", "r_month", "r_year", "r_wy", "r_base" };
+        static string[] m_tables = { "m_undefined", "m_hour", "m_day", "m_month", "m_year", "m_wy", "m_undefined" };
+        public static string[] r_names = { "instant", "hour", "day", "month", "year", "wy", "base" };
+        static bool? m_isAclAdmin;
 
         public Hdb(OracleServer server)
         {
             m_server = server;
             LookupApplication();
         }
-
-        public static Hdb Instance;
-
-        private static Dictionary<string, Hdb> s_dict = new Dictionary<string, Hdb>();
-
+                       
 
         /// <summary>
         /// Gets a instance to a hdb,  used by Pisces to support multiple databases
@@ -56,15 +58,13 @@ namespace HdbPoet
             }
         }
 
+
         public OracleServer Server
         {
             get { return m_server; }
             set { m_server = value; }
         }
-
-        static string[] r_tables = { "r_instant", "r_hour", "r_day", "r_month", "r_year", "r_wy", "r_base" };
-        static string[] m_tables = { "m_undefined", "m_hour", "m_day", "m_month", "m_year", "m_wy", "m_undefined" };
-        public static string[] r_names = { "instant", "hour", "day", "month", "year", "wy", "base" };
+                
 
         public string HdbTableName(int index, bool model = false)
         {
@@ -74,7 +74,7 @@ namespace HdbPoet
                 return r_tables[index];
         }
 
-        static bool? m_isAclAdmin;
+
         public bool IsAclAdministrator
         {
             get
@@ -87,7 +87,7 @@ namespace HdbPoet
                 return m_isAclAdmin.Value;
             }
         }
-
+        
 
         /// <summary>
         /// Convert from Local Time zone to HDB time zone
@@ -110,11 +110,13 @@ namespace HdbPoet
             }
             return rval;
         }
+
+
         public static string ToHdbDate(DateTime date)
         {
             return "to_date('" + date.ToString("MM/dd/yyyy HH:mm:ss") + "', 'MM/dd/yyyy HH24:MI:SS') ";
         }
-
+        
 
         private static bool IsTimeZoneAdjustmentNeeded(string interval)
         {
@@ -122,6 +124,7 @@ namespace HdbPoet
                 return true;
             return false;
         }
+
 
         private string ToLocalTimeZone(string dateColumnName, string interval, string timeZone)
         {
@@ -134,6 +137,7 @@ namespace HdbPoet
             return dateColumnName;
         }
 
+
         public string[] ValidationList()
         {
             string sql = "select validation ||'  ' ||cmmnt as item from hdb_validation " // where validation in ('A','F','L','H','P','T','V') "
@@ -141,7 +145,7 @@ namespace HdbPoet
             DataTable tbl = m_server.Table("validation", sql);
             return DataTableUtility.StringList(tbl, "", "item").ToArray();
         }
-
+        
 
         /// <summary>
         /// Delete or Update each modified value in DataSet
@@ -486,6 +490,7 @@ namespace HdbPoet
             return dTab;
         }
 
+
         private double GetThresholdValue(DataRow[] dRow, string colName)
         {
             double val = double.NaN;
@@ -496,6 +501,7 @@ namespace HdbPoet
             return val;
 
         }
+
 
         private string datesQuery(string interval, int instantInterval, DateTime t1, DateTime t2, string timeZone)
         {
@@ -508,6 +514,7 @@ namespace HdbPoet
             }
             return dateSubquery;
         }
+
 
         public static DateTime AdjustDateToMatchInterval(string interval, DateTime t1)
         {
@@ -539,6 +546,7 @@ namespace HdbPoet
             }
             return t1;
         }
+
 
         /// <summary>
         /// Read time series data from Oracle 
@@ -693,6 +701,7 @@ namespace HdbPoet
             return rval;
         }
 
+
         /// <summary>
         /// Gets list of sites for the graph series editor (graph properties)
         /// </summary>
@@ -801,6 +810,7 @@ namespace HdbPoet
             return rval;
         }
 
+
         /// <summary>
         /// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnnetsec/html/SecNetch12.asp
         /// </summary>
@@ -900,8 +910,7 @@ namespace HdbPoet
 
             return dTabOut;
         }
-
-
+        
 
         #region // sql to get info for a specific site, including period of record.
         /*
@@ -981,7 +990,7 @@ group by d.datatype_id, d.datatype_common_name
         ///    monthly          17 reservoir storage, end of period reading used as value for per.             389 r_month             1730        932 01-OCT-70 01-FEB-03
         ///    monthly          49 reservoir WS elevation, end of per reading used as value for per            120 r_month             1937        932 01-OCT-70 01-JUL-86
         /// </summary>
-        public DataTable SiteInfo(int site_id, string[] r_names, bool showBase, bool getModeledData = false, int mrid = 0)
+        public DataTable SiteInfo(int site_id, string[] r_names, bool showBase, bool getModeledData = false, int mrid = 0, int sdidInput = -1)
         {
             bool showEmptySdid = GlobalVariables.showEmptySdids;
 
@@ -1018,9 +1027,16 @@ group by d.datatype_id, d.datatype_common_name
                     + " on a.site_datatype_id=f.hdb_site_datatype_id";
             }
 
-            sql_template += " where c.site_id = " + site_id.ToString()
-                             + " and b.site_id = " + site_id.ToString()
-                             + " group by d.datatype_id, d.datatype_common_name ";
+            if (sdidInput != -1)
+            {
+                sql_template += " where b.site_datatype_id = " + sdidInput.ToString("F0") + " group by d.datatype_id, d.datatype_common_name ";
+            }
+            else
+            {
+                sql_template += " where c.site_id = " + site_id.ToString()
+                                 + " and b.site_id = " + site_id.ToString()
+                                 + " group by d.datatype_id, d.datatype_common_name ";
+            }
 
             string sql = "";
             for (int i = 0; i < r_names.Length; i++)
@@ -1073,6 +1089,7 @@ group by d.datatype_id, d.datatype_common_name
 
             return rval;
         }
+
 
         public DataTable SiteInfoSimple(int site_id, string[] r_names, bool showBase, bool getModeledData = false, int mrid = 0)
         {
@@ -1215,6 +1232,7 @@ group by d.datatype_id, d.datatype_common_name
             return rval;
         }
 
+
         /// <summary>
         /// Determine if any values are computed (Yellow) for this interval
         /// </summary>
@@ -1233,8 +1251,7 @@ group by d.datatype_id, d.datatype_common_name
             }
             return false;
         }
-
-
+        
         internal string[] AclGroupNames()
         {
             string sql = "select distinct group_name from ref_user_groups order by group_name";
@@ -1246,6 +1263,7 @@ group by d.datatype_id, d.datatype_common_name
             return userList;
 
         }
+
 
         internal DataTable BasinNames()
         {
@@ -1272,6 +1290,7 @@ group by d.datatype_id, d.datatype_common_name
 
         }
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -1296,6 +1315,7 @@ group by d.datatype_id, d.datatype_common_name
 
             return Server.Table("info", sql);
         }
+
 
         internal DataTable CpInfo(string cpID)
         {
