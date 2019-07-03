@@ -154,8 +154,8 @@ namespace HdbPoet
         /// <param name="ds"></param>
         /// <param name="overWrite"></param>
         /// <param name="validationFlag"></param>
-        public void SaveChanges(string interval,
-            GraphData ds, bool overWrite, char validationFlag, bool isModeledData = false, int mrid = 0)
+        public void SaveChanges(string interval, GraphData ds, bool overWrite, char validationFlag, 
+            bool isModeledData = false, int mrid = 0)
         {
             //for (int i = 0; i < ds.Series.Count; i++)
             foreach (var s in ds.SeriesRows)
@@ -207,11 +207,8 @@ namespace HdbPoet
                                 double val = Convert.ToDouble(row[1]);
                                 modify_m_table(mrid, Convert.ToInt32(s.hdb_site_datatype_id), t, tEnd, val, interval, true);
                             }
-
                         }
                     }
-
-
                     tbl.AcceptChanges();
                 }
             }
@@ -240,7 +237,6 @@ namespace HdbPoet
 
             return tbl.Rows.Count > 0;
         }
-
 
 
         /// <summary>
@@ -1029,13 +1025,14 @@ group by d.datatype_id, d.datatype_common_name
 
             if (sdidInput != -1)
             {
-                sql_template += " where b.site_datatype_id = " + sdidInput.ToString("F0") + " group by d.datatype_id, d.datatype_common_name ";
+                sql_template += " where b.site_datatype_id = " + sdidInput.ToString("F0") 
+                    + " group by d.datatype_id, d.datatype_common_name ";
             }
             else
             {
                 sql_template += " where c.site_id = " + site_id.ToString()
-                                 + " and b.site_id = " + site_id.ToString()
-                                 + " group by d.datatype_id, d.datatype_common_name ";
+                    + " and b.site_id = " + site_id.ToString()
+                    + " group by d.datatype_id, d.datatype_common_name ";
             }
 
             string sql = "";
@@ -1066,7 +1063,6 @@ group by d.datatype_id, d.datatype_common_name
                 }
                 sql += query;
             }
-
 
             if (showBase)
             {
