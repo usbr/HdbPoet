@@ -909,7 +909,7 @@ namespace HdbPoet
                 text += " " + sdidInfo.Rows[0]["SDID_DESCRIPTOR"];
                 if (sdidInfo.Rows[0]["min(start_date_time)"] != DBNull.Value || sdidInfo.Rows[0]["max(start_date_time)"] != DBNull.Value)
                 {
-                    text += " " + sdidInfo.Rows[0]["COUNT(A.VALUE)"].ToString() + "records";
+                    text += " " + sdidInfo.Rows[0]["COUNT(A.VALUE)"].ToString() + " records";
                     text += " from ";
                     text += ((DateTime)sdidInfo.Rows[0]["min(start_date_time)"]).ToString("MMM-dd-yyyy")
                          + " to "
@@ -1067,7 +1067,7 @@ namespace HdbPoet
                     }
                     else if (tbl.Rows[i]["min(start_date_time)"] != DBNull.Value || tbl.Rows[i]["max(start_date_time)"] != DBNull.Value)
                     {
-                        text += " " + tbl.Rows[i]["COUNT(A.VALUE)"].ToString() + "records";
+                        text += " " + tbl.Rows[i]["COUNT(A.VALUE)"].ToString() + " records";
                         text += " from ";
                         text += ((DateTime)tbl.Rows[i]["min(start_date_time)"]).ToString("MMM-dd-yyyy")
                              + " to "

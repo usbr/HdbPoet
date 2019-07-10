@@ -460,7 +460,7 @@ namespace HdbPoet
 
         public static OracleServer ConnectToOracle(string hostname="")
         {
-            Logger.WriteLine("Connect to '" + hostname+"'");
+            Logger.WriteLine("Connect to '" + hostname + "'");
             DialogResult dr;
             bool loginSucess = false;
             OracleLogin login = new OracleLogin(hostname);
@@ -469,19 +469,23 @@ namespace HdbPoet
             {
                 dr = login.ShowDialog();
                 if (dr == DialogResult.Cancel)
+                {
                     return null;
-
+                }
 
                 rval = new OracleServer(login.ConnectionInfo);
                 try
                 {
                     loginSucess = rval.ConnectionWorking();
                 }
+
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message+"\n"+ex.StackTrace+"\n"+ex.Source);
-                    if( ex.InnerException != null)
+                    MessageBox.Show(ex.Message + "\n" + ex.StackTrace + "\n" + ex.Source);
+                    if (ex.InnerException != null)
+                    {
                         MessageBox.Show(ex.InnerException.Message);
+                    }
                 }
 
             } while (!loginSucess);
@@ -498,7 +502,6 @@ namespace HdbPoet
         {
             string sql = "select * from " + dataTable.TableName+" where 2 = 1";
             return SaveTable(dataTable, sql);
-
         }
 
         public override int SaveTable(DataTable dataTable, string sql)
@@ -516,7 +519,7 @@ namespace HdbPoet
             myDataAdapter.SelectCommand = myAccessCommand;
             var cb = GetCommandBuilderProvider();
             cb.DataAdapter = myDataAdapter;
-//            myDataAdapter.InsertCommand =  cb.GetInsertCommand();
+            //myDataAdapter.InsertCommand =  cb.GetInsertCommand();
             this.lastSqlCommand = sql;
             SqlCommands.Add(sql);
 
@@ -534,7 +537,6 @@ namespace HdbPoet
             }
             return recordCount;
         }
-
 
     }
 }

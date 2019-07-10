@@ -661,7 +661,6 @@ namespace HdbPoet
             }
             //ds.WriteXml(filename,XmlWriteMode.WriteSchema);
             return ds;
-
         }
 
 
@@ -799,6 +798,12 @@ namespace HdbPoet
                     sql += " UNION \n";
                 }
             }
+
+            if (GlobalVariables.dbSiteCode != "none")
+            {
+                sql += " and lower(c.DB_SITE_CODE) like '%" + GlobalVariables.dbSiteCode + "%' ";
+            }
+
             sql += " order by site_name";
 
             DataTable rval = m_server.Table("SiteList", sql);
@@ -1226,6 +1231,31 @@ group by d.datatype_id, d.datatype_common_name
             DataTable rval = m_server.Table("SdiLimits", sql);
 
             return rval;
+        }
+
+
+        public void SetDbSiteCodes()
+        {
+            string sql = "select distinct(db_site_code) from hdb_site";
+
+            DataTable rval = m_server.Table("dbSiteCodes", sql);
+
+            // Only make the distinction for db_site_codes if more than 1 db_site_code exists in the particular hdb
+            if (rval.Rows.Count > 1)
+            {
+                var svcName = this.Server.ServiceName;
+                foreach (DataRow row in rval.Rows)
+                {
+                    var dbSiteCode = row.ItemArray[0].ToString().ToLower();
+                    GlobalVariables.dbSiteCodeOptions.Add(dbSiteCode);
+                    if (svcName.ToLower().Contains(dbSiteCode))
+                    {
+                        GlobalVariables.dbSiteCode = dbSiteCode;
+                    }
+                }
+            }
+
+            
         }
 
 

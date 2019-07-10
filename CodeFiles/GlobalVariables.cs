@@ -21,11 +21,25 @@ namespace HdbPoet
         private static bool qaqcValidationCheck = false;
         private static bool userDba = false;
         private static string userName = "";
+        private static string dbSiteCodeFilter = "none";
+        private static List<string> dbSiteCodeValues = new List<string>() { "none" };
 
         public static bool userIsDba
         {
             get { return userDba; }
             set { userDba = value; }
+        }
+
+        public static string dbSiteCode
+        {
+            get { return dbSiteCodeFilter; }
+            set { dbSiteCodeFilter = value; }
+        }
+
+        public static List<string> dbSiteCodeOptions
+        {
+            get { return dbSiteCodeValues; }
+            set { dbSiteCodeValues = value; }
         }
 
         public static bool showEmptySdids

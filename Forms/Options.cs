@@ -30,6 +30,8 @@ namespace HdbPoet
         private Label label3;
         private CheckBox checkBoxHideGraph;
         public CheckBox checkBoxShowSimpleSdiInfo;
+        private ComboBox comboBoxDbSiteCode;
+        private Label label4;
 
         /// <summary>
         /// Required designer variable.
@@ -83,6 +85,8 @@ namespace HdbPoet
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxHideGraph = new System.Windows.Forms.CheckBox();
             this.checkBoxShowSimpleSdiInfo = new System.Windows.Forms.CheckBox();
+            this.comboBoxDbSiteCode = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.validationGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -283,10 +287,30 @@ namespace HdbPoet
             this.checkBoxShowSimpleSdiInfo.UseVisualStyleBackColor = true;
             this.checkBoxShowSimpleSdiInfo.CheckedChanged += new System.EventHandler(this.checkBoxShowSimpleSdiInfo_CheckedChanged);
             // 
+            // comboBoxDbSiteCode
+            // 
+            this.comboBoxDbSiteCode.FormattingEnabled = true;
+            this.comboBoxDbSiteCode.Location = new System.Drawing.Point(16, 285);
+            this.comboBoxDbSiteCode.Name = "comboBoxDbSiteCode";
+            this.comboBoxDbSiteCode.Size = new System.Drawing.Size(161, 24);
+            this.comboBoxDbSiteCode.TabIndex = 15;
+            this.comboBoxDbSiteCode.SelectedIndexChanged += new System.EventHandler(this.comboBoxDbSiteCode_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(183, 288);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(127, 17);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "DB Site Code Filter";
+            // 
             // Options
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
             this.ClientSize = new System.Drawing.Size(432, 456);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.comboBoxDbSiteCode);
             this.Controls.Add(this.checkBoxShowSimpleSdiInfo);
             this.Controls.Add(this.checkBoxHideGraph);
             this.Controls.Add(this.label3);
@@ -340,6 +364,10 @@ namespace HdbPoet
                     this.zValidationRadioButton.Checked = true;
                     break;
             }
+            this.comboBoxDbSiteCode.Items.Clear();
+            this.comboBoxDbSiteCode.Items.AddRange(GlobalVariables.dbSiteCodeOptions.ToArray());
+            var a = GlobalVariables.dbSiteCode;
+            this.comboBoxDbSiteCode.SelectedIndex = this.comboBoxDbSiteCode.FindStringExact(GlobalVariables.dbSiteCode);
         }
 
 		private void buttonOk_Click(object sender, System.EventArgs e)
@@ -360,6 +388,11 @@ namespace HdbPoet
         private void checkBoxShowSimpleSdiInfo_CheckedChanged(object sender, EventArgs e)
         {
             GlobalVariables.showSimpleSdiInfo = this.checkBoxShowSimpleSdiInfo.Checked;
+        }
+
+        private void comboBoxDbSiteCode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GlobalVariables.dbSiteCode = this.comboBoxDbSiteCode.SelectedItem.ToString();
         }
 
         private void showBaseData_CheckedChanged(object sender, EventArgs e)

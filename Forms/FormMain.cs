@@ -289,46 +289,44 @@ namespace HdbPoet
                 Logger.EnableLogger();
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
-                //Application.
-                //MessageBox.Show("Test");
                 FileUtility.CleanTempPath();
-
-                //MessageBox.Show("temp path is ready");
                 Arguments = args;
-
                 OracleServer oracle = OracleServer.ConnectToOracle();
-                //MessageBox.Show("connected attempted oracle");
 
                 if (oracle == null)
+                {
                     return;
+                }
+
                 Hdb.Instance = new Hdb(oracle);
-                
+                Hdb.Instance.SetDbSiteCodes();
                 Application.Run(new FormMain());
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message+"\n"+ex.StackTrace);
-                
+                MessageBox.Show(ex.Message+"\n"+ex.StackTrace);                
             }
         }
+
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             string msg = "CurrentDomain_UnhandledException " + e.ExceptionObject.ToString();
             // MessageBox.Show("Please check the log \n"+msg);
         }
+
+
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             //string msg = "Application_ThreadException";
         }
 
 
-       
-
         private void menuItemExit_Click(object sender, System.EventArgs e)
         {
             Close();
         }
+
 
         private void menuItemAbout_Click(object sender, System.EventArgs e)
         {
@@ -336,17 +334,18 @@ namespace HdbPoet
             a.ShowDialog();
         }
 
+
         private void menuItemUpgrade_Click(object sender, System.EventArgs e)
         {
             Upgrade u = new Upgrade();
             u.ShowDialog();
         }
-
-
+        
         private void menuItemPrint_Click(object sender, System.EventArgs e)
         {
             browser.Print();
         }
+
 
         private void menuItemNew_Click(object sender, System.EventArgs e)
         {
@@ -358,6 +357,7 @@ namespace HdbPoet
                 UpdateTitle();
             }
         }
+
 
         private void menuItemOpen_Click(object sender, System.EventArgs e)
         {
@@ -371,19 +371,20 @@ namespace HdbPoet
             }
         }
 
+
         void UpdateTitle()
         {
             this.Text = System.IO.Path.GetFileNameWithoutExtension(filename)
                 + "    HDB-POET (" + Hdb.Instance.Server.ServiceName + ")  " 
                 + Hdb.Instance.Server.TimeZone;
         }
-
-
+               
 
         private void menuItemSave_Click(object sender, System.EventArgs e)
         {
             browser.SaveGraph(filename);
         }
+
 
         private void menuItemSaveAs_Click(object sender, System.EventArgs e)
         {
@@ -393,12 +394,11 @@ namespace HdbPoet
                 filename = saveFileDialog1.FileName;
                 UpdateTitle();
             }
-
         }
+
 
         private void FormMain_Load(object sender, System.EventArgs e)
         {
-
             browser = new HdbBrowser();
             browser.Parent = this;
             browser.Dock = DockStyle.Fill;
@@ -425,17 +425,14 @@ namespace HdbPoet
         void browser_OnGraph(object sender, EventArgs e)
         {
            // TimeSeriesDataSet ds = browser.TimeSeriesDataSet;
-
-
-
         }
+
 
         private void browser_FilenameChanged(object sender, HdbBrowser.HDBPoetEventArgs fe)
         {
             this.filename = fe.filename;
             UpdateTitle();
         }
-
 
 
         private void menuItemLegend_Click(object sender, EventArgs e)
@@ -453,18 +450,18 @@ namespace HdbPoet
         }
 
 
-
-
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Settings.Default.Save();
         }
+
 
         private void menuItemUserAdmin_Click(object sender, EventArgs e)
         {
             var dlg = new AclManagement();
             dlg.ShowDialog();
         }
+
 
         private void menuItemGettingStarted_Click(object sender, EventArgs e)
         {
@@ -488,6 +485,6 @@ namespace HdbPoet
             var f = new Options();
             f.Show();
         }
-    }
 
+    }
 }
