@@ -893,7 +893,7 @@ namespace HdbPoet
 
             }
             // Get SDID detailed info for the node
-            if (e.Button == MouseButtons.Right && e.Node.Level == 3)
+            if (e.Button == MouseButtons.Right && e.Node.Children.Count == 0)
             {
                 var hdbNode = e.Node.Tag as HdbNode;
                 DataRow row = (DataRow)hdbNode.Tag;
