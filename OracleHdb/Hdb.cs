@@ -342,7 +342,11 @@ namespace HdbPoet
             if (isModeledData || mrid != 0)
             { return TableModeledData(site_datatype_id, tableName, interval, t1, t2, mrid); }
 
-            string dateSubquery = datesQuery(interval, instantInterval, t1, t2, timeZone);
+            string dateSubquery = "";
+            if (instantInterval > 0)
+            {
+                dateSubquery = ", " + datesQuery(interval, instantInterval, t1, t2, timeZone) + " ";
+            }
 
             string wherePreamble = " where ";
             if (tableName == "r_base")
@@ -350,10 +354,10 @@ namespace HdbPoet
 
             string sql = "select " + ToLocalTimeZone("A.date_time", interval, timeZone) + ", B.value, "
                 + "colorize_with_rbase(" + site_datatype_id.ToString() + ", '" + interval + "', B.start_date_time,B.value ) as SourceColor, "
-                + "colorize_with_validation(" + site_datatype_id.ToString() + ", '" + interval + "', A.date_time, B.value ) as ValidationColor, "
+                + "colorize_with_validation(" + site_datatype_id.ToString() + ", '" + interval + "', B.start_date_time, B.value ) as ValidationColor, "
                 + "'Transparent' as QaQcColor, "
                 + "C.data_flags "
-                + "from r_base C, " + tableName + " B, "
+                + "from r_base C, " + tableName + " B "
                 + dateSubquery
                 + wherePreamble
                 + "B.start_date_time(+) = A.date_time "
@@ -367,6 +371,13 @@ namespace HdbPoet
                 + "and C.date_time_loaded(+) = B.date_time_loaded "
                 + "and C.interval(+) = '" + interval + "' "
                 + "order by A.date_time ";
+
+            if (instantInterval <= 0)
+            {
+                sql = sql.Replace("B.start_date_time(+) = A.date_time and", "");
+                sql = sql.Replace("order by A.date_time ", "order by B.start_date_time ");
+                sql = sql.Replace("select A.date_time", "select B.start_date_time as date_time");
+            }
 
             rval = m_server.Table(tableName, sql);
             if (rval == null)

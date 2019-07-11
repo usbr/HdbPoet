@@ -156,8 +156,7 @@ namespace HdbPoet
         private void SetupInstantInterval()
         {
             this.comboBoxInstantIncrement.Items.Clear();
-            string s = ConfigurationManager.AppSettings["instantIntervals"];
-            s = "1," + s;
+            string s = ConfigurationManager.AppSettings["instantIntervals"];            
             string[] intervals = s.Split(',');
             comboBoxInstantIncrement.Items.AddRange(intervals);
             if (Array.IndexOf(intervals, "15") >= 0)
