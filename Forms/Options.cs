@@ -366,7 +366,6 @@ namespace HdbPoet
             }
             this.comboBoxDbSiteCode.Items.Clear();
             this.comboBoxDbSiteCode.Items.AddRange(GlobalVariables.dbSiteCodeOptions.ToArray());
-            var a = GlobalVariables.dbSiteCode;
             this.comboBoxDbSiteCode.SelectedIndex = this.comboBoxDbSiteCode.FindStringExact(GlobalVariables.dbSiteCode);
         }
 

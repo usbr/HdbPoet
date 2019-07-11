@@ -793,15 +793,15 @@ namespace HdbPoet
 
                 sql = sql.Replace("#TABLE_NAME#", tableName);
 
+                if (GlobalVariables.dbSiteCode != "none")
+                {
+                    sql += " and lower(c.DB_SITE_CODE) like '%" + GlobalVariables.dbSiteCode + "%' ";
+                }
+
                 if (i < r_names.Length - 1)
                 {// append union keyword
                     sql += " UNION \n";
                 }
-            }
-
-            if (GlobalVariables.dbSiteCode != "none")
-            {
-                sql += " and lower(c.DB_SITE_CODE) like '%" + GlobalVariables.dbSiteCode + "%' ";
             }
 
             sql += " order by site_name";
