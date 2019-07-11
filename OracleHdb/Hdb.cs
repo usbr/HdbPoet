@@ -343,7 +343,7 @@ namespace HdbPoet
             { return TableModeledData(site_datatype_id, tableName, interval, t1, t2, mrid); }
 
             string dateSubquery = "";
-            if (instantInterval > 0)
+            if (instantInterval > 0 || interval != "instant")
             {
                 dateSubquery = ", " + datesQuery(interval, instantInterval, t1, t2, timeZone) + " ";
             }
@@ -372,7 +372,7 @@ namespace HdbPoet
                 + "and C.interval(+) = '" + interval + "' "
                 + "order by A.date_time ";
 
-            if (instantInterval <= 0)
+            if (instantInterval <= 0 && interval == "instant")
             {
                 sql = sql.Replace("B.start_date_time(+) = A.date_time and", "");
                 sql = sql.Replace("order by A.date_time ", "order by B.start_date_time ");
