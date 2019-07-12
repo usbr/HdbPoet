@@ -32,6 +32,8 @@ namespace HdbPoet
         public CheckBox checkBoxShowSimpleSdiInfo;
         private ComboBox comboBoxDbSiteCode;
         private Label label4;
+        private Label label5;
+        private ComboBox comboBoxAgencyCodes;
 
         /// <summary>
         /// Required designer variable.
@@ -87,12 +89,14 @@ namespace HdbPoet
             this.checkBoxShowSimpleSdiInfo = new System.Windows.Forms.CheckBox();
             this.comboBoxDbSiteCode = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBoxAgencyCodes = new System.Windows.Forms.ComboBox();
             this.validationGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(322, 407);
+            this.buttonOk.Location = new System.Drawing.Point(322, 497);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(90, 27);
             this.buttonOk.TabIndex = 1;
@@ -134,7 +138,7 @@ namespace HdbPoet
             // 
             // buttonLogIn
             // 
-            this.buttonLogIn.Location = new System.Drawing.Point(16, 407);
+            this.buttonLogIn.Location = new System.Drawing.Point(16, 497);
             this.buttonLogIn.Name = "buttonLogIn";
             this.buttonLogIn.Size = new System.Drawing.Size(103, 27);
             this.buttonLogIn.TabIndex = 6;
@@ -145,7 +149,7 @@ namespace HdbPoet
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(120, 413);
+            this.label2.Location = new System.Drawing.Point(120, 503);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(165, 17);
             this.label2.TabIndex = 7;
@@ -246,7 +250,7 @@ namespace HdbPoet
             // 
             // buttonObjectList
             // 
-            this.buttonObjectList.Location = new System.Drawing.Point(16, 374);
+            this.buttonObjectList.Location = new System.Drawing.Point(16, 464);
             this.buttonObjectList.Name = "buttonObjectList";
             this.buttonObjectList.Size = new System.Drawing.Size(103, 26);
             this.buttonObjectList.TabIndex = 11;
@@ -257,7 +261,7 @@ namespace HdbPoet
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(120, 380);
+            this.label3.Location = new System.Drawing.Point(120, 470);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(177, 17);
             this.label3.TabIndex = 12;
@@ -290,25 +294,44 @@ namespace HdbPoet
             // comboBoxDbSiteCode
             // 
             this.comboBoxDbSiteCode.FormattingEnabled = true;
-            this.comboBoxDbSiteCode.Location = new System.Drawing.Point(16, 285);
+            this.comboBoxDbSiteCode.Location = new System.Drawing.Point(154, 283);
             this.comboBoxDbSiteCode.Name = "comboBoxDbSiteCode";
-            this.comboBoxDbSiteCode.Size = new System.Drawing.Size(161, 24);
+            this.comboBoxDbSiteCode.Size = new System.Drawing.Size(95, 24);
             this.comboBoxDbSiteCode.TabIndex = 15;
             this.comboBoxDbSiteCode.SelectedIndexChanged += new System.EventHandler(this.comboBoxDbSiteCode_SelectedIndexChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(183, 288);
+            this.label4.Location = new System.Drawing.Point(13, 286);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(127, 17);
             this.label4.TabIndex = 16;
             this.label4.Text = "DB Site Code Filter";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 318);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(147, 17);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "HDB Agency Override";
+            // 
+            // comboBoxAgencyCodes
+            // 
+            this.comboBoxAgencyCodes.FormattingEnabled = true;
+            this.comboBoxAgencyCodes.Location = new System.Drawing.Point(175, 315);
+            this.comboBoxAgencyCodes.Name = "comboBoxAgencyCodes";
+            this.comboBoxAgencyCodes.Size = new System.Drawing.Size(230, 24);
+            this.comboBoxAgencyCodes.TabIndex = 17;
+            // 
             // Options
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
-            this.ClientSize = new System.Drawing.Size(432, 456);
+            this.ClientSize = new System.Drawing.Size(423, 535);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.comboBoxAgencyCodes);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.comboBoxDbSiteCode);
             this.Controls.Add(this.checkBoxShowSimpleSdiInfo);
@@ -367,6 +390,8 @@ namespace HdbPoet
             this.comboBoxDbSiteCode.Items.Clear();
             this.comboBoxDbSiteCode.Items.AddRange(GlobalVariables.dbSiteCodeOptions.ToArray());
             this.comboBoxDbSiteCode.SelectedIndex = this.comboBoxDbSiteCode.FindStringExact(GlobalVariables.dbSiteCode);
+            this.comboBoxAgencyCodes.Items.AddRange(GlobalVariables.dbAgencyCodeOptions.ToArray());
+            this.comboBoxAgencyCodes.SelectedIndex = this.comboBoxAgencyCodes.FindStringExact(GlobalVariables.dbAgencyCode);
         }
 
 		private void buttonOk_Click(object sender, System.EventArgs e)

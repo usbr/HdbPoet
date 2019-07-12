@@ -299,13 +299,23 @@ namespace HdbPoet
                 }
 
                 Hdb.Instance = new Hdb(oracle);
-                Hdb.Instance.SetDbSiteCodes();
+                PerformCustomInitialization();
                 Application.Run(new FormMain());
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message+"\n"+ex.StackTrace);                
             }
+        }
+
+
+        /// <summary>
+        /// Custom initialization processes
+        /// </summary>
+        private static void PerformCustomInitialization()
+        {
+            Hdb.Instance.SetDbSiteCodes();
+            Hdb.Instance.SetHdbAgencyCodes();
         }
 
 

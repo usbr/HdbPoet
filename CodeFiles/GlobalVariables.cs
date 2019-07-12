@@ -12,6 +12,32 @@ namespace HdbPoet
         private static Configuration configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         private static KeyValueConfigurationCollection settings = configFile.AppSettings.Settings;
 
+        /// <summary>
+        /// Method to modify the Configuration File
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public static void AddOrUpdateAppSettings(string key, string value)
+        {
+            try
+            {
+                if (settings[key] == null)
+                {
+                    settings.Add(key, value);
+                }
+                else
+                {
+                    settings[key].Value = value;
+                }
+                configFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+            }
+            catch (ConfigurationErrorsException)
+            {
+                Console.WriteLine("Error writing app settings");
+            }
+        }
+
         private static bool showEmptySdidsCheck = true;
         private static bool showSimpleSdidInfoCheck = true;
         private static bool showBaseDataCheck = false;
@@ -23,6 +49,8 @@ namespace HdbPoet
         private static string userName = "";
         private static string dbSiteCodeFilter = "none";
         private static List<string> dbSiteCodeValues = new List<string>() { "none" };
+        private static string dbAgencyCodeFilter = System.Configuration.ConfigurationManager.AppSettings["AGEN_ID_NAME"];
+        private static List<string> dbAgencyCodeValues = new List<string>() {};
 
         public static bool userIsDba
         {
@@ -40,6 +68,18 @@ namespace HdbPoet
         {
             get { return dbSiteCodeValues; }
             set { dbSiteCodeValues = value; }
+        }
+
+        public static string dbAgencyCode
+        {
+            get { return dbAgencyCodeFilter; }
+            set { dbAgencyCodeFilter = value; }
+        }
+
+        public static List<string> dbAgencyCodeOptions
+        {
+            get { return dbAgencyCodeValues; }
+            set { dbAgencyCodeValues = value; }
         }
 
         public static bool showEmptySdids
@@ -100,18 +140,21 @@ namespace HdbPoet
                 }
                 s = s.TrimEnd(',');
 
-                settings["objectTypes"].Value = s;
-                SaveConfigFile();
+                AddOrUpdateAppSettings("objectTypes", s);
+                //settings["objectTypes"].Value = s;
+                //SaveConfigFile();
             }
         }
 
         public static bool tableGraphHide
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["hideGraph"]); }
+            get
+            {
+                return Convert.ToBoolean(ConfigurationManager.AppSettings["hideGraph"]);
+            }
             set
             {
-                settings["hideGraph"].Value = value.ToString().ToLower();
-                SaveConfigFile();
+                AddOrUpdateAppSettings("hideGraph", value.ToString().ToLower());
             }
         }
 
@@ -119,20 +162,6 @@ namespace HdbPoet
         {
             get { return userName; }
             set { userName = value.ToString().ToLower(); }
-        }
-
-        private static void SaveConfigFile()
-        {
-            try
-            {
-                configFile.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
-            }
-            catch
-            {
-                System.Windows.Forms.MessageBox.Show("Error editing application settings...", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-            }
-
         }
     }
 }

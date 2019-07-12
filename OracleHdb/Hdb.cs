@@ -326,8 +326,7 @@ namespace HdbPoet
         /// <param name="t1">Beginning DateTime</param>
         /// <param name="t2">Ending DateTime</param>
         /// <returns></returns>
-        public DataTable Table(decimal site_datatype_id, string tableName,
-            string interval, int instantInterval,
+        public DataTable Table(decimal site_datatype_id, string tableName, string interval, int instantInterval,
           DateTime t1, DateTime t2, string timeZone, bool isModeledData = false, int mrid = 0)
         {
             DataTable rval;
@@ -342,6 +341,8 @@ namespace HdbPoet
             if (isModeledData || mrid != 0)
             { return TableModeledData(site_datatype_id, tableName, interval, t1, t2, mrid); }
 
+            // The datesQuery() method builds the SQL needed for the date_time table to snap data points onto. 
+            //   This allows POET to fill in gaps for missing data points given a time-interval
             string dateSubquery = "";
             if (instantInterval > 0 || interval != "instant")
             {
@@ -350,7 +351,9 @@ namespace HdbPoet
 
             string wherePreamble = " where ";
             if (tableName == "r_base")
+            {
                 wherePreamble += " B.interval(+) = '" + interval + "' and ";
+            }
 
             string sql = "select " + ToLocalTimeZone("A.date_time", interval, timeZone) + ", B.value, "
                 + "colorize_with_rbase(" + site_datatype_id.ToString() + ", '" + interval + "', B.start_date_time,B.value ) as SourceColor, "
@@ -372,6 +375,7 @@ namespace HdbPoet
                 + "and C.interval(+) = '" + interval + "' "
                 + "order by A.date_time ";
 
+            // This will remove SQL that allows POET to fill in data gaps
             if (instantInterval <= 0 && interval == "instant")
             {
                 sql = sql.Replace("B.start_date_time(+) = A.date_time and", "");
@@ -1245,6 +1249,9 @@ group by d.datatype_id, d.datatype_common_name
         }
 
 
+        /// <summary>
+        /// Gets DB_SITE_CODE from DB and sets it in GlobalVariables for use in the Advanced Options menu
+        /// </summary>
         public void SetDbSiteCodes()
         {
             string sql = "select distinct(db_site_code) from hdb_site";
@@ -1265,8 +1272,33 @@ group by d.datatype_id, d.datatype_common_name
                     }
                 }
             }
+        }
 
-            
+
+        /// <summary>
+        /// Gets data from HDB_AGEN table from DB and sets it in GlobalVariables for use in the Advanced Options menu
+        /// </summary>
+        public void SetHdbAgencyCodes()
+        {
+            string sql = "select * from hdb_agen order by agen_id asc";
+
+            DataTable rval = m_server.Table("dbAgenCodes", sql);
+
+            // Only make the distinction for db_site_codes if more than 1 db_site_code exists in the particular hdb
+            if (rval.Rows.Count > 1)
+            {
+                var defaultAgenName = System.Configuration.ConfigurationManager.AppSettings["AGEN_ID_NAME"];
+                foreach (DataRow row in rval.Rows)
+                {
+                    var agenId = row["AGEN_ID"].ToString();
+                    var agenNm = row["AGEN_NAME"].ToString();
+                    GlobalVariables.dbAgencyCodeOptions.Add(agenId + " || " + agenNm);
+                    if (defaultAgenName.ToLower().Contains(agenNm.ToLower()))
+                    {
+                        GlobalVariables.dbAgencyCode = agenId + " || " + agenNm;
+                    }
+                }
+            }
         }
 
 
