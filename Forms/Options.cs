@@ -325,6 +325,7 @@ namespace HdbPoet
             this.comboBoxAgencyCodes.Name = "comboBoxAgencyCodes";
             this.comboBoxAgencyCodes.Size = new System.Drawing.Size(230, 24);
             this.comboBoxAgencyCodes.TabIndex = 17;
+            this.comboBoxAgencyCodes.SelectedIndexChanged += new System.EventHandler(this.comboBoxAgencyCodes_SelectedIndexChanged);
             // 
             // Options
             // 
@@ -417,6 +418,11 @@ namespace HdbPoet
         private void comboBoxDbSiteCode_SelectedIndexChanged(object sender, EventArgs e)
         {
             GlobalVariables.dbSiteCode = this.comboBoxDbSiteCode.SelectedItem.ToString();
+        }
+
+        private void comboBoxAgencyCodes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GlobalVariables.dbAgencyCode = this.comboBoxAgencyCodes.SelectedItem.ToString();
         }
 
         private void showBaseData_CheckedChanged(object sender, EventArgs e)
