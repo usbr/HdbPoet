@@ -23,7 +23,9 @@ VersionInfoProductName="HDB-POET"
 VersionInfoCompany="Reclamation"
 ;TouchDate=2009-03-11
 PrivilegesRequired=none
-LicenseFile=.\license.txt
+LicenseFile=.\license.txt        
+SignTool=signtool $f
+;signtool = "signtool.exe" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /a $p
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

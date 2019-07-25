@@ -391,6 +391,7 @@ namespace HdbPoet
             this.comboBoxDbSiteCode.Items.Clear();
             this.comboBoxDbSiteCode.Items.AddRange(GlobalVariables.dbSiteCodeOptions.ToArray());
             this.comboBoxDbSiteCode.SelectedIndex = this.comboBoxDbSiteCode.FindStringExact(GlobalVariables.dbSiteCode);
+            this.comboBoxAgencyCodes.Items.Clear();
             this.comboBoxAgencyCodes.Items.AddRange(GlobalVariables.dbAgencyCodeOptions.ToArray());
             this.comboBoxAgencyCodes.SelectedIndex = this.comboBoxAgencyCodes.FindStringExact(GlobalVariables.dbAgencyCode);
         }

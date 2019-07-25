@@ -191,7 +191,7 @@ namespace HdbPoet
             cmd.Parameters["MODELRUN_ID"].Value = modelrun_id;
 
             cmd.Parameters.Add("AGENCY_ID", GetVarCharType());
-            cmd.Parameters["AGENCY_ID"].Value = s_AGEN_ID;
+            cmd.Parameters["AGENCY_ID"].Value = GlobalVariables.agencyId;//s_AGEN_ID;
 
             cmd.Parameters.Add("time_zone", GetVarCharType());
             cmd.Parameters["time_zone"].Value = timeZone;
@@ -402,7 +402,7 @@ namespace HdbPoet
             cmd.Parameters["VALUE"].Value = value;
 
             cmd.Parameters.Add("AGEN_ID", GetIntegerType());
-            cmd.Parameters["AGEN_ID"].Value = s_AGEN_ID;
+            cmd.Parameters["AGEN_ID"].Value = GlobalVariables.agencyId;//s_AGEN_ID;
 
             cmd.Parameters.Add("OVERWRITE_FLAG", GetVarCharType());
             if (overwrite || GlobalVariables.overwriteOnWrite)

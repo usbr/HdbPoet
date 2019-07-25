@@ -1292,10 +1292,10 @@ group by d.datatype_id, d.datatype_common_name
                 {
                     var agenId = row["AGEN_ID"].ToString();
                     var agenNm = row["AGEN_NAME"].ToString();
-                    GlobalVariables.dbAgencyCodeOptions.Add(agenId + " || " + agenNm);
+                    GlobalVariables.dbAgencyCodeOptions.Add(agenId + " | " + agenNm);
                     if (defaultAgenName.ToLower().Contains(agenNm.ToLower()))
                     {
-                        GlobalVariables.dbAgencyCode = agenId + " || " + agenNm;
+                        GlobalVariables.dbAgencyCode = agenId + " | " + agenNm;
                     }
                 }
             }

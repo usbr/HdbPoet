@@ -49,7 +49,7 @@ namespace HdbPoet
         private static string userName = "";
         private static string dbSiteCodeFilter = "none";
         private static List<string> dbSiteCodeValues = new List<string>() { "none" };
-        private static string dbAgencyCodeFilter = System.Configuration.ConfigurationManager.AppSettings["AGEN_ID_NAME"];
+        private static string dbAgencyCodeValue = System.Configuration.ConfigurationManager.AppSettings["AGEN_ID_NAME"];
         private static List<string> dbAgencyCodeValues = new List<string>() {};
 
         public static bool userIsDba
@@ -72,14 +72,22 @@ namespace HdbPoet
 
         public static string dbAgencyCode
         {
-            get { return dbAgencyCodeFilter; }
-            set { dbAgencyCodeFilter = value; }
+            get { return dbAgencyCodeValue; }
+            set { dbAgencyCodeValue = value; }
         }
 
         public static List<string> dbAgencyCodeOptions
         {
             get { return dbAgencyCodeValues; }
             set { dbAgencyCodeValues = value; }
+        }
+
+        public static decimal agencyId
+        {
+            get
+            {
+                return Convert.ToDecimal(dbAgencyCodeValue.Split('|')[0].Trim());
+            }
         }
 
         public static bool showEmptySdids
