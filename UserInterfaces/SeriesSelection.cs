@@ -1015,7 +1015,7 @@ namespace HdbPoet
             var isModeledData = GetModeledDataVars();
 
             DataTable tblSiteInfo;
-            if (GlobalVariables.showSimpleSdiInfo)
+            if (GlobalVariables.showSimpleSdiInfo && !isModeledData.Item1)
             {
                 tblSiteInfo = Hdb.Instance.SiteInfoSimple(site_id, intervalDescriptions, showBase, isModeledData.Item1, isModeledData.Item2);
             }
