@@ -45,6 +45,7 @@ namespace HdbPoet
         private MenuItem menuItemLog;
         private MenuItem menuItemUpgrade;
         private MenuItem menuItemOptions;
+        private MenuItem menuItem1;
         private System.Windows.Forms.ToolTip toolTip1;
 
 
@@ -102,6 +103,7 @@ namespace HdbPoet
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -196,6 +198,7 @@ namespace HdbPoet
             this.menuItemLegend,
             this.menuItemLog,
             this.menuItemOptions,
+            this.menuItem1,
             this.menuItem2,
             this.menuItemAbout,
             this.menuItemUpgrade});
@@ -222,23 +225,23 @@ namespace HdbPoet
             // menuItemOptions
             // 
             this.menuItemOptions.Index = 3;
-            this.menuItemOptions.Text = "Options";
+            this.menuItemOptions.Text = "&Options";
             this.menuItemOptions.Click += new System.EventHandler(this.menuItemOptions_Click);
             // 
             // menuItem2
             // 
-            this.menuItem2.Index = 4;
+            this.menuItem2.Index = 5;
             this.menuItem2.Text = "-";
             // 
             // menuItemAbout
             // 
-            this.menuItemAbout.Index = 5;
+            this.menuItemAbout.Index = 6;
             this.menuItemAbout.Text = "&About";
             this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
             // 
             // menuItemUpgrade
             // 
-            this.menuItemUpgrade.Index = 6;
+            this.menuItemUpgrade.Index = 7;
             this.menuItemUpgrade.Text = "Check Upgrades";
             this.menuItemUpgrade.Click += new System.EventHandler(this.menuItemUpgrade_Click);
             // 
@@ -260,14 +263,21 @@ namespace HdbPoet
             this.imageList1.Images.SetKeyName(3, "excelsmall.bmp");
             this.imageList1.Images.SetKeyName(4, "EXCEL_257.ico");
             // 
+            // menuItem1
+            // 
+            this.menuItem1.Index = 4;
+            this.menuItem1.Text = "&Password Management";
+            this.menuItem1.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 741);
+            this.ClientSize = new System.Drawing.Size(1579, 912);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Menu = this.mainMenu1;
-            this.MinimumSize = new System.Drawing.Size(800, 700);
+            this.MinimumSize = new System.Drawing.Size(1061, 851);
             this.Name = "FormMain";
             this.Text = "HDB-POET";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
@@ -298,7 +308,18 @@ namespace HdbPoet
                     return;
                 }
 
-                Hdb.Instance = new Hdb(oracle);
+                Hdb.Instance = new Hdb(oracle);                
+                // Check password expiration
+                var userInfo = Hdb.Instance.UserInfo();
+                DateTime tExpire = DateTime.Parse(userInfo.Rows[0]["EXPIRY_DATE"].ToString());
+                if (tExpire.AddDays(-15).Date <= DateTime.Now.Date)
+                {
+                    MessageBox.Show("Your password will expire on " + tExpire
+                        + ". Go to the Help > Password Management dialog to update"
+                        + " your password...",
+                        "Password Expiration Notice",
+                        MessageBoxButtons.OK);
+                }
                 PerformCustomInitialization();
                 Application.Run(new FormMain());
             }
@@ -496,5 +517,10 @@ namespace HdbPoet
             f.Show();
         }
 
+        private void menuItem1_Click(object sender, EventArgs e)
+        {
+            var f = new PasswordManagement();
+            f.Show();
+        }
     }
 }

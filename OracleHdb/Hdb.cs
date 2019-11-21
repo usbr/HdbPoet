@@ -1406,5 +1406,19 @@ group by d.datatype_id, d.datatype_common_name
 
         }
 
+
+        public DataTable UserInfo()
+        {
+            string sql = "select * from user_users";
+
+            return Server.Table("userinfo", sql);
+        }
+
+        public DataTable UpdatePassword(string userName, string oldPwd, string newPwd)
+        {
+            string sql = "alter user " + userName + " identified by \"" + newPwd + "\" replace \"" + oldPwd + "\"";
+            var tbl = Server.TableNonSelect("pwdChg", sql, false);
+            return tbl;
+        }
     }
 }

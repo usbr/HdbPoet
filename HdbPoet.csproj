@@ -283,6 +283,12 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Forms\PasswordManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PasswordManagement.Designer.cs">
+      <DependentUpon>PasswordManagement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SelectObjectTypes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -541,6 +547,9 @@
     <EmbeddedResource Include="Forms\Acl\AddUserAndGroup.resx">
       <DependentUpon>AddUserAndGroup.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PasswordManagement.resx">
+      <DependentUpon>PasswordManagement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SelectObjectTypes.resx">
       <DependentUpon>SelectObjectTypes.cs</DependentUpon>
     </EmbeddedResource>
@@ -721,6 +730,7 @@
     <None Include="Images\GraphTool.ico" />
     <Content Include="license.txt" />
     <Content Include="LicensedDependency\Readme.txt" />
+    <None Include="Resources\Icon1.ico" />
     <Content Include="sqlFunctions.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
