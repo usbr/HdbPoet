@@ -36,12 +36,13 @@ namespace HdbPoet
             string pwd1 = textBoxNewPwd1.Text;
             string pwd2 = textBoxNewPwd2.Text;
 
-            bool pwdLength = pwd1.Length < 8 || pwd1.Length > 20;
-            bool containsInt = !pwd1.Any(char.IsDigit);
-            bool containsUCase = !pwd1.Any(char.IsUpper);
-            bool containsLCase = !pwd1.Any(char.IsLower);
+            bool pwdLength = pwd1.Length < 12;
+            bool containsInt = !(pwd1.Count(c => char.IsDigit(c)) >= 2);
+            bool containsLCase = !(pwd1.Count(c => char.IsUpper(c)) >= 2);
+            bool containsUCase = !(pwd1.Count(c => char.IsLower(c)) >= 2);
             bool containsUName = pwd1.ToLower().Contains(uName.ToLower());
             bool containsSpecialChar = !pwd1.Any(ch => !Char.IsLetterOrDigit(ch));
+            containsSpecialChar = !(pwd1.Count(c => !char.IsLetterOrDigit(c)) >= 2);
 
             if (pwdLength || containsInt || containsUCase || containsLCase || containsUName || containsSpecialChar)
             {
@@ -51,23 +52,23 @@ namespace HdbPoet
                 }
                 if (pwdLength)
                 {
-                    textBoxPwdCheck.Text += "\r\n- needs to be between 8 and 20 characters... ";
+                    textBoxPwdCheck.Text += "\r\n- needs to be at least 12 characters... ";
                 }
                 if (containsInt)
                 {
-                    textBoxPwdCheck.Text += "\r\n- needs at least 1 number... ";
+                    textBoxPwdCheck.Text += "\r\n- needs at least 2 numbers... ";
                 }
                 if (containsUCase)
                 {
-                    textBoxPwdCheck.Text += "\r\n- needs at least 1 lower-case character... ";
+                    textBoxPwdCheck.Text += "\r\n- needs at least 2 lower-case characters... ";
                 }
                 if (containsLCase)
                 {
-                    textBoxPwdCheck.Text += "\r\n- needs at least 1 upper-case character... ";
+                    textBoxPwdCheck.Text += "\r\n- needs at least 2 upper-case characters... ";
                 }
                 if (containsSpecialChar)
                 {
-                    textBoxPwdCheck.Text += "\r\n- needs at least 1 special character... ";
+                    textBoxPwdCheck.Text += "\r\n- needs at least 2 special characters... ";
                 }
                 buttonUpdatePassword.Enabled = false;
             }
