@@ -311,14 +311,21 @@ namespace HdbPoet
                 Hdb.Instance = new Hdb(oracle);                
                 // Check password expiration
                 var userInfo = Hdb.Instance.UserInfo();
-                DateTime tExpire = DateTime.Parse(userInfo.Rows[0]["EXPIRY_DATE"].ToString());
-                if (tExpire.AddDays(-15).Date <= DateTime.Now.Date)
+                try
                 {
-                    MessageBox.Show("Your password will expire on " + tExpire
-                        + ". Go to the Help > Password Management dialog to update"
-                        + " your password...",
-                        "Password Expiration Notice",
-                        MessageBoxButtons.OK);
+                    DateTime tExpire = DateTime.Parse(userInfo.Rows[0]["EXPIRY_DATE"].ToString());
+                    if (tExpire.AddDays(-15).Date <= DateTime.Now.Date)
+                    {
+                        MessageBox.Show("Your password will expire on " + tExpire
+                            + ". Go to the Help > Password Management dialog to update"
+                            + " your password...",
+                            "Password Expiration Notice",
+                            MessageBoxButtons.OK);
+                    }
+                }
+                catch
+                {
+
                 }
                 PerformCustomInitialization();
                 Application.Run(new FormMain());
