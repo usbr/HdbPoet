@@ -23,36 +23,68 @@ namespace HdbPoet
             labelUserId.Text += userInfo.Rows[0]["USER_ID"];
             labelAccountStatus.Text += userInfo.Rows[0]["ACCOUNT_STATUS"];
             labelAccountCreated.Text += userInfo.Rows[0]["CREATED"];
-            labelPasswordExpiration.Text += userInfo.Rows[0]["EXPIRY_DATE"];
+            try
+            {
+                DateTime tTemp = DateTime.Parse(userInfo.Rows[0]["EXPIRY_DATE"].ToString());
+                labelPasswordExpiration.Text += userInfo.Rows[0]["EXPIRY_DATE"];
+            }
+            catch
+            {
+                labelPasswordExpiration.Text += "Not enabled...";
+            }
+            textBoxOldPwd.TextChanged += ValidatePassword;
             textBoxNewPwd1.TextChanged += ValidatePassword;
             textBoxNewPwd2.TextChanged += ValidatePassword;
-            textBoxNewPwd1.Text = " ";
+            textBoxNewPwd1.Text = " "; // force pwd validation box to validate
             textBoxNewPwd1.Text = "";
         }
 
         private void ValidatePassword(object sender, EventArgs e)
         {
-            textBoxPwdCheck.Text = "New Password:";
+            
             string pwd1 = textBoxNewPwd1.Text;
             string pwd2 = textBoxNewPwd2.Text;
+            string pwdOld = textBoxOldPwd.Text;
 
-            bool pwdLength = pwd1.Length < 12;
+            bool pwdLength = pwd1.Length < 14;
             bool containsInt = !(pwd1.Count(c => char.IsDigit(c)) >= 2);
             bool containsLCase = !(pwd1.Count(c => char.IsUpper(c)) >= 2);
             bool containsUCase = !(pwd1.Count(c => char.IsLower(c)) >= 2);
             bool containsUName = pwd1.ToLower().Contains(uName.ToLower());
-            bool containsSpecialChar = !pwd1.Any(ch => !Char.IsLetterOrDigit(ch));
-            containsSpecialChar = !(pwd1.Count(c => !char.IsLetterOrDigit(c)) >= 2);
-
-            if (pwdLength || containsInt || containsUCase || containsLCase || containsUName || containsSpecialChar)
+            bool containsSpecialChar = !(pwd1.Count(c => !char.IsLetterOrDigit(c)) >= 2);
+            bool pwdsMatch = pwd1 != pwd2 || pwd1 == "";
+            bool pwdOldIsBad = true;
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"Password=(.*?)\;");
+            var match = regex.Match(Hdb.Instance.Server.ConnectionString);
+            if (match.Success)
             {
+                var pwdOldGood = match.Groups[1].Value;
+                if (pwdOld == pwdOldGood)
+                {
+                    pwdOldIsBad = false;
+                }
+            }
+
+            if (pwdLength || containsInt || containsUCase || containsLCase || containsUName || 
+                containsSpecialChar || pwdsMatch || pwdOldIsBad)
+            {
+                if (pwdOldIsBad)
+                {
+                    textBoxPwdCheck.Text = "Type in your current password... ";
+                    textBoxPwdCheck.Text += "\r\n ";
+                    textBoxPwdCheck.Text += "\r\nNew Password:";
+                }
+                else
+                {
+                    textBoxPwdCheck.Text = "New Password:";
+                }                
                 if (containsUName)
                 {
                     textBoxPwdCheck.Text += "\r\n- cannot have your username... ";
                 }
                 if (pwdLength)
                 {
-                    textBoxPwdCheck.Text += "\r\n- needs to be at least 12 characters... ";
+                    textBoxPwdCheck.Text += "\r\n- needs at least 14 characters... ";
                 }
                 if (containsInt)
                 {
@@ -70,20 +102,16 @@ namespace HdbPoet
                 {
                     textBoxPwdCheck.Text += "\r\n- needs at least 2 special characters... ";
                 }
+                if (pwdsMatch)
+                {
+                    textBoxPwdCheck.Text += "\r\n- new passwords do not match... ";
+                }
                 buttonUpdatePassword.Enabled = false;
             }
             else
-                {
-                if (pwd1 != pwd2)
-                {
-                    textBoxPwdCheck.Text = "New passwords do not match...";
-                    buttonUpdatePassword.Enabled = false;
-                }
-                else
-                {
-                    textBoxPwdCheck.Text = "Ok!";
-                    buttonUpdatePassword.Enabled = true;
-                }
+            {
+                textBoxPwdCheck.Text = "Password is Ok!";
+                buttonUpdatePassword.Enabled = true;
             }
         }
 
