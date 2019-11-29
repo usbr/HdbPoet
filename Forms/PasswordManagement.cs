@@ -46,19 +46,26 @@ namespace HdbPoet
             string pwd2 = textBoxNewPwd2.Text;
             string pwdOld = textBoxOldPwd.Text;
 
-            bool pwdLength = pwd1.Length < 14;
+            bool pwdLength = pwd1.Length < 12 || pwd1.Length > 30;
             bool containsInt = !(pwd1.Count(c => char.IsDigit(c)) >= 2);
             bool containsLCase = !(pwd1.Count(c => char.IsUpper(c)) >= 2);
             bool containsUCase = !(pwd1.Count(c => char.IsLower(c)) >= 2);
             bool containsUName = pwd1.ToLower().Contains(uName.ToLower());
             bool containsSpecialChar = !(pwd1.Count(c => !char.IsLetterOrDigit(c)) >= 2);
+            bool contains3Consecutive = false;
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Z]{3}|[a-z]{3}|[0-9]{3}|[^a-zA-Z0-9]{3}");
+            var match = regex.Match(pwd1).Success || pwd1 == "";
+            if (match)
+            {
+                contains3Consecutive = true;
+            }
             bool pwdsMatch = pwd1 != pwd2 || pwd1 == "";
             bool pwdOldIsBad = true;
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"Password=(.*?)\;");
-            var match = regex.Match(Hdb.Instance.Server.ConnectionString);
-            if (match.Success)
+            regex = new System.Text.RegularExpressions.Regex(@"Password=(.*?)\;");
+            var matchPwd = regex.Match(Hdb.Instance.Server.ConnectionString);
+            if (matchPwd.Success)
             {
-                var pwdOldGood = match.Groups[1].Value;
+                var pwdOldGood = matchPwd.Groups[1].Value;
                 if (pwdOld == pwdOldGood)
                 {
                     pwdOldIsBad = false;
@@ -66,12 +73,13 @@ namespace HdbPoet
             }
 
             if (pwdLength || containsInt || containsUCase || containsLCase || containsUName || 
-                containsSpecialChar || pwdsMatch || pwdOldIsBad)
+                containsSpecialChar || pwdsMatch || pwdOldIsBad || contains3Consecutive)
             {
+                this.textBoxPwdCheck.ForeColor = Color.Red;
                 if (pwdOldIsBad)
                 {
                     textBoxPwdCheck.Text = "Type in your current password... ";
-                    textBoxPwdCheck.Text += "\r\n ";
+                    textBoxPwdCheck.Text += "\r\n";
                     textBoxPwdCheck.Text += "\r\nNew Password:";
                 }
                 else
@@ -84,7 +92,7 @@ namespace HdbPoet
                 }
                 if (pwdLength)
                 {
-                    textBoxPwdCheck.Text += "\r\n- needs at least 14 characters... ";
+                    textBoxPwdCheck.Text += "\r\n- needs between 12 and 30 characters... ";
                 }
                 if (containsInt)
                 {
@@ -102,6 +110,10 @@ namespace HdbPoet
                 {
                     textBoxPwdCheck.Text += "\r\n- needs at least 2 special characters... ";
                 }
+                if (contains3Consecutive)
+                {
+                    textBoxPwdCheck.Text += "\r\n- cannot have 3 consecutive (uppercase, lowercase, numbers, special) character types... ";
+                }
                 if (pwdsMatch)
                 {
                     textBoxPwdCheck.Text += "\r\n- new passwords do not match... ";
@@ -110,6 +122,7 @@ namespace HdbPoet
             }
             else
             {
+                this.textBoxPwdCheck.ForeColor = Color.ForestGreen;
                 textBoxPwdCheck.Text = "Password is Ok!";
                 buttonUpdatePassword.Enabled = true;
             }

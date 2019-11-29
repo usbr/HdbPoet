@@ -36,6 +36,7 @@
             this.labelAccountCreated = new System.Windows.Forms.Label();
             this.labelPasswordExpiration = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxPwdCheck = new System.Windows.Forms.TextBox();
             this.buttonUpdatePassword = new System.Windows.Forms.Button();
             this.textBoxNewPwd2 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -43,7 +44,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxOldPwd = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxPwdCheck = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,10 +112,22 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(13, 181);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(377, 318);
+            this.groupBox1.Size = new System.Drawing.Size(377, 367);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Password Management";
+            this.groupBox1.Text = "Update Password";
+            // 
+            // textBoxPwdCheck
+            // 
+            this.textBoxPwdCheck.BackColor = System.Drawing.SystemColors.Control;
+            this.textBoxPwdCheck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxPwdCheck.ForeColor = System.Drawing.Color.Red;
+            this.textBoxPwdCheck.Location = new System.Drawing.Point(26, 150);
+            this.textBoxPwdCheck.Multiline = true;
+            this.textBoxPwdCheck.Name = "textBoxPwdCheck";
+            this.textBoxPwdCheck.ReadOnly = true;
+            this.textBoxPwdCheck.Size = new System.Drawing.Size(343, 210);
+            this.textBoxPwdCheck.TabIndex = 14;
             // 
             // buttonUpdatePassword
             // 
@@ -179,21 +191,11 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Old Password: ";
             // 
-            // textBoxPwdCheck
-            // 
-            this.textBoxPwdCheck.BackColor = System.Drawing.SystemColors.Control;
-            this.textBoxPwdCheck.Enabled = false;
-            this.textBoxPwdCheck.Location = new System.Drawing.Point(26, 150);
-            this.textBoxPwdCheck.Multiline = true;
-            this.textBoxPwdCheck.Name = "textBoxPwdCheck";
-            this.textBoxPwdCheck.Size = new System.Drawing.Size(343, 162);
-            this.textBoxPwdCheck.TabIndex = 14;
-            // 
             // PasswordManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 506);
+            this.ClientSize = new System.Drawing.Size(402, 553);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.labelPasswordExpiration);
             this.Controls.Add(this.labelAccountCreated);
@@ -204,9 +206,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(418, 553);
+            this.MaximumSize = new System.Drawing.Size(420, 600);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(418, 553);
+            this.MinimumSize = new System.Drawing.Size(420, 600);
             this.Name = "PasswordManagement";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Password Management";
