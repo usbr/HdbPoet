@@ -322,6 +322,13 @@ namespace HdbPoet
                             "Password Expiration Notice",
                             MessageBoxButtons.OK);
                     }
+                    if (tExpire <= DateTime.Now)
+                    {
+                        MessageBox.Show("Your password expired on " + tExpire
+                            + ". Contact your DBA to get your account re-enabled...",
+                            "Password Expiration Notice",
+                            MessageBoxButtons.OK);
+                    }
                 }
                 catch
                 {
