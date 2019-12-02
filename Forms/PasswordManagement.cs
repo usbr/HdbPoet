@@ -53,7 +53,7 @@ namespace HdbPoet
             bool containsUName = pwd1.ToLower().Contains(uName.ToLower());
             bool containsSpecialChar = !(pwd1.Count(c => !char.IsLetterOrDigit(c)) >= 2);
             bool contains3Consecutive = false;
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Z]{3}|[a-z]{3}|[0-9]{3}|[^a-zA-Z0-9]{3}");
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Z]{4}|[a-z]{4}|[0-9]{4}|[^a-zA-Z0-9]{4}");
             var match = regex.Match(pwd1).Success || pwd1 == "";
             if (match)
             {
@@ -112,7 +112,7 @@ namespace HdbPoet
                 }
                 if (contains3Consecutive)
                 {
-                    textBoxPwdCheck.Text += "\r\n- cannot have 3 consecutive (uppercase, lowercase, numbers, special) character types... ";
+                    textBoxPwdCheck.Text += "\r\n- cannot have more than 3 consecutive (uppercase, lowercase, numbers, special) character types... ";
                 }
                 if (pwdsMatch)
                 {
