@@ -52,12 +52,27 @@ namespace HdbPoet
             bool containsUCase = !(pwd1.Count(c => char.IsLower(c)) >= 2);
             bool containsUName = pwd1.ToLower().Contains(uName.ToLower());
             bool containsSpecialChar = !(pwd1.Count(c => !char.IsLetterOrDigit(c)) >= 2);
-            bool contains3Consecutive = false;
+            bool contains4Consecutive = false;
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Z]{4}|[a-z]{4}|[0-9]{4}|[^a-zA-Z0-9]{4}");
             var match = regex.Match(pwd1).Success || pwd1 == "";
             if (match)
             {
-                contains3Consecutive = true;
+                contains4Consecutive = true;
+            }
+            bool contains8Similar = false;
+            int similarCount = pwd1.Count(c => 
+            {
+                var i = pwdOld.IndexOf(c);
+                if (i >= 0)
+                {
+                    pwdOld = pwdOld.Remove(i, 1);
+                    return true;
+                }
+                return false;
+            });
+            if (similarCount >= 5)
+            {
+                contains8Similar = true;
             }
             bool pwdsMatch = pwd1 != pwd2 || pwd1 == "";
             bool pwdOldIsBad = true;
@@ -73,7 +88,8 @@ namespace HdbPoet
             }
 
             if (pwdLength || containsInt || containsUCase || containsLCase || containsUName || 
-                containsSpecialChar || pwdsMatch || pwdOldIsBad || contains3Consecutive)
+                containsSpecialChar || pwdsMatch || pwdOldIsBad || contains4Consecutive ||
+                contains8Similar)
             {
                 this.textBoxPwdCheck.ForeColor = Color.Red;
                 if (pwdOldIsBad)
@@ -110,7 +126,11 @@ namespace HdbPoet
                 {
                     textBoxPwdCheck.Text += "\r\n- needs at least 2 special characters... ";
                 }
-                if (contains3Consecutive)
+                if (contains8Similar)
+                {
+                    textBoxPwdCheck.Text += "\r\n- should differ from the previous password by at least 8 characters... ";
+                }
+                if (contains4Consecutive)
                 {
                     textBoxPwdCheck.Text += "\r\n- cannot have more than 3 consecutive (uppercase, lowercase, numbers, special) character types... ";
                 }
