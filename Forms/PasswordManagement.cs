@@ -70,7 +70,7 @@ namespace HdbPoet
                 }
                 return false;
             });
-            if (similarCount >= 5)
+            if (similarCount >= 8 || pwd1 == "")
             {
                 contains8Similar = true;
             }
