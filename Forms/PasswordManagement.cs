@@ -17,7 +17,6 @@ namespace HdbPoet
         {
             InitializeComponent();
             var userInfo = Hdb.Instance.UserInfo();
-            var a = 1;
             textBoxUser.Text = userInfo.Rows[0]["USERNAME"].ToString();
             uName = userInfo.Rows[0]["USERNAME"].ToString();
             labelUserId.Text += userInfo.Rows[0]["USER_ID"];
@@ -46,7 +45,7 @@ namespace HdbPoet
             string pwd2 = textBoxNewPwd2.Text;
             string pwdOld = textBoxOldPwd.Text;
 
-            bool pwdLength = pwd1.Length < 12 || pwd1.Length > 30;
+            bool pwdLength = pwd1.Length < 15;// || pwd1.Length > 30;
             bool containsInt = !(pwd1.Count(c => char.IsDigit(c)) >= 2);
             bool containsLCase = !(pwd1.Count(c => char.IsUpper(c)) >= 2);
             bool containsUCase = !(pwd1.Count(c => char.IsLower(c)) >= 2);
@@ -60,16 +59,22 @@ namespace HdbPoet
                 contains4Consecutive = true;
             }
             bool contains8Similar = false;
-            int similarCount = pwd1.Count(c => 
-            {
-                var i = pwdOld.IndexOf(c);
-                if (i >= 0)
-                {
-                    pwdOld = pwdOld.Remove(i, 1);
-                    return true;
-                }
-                return false;
-            });
+            // COMPARES SIMILAR CHARS REGARDLESS OF POSITION
+            //int similarCount = pwd1.Count(c => 
+            //{
+            //    var i = pwdOld.IndexOf(c);
+            //    if (i >= 0)
+            //    {
+            //        pwdOld = pwdOld.Remove(i, 1);
+            //        return true;
+            //    }
+            //    return false;
+            //});
+            // COMPARES SIMILAR CHARS IN SIMILAR POSITIONS
+            var oldPwdArray = pwdOld.ToCharArray();
+            var pwd1Array = pwd1.ToCharArray();
+            var similarChars = oldPwdArray.Intersect(pwd1Array);
+            int similarCount = similarChars.Count();
             if (similarCount >= 8 || pwd1 == "")
             {
                 contains8Similar = true;
@@ -108,7 +113,7 @@ namespace HdbPoet
                 }
                 if (pwdLength)
                 {
-                    textBoxPwdCheck.Text += "\r\n- needs between 12 and 30 characters... ";
+                    textBoxPwdCheck.Text += "\r\n- needs at least 15 characters... ";
                 }
                 if (containsInt)
                 {
