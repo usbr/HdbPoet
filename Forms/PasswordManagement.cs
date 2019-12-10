@@ -58,7 +58,7 @@ namespace HdbPoet
             {
                 contains4Consecutive = true;
             }
-            bool contains8Similar = false;
+            bool containsSimilar = false;
             // COMPARES SIMILAR CHARS REGARDLESS OF POSITION
             //int similarCount = pwd1.Count(c => 
             //{
@@ -71,13 +71,17 @@ namespace HdbPoet
             //    return false;
             //});
             // COMPARES SIMILAR CHARS IN SIMILAR POSITIONS
-            var oldPwdArray = pwdOld.ToCharArray();
-            var pwd1Array = pwd1.ToCharArray();
-            var similarChars = oldPwdArray.Intersect(pwd1Array);
-            int similarCount = similarChars.Count();
-            if (similarCount >= 8 || pwd1 == "")
+            var diffCount = 0;
+            for (int i = 0; i < Math.Max(pwdOld.Length, pwd1.Length); i++)
             {
-                contains8Similar = true;
+                if (i > pwdOld.Length-1 || i > pwd1.Length-1 || pwdOld[i] != pwd1[i])
+                {
+                    diffCount++;
+                }
+            }
+            if (diffCount < 8 || pwd1 == "")
+            {
+                containsSimilar = true;
             }
             bool pwdsMatch = pwd1 != pwd2 || pwd1 == "";
             bool pwdOldIsBad = true;
@@ -94,7 +98,7 @@ namespace HdbPoet
 
             if (pwdLength || containsInt || containsUCase || containsLCase || containsUName || 
                 containsSpecialChar || pwdsMatch || pwdOldIsBad || contains4Consecutive ||
-                contains8Similar)
+                containsSimilar)
             {
                 this.textBoxPwdCheck.ForeColor = Color.Red;
                 if (pwdOldIsBad)
@@ -131,7 +135,7 @@ namespace HdbPoet
                 {
                     textBoxPwdCheck.Text += "\r\n- needs at least 2 special characters... ";
                 }
-                if (contains8Similar)
+                if (containsSimilar)
                 {
                     textBoxPwdCheck.Text += "\r\n- should differ from the previous password by at least 8 characters... ";
                 }
