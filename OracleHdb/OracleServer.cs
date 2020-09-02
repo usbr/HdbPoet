@@ -124,6 +124,7 @@ namespace HdbPoet
             return true;
         }
 
+
 #if HDB_OPEN
         static string GetConnectionPrefix()
         {

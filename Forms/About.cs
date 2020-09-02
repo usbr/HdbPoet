@@ -11,11 +11,12 @@ namespace HdbPoet
 	/// Dialog window that shows version of HDB-Poet.
 	/// </summary>
 	public class About : System.Windows.Forms.Form
-	{
-		private System.Windows.Forms.Label labelVersion;
-		private System.Windows.Forms.Button buttonOk;
-        private LinkLabel linkLabel1;
-        private RichTextBox richTextBox1;
+    {
+        public Label labelVersion;
+        private System.Windows.Forms.Button buttonOk;
+        public LinkLabel linkLabel1;
+        public RichTextBox richTextBox1;
+        public PictureBox pictureBox1;
 
         /// <summary>
         /// Required designer variable.
@@ -55,6 +56,8 @@ namespace HdbPoet
             this.buttonOk = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // labelVersion
@@ -97,6 +100,16 @@ namespace HdbPoet
     "nd maintain the software.\n- Visit the GitHub wiki for a brief tutorial on how to" +
     " use the software.";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(5, 41);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(121, 87);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
             // About
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
@@ -105,6 +118,7 @@ namespace HdbPoet
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.labelVersion);
+            this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -112,6 +126,7 @@ namespace HdbPoet
             this.Name = "About";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "About HDB Poet";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
