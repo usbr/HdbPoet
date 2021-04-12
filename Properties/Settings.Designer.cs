@@ -12,7 +12,7 @@ namespace HdbPoet.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -37,7 +37,7 @@ namespace HdbPoet.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("app_user")]
         public string OracleUsername {
             get {
                 return ((string)(this["OracleUsername"]));
@@ -144,19 +144,17 @@ namespace HdbPoet.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>host:uchdb2.uc.usbr.gov service:uchdb2.uc.usbr.gov timezone:MST</string>
-  <string>host:uchdbdev.uc.usbr.gov service:uchdbdev.uc.usbr.gov  timezone:MST</string>
-  <string>host:ibr4ucraplx003.bor.doi.net service:uchdb2.bor.doi.net  timezone:MST</string>
-  <string>host:ibr3river.bor.doi.net  service:lchdb2.usbr.gov  timezone:MST</string>
-  <string>host:ibr3river.bor.doi.net  service:lchdev.usbr.gov  timezone:MST</string>
-  <string>host:ibr3lchdev.bor.doi.net service:lchdb.usbr.gov  timezone:MST</string>
+  <string>host:uchdb2.bor.doi.net service:uchdb2.uc.usbr.gov timezone:MST</string>
+  <string>host:neptunet.bor.doi.net service:uchdb2t.uc.usbr.gov timezone:MST</string>
+  <string>host:ibr3lcrlxmg01 service:lchdb.bor.doi.net timezone:MST</string>
   <string>host:ibr3yaohdb.bor.doi.net service:yaohdb  timezone:MST</string>
   <string>host:ibr3yaohdb.bor.doi.net service:yaotest  timezone:MST</string>
   <string>host:ecohdb.bor.doi.net service:ecohdb.bor.doi.net timezone:MST</string>
   <string>host:albhdb.uc.usbr.gov service:albhdb   timezone: MDT</string>
   <string>host:gphyd1.bor.doi.net service:hydro.bor.doi.net  timezone:MDT</string>
-  <string>host:www.troa.net service:troahdb timezone:PDT</string>
   <string>host:ibr4ccolbohdb.bor.doi.net service:lbohdb.bor.doi.net timezone:PDT</string>
+  <string>host:ibr4ccolbohdb.bor.doi.net service:kbohdb.bor.doi.net timezone:PDT</string>
+  <string>host:www.troa.net service:troahdb timezone:PDT</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection HdbServers {
             get {

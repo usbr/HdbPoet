@@ -6,7 +6,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="OracleUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">app_user</Value>
     </Setting>
     <Setting Name="SelectedObjectTypes" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -166,19 +166,17 @@
     <Setting Name="HdbServers" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;host:uchdb2.uc.usbr.gov service:uchdb2.uc.usbr.gov timezone:MST&lt;/string&gt;
-  &lt;string&gt;host:uchdbdev.uc.usbr.gov service:uchdbdev.uc.usbr.gov  timezone:MST&lt;/string&gt;
-  &lt;string&gt;host:ibr4ucraplx003.bor.doi.net service:uchdb2.bor.doi.net  timezone:MST&lt;/string&gt;
-  &lt;string&gt;host:ibr3river.bor.doi.net  service:lchdb2.usbr.gov  timezone:MST&lt;/string&gt;
-  &lt;string&gt;host:ibr3river.bor.doi.net  service:lchdev.usbr.gov  timezone:MST&lt;/string&gt;
-  &lt;string&gt;host:ibr3lchdev.bor.doi.net service:lchdb.usbr.gov  timezone:MST&lt;/string&gt;
+  &lt;string&gt;host:uchdb2.bor.doi.net service:uchdb2.uc.usbr.gov timezone:MST&lt;/string&gt;
+  &lt;string&gt;host:neptunet.bor.doi.net service:uchdb2t.uc.usbr.gov timezone:MST&lt;/string&gt;
+  &lt;string&gt;host:ibr3lcrlxmg01 service:lchdb.bor.doi.net timezone:MST&lt;/string&gt;
   &lt;string&gt;host:ibr3yaohdb.bor.doi.net service:yaohdb  timezone:MST&lt;/string&gt;
   &lt;string&gt;host:ibr3yaohdb.bor.doi.net service:yaotest  timezone:MST&lt;/string&gt;
   &lt;string&gt;host:ecohdb.bor.doi.net service:ecohdb.bor.doi.net timezone:MST&lt;/string&gt;
   &lt;string&gt;host:albhdb.uc.usbr.gov service:albhdb   timezone: MDT&lt;/string&gt;
   &lt;string&gt;host:gphyd1.bor.doi.net service:hydro.bor.doi.net  timezone:MDT&lt;/string&gt;
-  &lt;string&gt;host:www.troa.net service:troahdb timezone:PDT&lt;/string&gt;
   &lt;string&gt;host:ibr4ccolbohdb.bor.doi.net service:lbohdb.bor.doi.net timezone:PDT&lt;/string&gt;
+  &lt;string&gt;host:ibr4ccolbohdb.bor.doi.net service:kbohdb.bor.doi.net timezone:PDT&lt;/string&gt;
+  &lt;string&gt;host:www.troa.net service:troahdb timezone:PDT&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>

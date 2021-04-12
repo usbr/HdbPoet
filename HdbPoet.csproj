@@ -63,7 +63,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;HDB_OPEN</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HDB_OPEN2</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -737,24 +737,6 @@
     <None Include="Images\warning.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pisces\Core\Reclamation.Core.csproj">
-      <Project>{80c73d4c-43cf-42de-addc-7b0f06ecf086}</Project>
-      <Name>Reclamation.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pisces\TimeSeries.Forms\Reclamation.TimeSeries.Forms.csproj">
-      <Project>{A7E73F2A-CA66-4BC8-934A-B5068C566F10}</Project>
-      <Name>Reclamation.TimeSeries.Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pisces\TimeSeries.Graphing\Reclamation.TimeSeries.Graphing.csproj">
-      <Project>{862135b0-793a-4f06-b731-26c61b3ad068}</Project>
-      <Name>Reclamation.TimeSeries.Graphing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pisces\TimeSeries\Reclamation.TimeSeries.csproj">
-      <Project>{5dd20a8a-4037-4885-ab91-2f5a3d1f48b4}</Project>
-      <Name>Reclamation.TimeSeries</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
@@ -778,6 +760,24 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PiscesOfficial\Core\Reclamation.Core.csproj">
+      <Project>{80c73d4c-43cf-42de-addc-7b0f06ecf086}</Project>
+      <Name>Reclamation.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PiscesOfficial\TimeSeries.Forms\Reclamation.TimeSeries.Forms.csproj">
+      <Project>{a7e73f2a-ca66-4bc8-934a-b5068c566f10}</Project>
+      <Name>Reclamation.TimeSeries.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PiscesOfficial\TimeSeries.Graphing\Reclamation.TimeSeries.Graphing.csproj">
+      <Project>{862135b0-793a-4f06-b731-26c61b3ad068}</Project>
+      <Name>Reclamation.TimeSeries.Graphing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PiscesOfficial\TimeSeries\Reclamation.TimeSeries.csproj">
+      <Project>{5dd20a8a-4037-4885-ab91-2f5a3d1f48b4}</Project>
+      <Name>Reclamation.TimeSeries</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
