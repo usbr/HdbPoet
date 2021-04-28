@@ -42,11 +42,6 @@ namespace HdbPoet
         public TimeSeriesSpreadsheetSG()
         {
             InitializeComponent();
-            workbookView1.RangeChanged += new RangeChangedEventHandler(workSheet1_RangeChange);
-            workbookView1.RangeSelectionChanged += new RangeSelectionChangedEventHandler(workSheet1_SelectionChanged);
-            workbookView1.KeyDown += new KeyEventHandler(workSheet1_KeyDown);
-            workbookView1.CellBeginEdit += new CellBeginEditEventHandler(workSheet1_CellBeginEdit);
-            workbookView1.CellEndEdit += new CellEndEditEventHandler(workSheet1_CellEndEdit);
         }
 
         /******************************************************************
@@ -360,7 +355,13 @@ namespace HdbPoet
             FormatSpreadsheetView();
             workbookView1.ActiveWorkbook = workbook;
             /////////////////////////////////////////////////
+            // Attach handlers for range-selection and data change events
             msDataTable.RowChanged += new DataRowChangeEventHandler(workSheet1_DataChanged);
+            workbookView1.RangeChanged += new RangeChangedEventHandler(workSheet1_RangeChange);
+            workbookView1.RangeSelectionChanged += new RangeSelectionChangedEventHandler(workSheet1_SelectionChanged);
+            workbookView1.KeyDown += new KeyEventHandler(workSheet1_KeyDown);
+            workbookView1.CellBeginEdit += new CellBeginEditEventHandler(workSheet1_CellBeginEdit);
+            workbookView1.CellEndEdit += new CellEndEditEventHandler(workSheet1_CellEndEdit);
         }
 
         /// <summary>
