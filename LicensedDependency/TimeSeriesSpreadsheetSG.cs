@@ -28,7 +28,6 @@ namespace HdbPoet
         private ToolStripMenuItem toolStripMenuItemFormat;
         private ToolStripMenuItem toolStripMenuItemInterpolate;
         private ToolStripMenuItem menuDetails;
-        private WorkbookView workbookView1;
         private SpreadsheetGear.IWorksheet workSheet1;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
@@ -37,6 +36,8 @@ namespace HdbPoet
         MultipleSeriesDataTable msDataTable;
         private Regex IsValidNumber = new Regex(@"^-?[0-9]*(?:\.[0-9]*)?$");
         private List<decimal> editableSdis;
+        private WorkbookView workbookView1;
+        private Panel panel1;
         private List<int[]> editedRange;
 
         public TimeSeriesSpreadsheetSG()
@@ -343,8 +344,9 @@ namespace HdbPoet
             this.msDataTable = table;
             this.dataGrid1.DataSource = msDataTable;
             /////////////////////////////////////////////////
-            // Create a new workbook and worksheet.
+            // Create a new workbook and worksheet
             SpreadsheetGear.IWorkbook workbook = SpreadsheetGear.Factory.GetWorkbook();
+            workbook.WindowInfo.DisplayWorkbookTabs = false;
             workSheet1 = workbook.Worksheets["Sheet1"];
             workSheet1.Name = "DATA";
             // Get the top left cell for the DataTable.
@@ -1009,12 +1011,14 @@ namespace HdbPoet
             this.menuDetails = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.workbookView1 = new SpreadsheetGear.Windows.Forms.WorkbookView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.workbookView1 = new SpreadsheetGear.Windows.Forms.WorkbookView();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGrid1
@@ -1091,24 +1095,6 @@ namespace HdbPoet
             this.deleteToolStripMenuItem.Text = "&Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // workbookView1
-            // 
-            this.workbookView1.AllowChartExplorer = false;
-            this.workbookView1.AllowRangeExplorer = false;
-            this.workbookView1.AllowShapeExplorer = false;
-            this.workbookView1.AllowWorkbookDesigner = false;
-            this.workbookView1.AllowWorkbookExplorer = false;
-            this.workbookView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.workbookView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.workbookView1.FormulaBar = null;
-            this.workbookView1.Location = new System.Drawing.Point(0, 0);
-            this.workbookView1.Name = "workbookView1";
-            this.workbookView1.Size = new System.Drawing.Size(320, 348);
-            this.workbookView1.TabIndex = 34;
-            this.workbookView1.WorkbookSetState = resources.GetString("workbookView1.WorkbookSetState");
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1116,19 +1102,47 @@ namespace HdbPoet
             this.statusStrip1.Location = new System.Drawing.Point(0, 346);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(320, 22);
+            this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 35;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
+            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.Blue;
+            this.toolStripStatusLabel1.LinkColor = System.Drawing.Color.Blue;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(77, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStats";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(104, 17);
+            this.toolStripStatusLabel1.Text = "Selection Statistics";
+            // 
+            // workbookView1
+            // 
+            this.workbookView1.AllowChartExplorer = false;
+            this.workbookView1.AllowRangeExplorer = false;
+            this.workbookView1.AllowShapeExplorer = false;
+            this.workbookView1.AllowWorkbookDesigner = false;
+            this.workbookView1.AllowWorkbookExplorer = false;
+            this.workbookView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.workbookView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.workbookView1.FormulaBar = null;
+            this.workbookView1.Location = new System.Drawing.Point(0, 0);
+            this.workbookView1.Name = "workbookView1";
+            this.workbookView1.Size = new System.Drawing.Size(320, 346);
+            this.workbookView1.TabIndex = 34;
+            this.workbookView1.WorkbookSetState = resources.GetString("workbookView1.WorkbookSetState");
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.workbookView1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(320, 346);
+            this.panel1.TabIndex = 36;
             // 
             // TimeSeriesSpreadsheetSG
             // 
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.workbookView1);
             this.Controls.Add(this.dataGrid1);
             this.Name = "TimeSeriesSpreadsheetSG";
             this.Size = new System.Drawing.Size(320, 368);
@@ -1136,6 +1150,7 @@ namespace HdbPoet
             this.contextMenuStrip1.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
