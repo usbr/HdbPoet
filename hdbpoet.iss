@@ -1,6 +1,6 @@
 #define AppName "HDB-POET"
-#define bin "bin\poet\"
-#define SrcApp ".\bin\poet\HDB-POET.exe"
+#define bin "bin\Debug\"
+#define SrcApp ".\bin\Debug\HDB-POET.exe"
 #define FileVerStr GetFileVersion(SrcApp)
 #define public StripBuild(str aVerStr) Copy(aVerStr, 1, RPos(".", aVerStr)-1)
 #define AppVerStr StripBuild(FileVerStr)

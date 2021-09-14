@@ -155,6 +155,7 @@ namespace HdbPoet.Properties {
   <string>host:ibr4ccolbohdb.bor.doi.net service:lbohdb.bor.doi.net timezone:PDT</string>
   <string>host:ibr4ccolbohdb.bor.doi.net service:kbohdb.bor.doi.net timezone:PDT</string>
   <string>host:www.troa.net service:troahdb timezone:PDT</string>
+  <string>host:hdbtstec.precisionwre.com service:hdbtstec.precisionwre.com timezone:MST</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection HdbServers {
             get {

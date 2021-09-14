@@ -177,6 +177,7 @@
   &lt;string&gt;host:ibr4ccolbohdb.bor.doi.net service:lbohdb.bor.doi.net timezone:PDT&lt;/string&gt;
   &lt;string&gt;host:ibr4ccolbohdb.bor.doi.net service:kbohdb.bor.doi.net timezone:PDT&lt;/string&gt;
   &lt;string&gt;host:www.troa.net service:troahdb timezone:PDT&lt;/string&gt;
+  &lt;string&gt;host:hdbtstec.precisionwre.com service:hdbtstec.precisionwre.com timezone:MST&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>

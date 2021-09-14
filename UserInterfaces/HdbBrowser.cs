@@ -361,7 +361,7 @@ namespace HdbPoet
             this.toolStripButtonValidation.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonValidation.Image")));
             this.toolStripButtonValidation.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonValidation.Name = "toolStripButtonValidation";
-            this.toolStripButtonValidation.Size = new System.Drawing.Size(64, 29);
+            this.toolStripButtonValidation.Size = new System.Drawing.Size(63, 29);
             this.toolStripButtonValidation.Text = "Validation";
             this.toolStripButtonValidation.Click += new System.EventHandler(this.toolStripButtonValidation_Click);
             // 
