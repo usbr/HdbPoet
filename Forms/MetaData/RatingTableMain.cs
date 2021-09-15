@@ -15,11 +15,17 @@ namespace HdbPoet.MetaData
         {
             InitializeComponent();
             sqlViewEditor1.CellClick += sqlViewEditor1_CellClick;
+            // CHECK TSDB VERSION FOR ERD RATING TABLES ENHANCEMENT 9/15/2021 GITHUB TICKET
+            string sql = "SELECT COUNT(*) FROM tsdb_property where prop_name = '4.1.5'";
+            DataTable tsdbFound = Hdb.Instance.Server.Table("ref_rating", sql);            
+            if (Convert.ToInt16(tsdbFound.Rows[0][0]) > 0)
+            {
+                RatingTableData.RatingSQL = RatingTableData.RatingSQL.Replace("r.rating_id", "r.site_rating_id as rating_id");
+                RatingTableData.RatingViewSQL = RatingTableData.RatingViewSQL.Replace("r.rating_id", "r.site_rating_id as rating_id");
+                RatingTableData.RatingtableListSQL = RatingTableData.RatingtableListSQL.Replace("rating_id", "site_rating_id");
+            }
         }
 
-       
-
-        
 
         internal void LoadTableList()
         {
