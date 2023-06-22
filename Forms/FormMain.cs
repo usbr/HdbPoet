@@ -293,7 +293,36 @@ namespace HdbPoet
         [STAThread]
         public static void Main(string[] args)
         {
+            // SmartCard authentication code
+            bool allowAccess = false;
+            string filename = Path.Combine(Application.StartupPath, @"Resources\MultiFactorAuthenticator.exe");
+            var proc = new System.Diagnostics.Process
+            {
+                StartInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = filename,
+                    Arguments = "",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+            proc.Start();
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                string line = proc.StandardOutput.ReadLine();
+                if (Convert.ToBoolean(line.ToString().ToLower()))
+                {
+                    allowAccess = true;
+                }
+            }
+            if (!allowAccess)
+            {
+                MessageBox.Show("SmartCard Authentication failed. Closing HDB-POET", "Authentication Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                System.Environment.Exit(1);
+            }
 
+            // Main code
             try
             {
                 Logger.EnableLogger(true);
